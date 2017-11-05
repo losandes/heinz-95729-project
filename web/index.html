@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/styles/main.css">
 </head>
@@ -26,9 +26,12 @@
             </div><!-- /input-group -->
         </div>
         <nav>
-        <a href="/checkout">
-            <i class="fa fa-shopping-cart"></i>
-        </a>
+            <a href="/checkout">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            </a>
+            <a href="/login">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </a>
         </nav>
     </header>
     <div class="container">
@@ -63,11 +66,21 @@
     <script src="/scripts/home/homeComponent.js"></script>
     <script src="/scripts/home/homeController.js"></script>
 
+    <script src="/scripts/books/Book.js"></script>
+    <script src="/scripts/books/bookComponent.js"></script>
+    <script src="/scripts/books/booksController.js"></script>
+    <script src="/scripts/books/booksRepo.js"></script>
+
     <script src="/scripts/products/Product.js"></script>
     <script src="/scripts/products/productComponent.js"></script>
     <script src="/scripts/products/productsComponent.js"></script>
     <script src="/scripts/products/productsController.js"></script>
     <script src="/scripts/products/productsRepo.js"></script>
+
+    <script src="/scripts/users/loginComponent.js"></script>
+    <script src="/scripts/users/registrationComponent.js"></script>
+    <script src="/scripts/users/usersController.js"></script>
+    <script src="/scripts/users/usersRepo.js"></script>
 
     <script src="/scripts/index.js"></script>
 </body>

@@ -27,6 +27,8 @@ module.exports = {
      */
     function registerRoutes (app) {
       router('/products', (context, next) => {
+        app.currentView = 'loading'
+
         repo.search(context.query.q, (err, products) => {
           if (err) {
             console.log(err)

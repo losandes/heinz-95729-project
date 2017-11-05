@@ -5,12 +5,14 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
     User
 
   blueprint = new Blueprint({
+    __blueprintId: 'User',
     name: 'string',
     email: 'string'
   })
 
   User = function (user) {
     var self = {}
+    user = Object.assign({}, user)
 
     if (!blueprint.syncSignatureMatches(user).result) {
       // If it doesn't, log the error

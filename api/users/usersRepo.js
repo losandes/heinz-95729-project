@@ -42,7 +42,11 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
             return reject(err)
           }
 
-          return resolve(new User(doc))
+          if (doc) {
+            return resolve(new User(doc))
+          } else {
+            return resolve()
+          }
         })
     })
   }

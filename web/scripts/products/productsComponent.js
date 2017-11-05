@@ -9,7 +9,7 @@ module.exports = {
 
     const component = Vue.component('products', {
       template: `
-        <div class="product-component">
+        <div class="products-component">
           <div class="row">
             <div v-for="product in products">
               <div class="col-sm-6 col-md-4 product-col">

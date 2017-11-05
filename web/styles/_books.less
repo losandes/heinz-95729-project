@@ -43,18 +43,18 @@ Table of Contents
     ::after {
         content: "";
     }
-    
+
     ul {
         margin: 0;
         padding: 0;
         list-style: none;
     }
-    
+
     .read-more {
         display: inline-block;
         text-transform: uppercase;
         border: 2px solid #2c3e50;
-        margin-top: 100px; 
+        margin-top: 100px;
         font-size: 0.7em;
         font-weight: 700;
         padding: 0.1em 0.4em;
@@ -62,13 +62,13 @@ Table of Contents
         -webkit-transition: color 0.3s, border-color 0.3s;
         -moz-transition: color 0.3s, border-color 0.3s;
         transition: color 0.3s, border-color 0.3s;
-        
+
         &:hover {
             border-color: #16a085;
-            color: #16a085;        
+            color: #16a085;
         }
-    }    
-    
+    }
+
     .align {
         clear: both;
         margin: 20px auto 20px;
@@ -84,11 +84,11 @@ Table of Contents
         margin: 30px 20px 30px 30px;
         padding: 0 0 0 60px;
         vertical-align: top;
-    }    
-    
+    }
+
     .book {
         position: relative;
-        width: 160px; 
+        width: 160px;
         height: 220px;
         -webkit-perspective: 1000px;
         -moz-perspective: 1000px;
@@ -96,6 +96,14 @@ Table of Contents
         -webkit-transform-style: preserve-3d;
         -moz-transform-style: preserve-3d;
         transform-style: preserve-3d;
+        margin-left: 65px;
+    }
+
+    .book-details {
+        position: absolute;
+        top: -40px;
+        left: 300px;
+        right: 40px;
     }
 
     /*
@@ -110,7 +118,7 @@ Table of Contents
                 height: 100%;
             }
         }
-        
+
         li:first-child {
             background-color: #eee;
             -webkit-backface-visibility: hidden;
@@ -131,14 +139,14 @@ Table of Contents
         /* reverse */
         li:last-child {
             background: #fffbec;
-        }        
+        }
     }
 
     .book_spine {
         li:first-child {
             background: #eee;
         }
-        
+
         li:last-child {
             background: #333;
         }
@@ -252,7 +260,7 @@ Table of Contents
         -webkit-transition: all 0.8s ease, z-index 0.6s;
         -moz-transition: all 0.8s ease, z-index 0.6s;
         transition: all 0.8s ease, z-index 0.6s;
-    
+
 
         /* HARDCOVER front */
         li:first-child {
@@ -638,7 +646,7 @@ Table of Contents
         width: 40px;
         height: 20px;
         line-height: 20px;
-        letter-spacing: 0.15em; 
+        letter-spacing: 0.15em;
         text-align: center;
         -webkit-transform: rotateZ(45deg) translateZ(1px);
         -moz-transform: rotateZ(45deg) translateZ(1px);
@@ -703,15 +711,15 @@ Table of Contents
 
 .book-component {
     &.details {
-        width: 960px;
+        // width: 960px;
         margin: auto;
         margin-top: 90px;
-        
+
         figcaption {
-            width: 800px;
+            width: 75%;
         }
     }
-    
+
     .btn-buy {
         font-size: 150%;
         float: right;
@@ -720,8 +728,35 @@ Table of Contents
 
 /* Media Queries */
 @media screen and (max-width: 37.8125em) {
-    
+
     .book-component {
+        &.details {
+            margin: 25px auto;
+        }
+
+        .book {
+            margin: 0 auto;
+        }
+
+        .book-details {
+            position: static;
+            text-align: center;
+            width: 90%;
+            font-size: 90%;
+            margin: auto;
+        }
+
+        .purchase {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            button {
+                width: 100%;
+            }
+        }
+
         .align > li {
             width: 100%;
             min-height: 440px;
@@ -729,27 +764,5 @@ Table of Contents
             padding: 0;
             margin: 0 0 30px 0;
         }
-
-        .book {
-            margin: 0 auto;
-        }
-
-        figcaption {
-            text-align: center;
-            width: 320px;
-            top: 250px;
-            padding-left: 0;
-            left: -80px;
-            font-size: 90%;
-        }
-        
-        &.details {
-            width: 100%;
-            margin: auto;
-
-            figcaption {
-                width: 320px;
-            }
-        }        
     }
 }

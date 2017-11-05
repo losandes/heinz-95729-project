@@ -109,7 +109,7 @@ module.exports = {
         var jwt = storage.get('jwt')
 
         if (jwt) {
-          return `Bearer ${jwt.authToken}`
+          return `Bearer ${jwt}`
         }
       }
 

@@ -20,15 +20,22 @@ module.exports = {
         thumbnailLink: product.thumbnailLink || '/images/products/default.png',
         thumbnailAlt: `thumbnail for ${product.title}`,
         showThumbnail: product.thumbnailLink != null,
-        detailsLink: `/${product.type}/${product.uid}`,
-        authors: product.metadata && Array.isArray(product.metadata.authors)
-          ? product.metadata.authors
-          : []
+        detailsLink: `/${product.type}/${product.uid}`
       }
 
       self.viewDetails = (event) => {
-        if (self.uid) {
-          router.navigate(`/products/${self.uid}`)
+        if (!self.uid) {
+          // this must be the default VM
+          return
+        }
+
+        switch (self.type) {
+          case 'book':
+            router.navigate(`/books/${self.uid}`)
+            break
+          default:
+            router.navigate(`/products/${self.uid}`)
+            break
         }
       }
 

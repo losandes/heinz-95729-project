@@ -9,40 +9,11 @@ module.exports = {
 
     const component = Vue.component('product', {
       template: `
-        <div class="book-component details">
-          <figure class='book'>
-          <!-- Front -->
-            <ul class='hardcover_front'>
-              <li>
-                <img v-if="showThumbnail" :src="thumbnailLink" :alt="thumbnailAlt">
-                <div v-else class="coverDesign yellow"></div>
-              </li>
-              <li></li>
-            </ul>
-          <!-- Pages -->
-            <ul class='page'>
-              <li></li>
-              <li>
-                <a class="btn" :href="detailsLink">READ MORE</a>
-              </li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          <!-- Back -->
-            <ul class='hardcover_back'>
-              <li></li>
-              <li></li>
-            </ul>
-            <ul class='book_spine'>
-              <li></li>
-              <li></li>
-            </ul>
+        <div class="product-component details">
+          <figure class='product'>
+            <img :src="thumbnailLink" :alt="thumbnailAlt">
             <figcaption>
               <h1>{{title}}</h1>
-              <div v-for="author in authors">
-                <span>{{author.name}}</span>
-              </div>
               <div>{{description}}</div>
             </figcaption>
           </figure>
