@@ -1,0 +1,50 @@
+module.exports = {
+  name: 'router',
+  dependencies: ['page', 'viewEngine'],
+  factory: function (page, viewEngine) {
+    'use strict'
+
+    function router (path, handler) {
+      page(path, function (context, next) {
+        // switch to the loading screen, to force the component
+        // to update, if only the query string changes
+        viewEngine.render({ name: 'loading' })
+        // TODO: is this the right place to update the document title?
+        // document.title = options.title;
+        handler({
+          canonicalPath: context.canonicalPath,
+          query: makeQuery(context.querystring),
+          hash: context.hash,
+          path: context.path,
+          pathName: context.pathname,
+          params: context.params,
+          title: context.title,
+          state: context.state
+        }, next)
+      })
+
+      function makeQuery (queryString) {
+        var query = {}
+
+        if (!queryString) {
+          return query
+        }
+
+        // TODO: this is crude and not standards compliant
+
+        queryString.split('&').forEach(function (kvp) {
+          var split = kvp.split('=')
+          query[split[0]] = split[1]
+        })
+
+        return query
+      }
+    }
+
+    router.redirect = function (path) {
+      page(path)
+    }
+
+    return router
+  }
+}

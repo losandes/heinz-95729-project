@@ -1,0 +1,21 @@
+{
+  "name": "scripts",
+  "main": "index.js",
+  "homepage": "",
+  "description": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "async": "^2.3.0",
+    "fetch": "^2.0.3",
+    "page": "visionmedia/page.js#^1.7.1",
+    "hilary": "^5.0.1"
+  }
+}
