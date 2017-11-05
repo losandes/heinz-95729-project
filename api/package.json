@@ -1,7 +1,7 @@
 {
-  "name": "heinz",
-  "description": "heinz API built on hilary, polyn, and express",
-  "version": "0.0.1",
+  "name": "heinz95729api",
+  "version": "1.0.0",
+  "description": "The API for the Heinz 95729 Course Project",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js -e js,hbs",
@@ -9,6 +9,13 @@
     "lint:fix": "eslint ./ --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/losandes/heinz-95729-project-2017.git"
+  },
+  "author": "&y <andes.collab@gmail.com> (https://github.com/losandes)",
+  "homepage": "https://github.com/losandes/heinz-95729-project-2017",
+  "license": "MIT",
   "dependencies": {
     "async": "^2.5.0",
     "body-parser": "^1.17.2",

@@ -1,13 +1,12 @@
 {
-  "name": "heinz95729web",
+  "name": "heinz95729project",
   "version": "1.0.0",
-  "description": "The web app for the Heinz 95729 Course Project",
+  "description": "The Heinz 95729 Course Project",
   "main": "index.js",
   "scripts": {
-      "start": "http-server -c-1 -p3001 -o",
-      "lint": "eslint ./",
-      "lint:fix": "eslint ./ --fix",
-      "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo 'use npm run start:api & npm run start:web instead\n'",
+    "start:api": "cd api; npm start;",
+    "start:web": "cd web; npm start;"
   },
   "repository": {
     "type": "git",

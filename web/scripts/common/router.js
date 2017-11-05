@@ -1,14 +1,15 @@
 module.exports = {
+  scope: 'heinz',
   name: 'router',
-  dependencies: ['page', 'viewEngine'],
-  factory: function (page, viewEngine) {
+  dependencies: ['page', 'app'],
+  factory: function (page, app) {
     'use strict'
 
     function router (path, handler) {
       page(path, function (context, next) {
         // switch to the loading screen, to force the component
         // to update, if only the query string changes
-        viewEngine.render({ name: 'loading' })
+        app.currentView = 'loading'
         // TODO: is this the right place to update the document title?
         // document.title = options.title;
         handler({
@@ -41,7 +42,7 @@ module.exports = {
       }
     }
 
-    router.redirect = function (path) {
+    router.navigate = function (path) {
       page(path)
     }
 

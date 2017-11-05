@@ -1,4 +1,5 @@
 module.exports = {
+  scope: 'heinz',
   name: 'locale::en_US',
   dependencies: false,
   factory: {

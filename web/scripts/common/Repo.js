@@ -1,4 +1,5 @@
 module.exports = {
+  scope: 'heinz',
   name: 'Repo',
   dependencies: ['environment', 'storage', 'fetch'],
   factory: function (env, storage, fetch) {
@@ -10,6 +11,7 @@ module.exports = {
 
     function Repo (config) {
       var url = baseUrl
+      config = Object.assign({}, config)
 
       return {
         list: list,

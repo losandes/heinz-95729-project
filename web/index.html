@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/styles/main.css">
 </head>
@@ -26,14 +26,9 @@
             </div><!-- /input-group -->
         </div>
         <nav>
-    <!--
-            <span data-bind="foreach: links">
-                <a data-bind="text: text, href: href"></a>
-            </span>
-    -->
-            <a href="/checkout">
-                <i class="fa fa-shopping-cart"></i>
-            </a>
+        <a href="/checkout">
+            <i class="fa fa-shopping-cart"></i>
+        </a>
         </nav>
     </header>
     <div class="container">
@@ -43,12 +38,6 @@
             </component>
         </div>
     </div><!-- /container -->
-
-    <script id="t-empty" type="text/x-template">
-        <div class="component empty-component">
-                <h1>Welcome to Papyr!</h1>
-            </div>
-    </script>
 
     <script id="t-loading" type="text/x-template">
         <div class="component">Loading...</div>
@@ -63,26 +52,24 @@
     <script src="/bower_components/fetch/fetch.js"></script>
     <script src="/bower_components/polyn/release/polyn.js"></script>
     <script src="/bower_components/hilary/release/hilary.js"></script>
-
-    <script src="/scripts/module-shim.js"></script>
+    <script src="bower_components/hilary/release/hilary-browser-module-shim.js"></script>
 
     <script src="/scripts/common/environment.js"></script>
     <script src="/scripts/common/storage.js"></script>
     <script src="/scripts/common/Repo.js"></script>
-    <script src="/scripts/common/ViewEngine.js"></script>
     <script src="/scripts/common/router.js"></script>
     <script src="/scripts/locales/en_US.js"></script>
 
-    <script src="/scripts/homeComponent.js"></script>
-    <script src="/scripts/searchComponent.js"></script>
+    <script src="/scripts/home/homeComponent.js"></script>
+    <script src="/scripts/home/homeController.js"></script>
+
+    <script src="/scripts/products/Product.js"></script>
+    <script src="/scripts/products/productComponent.js"></script>
+    <script src="/scripts/products/productsComponent.js"></script>
+    <script src="/scripts/products/productsController.js"></script>
+    <script src="/scripts/products/productsRepo.js"></script>
 
     <script src="/scripts/index.js"></script>
-
-    <!-- <script src="/scripts/activities.js"></script>
-    <script src="/scripts/applications.js"></script>
-    <script src="/scripts/users.js"></script>
-
-    <script src="/scripts/index.js"></script> -->
 </body>
 
 </html>

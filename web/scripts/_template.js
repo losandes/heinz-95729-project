@@ -1,5 +1,6 @@
 /* eslint-disable */
 module.exports = {
+  scope: 'heinz',
   name: 'model name (plural form)',
   dependencies: ['router', 'viewEngine', 'Repo'],
   factory: function (router, viewEngine, Repo) {

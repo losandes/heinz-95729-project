@@ -1,4 +1,5 @@
 module.exports = {
+  scope: 'heinz',
   name: 'storage',
   dependencies: ['JSON', 'storage-engine'], // sessionStorage
   factory: function (JSON, storage) {

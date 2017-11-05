@@ -1,4 +1,5 @@
 module.exports = {
+  scope: 'heinz',
   name: 'environment',
   dependencies: ['location'],
   factory: function (location) {

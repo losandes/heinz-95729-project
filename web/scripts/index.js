@@ -22,14 +22,44 @@
   scope.bootstrap([
     (scope, next) => { log('composing application'); next(null, scope) },
     (scope, next) => {
-      log('registering utils')
+      log('registering utils')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       scope.register({ name: 'locale', factory: locale, dependencies: false })
       scope.register({ name: 'storage-engine', factory: sessionStorage, dependencies: false })
 
       next(null, scope)
     },
     (scope, next) => {
-      log('binding the main app')
+      log('creating components')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+      const components = []
+      const findComponents = key => {
+        return key.toLowerCase().indexOf('component') > -1
+      }
+      const resolveComponent = key => { scope.resolve(key) }
+      const prepareComponent = key => {
+        components.push(scope.resolve(key).component)
+      }
+
+      Object.keys(scope.context.container.get())
+        .filter(findComponents)
+        .forEach(resolveComponent)
+
+      Object.keys(scope.context.singletonContainer.get())
+        .filter(findComponents)
+        .forEach(prepareComponent)
+
+      const componentRegistration = {
+        loading: { template: '#t-loading' }
+      }
+
+      components.forEach(component => {
+        componentRegistration[component.extendOptions.name] = component
+      })
+
+      next(null, componentRegistration, scope)
+    },
+    (components, scope, next) => {
+      log('binding the main app')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       const app = new Vue({
         el: '#app',
@@ -37,22 +67,16 @@
           currentView: 'loading',
           vm: null
         },
-        components: {
-          'empty': { template: '#t-empty' },
-          'loading': { template: '#t-loading' }
-        }
+        components
       })
 
-      const ViewEngine = scope.resolve('ViewEngine')
-      const viewEngine = new ViewEngine(app)
-      scope.register({ name: 'viewEngine', factory: viewEngine, dependencies: false })
+      scope.register({ name: 'app', factory: app, dependencies: false })
 
-      next(null, app, viewEngine, scope)
+      next(null, app, scope)
     },
-    (app, viewEngine, scope, next) => {
-      log('binding the header component')
+    (app, scope, next) => {
+      log('binding the header component')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-      const { makeSearchHandler } = scope.resolve('searchComponent')
       const headerComponent = new Vue({
         el: '#header',
         data: {
@@ -60,47 +84,51 @@
           query: ''
         },
         methods: {
-          search: makeSearchHandler(() => headerComponent.query)
+          search: () => {
+            scope.resolve('router')
+              .navigate(`/products?q=${headerComponent.query}`)
+          }
         }
       })
 
-      next(null, headerComponent, app, viewEngine, scope)
-    },
-    (headerComponent, app, viewEngine, scope, next) => {
-      log('registering routes')
+      scope.register({ name: 'header', factory: headerComponent, dependencies: false })
 
-      const router = scope.resolve('router')
-      const findComponents = key => {
-        return key.toLowerCase().indexOf('component') > -1
+      next(null, headerComponent, app, scope)
+    },
+    (headerComponent, app, scope, next) => {
+      log('registering routes')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+      const findControllers = key => {
+        return key.toLowerCase().indexOf('controller') > -1
       }
+      const resolveController = key => { scope.resolve(key) }
       const registerRoutes = key => {
         // execute the controller modules to register routes on the router
         const component = scope.resolve(key)
         if (typeof component.registerRoutes === 'function') {
-          component.registerRoutes()
+          component.registerRoutes(app)
         }
       }
 
-      Object.keys(scope.context.container.get())
-        .filter(findComponents)
-        .forEach(registerRoutes)
+      Object.keys(scope.context.container.get())  //
+        .filter(findControllers)
+        .forEach(resolveController)
 
       Object.keys(scope.context.singletonContainer.get())
-        .filter(findComponents)
+        .filter(findControllers)
         .forEach(registerRoutes)
 
-      router('*', function () { // 404 catch-all
-        viewEngine.render({
-          name: 'home',
-          vm: {}
-        })
+      next(null, app, scope)
+    },
+    (app, scope, next) => {
+      log('listening')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+      page('*', function (context) {   // 404 catch-all
+        console.log(`404`, context)
+        app.currentView = 'home'
       })
 
-      next(null, scope)
-    },
-    (scope, next) => {
-      log('listening')
-      page()
+      page()                    // start listening
     }
   ], function (err) {
     if (err) {
