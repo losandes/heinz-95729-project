@@ -1,3 +1,4 @@
+/* global scroll */
 module.exports = {
   scope: 'heinz',
   name: 'router',
@@ -7,6 +8,8 @@ module.exports = {
 
     function router (path, handler) {
       page(path, function (context, next) {
+        // scroll to the top of the page
+        scroll(0, 0)
         // switch to the loading screen, to force the component
         // to update, if only the query string changes
         app.currentView = 'loading'
