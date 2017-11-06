@@ -10,10 +10,12 @@ module.exports = {
         <div id="user-login">
           <div class="form-group">
             <label for="user-login-email">Email address</label>
-            <input v-model="email" type="email" name="email" class="form-control" id="user-login-email" placeholder="Email address" />
+            <input v-model="email" type="email" name="email" class="form-control" id="user-login-email" placeholder="happy@andrew.cmu.edu" />
           </div>
           <button class="btn btn-success" v-on:click="login">Sign in</button>
-          <a href="/register">Don't have an account? Click here to register</a>
+          <div class="registration-link">
+            <a href="/register">Don't have an account? Click here to register</a>
+          </div>
           <br />
         </div>`,
       data: function () {
@@ -30,6 +32,7 @@ module.exports = {
             }
 
             storage.set('jwt', res.authToken)
+            storage.set('user', res.user)
             return router.navigate('/')
           })
         }

@@ -6,7 +6,10 @@
   "scripts": {
     "start": "echo 'use npm run start:api & npm run start:web instead\n'",
     "start:api": "cd api; npm start;",
-    "start:web": "cd web; npm start;"
+    "start:web": "cd web; npm start;",
+    "install:api": "cd api; npm install;",
+    "install:web": "cd web; npm install; bower install;",
+    "seed": "cd api; npm run seed;"
   },
   "repository": {
     "type": "git",
