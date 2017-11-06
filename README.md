@@ -1,5 +1,7 @@
-# heinz-95729-project-2017
-The course project for Heinz 95729 E-Commerce Tech, Machine Learning, Analytics, and Bots
+CMU Heinz 95729 Course Project (2017)
+=======================================
+
+This repository is the foundation we'll use for our course project for Heinz 95729 E-Commerce Tech, Machine Learning, Analytics, and Bots.
 
 ## Getting Started
 
