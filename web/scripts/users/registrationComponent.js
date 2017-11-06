@@ -4,6 +4,8 @@ module.exports = {
   name: 'registrationComponent',
   dependencies: ['router', 'Vue', 'usersRepo', 'storage'],
   factory: (router, Vue, usersRepo, storage) => {
+    'use strict'
+
     const state = {
       email: null,
       name: null

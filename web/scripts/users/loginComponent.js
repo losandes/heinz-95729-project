@@ -4,6 +4,8 @@ module.exports = {
   name: 'loginComponent',
   dependencies: ['router', 'Vue', 'usersRepo', 'storage'],
   factory: (router, Vue, usersRepo, storage) => {
+    'use strict'
+
     const state = { email: '' }
     const component = Vue.component('login', {
       template: `

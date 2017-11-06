@@ -3,6 +3,8 @@ module.exports = {
   name: 'usersRepo',
   dependencies: ['Repo'],
   factory: (Repo) => {
+    'use strict'
+
     const repo = new Repo()
 
     const login = (email, callback) => {
