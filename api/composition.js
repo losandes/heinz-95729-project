@@ -29,6 +29,7 @@ function init () {
     scope.makeRegistrationTask(require('./common/express')),
     scope.makeRegistrationTask(require('./common/loggers')),
     scope.makeRegistrationTask(require('./common/utils')),
+    scope.makeRegistrationTask(require('./fp-growth')),
     scope.makeRegistrationTask(require('./home')),
     scope.makeRegistrationTask(require('./legos')),
     scope.makeRegistrationTask(require('./products')),
