@@ -11,6 +11,7 @@ This repository is the foundation we'll use for our course project for Heinz 957
 1. Install bower if you don't have it: `npm install -g bower`
 1. Install the API dependencies: `npm run install:api`
 1. Install the web dependencies: `npm run install:web`
+1. Install the CUI dependencies: `npm run install:cui`
 1. Seed your database: `npm run seed`
 
 ### To start the web app:
@@ -28,5 +29,13 @@ In another terminal, start the web app:
 $ npm run start:web
 # OR
 $ cd web
+$ npm start
+```
+
+In another terminal, start the CUI app:
+```Shell
+$ npm run start:cui
+# OR
+$ cd cui
 $ npm start
 ```

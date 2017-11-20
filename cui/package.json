@@ -4,6 +4,7 @@
   "description": "The CUI foundation for the Heinz 95729 Course Project",
   "main": "app.js",
   "scripts": {
+    "start": "node index",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "test": "echo \"Error: no test specified\" && exit 1"

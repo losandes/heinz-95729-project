@@ -4,11 +4,13 @@
   "description": "The Heinz 95729 Course Project",
   "main": "index.js",
   "scripts": {
-    "start": "echo 'use npm run start:api & npm run start:web instead\n'",
+    "start": "echo 'use npm run start:api, npm run start:web, & npm run start:cui instead\n'",
     "start:api": "cd api; npm start;",
     "start:web": "cd web; npm start;",
+    "start:cui": "cd cui; npm start;",
     "install:api": "cd api; npm install;",
     "install:web": "cd web; npm install; bower install;",
+    "install:cui": "cd cui; npm install;",
     "seed": "cd api; npm run seed;"
   },
   "repository": {
