@@ -26,6 +26,7 @@ function init () {
   scope.bootstrap([
     function (scope, next) { log('composing application'); next(null, scope) },
     scope.makeRegistrationTask(require('./books')),
+    scope.makeRegistrationTask(require('./groceries')),
     scope.makeRegistrationTask(require('./common/express')),
     scope.makeRegistrationTask(require('./common/loggers')),
     scope.makeRegistrationTask(require('./common/utils')),

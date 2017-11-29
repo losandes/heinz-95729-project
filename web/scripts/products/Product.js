@@ -33,6 +33,9 @@ module.exports = {
           case 'book':
             router.navigate(`/books/${self.uid}`)
             break
+          case 'grocery':
+            router.navigate(`/groceries/${self.uid}`)
+            break;
           default:
             router.navigate(`/products/${self.uid}`)
             break
