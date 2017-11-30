@@ -48,19 +48,19 @@ module.exports = {
         var productName = product.title
         var productPrice = product.price
         var quantity = 1
-        var currItems = sessionStorage.getItem("productsInCart")
-        var productsInCart = []
-        console.log(productsInCart)
+        var productsInCart = sessionStorage.getItem("productsInCart").split(",")
+        //var productsInCart = []
+        //console.log(productsInCart)
         productsInCart.push(productName)
-        var totalPrice = sessionStorage.getItem("totalPrice")
-        var price = 10.69
-        totalPrice = 0.00 + (productPrice * quantity)
-        sessionStorage.setItem("productsInCart", productsInCart);
+        var totalPrice = parseFloat(sessionStorage.getItem("totalPrice"))
+        totalPrice = totalPrice + (productPrice * quantity)
+        sessionStorage.setItem("productsInCart", productsInCart)
         sessionStorage.setItem("totalPrice", totalPrice);
         console.log(`Product Name To Add: ${self.title}`)
         console.log(`Product Quantity To Add: 1`)
         console.log(`Product Price To Add: ${self.price}`)
         console.log("Added to cart! Cart now contains: " + sessionStorage.getItem("productsInCart").toString())
+        console.log("Cart's total price is: " + sessionStorage.getItem("totalPrice"))
       }
 
       //var allTotals = sessionStorage.getItem("totalPrice")
