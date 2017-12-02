@@ -12,14 +12,20 @@ module.exports = {
           <div>{{body}}</div>
           <table>
             <th>
+              <td width="300px"> Image            </td>
               <td width="300px"> Product Name     </td>
               <td width="300px"> Product Price    </td>
               <td width="300px"> Product Quantity </td>
+              <td width="300px"> Change Cart      </td>
+              <td width="300px"> Change Cart      </td>
             </th>
             <tr v-for='item in items'>
+              <td><img width="200px" height="200px" :src=item.image>        </td>
               <td width="300px"> {{item.name}}    </td>
               <td width="300px"> {{item.price}}   </td>
               <td width="300px"> {{item.quantity}}</td>
+              <td><button v-on:click='item.quantity++'>Add to Cart</button></td>
+              <td><button v-on:click='item.quantity--'>Remove from Cart</button></td>
             </tr>
           </table>
         </div>`,
@@ -39,11 +45,12 @@ module.exports = {
       var productsArr = []
       for (let i = 0; i < data.length; i++) {
         var indexGuessed = productsFound.indexOf(data[i]._id)
-        console.log("Index for iteration ", i, ",", indexGuessed)
+        //console.log("Index for iteration ", i, ",", indexGuessed)
         if (productsFound.indexOf(data[i]._id) == -1) {
           var product = {
             name: data[i].title,
             price: data[i].price,
+            image: data[i].thumbnailLink,
             quantity: 1
           }
           productsArr.push(product)
