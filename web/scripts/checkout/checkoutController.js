@@ -1,6 +1,6 @@
 module.exports = {
   scope: 'heinz',
-  name: 'homeController',
+  name: 'checkoutController',
   dependencies: ['router'],
   factory: (router) => {
     'use strict'
@@ -9,9 +9,8 @@ module.exports = {
      * Route binding (controller)
      */
     function registerRoutes (app) {
-      router('/', () => {
-        app.currentView = 'home'
-        localStorage.removeItem("productsInCart")
+      router('/checkout', () => {
+        app.currentView = 'checkout'
         console.log("Products in Cart Currently: " + localStorage.getItem("productsInCart"))
       })
     }

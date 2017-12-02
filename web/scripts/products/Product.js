@@ -46,13 +46,15 @@ module.exports = {
         //console.log(`TODO: add ${self.title} to shopping cart`)
         var product = self;
         if (localStorage.getItem("productsInCart") === null) {
-          localStorage.setItem("productsInCart", [])
+          localStorage.setItem("productsInCart", JSON.stringify([product]))
           var productsInCart = localStorage.getItem("productsInCart")
         }
         else {
-          var productsInCart = localStorage.getItem("productsInCart").split(",")
-          productsInCart.push(JSON.stringify(product))
-          localStorage.setItem("productsInCart", productsInCart)
+          var productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
+          console.log("Products in Cart: ", productsInCart)
+          console.log("Products in Cart Type: ", typeof(productsInCart))
+          productsInCart.push(product)
+          localStorage.setItem("productsInCart", JSON.stringify(productsInCart))
           console.log("Added to cart! Cart now contains: " + localStorage.getItem("productsInCart").toString())
         }
       }
