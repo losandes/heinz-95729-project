@@ -11,7 +11,7 @@ module.exports = {
     function registerRoutes (app) {
       router('/', () => {
         app.currentView = 'home'
-        localStorage.removeItem("productsInCart")
+        //localStorage.removeItem("productsInCart")
         console.log("Products in Cart Currently: " + localStorage.getItem("productsInCart"))
       })
     }

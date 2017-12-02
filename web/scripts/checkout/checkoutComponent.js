@@ -28,9 +28,10 @@ module.exports = {
         return {
           heading: "Welcome to the Checkout Page",
           body: " ",
-          items: JSON.parse("[" + localStorage.getItem("productsInCart") + "]")
+          items: JSON.parse(localStorage.getItem("productsInCart"))
         }
       }
+
     })
 
     return { component }
