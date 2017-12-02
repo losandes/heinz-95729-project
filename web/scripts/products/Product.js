@@ -43,30 +43,20 @@ module.exports = {
       }
 
       self.addToCart = (event) => {
-        console.log(`TODO: add ${self.title} to shopping cart`)
+        //console.log(`TODO: add ${self.title} to shopping cart`)
         var product = self;
-        var productName = product.title
-        var productPrice = product.price
-        var quantity = 1
-        var productsInCart = sessionStorage.getItem("productsInCart").split(",")
-        //var productsInCart = []
-        //console.log(productsInCart)
-        productsInCart.push(productName)
-        var totalPrice = parseFloat(sessionStorage.getItem("totalPrice"))
-        totalPrice = totalPrice + (productPrice * quantity)
-        sessionStorage.setItem("productsInCart", productsInCart)
-        sessionStorage.setItem("totalPrice", totalPrice);
-        console.log(`Product Name To Add: ${self.title}`)
-        console.log(`Product Quantity To Add: 1`)
-        console.log(`Product Price To Add: ${self.price}`)
-        console.log("Added to cart! Cart now contains: " + sessionStorage.getItem("productsInCart").toString())
-        console.log("Cart's total price is: " + sessionStorage.getItem("totalPrice"))
+        if (localStorage.getItem("productsInCart") === null) {
+          localStorage.setItem("productsInCart", [])
+          var productsInCart = localStorage.getItem("productsInCart")
+        }
+        else {
+          var productsInCart = localStorage.getItem("productsInCart").split(",")
+          productsInCart.push(JSON.stringify(product))
+          localStorage.setItem("productsInCart", productsInCart)
+          console.log("Added to cart! Cart now contains: " + localStorage.getItem("productsInCart").toString())
+        }
       }
 
-      //var allTotals = sessionStorage.getItem("totalPrice")
-      //var allProducts = sessionStorage.getItem("productsInCart")
-      //console.log("The total price to date is: " + str(allTotals))
-      //console.log("The total items in the cart to date is: " + str(allProducts))
       return self
     }
   }
