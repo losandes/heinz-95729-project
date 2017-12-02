@@ -38,20 +38,23 @@ module.exports = {
       var productsFound = []
       var productsArr = []
       for (let i = 0; i < data.length; i++) {
-        if (productsFound.indexOf(data[i].id) == -1) {
+        var indexGuessed = productsFound.indexOf(data[i]._id)
+        console.log("Index for iteration ", i, ",", indexGuessed)
+        if (productsFound.indexOf(data[i]._id) == -1) {
           var product = {
             name: data[i].title,
             price: data[i].price,
             quantity: 1
           }
           productsArr.push(product)
-          productsFound.push(data[i].id)
+          productsFound.push(data[i]._id)
         }
         else {
-          var index = productsFound.indexOf(data[i].id)
+          var index = productsFound.indexOf(data[i]._id)
           var product = productsArr[index]
           product.quantity++
           productsArr[index] = product
+
         }
       }
       return productsArr
