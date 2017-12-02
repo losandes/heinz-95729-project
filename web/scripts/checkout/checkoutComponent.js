@@ -17,9 +17,9 @@ module.exports = {
               <td width="300px"> Product Quantity </td>
             </th>
             <tr v-for='item in items'>
-              <td width="300px"> {{item.title}}    </td>
+              <td width="300px"> {{item.name}}    </td>
               <td width="300px"> {{item.price}}   </td>
-              <td width="300px"> 1                </td>
+              <td width="300px"> {{item.quantity}}</td>
             </tr>
           </table>
         </div>`,
@@ -28,11 +28,34 @@ module.exports = {
         return {
           heading: "Welcome to the Checkout Page",
           body: " ",
-          items: JSON.parse(localStorage.getItem("productsInCart"))
+          items: removeDuplicates(JSON.parse(localStorage.getItem("productsInCart")))
         }
       }
 
     })
+
+    const removeDuplicates = (data) => {
+      var productsFound = []
+      var productsArr = []
+      for (let i = 0; i < data.length; i++) {
+        if (productsFound.indexOf(data[i].id) == -1) {
+          var product = {
+            name: data[i].title,
+            price: data[i].price,
+            quantity: 1
+          }
+          productsArr.push(product)
+          productsFound.push(data[i].id)
+        }
+        else {
+          var index = productsFound.indexOf(data[i].id)
+          var product = productsArr[index]
+          product.quantity++
+          productsArr[index] = product
+        }
+      }
+      return productsArr
+    }
 
     return { component }
   }
