@@ -1,6 +1,6 @@
 module.exports.name = 'FpTree'
-module.exports.dependencies = ['FpItem', 'FrequentItems', 'FpNode', 'FpTreeMiner']
-module.exports.factory = function Factory (Item, FrequentItems, Node, FpTreeMiner) {
+module.exports.dependencies = ['FpItem', 'FrequentItems', 'FpNode']
+module.exports.factory = function Factory (Item, FrequentItems, Node) {
   'use strict'
 
   /**
