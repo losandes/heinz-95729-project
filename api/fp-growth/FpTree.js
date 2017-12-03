@@ -1,13 +1,23 @@
 module.exports.name = 'FpTree'
-module.exports.dependencies = ['FpItem', 'FrequentItems', 'FpNode', 'FpTreeMiner']
-module.exports.factory = function Factory (Item, FrequentItems, Node, FpTreeMiner) {
-  'use strict'
 
+module.exports.dependencies = ['FpTreeMiner']
+module.exports.factory = function Factory(FpTreeMiner) {
+  'use strict'
+  const FPItem = require('./FpItem')
+//console.log(FPItem.factory())
+  const Item = FPItem.factory()
+  const Freq = require('./FrequentItems')
+//console.log(Freq.factory())
+  const FrequentItems = Freq.factory()
+  const FPnoode = require('./FpNode')
+//console.log(FPnoode.factory())
+  const Node = FPnoode.factory()
   /**
    * For each of a transaction's items, map the item to the FpItem model.
    * @param {Object} transaction - a single transaction with an array of items
    */
   const mapTransactionToItems = (transaction) => {
+    //console.log(Item)
     return transaction.items.map(item => {
       return new Item(transaction.id, item)
     })
@@ -63,7 +73,8 @@ module.exports.factory = function Factory (Item, FrequentItems, Node, FpTreeMine
    * @param {Array<Object>} data - an array of transactions
    * @param {number} threshold - the threshold below which items are not considered frequent
    */
-  return function FrequentItemsTree (data, threshold = 1) {
+  return function FrequentItemsTree(data, threshold = 1) {
+    console.log("In here")
     const items = mapDataToItems(data)
     const headers = makeHeaders(items, threshold)
     const root = new Node({
