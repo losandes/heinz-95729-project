@@ -41,6 +41,9 @@ MongoClient.connect(env.get('db:connection-string'), (err, db) => {
 
   Object.keys(seeds).forEach(key => {
     const collection = db.collection(key)
+    if (collection != undefined) {
+      collection.drop()
+    }
     return seeds[key].forEach(seed => {
       tasks.push(makeSeedHandler(collection, key, seed))
     })
