@@ -5,3 +5,7 @@ This FP-Growth Tree was built following the description of the algorithm in [Dat
 
 The FpTreeMiner is incomplete. The comments in that file are derived from "Algorithm 2: FP-Growth" from the same article.
 
+### Example
+There is some example data in `example-data.json`, and a js file that you can execute to see the example data printed out. Navigate to this folder and type: `node example-data-printer.js` to see the tree. You can modify the data in the example-data.json to see the tree change. Also try modifying the threshold that is passed to `FpTree` in `example-data-printer.js` (`const exampleTree = new FpTree(data, 4)`).
+
+
