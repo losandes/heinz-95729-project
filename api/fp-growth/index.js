@@ -4,6 +4,6 @@ module.exports = [
   require('./FpTreePrinter.js'),
   require('./FrequentItems.js'),
   require('./FpTree.js'),
-  require('./FpTreeMiner.js'),
-  require('./FPGrowthController.js'),
+  require('./FpTreeMiner.js')
+  // require('./FPGrowthController.js'),
 ]
