@@ -10,15 +10,15 @@ module.exports = {
         <div class="component empty-component">
           <h1>{{heading}}</h1>
           <div>{{body}}</div>
-          <table>
-            <th>
-              <td width="300px"> Image            </td>
-              <td width="300px"> Product Name     </td>
-              <td width="300px"> Product Price    </td>
-              <td width="300px"> Product Quantity </td>
-              <td width="300px"> Change Cart      </td>
-              <td width="300px"> Change Cart      </td>
-            </th>
+          <table style="width:100%">
+            <tr>
+              <th width="300px"> Image            </td>
+              <th width="300px"> Product Name     </td>
+              <th width="300px"> Product Price    </td>
+              <th width="300px"> Product Quantity </td>
+              <th width="300px"> Change Cart      </td>
+              <th width="300px"> Change Cart      </td>
+            </tr>
             <tr v-for='item in items'>
               <td><img width="200px" height="200px" :src=item.image>        </td>
               <td width="300px"> {{item.name}}    </td>
