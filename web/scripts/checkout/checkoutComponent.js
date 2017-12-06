@@ -20,7 +20,7 @@ module.exports = {
               <th width="300px"> Change Cart      </th>
             </tr>
             <tr v-for='item in items'>
-              <td><img width="200px" height="200px" :src=item.image>        </td>
+              <td><img width="200px" height="200px" :src=item.image></td>
               <td width="300px"> {{item.name}}    </td>
               <td width="300px"> {{item.price}}   </td>
               <td width="300px"> {{item.quantity}}</td>
@@ -87,42 +87,6 @@ module.exports = {
       }
       return items
     }
-
-    // const removeDuplicates = (data) => {
-    //   var productsFound = []
-    //   var productsArr = []
-    //   for (let i = 0; i < data.length; i++) {
-    //     var indexGuessed = productsFound.indexOf(data[i]._id)
-    //     //console.log("Index for iteration ", i, ",", indexGuessed)
-    //     if (productsFound.indexOf(data[i]._id) == -1) {
-    //       var product = {
-    //         name: data[i].title,
-    //         price: data[i].price,
-    //         image: data[i].thumbnailLink,
-    //         quantity: 1,
-    //         increase: function(item) {
-    //           item.quantity--;
-    //           if(item.quantity <= 0 && localStorage.productsInCart != "") {
-
-    //           }
-    //         },
-    //         decrease: function(item) {
-    //           console.log(item)
-    //         }
-    //       }
-    //       productsArr.push(product)
-    //       productsFound.push(data[i]._id)
-    //     }
-    //     else {
-    //       var index = productsFound.indexOf(data[i]._id)
-    //       var product = productsArr[index]
-    //       product.quantity++
-    //       productsArr[index] = product
-
-    //     }
-    //   }
-    //   return productsArr
-    // }
 
     return { component }
   }
