@@ -90,7 +90,7 @@ module.exports.factory = function Factory (FpTree, Node) {
       //       we searched for (none would be removed from the previous example
       //       because all transactions still have at least one item in them)
       //    5. Construct a new instance of FpTree, using this filtered list of
-      //       transactions as `data` argument. These data are our frequently
+      //       transactions as the `data` argument. These data are our frequently
       //       occurring items, having grown in frequency by the number of
       //       times the same pattern occurs.
     }
