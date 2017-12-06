@@ -50,7 +50,7 @@ module.exports.factory = function Factory (FpTree, Node) {
       //                 { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
       //               ]
       //    2. We should now have an array of arrays of transactions.
-      //       i.e. Searching for Endive returns:
+      //       i.e. Searching for ["Endive", "Apples"] returns:
       //
       //       [
       //         [
@@ -58,8 +58,9 @@ module.exports.factory = function Factory (FpTree, Node) {
       //           { id: 1, items: [ 'Berries', 'Endive' ] },
       //           { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
       //           { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
-      //         ],
-      //         [...]
+      //         ], [
+      //           ...
+      //         ]
       //       ]
       //
       //       Merge the arrays of transactions into a single array of
