@@ -1,30 +1,173 @@
 module.exports.name = 'FpTreeMiner'
 module.exports.dependencies = ['FpTree', 'FpNode']
-module.exports.factory = function Factory (FpTree, Node) {
-  return function (fpTreeInstance) {
-    // Procedure FP- growth(Tree, a) {
-    //     (01) if Tree contains a single prefix path then { // Mining single prefix-path FP-tree
-    //         (02) let P be the single prefix-path part of Tree;
-    //         (03) let Q be the multipath part with the top branching node replaced by a null root;
-    //         (04) for each combination (denoted as ß) of the nodes in the path P do
-    //             (05) generate pattern ß ∪ a with support = minimum support of nodes in ß;
-    //         (06) let freq pattern set(P) be the set of patterns so generated;
-    //     }
-    //     (07) else let Q be Tree;
-    //     (08) for each item ai in Q do { // Mining multipath FP-tree
-    //         (09) generate pattern ß = ai ∪ a with support = ai.support;
-    //         (10) construct ß’s conditional pattern- base and then ß’s conditional FP- tree Tree ß;
-    //         (11) if Tree ß ≠ Ø then
-    //             (12) call FP- growth(Tree ß , ß);
-    //         (13) let freq pattern set(Q) be the set of patterns so generated;
-    //     }
-    // (14) return (freq pattern set(P) ∪ freq pattern set(Q) ∪ (freq pattern set(P) × freq pattern set(Q)))
-    // }
+module.exports.factory = function Factory(FpTree, Node) {
+  'use strict'
 
+  /**
+   * Returns a miner for the given FP-Tree instance
+   * @param {FpTree} fpTreeInstance - an instance of FpTree, having been filled with data
+   */
+  return function (fpTreeInstance) {
     const findPatterns = (query, threshold = 1) => {
-      throw new Error('TODO')
+      //throw new Error('TODO');
+      // 1. Given an existing FP-Tree (`fpTreeInstance`), and starting with
+      //    a query that is an array of items (i.e. ['Endive'])
+      //    1. For each item in the query, find the items that co-exist with it
+      //       in `fpTreeInstance`
+      //        1. Find the item by name, in fpTreeInstance's header table
+      //           (i.e. `fpTreeInstance.headers.getHeader(name)`)
+      //        2. If this item doesn't exist in the header table, skip it and
+      //           move on to the next item in the query
+      //        3. Else
+      //            1. Get the nodes in `fpTreeInstance` that are associated
+      //               with this item, via the header table
+      //               (i.e. `fpTreeInstance.headers.getHeader(name).nodeLinks`)
+      //            2. Get the items that co-exist with the nodes that were found in
+      //               the header table. Traverse the parental hierarchy, not the
+      //               child hierarchy, to return only the items that occurred more
+      //               than the item we're searching for (requires recursion). i.e.:
+      //
+      //               const mapParentalHierarchy = (nodes) => {
+      //                 if (!nodes[0].hasParent() || nodes[0].parent.name === 'root') {
+      //                     // we reached an edge, return the graph
+      //                     return nodes;
+      //                 }
+      //
+      //                 nodes.unshift(nodes[0].parent);
+      //                 return mapParentalHierarchy(nodes);
+      //               };
+      //
+      //            3. Remove self from the results of recursion (i.e. if you always
+      //               put the parent at the beginning of the array, you can `pop`
+      //               the last item, which is self).
+      //            4. Reduce the results to lists of items (shed the extraneous
+      //               information about the nodes). The end result should resemble this:
+      //
+      //               [
+      //                 { id: 0, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //                 { id: 1, items: [ 'Berries', 'Endive' ] },
+      //                 { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //                 { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
+      //               ]
+      //    2. We should now have an array of arrays of transactions.
+      //       i.e. Searching for ["Endive", "Apples"] returns:
+      //
+      //       [
+      //         [
+      //           { id: 0, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //           { id: 1, items: [ 'Berries', 'Endive' ] },
+      //           { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //           { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
+      //         ], [
+      //           ...
+      //         ]
+      //       ]
+      //
+      //       Merge the arrays of transactions into a single array of
+      //       transactions to produce a single array instead of an array
+      //       of arrays. i.e.:
+      //
+      //       [
+      //         { id: 0, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //         { id: 1, items: [ 'Berries', 'Endive' ] },
+      //         { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //         { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
+      //       ]
+      //
+      //    3. Remove the items we are matching from the transactions. For
+      //       instance, given the previous example where we searched for,
+      //       "Endive", we would enumerate the transactions and remove "Endive"
+      //       from all of them, resulting in this:
+      //
+      //       [
+      //         { id: 0, items: [ 'Berries', 'Apples' ] },
+      //         { id: 1, items: [ 'Berries' ] },
+      //         { id: 2, items: [ 'Berries', 'Apples' ] },
+      //         { id: 3, items: [ 'Berries', 'Apples' ] }
+      //       ]
+      //
+      //    4. Remove any transactions that are empty after removing what
+      //       we searched for (none would be removed from the previous example
+      //       because all transactions still have at least one item in them)
+      //    5. Construct a new instance of FpTree, using this filtered list of
+      //       transactions as the `data` argument. These data are our frequently
+      //       occurring items, having grown in frequency by the number of
+      //       times the same pattern occurs.
+      console.log(query);
+      var transactions = []
+      query.forEach(function (item) {
+        var header = fpTreeInstance.headers.getHeader(item);
+        //console.log(header);
+        if (header != null) {
+          var nodes = fpTreeInstance.headers.getHeader(item).nodeLinks;
+          const mapParentalHierarchy = (nodes) => {
+            if (!nodes[0].hasParent() || nodes[0].parent.name === 'root') {
+              // we reached an edge, return the graph
+              return nodes;
+            }
+
+            nodes.unshift(nodes[0].parent);
+            nodes.pop();
+
+            return mapParentalHierarchy(nodes);
+          };
+          var finalNodes = mapParentalHierarchy(nodes);
+          var Finalarr = [];
+          var startIndex = 0;
+          finalNodes.forEach(function (node) {
+            //console.log(node)
+            var record = {id: startIndex++};
+            var arr = [node.name];
+            for (let key in node.children) {
+              arr.push(key)
+            }
+            record['items'] = arr;
+            Finalarr.push(record)
+          })
+          transactions.push(Finalarr);
+          //console.log(transactions);
+
+        }
+      });
+      
+      var final = {}
+      const copyTempToFinal = function(temp){
+        
+        for(let key in temp) {
+          if(!final.hasOwnProperty(key)){
+            final[key] = []
+          }
+        }
+        for(let key in temp) {
+            final[key] = final[key].concat(temp[key])
+          var unique = final[key].filter(function(elem, index, self) {
+            return index === self.indexOf(elem);
+          })
+          final[key] = unique
+        }
+      }
+      transactions.forEach(function (transaction) {
+        //console.log(transaction);
+        for(let key in transaction){
+          copyTempToFinal(transaction[key]['items'])
+        }
+      })
+      console.log(final);
+      const convertFinalToObject = function(final){
+        var result = []
+        for(let key in final){
+          var i = {}
+          i['id'] = parseInt(key)
+          i['items'] = final[key]
+          result.push(i);
+        }
+        return result;
+      }
+      var final = convertFinalToObject(final);
+      console.log(final);
+      return final;
     }
 
-    return { findPatterns }
+    return {findPatterns}
   }
 }
