@@ -49,49 +49,49 @@ module.exports.factory = function Factory (FpTree, Node) {
       //                 { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
       //                 { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
       //               ]
-      //      2. We should now have an array of arrays of transactions.
-      //         i.e. Searching for Endive returns:
+      //    2. We should now have an array of arrays of transactions.
+      //       i.e. Searching for Endive returns:
       //
-      //         [
-      //           [
-      //             { id: 0, items: [ 'Berries', 'Apples', 'Endive' ] },
-      //             { id: 1, items: [ 'Berries', 'Endive' ] },
-      //             { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
-      //             { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
-      //           ],
-      //           [...]
-      //         ]
-      //
-      //         Merge the arrays of transactions into a single array of
-      //         transactions to produce a single array instead of an array
-      //         of arrays. i.e.:
-      //
+      //       [
       //         [
       //           { id: 0, items: [ 'Berries', 'Apples', 'Endive' ] },
       //           { id: 1, items: [ 'Berries', 'Endive' ] },
       //           { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
       //           { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
-      //         ]
+      //         ],
+      //         [...]
+      //       ]
       //
-      //      3. Remove the items we are matching from the transactions. For
-      //         instance, given the previous example where we searched for,
-      //         "Endive", we would enumerate the transactions and remove "Endive"
-      //         from all of them, resulting in this:
+      //       Merge the arrays of transactions into a single array of
+      //       transactions to produce a single array instead of an array
+      //       of arrays. i.e.:
       //
-      //         [
-      //           { id: 0, items: [ 'Berries', 'Apples' ] },
-      //           { id: 1, items: [ 'Berries' ] },
-      //           { id: 2, items: [ 'Berries', 'Apples' ] },
-      //           { id: 3, items: [ 'Berries', 'Apples' ] }
-      //         ]
+      //       [
+      //         { id: 0, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //         { id: 1, items: [ 'Berries', 'Endive' ] },
+      //         { id: 2, items: [ 'Berries', 'Apples', 'Endive' ] },
+      //         { id: 3, items: [ 'Berries', 'Apples', 'Endive' ] }
+      //       ]
       //
-      //      4. Remove any transactions that are empty after removing what
-      //         we searched for (none would be removed from the previous example
-      //         because all transactions still have at least one item in them)
-      //      5. Construct a new instance of FpTree, using this filtered list of
-      //         transactions as `data` argument. These data are our frequently
-      //         occurring items, having grown in frequency by the number of
-      //         times the same pattern occurs.
+      //    3. Remove the items we are matching from the transactions. For
+      //       instance, given the previous example where we searched for,
+      //       "Endive", we would enumerate the transactions and remove "Endive"
+      //       from all of them, resulting in this:
+      //
+      //       [
+      //         { id: 0, items: [ 'Berries', 'Apples' ] },
+      //         { id: 1, items: [ 'Berries' ] },
+      //         { id: 2, items: [ 'Berries', 'Apples' ] },
+      //         { id: 3, items: [ 'Berries', 'Apples' ] }
+      //       ]
+      //
+      //    4. Remove any transactions that are empty after removing what
+      //       we searched for (none would be removed from the previous example
+      //       because all transactions still have at least one item in them)
+      //    5. Construct a new instance of FpTree, using this filtered list of
+      //       transactions as `data` argument. These data are our frequently
+      //       occurring items, having grown in frequency by the number of
+      //       times the same pattern occurs.
     }
 
     return { findPatterns }
