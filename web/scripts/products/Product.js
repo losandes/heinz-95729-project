@@ -49,7 +49,7 @@ module.exports = {
           var productObj = {};
           productObj[product._id] = {
             "_id": product._id,
-            "title": product.title,
+            "name": product.title,
             "price": product.price,
             "image": product.thumbnailLink,
             "quantity": 1,
@@ -71,7 +71,7 @@ module.exports = {
           } else {
             productsInCart[product._id] = {
               "_id": product._id,
-              "title": product.title,
+              "name": product.title,
               "price": product.price,
               "image": product.thumbnailLink,
               "quantity": 1,
