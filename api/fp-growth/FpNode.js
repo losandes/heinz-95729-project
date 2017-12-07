@@ -16,7 +16,10 @@ module.exports.factory = () => {
       name: node.name,
       count: 1,
       parent: node.parent,
-      children: {}
+      children: {},
+      toString: function() {
+        return node.groupId + "," + node.name
+      }
     }
 
     /**
