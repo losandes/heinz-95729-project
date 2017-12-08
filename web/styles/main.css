@@ -9,3 +9,11 @@
   left: 300px;
   right: 40px;
 }
+
+td {
+	padding: 3px;
+}
+
+th {
+	padding: 3px;
+}

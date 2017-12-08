@@ -5,7 +5,7 @@ module.exports = {
   factory: (router) => {
     'use strict'
 
-    return function Product (product) {
+    return function Product(product) {
       product = Object.assign({}, product)
 
       const self = {
@@ -46,14 +46,43 @@ module.exports = {
         //console.log(`TODO: add ${self.title} to shopping cart`)
         var product = self;
         if (localStorage.getItem("productsInCart") === null) {
-          localStorage.setItem("productsInCart", JSON.stringify([product]))
+          var productObj = {};
+          productObj[product._id] = {
+            "_id": product._id,
+            "name": product.title,
+            "price": product.price,
+            "image": product.thumbnailLink,
+            "quantity": 1,
+            increase: function() {
+              console.log("increase")
+            },
+            decrease: function() {
+              console.log("decrease")
+            }
+          }
+          localStorage.setItem("productsInCart", JSON.stringify(productObj))
           var productsInCart = localStorage.getItem("productsInCart")
-        }
-        else {
+        } else {
           var productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
           console.log("Products in Cart: ", productsInCart)
           console.log("Products in Cart Type: ", typeof(productsInCart))
-          productsInCart.push(product)
+          if (productsInCart.hasOwnProperty(product._id)) {
+            productsInCart[product._id]["quantity"]++
+          } else {
+            productsInCart[product._id] = {
+              "_id": product._id,
+              "name": product.title,
+              "price": product.price,
+              "image": product.thumbnailLink,
+              "quantity": 1,
+              increase: function() {
+                console.log("increase")
+              },
+              decrease: function() {
+                console.log("decrease")
+              }
+            }
+          }
           localStorage.setItem("productsInCart", JSON.stringify(productsInCart))
           console.log("Added to cart! Cart now contains: " + localStorage.getItem("productsInCart").toString())
         }
