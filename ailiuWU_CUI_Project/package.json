@@ -1,0 +1,35 @@
+{
+  "name": "heinz95729cui",
+  "version": "1.0.0",
+  "description": "The CUI foundation for the Heinz 95729 Course Project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node index",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/losandes/heinz-95729-project-2017.git"
+  },
+  "author": "&y <andes.collab@gmail.com> (https://github.com/losandes)",
+  "homepage": "https://github.com/losandes/heinz-95729-project-2017",
+  "license": "MIT",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "fs": "0.0.1-security",
+    "promise": "^8.0.1",
+    "sprintf": "^0.1.5",
+    "terminal-adventure": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "supposed": "^0.1.0"
+  }
+}
