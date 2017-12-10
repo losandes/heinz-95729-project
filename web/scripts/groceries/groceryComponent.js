@@ -8,7 +8,8 @@ module.exports = {
     var state = {
       grocery: new Grocery(),
       recommendations: [],
-      cartReco: []
+      cartReco: [],
+      timeReco: []
     }
 
     const component = Vue.component('grocery', {
@@ -31,18 +32,18 @@ module.exports = {
           </div>
           </div>
           <br>
-          <div>
-          <h3>People buy {{grocery.title}} also buy: </h3>
-          <div id="recommendation" class="reco-inline">
-            <div v-for="r in recommendations">
-              <figure class='reco-grocery'>
-                <a href="javascript:void(0);" v-on:click="r.viewDetails">
-                  <img v-if="r.showThumbnail" :src="r.thumbnailLink" :alt="r.thumbnailAlt" v-on:click="r.viewDetails">
-                  <h5 class="reco-label">{{r.title}}</h5>
-                </a>
-              </figure>
+          <div id="prodReco">
+            <h3>People buy {{grocery.title}} also buy: </h3>
+            <div id="recommendation" class="reco-inline">
+              <div v-for="r in recommendations">
+                <figure class='reco-grocery'>
+                  <a href="javascript:void(0);" v-on:click="r.viewDetails">
+                    <img v-if="r.showThumbnail" :src="r.thumbnailLink" :alt="r.thumbnailAlt" v-on:click="r.viewDetails">
+                    <h5 class="reco-label">{{r.title}}</h5>
+                  </a>
+                </figure>
+              </div>
             </div>
-          </div>
           </div>
           <div id="cartReco">
             <h3>According to your shopping cart, we also recommend:</h3>
@@ -56,6 +57,19 @@ module.exports = {
                 </figure>
               </div>
             </div>
+          </div>
+          <div id="timeReco">
+            <h3>People also buy at this time:</h3>
+            <div id="timeRecommendation" class="reco-inline">
+              <div v-for="r in timeReco">
+                <figure class='reco-grocery'>
+                  <a href="javascript:void(0);" v-on:click="r.viewDetails">
+                    <img v-if="r.showThumbnail" :src="r.thumbnailLink" :alt="r.thumbnailAlt" v-on:click="r.viewDetails">
+                    <h5 class="reco-label">{{r.title}}</h5>
+                  </a>
+                </figure>
+              </div>
+            </div>            
           </div>
         </div>`,
       data: () => {
@@ -75,11 +89,16 @@ module.exports = {
       state.cartReco = cartReco
     }
 
+    const setTimeRecommendation = (timeReco) => {
+      state.timeReco = timeReco
+    }
+
     return {
       component,
       setGrocery,
       setRecommendation,
-      setCartRecommendation
+      setCartRecommendation,
+      setTimeRecommendation
     }
   }
 }

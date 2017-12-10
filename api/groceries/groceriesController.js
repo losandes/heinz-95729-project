@@ -9,7 +9,8 @@ module.exports.factory = function(
     getGrocery,
     bindToGrocery
   }, {
-    getRecommendation
+    getRecommendation,
+    getRecommendationByTime
   }
 ) {
   router.get('/groceries', function(req, res) {
@@ -38,6 +39,11 @@ module.exports.factory = function(
       .then(docs => new Promise(bindToManyGroceries(docs)))
       .then(recommendations => {
         response["recommendation"] = recommendations
+      })
+      .then(results => new Promise(getGroceryByIds(getRecommendationByTime([req.params.uid]))))
+      .then(docs => new Promise(bindToManyGroceries(docs)))
+      .then(recommendations => {
+        response["timeRecommendation"] = recommendations
         res.send(response)
       })
       .catch(err => {

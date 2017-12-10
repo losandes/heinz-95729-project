@@ -18,18 +18,22 @@ module.exports = {
           }
           if (response)  {
             if (response.hasOwnProperty("grocery")) {
-              var grocery = response["grocery"]
+              let grocery = response["grocery"]
               groceryComponent.setGrocery(new Grocery(grocery))
               if (response.hasOwnProperty("recommendation")) {
-                var reco = response["recommendation"]
+                let reco = response["recommendation"]
                 groceryComponent.setRecommendation(reco.map(grocery => new Grocery(grocery)))
               }
               if (localStorage.getItem("productsInCart") != null) {
-                var productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
-                var products = Object.keys(productsInCart).toString()
+                let productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
+                let products = Object.keys(productsInCart).toString()
                 $.get("http://localhost:3000/getRecommendation?uids=" + products, function(data){
                   groceryComponent.setCartRecommendation(data.cartReco.map(grocery => new Grocery(grocery)))
                 })
+              }
+              if(response.hasOwnProperty("timeRecommendation")) {
+                let timeReco = response["timeRecommendation"]
+                groceryComponent.setTimeRecommendation(timeReco.map(grocery => new Grocery(grocery)))
               }
               app.currentView = 'grocery'
             } else {
