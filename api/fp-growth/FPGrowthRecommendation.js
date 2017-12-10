@@ -16,13 +16,13 @@ module.exports.factory = function Factory() {
 
     const getRecommendation = function (productIds) {
         const threshold = 1;
-        const results = new fpTreeMiner(trainingTree).findPatterns(productIds, threshold);
-        const resultsTree = new FpTree(results, threshold);
-        return Object.keys(resultsTree.tree.children);
+        const results = new fpTreeMiner(trainingTree).findPatterns(productIds, threshold)
+        const resultsTree = new FpTree(results, threshold)
+        return Object.keys(resultsTree.tree.children)
     }
 
     const getRecommendationByTime = function(productIds, time) {
-
+        return []
     }
 
     return {getRecommendation, getRecommendationByTime}

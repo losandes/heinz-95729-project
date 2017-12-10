@@ -16,7 +16,6 @@ module.exports.factory = function (repo, Grocery) {
   }
 
   const getGroceryByIds = (ids) => (resolve, reject) => {
-    console.log("getGroceryByIds")
     repo.getByIds({
       query: {
         uid: {

@@ -27,8 +27,8 @@ module.exports = {
               if (localStorage.getItem("productsInCart") != null) {
                 var productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
                 var products = Object.keys(productsInCart).toString()
-                $.get("/getRecommendation?uids=" + products, function(data){
-                  console.log("cart recommendation:" + data)
+                $.get("http://localhost:3000/getRecommendation?uids=" + products, function(data){
+                  groceryComponent.setCartRecommendation(data.cartReco.map(grocery => new Grocery(grocery)))
                 })
               }
               app.currentView = 'grocery'

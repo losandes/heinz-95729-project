@@ -110,7 +110,6 @@ module.exports.factory = function(db, Product, {
       if (!options.query) {
         return reject(new Error('An uid is required to get a Product'))
       }
-      console.log("getByIds:" + options.query)
         // This uses mongodb's find feature to obtain 1 document, by
         // limiting the result. `find` and `limit` return promises, so
         // the query isn't executed until `next` is called. It receives a
@@ -122,7 +121,6 @@ module.exports.factory = function(db, Product, {
           if (err) {
             return reject(err)
           }
-        console.log("docs:" + docs);
         return resolve(docs.map(doc => new Product(doc)))
       });
     })

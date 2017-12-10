@@ -100,10 +100,8 @@ module.exports.factory = function Factory(FpTree, Node) {
         var resArr = [];
         var counter = 0;
         var header = fpTreeInstance.headers.getHeader(item);
-        //console.log(header);
         if (header != null) {
           var nodes = fpTreeInstance.headers.getHeader(item).nodeLinks;
-          // console.log("nodes length:" + nodes.length);
           const mapParentalHierarchy = (nodes) => {
             if (!nodes[0].hasParent() || nodes[0].parent.name === 'root') {
               // we reached an edge, return the graph
@@ -119,7 +117,6 @@ module.exports.factory = function Factory(FpTree, Node) {
             finalNodes.forEach(function(e) {
               finalNodesArr.push(e.name);
             });
-            // console.log("Final Nodes:" + finalNodesArr);
             resArr.push({
               "id": counter,
               "items": finalNodesArr
@@ -147,16 +144,12 @@ module.exports.factory = function Factory(FpTree, Node) {
         }
       }
       allTransactions.forEach(function (transactions) {
-        // console.log(transaction);
         transactions.forEach(function(transaction) {
           var temp = {};
-          // console.log("transaction:" + transaction);
           temp[transaction["id"]] = transaction["items"]
-          // console.log("temp:" + temp[transaction["id"]]);
-          copyTempToFinal(temp);
+          copyTempToFinal(temp)
         })
-      });
-      // console.log("final:" + final);
+      })
       var finalList = [];
       for(let key in final) {
         var finalObj = {};
@@ -166,7 +159,7 @@ module.exports.factory = function Factory(FpTree, Node) {
           finalList.push(finalObj);
         }
       }
-      console.log(finalList);
+      console.log("Recommendation list:" + finalList);
       return finalList;
     }
 

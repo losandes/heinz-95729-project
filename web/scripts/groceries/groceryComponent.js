@@ -44,6 +44,19 @@ module.exports = {
             </div>
           </div>
           </div>
+          <div id="cartReco">
+            <h3>According to your shopping cart, we also recommend:</h3>
+            <div id="cartRecommendation" class="reco-inline">
+              <div v-for="r in cartReco">
+                <figure class='reco-grocery'>
+                  <a href="javascript:void(0);" v-on:click="r.viewDetails">
+                    <img v-if="r.showThumbnail" :src="r.thumbnailLink" :alt="r.thumbnailAlt" v-on:click="r.viewDetails">
+                    <h5 class="reco-label">{{r.title}}</h5>
+                  </a>
+                </figure>
+              </div>
+            </div>
+          </div>
         </div>`,
       data: () => {
         return state
