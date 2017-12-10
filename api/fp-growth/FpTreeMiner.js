@@ -93,7 +93,7 @@ module.exports.factory = function Factory(FpTree, Node) {
       //       transactions as the `data` argument. These data are our frequently
       //       occurring items, having grown in frequency by the number of
       //       times the same pattern occurs.
-      console.log("FQ query:" + query);
+      // console.log("FQ query:" + query);
       var allTransactions = [];
       var transactions = []
       query.forEach(function (item) {

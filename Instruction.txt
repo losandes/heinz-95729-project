@@ -1,6 +1,14 @@
-To run the application, simply run npm start in both api and web, then type localhost:3001 in the browser.
+To run the application, simply do npm run seed in api, then run npm start in both api and web, then type localhost:3001 in the browser. Be sure to clear the localstorage in the browser.
 
-We only trained 30000 data from the trainning dataset, so some of the products does not exist in the FP-Growth tree which means they will not have any recommnedation.
+Part A: Small dataset 
+We have a small dataset with only 100 products. You can try this small dataset to see different images for different products. 
+To run small dataset: 
+1. In seed folder, comment products: require('./groceries.json') and uncomment products: require('./100_grocery.json')
+2. Do npm run seed in api folder.
+
+
+Part B: Whole dataset of products with 60000 training data.
+We only trained 60000 data from the training dataset, so some of the products does not exist in the FP-Growth tree which means they will not have any recommnedation.
 
 Please try:
 

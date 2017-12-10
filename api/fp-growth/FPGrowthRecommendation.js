@@ -29,9 +29,7 @@ module.exports.factory = function Factory() {
     const getRecommendationByTime = function(productIds) {
         var d = new Date()
         var hours = d.getHours()
-        console.log("byTime:" + hours)
         const threshold = 1
-        console.log(timeTrainingTree[hours])
         const results = new fpTreeMiner(timeTrainingTree[hours]).findPatterns(productIds, threshold)
         const resultsTree = new FpTree(results, threshold)
         return Object.keys(resultsTree.tree.children)
