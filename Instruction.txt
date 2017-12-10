@@ -1,0 +1,37 @@
+To run the application, simply run npm start in both api and web, then type localhost:3001 in the browser.
+
+We only trained 30000 data from the trainning dataset, so some of the products does not exist in the FP-Growth tree which means they will not have any recommnedation.
+
+Please try:
+
+For general product recommendation: 
+1. http://localhost:3001/groceries/3583
+2. http://localhost:3001/groceries/21137
+3. http://localhost:3001/groceries/47766
+
+For recommendation based on items in cart:
+Add some goods into the cart, ex:
+1. Add http://localhost:3001/groceries/47766
+2. Add http://localhost:3001/groceries/196
+
+
+For recommendation based on time:
+Time:
+6:00-7:00: http://localhost:3001/groceries/47766
+7:00-8:00: http://localhost:3001/groceries/30489
+8:00-9:00: http://localhost:3001/groceries/30489
+9:00-10:00: http://localhost:3001/groceries/4210
+10:00-11:00: http://localhost:3001/groceries/4210
+11:00-12:00: http://localhost:3001/groceries/10749
+12:00-13:00: http://localhost:3001/groceries/22035
+13:00-14:00: http://localhost:3001/groceries/3583
+14:00-15:00: http://localhost:3001/groceries/46676
+15:00-16:00: http://localhost:3001/groceries/31717
+16:00-17:00: http://localhost:3001/groceries/33731
+17:00-18:00: http://localhost:3001/groceries/47626
+18:00-19:00: http://localhost:3001/groceries/47626
+19:00-20:00: http://localhost:3001/groceries/47626
+20:00-21:00: http://localhost:3001/groceries/47626
+21:00-22:00: http://localhost:3001/groceries/47626
+22:00-23:00: http://localhost:3001/groceries/3583
+23:00-0:00: http://localhost:3001/groceries/21137
