@@ -3,41 +3,49 @@
   "entities": [
     {
       "value": "shampoo",
+	  "department":"other",
 	  "unit":"oz",
 	  "price": 14.2
     },
     {
       "value": "banana",
-	  "unit":"",
+	  "department":"fruits",
+	  "unit":"bunch",
 	  "price": 1.7
     },
     {
       "value": "pork",
+	  "department":"meat",
 	  "unit": "lb",
 	  "price": 8.5
     },
     {
       "value": "mongo juice",
+	  "department":"breakfast",
 	  "unit":"oz",
 	  "price": 4.7
     },
     {
       "value": "tomato",
-	  "unit":"",
+	  "department":"vegetables",
+	  "unit":"kilo",
 	  "price": 2.3
     },
     {
       "value": "steak",
+	  "department":"meat",
 	  "unit":"lb",
 	  "price": 22.1
     },
     {
       "value": "potato",
-	  "unit":"",
+	  "department":"vegetables",
+	  "unit":"kilo",
 	  "price": 0.6
     },
     {
       "value": "cereal",
+	  "department":"breakfast",
 	  "unit":"lb",
 	  "price": 3.1
     }

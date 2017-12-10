@@ -1,11 +1,4 @@
-/**Require adventure*/
-const Adventure = require('terminal-adventure').Adventure
-/**Require dialogFlow api*/
-const apiai = require('apiai')
-/**Require sprintf*/
-const sprintf=require("sprintf-js").sprintf
-/**Load grocercy product data*/
-const fs = require("fs")
+module.exports = function Market(Adventure,apiai,sprintf,fs){
 const contents = fs.readFileSync("grocery.json")
 const jsonContent = JSON.parse(contents)
 
@@ -72,13 +65,17 @@ const instructions = () => {
 	console.log('For example: you could say \'Add three bananas to the cart\'')
 	console.log('Or you could say \'Can I have 1 ounce of shampoo\'')
 	console.log('')
-	console.log('2.View the products in your cart')
+	console.log('2.View the products in certain apartment')
+	console.log('You could view products list in a department by natural language')
+	console.log('For example: you could say \'I want some breakfast\'')
+	console.log('')
+	console.log('3.View the products in your cart')
 	console.log('you could view the products in your cart by including \'view cart\' in your request')
 	console.log('')
-	console.log('3.Check out')
-	console.log('you could check out by including \'check cart\' in your request')
+	console.log('4.Check out')
+	console.log('you could check out by including \'check out\' in your request')
 	console.log('')
-	console.log('4.Ask for instructions')
+	console.log('5.Ask for instructions')
 	console.log('Any time you feel comfused. You could simply type \'help\'. or \'instructions\'')
 	console.log('')
 }
@@ -97,10 +94,22 @@ const customerIntents=(answer)=>{
 					 
 			request.on('response', function(response) {
 				//console.log(response)
-				let intent=response.result.metadata.intentName
-				
+				let intent=response.result.metadata.intentName				
 				//check intent
 				switch (intent) {
+					case 'Discover Apartments':
+						let department=response.result.parameters.Department;
+						//print products in the department
+						console.log('Here are what we find at the '+department+' department:')
+						let productJson=jsonContent["entities"]
+						console.log(sprintf("%-20s%-10s%-10s", 'Product','Unit','UnitPrice'))						
+						for(let i=0;i<productJson.length;i++){
+							if(productJson[i]["department"]==department){
+								console.log(sprintf("%-20s%-10s%-10f",productJson[i]["value"],productJson[i]["unit"],productJson[i]["price"]))
+							}
+						}
+						console.log('')
+						return askForIntention().then(customerIntents)
 					case 'Add Product':						
 						//store products into the cart
 						let product=response.result.parameters.Product
@@ -233,3 +242,5 @@ greetings()
 	  //complete this adventure
       dialog.complete()
     })
+	
+}
