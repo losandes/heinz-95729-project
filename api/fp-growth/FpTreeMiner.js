@@ -93,16 +93,8 @@ module.exports.factory = function Factory(FpTree, Node) {
       //       transactions as the `data` argument. These data are our frequently
       //       occurring items, having grown in frequency by the number of
       //       times the same pattern occurs.
-      console.log(query);
-      var allTransactions = []
-      //    4. Remove any transactions that are empty after removing what
-      //       we searched for (none would be removed from the previous example
-      //       because all transactions still have at least one item in them)
-      //    5. Construct a new instance of FpTree, using this filtered list of
-      //       transactions as the `data` argument. These data are our frequently
-      //       occurring items, having grown in frequency by the number of
-      //       times the same pattern occurs.
-      console.log(query);
+      console.log("FQ query:" + query);
+      var allTransactions = [];
       var transactions = []
       query.forEach(function (item) {
         var resArr = [];
@@ -113,7 +105,6 @@ module.exports.factory = function Factory(FpTree, Node) {
           var nodes = fpTreeInstance.headers.getHeader(item).nodeLinks;
           // console.log("nodes length:" + nodes.length);
           const mapParentalHierarchy = (nodes) => {
-            // console.log(nodes[0].toString());
             if (!nodes[0].hasParent() || nodes[0].parent.name === 'root') {
               // we reached an edge, return the graph
               return nodes;
@@ -165,13 +156,15 @@ module.exports.factory = function Factory(FpTree, Node) {
           copyTempToFinal(temp);
         })
       });
-      console.log("final:" + final);
+      // console.log("final:" + final);
       var finalList = [];
       for(let key in final) {
         var finalObj = {};
-        finalObj["id"] = key;
-        finalObj["items"] = final[key];
-        finalList.push(finalObj);
+        if (final[key] != null && final[key].length > 0) {
+          finalObj["id"] = key;
+          finalObj["items"] = final[key];
+          finalList.push(finalObj);
+        }
       }
       console.log(finalList);
       return finalList;

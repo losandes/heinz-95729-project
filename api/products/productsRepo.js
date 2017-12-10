@@ -4,7 +4,10 @@
 module.exports.name = 'productsRepo'
 module.exports.singleton = true
 module.exports.dependencies = ['db', 'Product', 'polyn']
-module.exports.factory = function (db, Product, { Blueprint, is }) {
+module.exports.factory = function(db, Product, {
+  Blueprint,
+  is
+}) {
   const collection = db.collection(Product.db.collection)
   const findOptionsBlueprint = new Blueprint({
     query: 'object',
@@ -34,7 +37,7 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
     // skip and limit values if they weren't set
     options = Object.assign({
       skip: 0,
-      limit: 20
+      limit: 100
     }, options)
 
     return new Promise((resolve, reject) => {
@@ -42,8 +45,8 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
       if (!findOptionsBlueprint.syncSignatureMatches(options).result) {
         return reject(new Error(
           findOptionsBlueprint.syncSignatureMatches(options)
-            .errors
-            .join(', ')
+          .errors
+          .join(', ')
         ))
       }
 
@@ -55,7 +58,7 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
       collection.find(options.query)
         .skip(options.skip)
         .limit(options.limit)
-        .toArray(function (err, docs) {
+        .toArray(function(err, docs) {
           if (err) {
             return reject(err)
           }
@@ -82,7 +85,9 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
       // the query isn't executed until `next` is called. It receives a
       // callback function so it can perform the IO asynchronously, and
       // free up the event-loop, while it's waiting.
-      collection.find({ uid })
+      collection.find({
+          uid
+        })
         .limit(1)
         .next((err, doc) => {
           if (err) {
@@ -94,5 +99,38 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
     })
   }
 
-  return { find, get }
+  /**
+   * Get a multiple Products by ids
+   * @param [string] id array - the human readable uid of the product
+   */
+  const getByIds = (options) => {
+    return new Promise((resolve, reject) => {
+      // Blueprint isn't helpful for defending arguments, when they are
+      // not objects. Here we defend the function arguments by hand.
+      if (!options.query) {
+        return reject(new Error('An uid is required to get a Product'))
+      }
+      console.log("getByIds:" + options.query)
+        // This uses mongodb's find feature to obtain 1 document, by
+        // limiting the result. `find` and `limit` return promises, so
+        // the query isn't executed until `next` is called. It receives a
+        // callback function so it can perform the IO asynchronously, and
+        // free up the event-loop, while it's waiting.
+      collection.find(options.query)
+      .toArray(function(err, docs) {
+        // docs array here contains all queried docs
+          if (err) {
+            return reject(err)
+          }
+        console.log("docs:" + docs);
+        return resolve(docs.map(doc => new Product(doc)))
+      });
+    })
+  }
+
+  return {
+    find,
+    get,
+    getByIds
+  }
 }

@@ -17,3 +17,20 @@ td {
 th {
 	padding: 3px;
 }
+
+.reco-inline {
+	display: flex;
+	overflow-x: auto;
+}
+
+.reco-label {
+	text-align: center;
+}
+
+.reco-grocery {
+	margin-right: 5px;
+}
+
+.reco-grocery img {
+	width: 200px;
+}

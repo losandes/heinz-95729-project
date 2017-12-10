@@ -15,9 +15,21 @@ module.exports.factory = function (repo, Grocery) {
       .catch(reject)
   }
 
+  const getGroceryByIds = (ids) => (resolve, reject) => {
+    console.log("getGroceryByIds")
+    repo.getByIds({
+      query: {
+        uid: {
+          $in: ids
+        }
+      }
+    }).then(resolve)
+      .catch(reject)
+  }
+
   const bindToManyGroceries = (docs) => (resolve, reject) => {
     return resolve(docs.map(grocery => new Grocery(grocery)))
   }
 
-  return { searchGroceries, bindToManyGroceries }
+  return { searchGroceries, bindToManyGroceries, getGroceryByIds }
 }
