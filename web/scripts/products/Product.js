@@ -43,7 +43,6 @@ module.exports = {
       }
 
       self.addToCart = (event) => {
-        //console.log(`TODO: add ${self.title} to shopping cart`)
         var product = self;
         if (localStorage.getItem("productsInCart") === null) {
           var productObj = {};
@@ -85,7 +84,18 @@ module.exports = {
           }
           localStorage.setItem("productsInCart", JSON.stringify(productsInCart))
           console.log("Added to cart! Cart now contains: " + localStorage.getItem("productsInCart").toString())
-
+          //Reload page to see recommendation for cart change
+          switch (self.type) {
+            case 'book':
+              router.navigate(`/books/${self.uid}`)
+              break
+            case 'grocery':
+              router.navigate(`/groceries/${self.uid}`)
+              break;
+            default:
+              router.navigate(`/products/${self.uid}`)
+              break
+          }
         }
       }
 

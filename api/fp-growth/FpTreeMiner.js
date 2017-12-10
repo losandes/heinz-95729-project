@@ -159,7 +159,6 @@ module.exports.factory = function Factory(FpTree, Node) {
           finalList.push(finalObj);
         }
       }
-      console.log("Recommendation list:" + finalList);
       return finalList;
     }
 

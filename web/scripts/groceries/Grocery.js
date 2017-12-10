@@ -5,14 +5,12 @@ module.exports = {
   factory: (router, Product) => {
     'use strict'
 
-    return function Grocery (grocery) {
+    return function Grocery(grocery) {
       const self = new Product(grocery)
       grocery = Object.assign({}, grocery)
 
       // Add authors to the product model
-      self.categories = grocery.metadata && Array.isArray(grocery.metadata.categories)
-        ? grocery.metadata.categories
-        : []
+      self.categories = grocery.metadata && Array.isArray(grocery.metadata.categories) ? grocery.metadata.categories : []
 
       // override product's `viewDetails` function to redirect to books
       self.viewDetails = (event) => {
