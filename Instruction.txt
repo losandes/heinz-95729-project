@@ -1,16 +1,35 @@
-To run the application, simply do npm run seed in api, then run npm start in both api and web, then type localhost:3001 in the browser. Be sure to clear the localstorage in the browser.
+RUNNING THE APPLICATION
+1. Open MongoDB (Windows users)
+2. Clear the LocalStorage in your browser, or ensure that it is cleared out already.
+2. Navigate to the api folder and type: npm run seed in your terminal.
+3. Type: npm start in your terminal, within the api folder
+4. Open another terminal window, and navigate to the web folder. Again, type: npm start.
+5. Open localhost:3001 in the browser and navigate through our site.
 
-Part A: Small dataset 
-We have a small dataset with only 100 products. You can try this small dataset to see different images for different products. 
+==========================================================================================================
+
+PART A: SMALL DATASET
+We have a small dataset with only 100 products. You can try this small dataset to see different images for different products. In the small dataset, you will see unique images associated with each product. Due to image and computer
+space restrictions, we have chosen to use the same image for the large dataset. However, the unique images for
+products have been generated for this small dataset.
+
 To run small dataset: 
-1. In seed folder, comment products: require('./groceries.json') and uncomment products: require('./100_grocery.json')
+1. In seed folder, comment products: require('./groceries.json') and uncomment products: 
+require('./100_grocery.json').
 2. Do npm run seed in api folder.
 
+==========================================================================================================
 
-Part B: Whole dataset of products with 60000 training data.
-We only trained 60000 data from the training dataset, so some of the products does not exist in the FP-Growth tree which means they will not have any recommnedation.
+PART B: ENTIRE DATASET OF PRODUCTS WITH 60000 TRAINING DATA POINTS
+While we did train a large amount of data from the training dataset (60000 points), not all of the products can be
+represented in this dataset. As a result, some of the products will not exist in the FP-Growth tree, meaning that 
+some products will not have any recommendations associated with them.
 
-Please try:
+To run the larger dataset, reverse the steps done in PART A #1. You need the require('./groceries.json') uncommented
+and the require('./100_grocery.json') needs to be commented out once again.
+
+Feel free to browse products of your own in the search bar, and try the examples we've listed below which show 
+the functionality of our recommendation algorithm:
 
 For general product recommendation: 
 1. http://localhost:3001/groceries/3583
@@ -18,7 +37,7 @@ For general product recommendation:
 3. http://localhost:3001/groceries/47766
 
 For recommendation based on items in cart:
-Add some goods into the cart, ex:
+Add some goods into the cart, such as:
 1. Add http://localhost:3001/groceries/47766
 2. Add http://localhost:3001/groceries/196
 
