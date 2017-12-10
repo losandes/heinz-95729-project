@@ -47,8 +47,8 @@ module.exports = {
         var product = self;
         if (localStorage.getItem("productsInCart") === null) {
           var productObj = {};
-          productObj[product._id] = {
-            "_id": product._id,
+          productObj[product.uid] = {
+            "uid": product.uid,
             "name": product.title,
             "price": product.price,
             "image": product.thumbnailLink,
@@ -66,11 +66,11 @@ module.exports = {
           var productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
           console.log("Products in Cart: ", productsInCart)
           console.log("Products in Cart Type: ", typeof(productsInCart))
-          if (productsInCart.hasOwnProperty(product._id)) {
-            productsInCart[product._id]["quantity"]++
+          if (productsInCart.hasOwnProperty(product.uid)) {
+            productsInCart[product.uid]["quantity"]++
           } else {
-            productsInCart[product._id] = {
-              "_id": product._id,
+            productsInCart[product.uid] = {
+              "uid": product.uid,
               "name": product.title,
               "price": product.price,
               "image": product.thumbnailLink,
@@ -85,6 +85,7 @@ module.exports = {
           }
           localStorage.setItem("productsInCart", JSON.stringify(productsInCart))
           console.log("Added to cart! Cart now contains: " + localStorage.getItem("productsInCart").toString())
+
         }
       }
 

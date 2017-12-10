@@ -1,31 +1,32 @@
-/**
- * Created by kavya on 12/2/17.
- */
-
 module.exports.name = 'FPGrowthController'
-module.exports.dependencies = ['router']
+module.exports.dependencies = ['router', 'FPGrowthRecommendation', 'searchGroceries']
 module.exports.factory = function Factory(
-  router) {
-  router.get('/reco', function (req, res) {
-    const prettyTree = require('pretty-tree')
+    router, {
+        getRecommendation
+    },{
+    searchGroceries,
+    getGroceryByIds,
+    bindToManyGroceries
+  }
+) {
 
-    const item = require('./FpItem.js').factory()
-    const node = require('./FpNode.js').factory()
-    const frequentItems = require('./FrequentItems.js').factory()
-    const fpTreeFactory = require('./FpTree.js').factory
-    const fpTreeMinerFactory = require('./FpTreeMiner.js').factory()
-    const treePrinterFactory = require('./FpTreePrinter.js').factory
-    const data = require('./example-data.json')
-    const FpTree = fpTreeFactory(item, frequentItems, node)
-    const printer = treePrinterFactory(prettyTree)
-    const fpTreeMiner = fpTreeMinerFactory(FpTree, node)
-    const exampleTree = new FpTree(data, 4)
+    router.get('/getRecommendation', function(req, res) {
+        var queryData = req.query.uids.split(",")
+        console.log("queryData:" + queryData.length)
+        Promise.resolve(queryData)
+            .then(results => new Promise(getGroceryByIds(getRecommendation(queryData))))
+            .then(docs => new Promise(bindToManyGroceries(docs)))
+            .then(recommendations => {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({"cartReco": recommendations}))
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(400).send({
+                    messages: [err.message]
+                })
+            })
+    })
 
-    console.log('\nFrequent Items Tree')
-    printer.print(exampleTree.tree)
-    const results = new fpTreeMiner(FpTree, node);
-    res.send("Done")
-  })
-
-  return router
+    return router
 }

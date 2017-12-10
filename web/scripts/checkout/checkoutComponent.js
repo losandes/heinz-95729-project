@@ -20,7 +20,7 @@ module.exports = {
               <th width="300px"> Change Cart      </th>
             </tr>
             <tr v-for='item in items'>
-              <td><img width="200px" height="200px" :src=item.image></td>
+              <td><img width="200px" height="150px" :src=item.image></td>
               <td width="300px"> {{item.name}}    </td>
               <td width="300px"> {{item.price}}   </td>
               <td width="300px"> {{item.quantity}}</td>

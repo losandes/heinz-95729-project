@@ -31,6 +31,7 @@ module.exports = {
           </div>
           </div>
           <br>
+          <div>
           <h3>People buy {{grocery.title}} also buy: </h3>
           <div id="recommendation" class="reco-inline">
             <div v-for="r in recommendations">
@@ -41,6 +42,7 @@ module.exports = {
                 </a>
               </figure>
             </div>
+          </div>
           </div>
         </div>`,
       data: () => {

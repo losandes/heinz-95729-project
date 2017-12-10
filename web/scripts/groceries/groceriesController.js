@@ -24,6 +24,13 @@ module.exports = {
                 var reco = response["recommendation"]
                 groceryComponent.setRecommendation(reco.map(grocery => new Grocery(grocery)))
               }
+              if (localStorage.getItem("productsInCart") != null) {
+                var productsInCart = JSON.parse(localStorage.getItem("productsInCart"))
+                var products = Object.keys(productsInCart).toString()
+                $.get("/getRecommendation?uids=" + products, function(data){
+                  console.log("cart recommendation:" + data)
+                })
+              }
               app.currentView = 'grocery'
             } else {
               // TODO: route to a "none found" page
