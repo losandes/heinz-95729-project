@@ -3,11 +3,11 @@ module.exports = {
   name: 'locale::en_US',
   dependencies: false,
   factory: {
-    'title': 'Papyr',
+    'title': 'Grocr',
     'pages': {
       'home': {
-        'heading': 'Welcome to Papyr!',
-        'body': 'To get started, you can search for books. Try "adams", "wild", "robbins", "swamp", "india", "tropper", "di", "world", or "novel". If nothing returns, make sure you ran `npm run seed`.'
+        'heading': 'Welcome to Grocr!',
+        'body': 'To get started, you can search for groceries (or books). Try "chocolate", "cookies", "beverage", "strawberries", "india", "tropper", "di", "world", or "novel". If nothing returns, make sure you ran `npm run seed`.'
       }
     },
     'errors': {

@@ -8,7 +8,7 @@ module.exports = {
     const component = Vue.component('checkout', {
       template: `
         <div class="component empty-component">
-          <h1>{{heading}}</h1>
+          <h2>{{heading}}</h2>
           <div>{{body}}</div>
           <table style="width:100%">
             <tr>
@@ -16,8 +16,8 @@ module.exports = {
               <th width="300px"> Product Name     </th>
               <th width="300px"> Product Price    </th>
               <th width="300px"> Product Quantity </th>
-              <th width="300px"> Change Cart      </th>
-              <th width="300px"> Change Cart      </th>
+              <th width="100px"> Change Quantity      </th>
+              <th width="300px">      </th>
             </tr>
             <tr v-for='item in items'>
               <td><img width="200px" height="150px" :src=item.image></td>
@@ -30,7 +30,7 @@ module.exports = {
           </table>
         </div>`,
       data: () => {
-        
+
         return {
           heading: "Welcome to the Checkout Page",
           body: " ",
@@ -80,7 +80,7 @@ module.exports = {
                 }
               }
             }
-            
+
           }
           items.push(data[key]);
         }
