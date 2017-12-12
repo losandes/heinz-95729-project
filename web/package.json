@@ -26,5 +26,8 @@
     "express": "^4.16.2",
     "serve-static": "^1.13.1",
     "supposed": "^0.1.0"
+  },
+  "dependencies": {
+    "aos": "^2.2.0"
   }
 }

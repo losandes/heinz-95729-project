@@ -2,6 +2,12 @@
 (function (hilary, Vue, page, sessionStorage) {
   'use strict'
 
+  //Initialize Animate on Scroll
+
+  AOS.init({
+    duration: 1200,
+  })
+
   const scope = hilary.scope('heinz', {
     logging: {
       level: 'info' // trace|debug|info|warn|error|fatal|off

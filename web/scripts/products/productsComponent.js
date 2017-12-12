@@ -12,7 +12,7 @@ module.exports = {
         <div class="products-component">
           <div class="row">
             <div v-for="product in products">
-              <div class="col-sm-6 col-md-4 product-col">
+              <div class="col-sm-6 col-md-4 product-col" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">
                 <div class="thumbnail">
                   <a class="thumbnail-img" href="javascript:void(0);" v-on:click="product.viewDetails">
                     <img :src="product.thumbnailLink" :alt="product.thumbnailAlt">
@@ -41,4 +41,3 @@ module.exports = {
     return { component, setProducts }
   }
 }
-
