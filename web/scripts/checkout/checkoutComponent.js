@@ -14,18 +14,19 @@ module.exports = {
             <tr>
               <th width="300px"> Image            </th>
               <th width="300px"> Product Name     </th>
-              <th width="300px"> Product Price    </th>
-              <th width="300px"> Product Quantity </th>
-              <th width="100px"> Change Quantity      </th>
-              <th width="300px">      </th>
+              <th width="200px"> Product Price    </th>
+              <th width="200px"> Product Quantity </th>
+              <th width="300px"> Change Quantity  </th>
             </tr>
             <tr v-for='item in items'>
               <td><img width="200px" height="150px" :src=item.image></td>
               <td width="300px"> {{item.name}}    </td>
-              <td width="300px"> {{item.price}}   </td>
-              <td width="300px"> {{item.quantity}}</td>
-              <td><button id="increment-btn" v-on:click="item.increase($event, item)">Add to Cart</button></td>
-              <td><button id="decrease-btn" v-on:click="item.decrease($event, item)">Remove from Cart</button></td>
+              <td width="200px"> {{item.price}}   </td>
+              <td width="200px"> {{item.quantity}}</td>
+              <td width="300px">
+              <button id="increment-btn" v-on:click="item.increase($event, item)">Add to Cart</button>
+              <button id="decrease-btn" v-on:click="item.decrease($event, item)">Remove from Cart</button>
+              </td>
             </tr>
           </table>
         </div>`,
