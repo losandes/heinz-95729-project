@@ -1,5 +1,4 @@
 module.exports.name = 'Lego'
-module.exports.singleton = true
 module.exports.dependencies = ['polyn']
 module.exports.factory = function (polyn) {
   'use strict'

@@ -1,5 +1,5 @@
-heinz-95729
-==========
+heinz-95729 API
+===============
 
 ## Getting Started
 This app is composed with [hilary](https://github.com/losandes/hilaryjs), uses [polyn](https://github.com/losandes/polyn) for models, and runs on [express](http://expressjs.com).

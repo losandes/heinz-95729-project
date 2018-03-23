@@ -47,7 +47,7 @@ Then navigate to the app in your browser: http://localhost:3001
 - server.js (The HTTP host to make this available on port 3001)
 
 ## The Module Pattern
-This application uses a specific module pattern that works with [hilary](https://github.com/losandes/hilaryjs/tree/master/docs) to meet the Dependency Inversion Principle. The `module-shim` allows us to define new modules so other modules can begin to depend on them in a couple steps:
+This application uses a specific module pattern that works with [hilary](https://github.com/losandes/hilaryjs/tree/master/docs) to meet the Dependency Inversion Principle. The `module-shim` allows us to define new modules so other modules can begin to depend on them in two steps:
 
 First, define a new module:
 
