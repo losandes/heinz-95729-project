@@ -17,3 +17,4 @@ app.use(function (req, res, next) {
 
 // response to port 3001
 app.listen(3001)
+console.log('The app is running at http://localhost:3001')
