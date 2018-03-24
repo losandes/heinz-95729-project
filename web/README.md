@@ -1,5 +1,5 @@
-heinz-95729 API
-===============
+heinz-95729 Web App
+===================
 
 ## Getting Started
 If you don't already have them, install [node.js](https://nodejs.org/en/), and [bower](https://bower.io).
