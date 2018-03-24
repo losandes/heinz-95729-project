@@ -86,7 +86,7 @@ Each component is made up of:
 * Repository (communications with services/APIs)
 
 ### Defining a Model
-We use models to enforce a schema for the data we represent in our components. Since the component depends on a model, it's a good place to start. If you're more comfortable starting with the HTML, that's fine too - skip to [Defining a Component](#defining-a-component) Our app presents products, and we have a specific component model for _books_. Let's add _movies_.
+We use models to enforce a schema for the data we represent in our components, and to add behaviors/event handlers. Since the component depends on a model, it's a good place to start. If you're more comfortable starting with the HTML, that's fine too - skip to [Defining a Component](#defining-a-component). Our app presents products, and we have a specific component model for _books_. Let's add _movies_.
 
 ```JavaScript
 module.exports = {
