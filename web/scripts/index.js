@@ -31,32 +31,26 @@
     (scope, next) => {
       log('creating components')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-      const components = []
-      const findComponents = key => {
+      const byComponents = () => key => {
         return key.toLowerCase().indexOf('component') > -1
       }
-      const resolveComponent = key => { scope.resolve(key) }
-      const prepareComponent = key => {
-        components.push(scope.resolve(key).component)
+      const toComponent = (scope) => key => {
+        return scope.resolve(key).component
+      }
+      const toObject = () => (output, component) => {
+        output[component.extendOptions.name] = component
+        return output
       }
 
-      Object.keys(scope.context.container.get())
-        .filter(findComponents)
-        .forEach(resolveComponent)
+      const components = Object.keys(scope.context.container.get())
+        .concat(Object.keys(scope.context.singletonContainer.get()))
+        .filter(byComponents())
+        .map(toComponent(scope))
+        .reduce(toObject(), {
+          loading: { template: '#t-loading' }
+        })
 
-      Object.keys(scope.context.singletonContainer.get())
-        .filter(findComponents)
-        .forEach(prepareComponent)
-
-      const componentRegistration = {
-        loading: { template: '#t-loading' }
-      }
-
-      components.forEach(component => {
-        componentRegistration[component.extendOptions.name] = component
-      })
-
-      next(null, componentRegistration, scope)
+      next(null, components, scope)
     },
     (components, scope, next) => {
       log('binding the main app')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -98,25 +92,24 @@
     (headerComponent, app, scope, next) => {
       log('registering routes')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-      const findControllers = key => {
+      const byControllers = () => key => {
         return key.toLowerCase().indexOf('controller') > -1
       }
-      const resolveController = key => { scope.resolve(key) }
-      const registerRoutes = key => {
+      const toController = (scope) => (key) => {
+        return scope.resolve(key)
+      }
+      const registerRoutes = () => controller => {
         // execute the controller modules to register routes on the router
-        const component = scope.resolve(key)
-        if (typeof component.registerRoutes === 'function') {
-          component.registerRoutes(app)
+        if (typeof controller.registerRoutes === 'function') {
+          controller.registerRoutes(app)
         }
       }
 
-      Object.keys(scope.context.container.get())  //
-        .filter(findControllers)
-        .forEach(resolveController)
-
-      Object.keys(scope.context.singletonContainer.get())
-        .filter(findControllers)
-        .forEach(registerRoutes)
+      Object.keys(scope.context.container.get())
+        .concat(Object.keys(scope.context.singletonContainer.get()))
+        .filter(byControllers())
+        .map(toController(scope))
+        .forEach(registerRoutes())
 
       next(null, app, scope)
     },

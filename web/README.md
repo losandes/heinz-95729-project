@@ -217,7 +217,7 @@ module.exports = {
      * @param {Vue} app - the main Vue instance (not the header)
      */
     function registerRoutes (app) {
-      router('/movies/:uid', (context, next) => {
+      router('/movies/:uid', (context) => {
         repo.get(context.params.uid, (err, movie) => {
           if (err) {
             console.log(err)
