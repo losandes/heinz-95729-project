@@ -98,10 +98,10 @@
       const toController = (scope) => (key) => {
         return scope.resolve(key)
       }
-      const registerRoutes = () => component => {
+      const registerRoutes = () => controller => {
         // execute the controller modules to register routes on the router
-        if (typeof component.registerRoutes === 'function') {
-          component.registerRoutes(app)
+        if (typeof controller.registerRoutes === 'function') {
+          controller.registerRoutes(app)
         }
       }
 
