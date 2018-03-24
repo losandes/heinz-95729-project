@@ -31,27 +31,26 @@
     (scope, next) => {
       log('creating components')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-      const findComponents = () => key => {
+      const byComponents = () => key => {
         return key.toLowerCase().indexOf('component') > -1
       }
-      const resolveComponent = (scope) => key => {
+      const toComponent = (scope) => key => {
         return scope.resolve(key).component
+      }
+      const toObject = () => (output, component) => {
+        output[component.extendOptions.name] = component
+        return output
       }
 
       const components = Object.keys(scope.context.container.get())
         .concat(Object.keys(scope.context.singletonContainer.get()))
-        .filter(findComponents())
-        .map(resolveComponent(scope))
+        .filter(byComponents())
+        .map(toComponent(scope))
+        .reduce(toObject(), {
+          loading: { template: '#t-loading' }
+        })
 
-      const componentRegistration = {
-        loading: { template: '#t-loading' }
-      }
-
-      components.forEach(component => {
-        componentRegistration[component.extendOptions.name] = component
-      })
-
-      next(null, componentRegistration, scope)
+      next(null, components, scope)
     },
     (components, scope, next) => {
       log('binding the main app')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -93,10 +92,10 @@
     (headerComponent, app, scope, next) => {
       log('registering routes')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-      const findControllers = () => key => {
+      const byControllers = () => key => {
         return key.toLowerCase().indexOf('controller') > -1
       }
-      const resolveController = (scope) => (key) => {
+      const toController = (scope) => (key) => {
         return scope.resolve(key)
       }
       const registerRoutes = () => component => {
@@ -108,8 +107,8 @@
 
       Object.keys(scope.context.container.get())
         .concat(Object.keys(scope.context.singletonContainer.get()))
-        .filter(findControllers())
-        .map(resolveController(scope))
+        .filter(byControllers())
+        .map(toController(scope))
         .forEach(registerRoutes())
 
       next(null, app, scope)
