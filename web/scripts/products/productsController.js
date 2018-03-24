@@ -26,7 +26,7 @@ module.exports = {
      * @param {Vue} app - the main Vue instance (not the header)
      */
     function registerRoutes (app) {
-      router('/products', (context, next) => {
+      router('/products', (context) => {
         app.currentView = 'loading'
 
         repo.search(context.query.q, (err, products) => {
@@ -45,7 +45,7 @@ module.exports = {
         })
       })
 
-      router('/products/:uid', (context, next) => {
+      router('/products/:uid', (context) => {
         repo.get(context.params.uid, (err, product) => {
           if (err) {
             console.log(err)
