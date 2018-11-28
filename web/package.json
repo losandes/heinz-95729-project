@@ -26,5 +26,13 @@
     "express": "^4.16.2",
     "serve-static": "^1.13.1",
     "supposed": "^0.1.0"
+  },
+  "dependencies": {
+    "async": "^2.3.0",
+    "hilary": "^5.2.0",
+    "page": "^1.7.1",
+    "polyn": "^1.10.0",
+    "promise-polyfill": "^8.1.0",
+    "whatwg-fetch": "^3.0.0"
   }
 }
