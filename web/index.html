@@ -42,6 +42,26 @@
         </div>
     </div><!-- /container -->
 
+    <!--Added by sushmita for stripe integration-->
+
+    <br>
+    <br>
+    <br>
+        <form action="/charge" method="post">
+            <script src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key="pk_test_4VicAuG5Ou9zuqA4LVIRI0dC"
+                    data-amount = "300"
+                    data-name = "books"
+                    data-description = "This is the carts total value for the books"
+                    data-locale = "auto"
+                    data-currency = "usd"
+            >
+            </script>
+            <input type="hidden" name="chargeAmount" value ="300"/>
+        </form>
+    <!--dfsdf -->
+
     <script id="t-loading" type="text/x-template">
         <div class="component">Loading...</div>
     </script>
@@ -87,6 +107,11 @@
     <script src="/scripts/users/usersRepo.js"></script>
 
     <script src="/scripts/index.js"></script>
+
+    <!-- Adding the stripe js to the srces by sushmita-->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/scripts/stripe/stripe.js"></script>
+    <!----->
 </body>
 
 </html>
