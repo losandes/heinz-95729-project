@@ -27,6 +27,7 @@
         </div>
         <nav>
             <a href="/login">
+                <span id="username-view"></span>
                 <i class="fa fa-user-circle-o" aria-hidden="true"></i>
             </a>
             <a href="/checkout">
@@ -44,6 +45,14 @@
 
     <script id="t-loading" type="text/x-template">
         <div class="component">Loading...</div>
+    </script>
+
+    <!-- Set username if available -->
+    <script>
+        if (sessionStorage.user){
+            document.getElementById('username-view').innerHTML
+                = "<u>" + JSON.parse(sessionStorage.user).payload.name + "</u>"
+        }
     </script>
 
 
@@ -83,6 +92,7 @@
 
     <script src="/scripts/users/loginComponent.js"></script>
     <script src="/scripts/users/registrationComponent.js"></script>
+    <script src="/scripts/users/profileComponent.js"></script>
     <script src="/scripts/users/usersController.js"></script>
     <script src="/scripts/users/usersRepo.js"></script>
 
