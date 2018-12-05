@@ -4,7 +4,8 @@ publish key :pk_test_4VicAuG5Ou9zuqA4LVIRI0dC
  from stripe.com
 
 */
-
+// Refered to the video https://www.youtube.com/watch?v=FhBtM70QZKM
+// https://stripe.com/docs/stripe-js/elements/quickstart
 // npm install stripe
 // installing body parser
 // $ npm install body-parser
