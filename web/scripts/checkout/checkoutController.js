@@ -6,12 +6,11 @@ module.exports = {
     'use strict'
 
     /**
-     * A view model for the search results (an array of products)
-     * @param {Array} products - the products that were returned by the result
+     * A view model for the products in the shopping cart (an array of products)
+     * @param {Array} products - the products in shopping cart
      */
     function CartResult (shoppingCart) {
-      // TODO: Handle case when shopping cart is empty. May need to be done in the component.
-
+      // Spread set into array.
       const products = [...shoppingCart.getItems()]
       const subtotal = shoppingCart.getSubtotal()
 

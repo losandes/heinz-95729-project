@@ -21,6 +21,11 @@ module.exports = {
 
       function addItem (product) {
         products.add(product)
+        // TODO: Remove alert later on when there is an animation
+        // For now, we will use this during the demo tomorrow.
+        /* eslint no-undef: "error" */
+        /* eslint-env browser */
+        // alert(`${product.title} added to cart!`) // eslint no-undef: "error"
       }
 
       function removeItem (product) {
