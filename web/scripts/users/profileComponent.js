@@ -2,17 +2,21 @@
 module.exports = {
   scope: 'heinz',
   name: 'profileComponent',
-  dependencies: ['router', 'Vue', 'usersRepo', 'storage'],
-  factory: (router, Vue, usersRepo, storage) => {
+  dependencies: ['router', 'Vue', 'storage'],
+  factory: (router, Vue, storage) => {
     'use strict'
 
-    var state = { user : storage.get('user') }
+    var state = { storage }
     const component = Vue.component('profile', {
       template: `
       <div id="user-profile">
         <div class="form-group">
           <label>Full Name</label></br>
-          {{user.name}}
+          {{storage.get('user').name}}
+        </div>
+        <div class="form-group">
+          <label>Email</label></br>
+          {{storage.get('user').email}}
         </div>
         <button class="btn btn-primary" v-on:click="logout">Logout</button>
         <br />
