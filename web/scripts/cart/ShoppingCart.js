@@ -9,7 +9,7 @@ module.exports = {
     return cart
 
     function ShoppingCart () {
-      const products = new Set()
+      const products = []
 
       return {
         products,
@@ -20,16 +20,20 @@ module.exports = {
       }
 
       function addItem (product) {
-        products.add(product)
-        // TODO: Remove alert later on when there is an animation
+        // TODO: Remove alert later on when there is an animation. Alert is undefined in testing.
         // For now, we will use this during the demo tomorrow.
         /* eslint no-undef: "error" */
         /* eslint-env browser */
-        // alert(`${product.title} added to cart!`) // eslint no-undef: "error"
+        if (findIndex(product) === -1) {
+          products.push(product)
+          // alert(`${product.title} added to cart!`)
+        } else {
+          // alert(`${product.title} is already in your cart.`)
+        }
       }
 
       function removeItem (product) {
-        products.delete(product)
+        products.splice(findIndex(product), 1)
       }
 
       function getItems () {
@@ -37,10 +41,21 @@ module.exports = {
       }
 
       function getSubtotal () {
-        const items = [...products]
-        let subtotal = items.reduce((total, product) => total + product.price, 0)
+        let subtotal = products.reduce((total, product) => total + product.price, 0)
         subtotal = subtotal.toFixed(2)
         return subtotal
+      }
+
+      function findIndex (product) {
+        let idx = -1
+
+        for (let i = 0; i < products.length; i++) {
+          if (products[i].uid === product.uid) {
+            idx = i
+          }
+        }
+
+        return idx
       }
     }
   }

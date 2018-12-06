@@ -41,7 +41,6 @@ module.exports = {
 
       self.addToCart = (event) => {
         shoppingCart.addItem(self)
-        // TODO: Notify user that item was added to cart.
       }
 
       return self

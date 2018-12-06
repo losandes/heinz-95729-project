@@ -22,7 +22,7 @@ module.exports = {
                     <div class="description">
                       <div class="price"><strong>\${{product.price}}</strong></div> <br>
                       <a href="javascript:void(0);" v-on:click="shoppingCart.removeItem(product);
-                        products.splice(products.indexOf(product), 1); subtotal = shoppingCart.getSubtotal()">
+                        subtotal = shoppingCart.getSubtotal()">
                         <button type="button" class="btn btn-danger">Remove</button>
                       </a>
                     </div>
@@ -45,10 +45,10 @@ module.exports = {
       }
     })
 
-    const setCart = (cart) => {
+    const setCheckout = (cart) => {
       state = cart
     }
 
-    return { component, setCart }
+    return { component, setCheckout }
   }
 }

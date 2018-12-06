@@ -11,7 +11,7 @@ module.exports = {
      */
     function CartResult (shoppingCart) {
       // Spread set into array.
-      const products = [...shoppingCart.getItems()]
+      const products = shoppingCart.getItems()
       const subtotal = shoppingCart.getSubtotal()
 
       return {
@@ -28,7 +28,7 @@ module.exports = {
     function registerRoutes (app) {
       router('/checkout', (context) => {
         app.currentView = 'loading'
-        checkoutComponent.setCart(new CartResult(shoppingCart))
+        checkoutComponent.setCheckout(new CartResult(shoppingCart))
         app.currentView = 'checkout'
       })
     }
