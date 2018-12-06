@@ -6,6 +6,7 @@ module.exports.factory = function (
   { getProduct, bindToProduct }
 ) {
   router.get('/products', function (req, res) {
+    console.log('search many products')
     Promise.resolve(req.query.q)
       .then(query => new Promise(searchProducts(query)))
       .then(docs => new Promise(bindToManyProducts(docs)))
@@ -18,6 +19,7 @@ module.exports.factory = function (
   })
 
   router.get('/products/:uid', function (req, res) {
+    console.log('search a product')
     Promise.resolve(req.params.uid)
       .then(query => new Promise(getProduct(query)))
       .then(docs => new Promise(bindToProduct(docs)))

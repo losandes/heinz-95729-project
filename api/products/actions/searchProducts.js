@@ -2,8 +2,8 @@ module.exports.name = 'searchProducts'
 module.exports.dependencies = ['productsRepo', 'Product']
 module.exports.factory = function (repo, Product) {
   'use strict'
-
   const searchProducts = (query) => (resolve, reject) => {
+    console.log('inside searchProducts.js query='.concat(query))
     repo.find({
       query: {
         $text: {
