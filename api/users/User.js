@@ -7,8 +7,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
   blueprint = new Blueprint({
     __blueprintId: 'User',
     name: 'string',
-    email: 'string',
-    categories: 'array'
+    email: 'string'
   })
 
   User = function (user) {

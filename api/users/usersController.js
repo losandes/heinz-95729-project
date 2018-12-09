@@ -44,7 +44,6 @@ module.exports.factory = (
   })
 
   router.put('/users/:email/addcat', function (req, res) {
-    console.log('ran')
     const body = req.body
 
     Promise.resolve(body)
