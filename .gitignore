@@ -58,3 +58,5 @@ typings/
 .env
 
 *.json
+
+invoke-rest.ps1

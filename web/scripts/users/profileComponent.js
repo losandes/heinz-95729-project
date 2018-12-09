@@ -2,11 +2,11 @@
 module.exports = {
   scope: 'heinz',
   name: 'profileComponent',
-  dependencies: ['router', 'Vue', 'storage'],
-  factory: (router, Vue, storage) => {
+  dependencies: ['router', 'Vue', 'usersRepo', 'storage'],
+  factory: (router, Vue, usersRepo, storage) => {
     'use strict'
 
-    var state = { storage }
+    var state = { storage, newcat: null }
     const component = Vue.component('profile', {
       template: `
       <div id="user-profile">
@@ -18,29 +18,22 @@ module.exports = {
           <label>Email</label></br>
           {{storage.get('user').email}}
         </div>
+        </br>
         <div class="form-group">
           <label>Categories</label></br>
-          <table class="table">
-            <tr>
+          <table class="category-table">
+            <tr v-for="cat in storage.get('user').categories">
               <td>
-                Loren
+                {{cat}}
               </td>
               <td>
-                Ipsum
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Dolores
-              </td>
-              <td>
-                Summere
+              <button class="btn btn btn-danger btn-sm" v-on:click="removeCat(cat)">Remove</button>
               </td>
             </tr>
             <tr>
-              <td></td>
+              <td><input v-model="newcat" name="newcat" class="form-control form-control-sm" type="text" placeholder="New Category"></td>
               <td>
-              <button class="btn btn btn-light btn-sm" v-on:click="">Add</button>
+              <button class="btn btn btn-success btn-sm" v-on:click="addCat">Add</button>
               </td>
             </tr>
           </table>
@@ -59,8 +52,30 @@ module.exports = {
         logout: function (event) {
           storage.clear()
           document.getElementById("username-view").innerHTML = ''
-          
+
           return router.navigate('/')
+        },
+
+        removeCat: function (cat) {
+          console.log(cat)
+          alert(cat)
+        },
+
+        addCat: function (event) {
+          var { newcat } = this
+
+          let user = storage.get('user')
+          usersRepo.addCat(user.email, newcat, (err, res) => {
+            if (err) {
+              alert('Addcat failed')
+              return
+            } else {
+              user.categories.push(newcat)
+              storage.set('user', user)
+              this.$forceUpdate()
+              this.newcat = ""
+            }
+          })
         }
       }
     })

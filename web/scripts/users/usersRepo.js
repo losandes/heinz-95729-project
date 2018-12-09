@@ -21,6 +21,14 @@ module.exports = {
       }, callback)
     }
 
-    return { login, register }
+    const addCat = (email, categories, callback) => {
+      console.log('addCat Method')
+      repo.put({
+        path: '/users/' + email + '/addcat',
+        body: { categories }
+      }, callback)
+    }
+
+    return { login, register, addCat }
   }
 }
