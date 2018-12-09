@@ -39,6 +39,10 @@ module.exports = {
         }
       }
 
+      self.subtotal = () => {
+        return Math.round(self.quantity * self.price * 100) / 100
+      }
+
       self.increment = (state) => {
         console.log(`TODO: increment ${self.title} to shopping cart`)
         console.log(state)

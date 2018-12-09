@@ -41,6 +41,7 @@ module.exports = {
       self.addToCart = (products) => {
         console.log(`TODO: add ${self.title} to shopping cart`)
         console.log(products)
+        self.price = 'Added'
       }
 
       return self

@@ -20,11 +20,13 @@ module.exports = {
                     <h3><a href="javascript:void(0);" v-on:click="product.viewDetails">{{product.title}}</a></h3>
                     <div class="description">{{product.description}}</div>
                     <div class="overlay"></div>
-                    <div class="text-right">
+                    <div class="text-center">
                     <div class="quantityBtnGroup btn-group btn-group-sm" role="group" aria-label="choose quantity">
-                    <button type="button" class="btn btn-success" v-on:click="product.decrement">-</button>
-                    <button :id="product.uid" class="btn btn-success">{{product.quantity}}</button>
-                    <button type="button" class="btn btn-success" v-on:click="product.increment">+</button>
+                        <button type="button" class="btn btn-default">$ {{product.price}} </button>
+                        <button type="button" class="btn btn-success" v-on:click="product.decrement">-</button>
+                        <button :id="product.uid" class="btn btn-success">{{product.quantity}}</button>
+                        <button type="button" class="btn btn-success" v-on:click="product.increment">+</button>
+                        <button type="button" class="btn btn-default">{{product.subtotal()}}</button>
                     </div>
                     </div>
                   </div>
@@ -35,7 +37,7 @@ module.exports = {
           <div class="row">
             <div class="col-sm-6 col-md-4 product-col">
             <button type="button" class="btn btn-success">Sub Total: {{subtotal}}$</button>
-            <button type="button" class="btn btn-info" href="javascript:void(0);" v-on:click="checkout">Check Out</button>
+            <button type="button" class="btn btn-info" href="javascript:void(0);" v-on:click="pay">Check Out</button>
             </div>
           </div><!-- /row -->
         </div><!-- /component -->`,
@@ -44,7 +46,7 @@ module.exports = {
       }
     })
     const updateSubtotal = () => {
-      let sum = state.products.reduce((p1, p2) => p1.price * p1.quantity + p2.price * p2.quantity)
+      let sum = state.products.map(p => p.price * p.quantity).reduce((p1, p2) => p1 + p2)
       state.subtotal = Math.round(sum * 100) / 100
     }
 
