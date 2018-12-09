@@ -18,6 +18,35 @@ module.exports = {
           <label>Email</label></br>
           {{storage.get('user').email}}
         </div>
+        <div class="form-group">
+          <label>Categories</label></br>
+          <table class="table">
+            <tr>
+              <td>
+                Loren
+              </td>
+              <td>
+                Ipsum
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Dolores
+              </td>
+              <td>
+                Summere
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+              <button class="btn btn btn-light btn-sm" v-on:click="">Add</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <br/>
+        <br/>
         <button class="btn btn-primary" v-on:click="logout">Logout</button>
         <br />
         <br />
