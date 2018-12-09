@@ -42,6 +42,9 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
         return reject(new Error('Categories is required to add a Category'))
       }
 
+      // Change category to smaller case, trim
+      category.categories = category.categories.toLowerCase().trim()
+
       collection.findOneAndUpdate({ email }, { $addToSet: category }, (err, res) => {
         if (err) {
           return reject(err)
@@ -50,6 +53,33 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
       })
     })
   }
+
+
+
+  /*
+    // Remove Category
+    */
+  const removeCategory = (email, category) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(email)) {
+        return reject(new Error('An email is required to remove a Category'))
+      }
+
+      if (is.not.string(category.categories)) {
+        console.log(email)
+        console.log(category)
+        return reject(new Error('Categories is required to remove a Category'))
+      }
+
+      collection.findOneAndUpdate({ email }, { $pull: category }, (err, res) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(res)
+      })
+    })
+  }
+
 
   /*
     // Get a single user
@@ -76,5 +106,5 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     })
   }
 
-  return { create, addCategory, get }
+  return { create, addCategory, removeCategory, get }
 }

@@ -23,16 +23,16 @@ module.exports = {
           <label>Categories</label></br>
           <table class="category-table">
             <tr v-for="cat in storage.get('user').categories">
-              <td>
+              <td class="td">
                 {{cat}}
               </td>
-              <td>
+              <td class = "td">
               <button class="btn btn btn-danger btn-sm" v-on:click="removeCat(cat)">Remove</button>
               </td>
             </tr>
             <tr>
-              <td><input v-model="newcat" name="newcat" class="form-control form-control-sm" type="text" placeholder="New Category"></td>
-              <td>
+              <td class = "td"><input v-model="newcat" name="newcat" class="form-control form-control-sm" type="text" placeholder="New Category"></td>
+              <td class = "td">
               <button class="btn btn btn-success btn-sm" v-on:click="addCat">Add</button>
               </td>
             </tr>
@@ -57,25 +57,42 @@ module.exports = {
         },
 
         removeCat: function (cat) {
-          console.log(cat)
-          alert(cat)
+          let user = storage.get('user')
+
+          usersRepo.remCat(user.email, cat, (err, res) => {
+            if (err) {
+              alert('Unable to remove category: check connection')
+              return
+            } else {
+              user.categories.splice(user.categories.indexOf(cat), 1)
+              storage.set('user', user)
+              this.$forceUpdate()
+            }
+          })
         },
 
         addCat: function (event) {
           var { newcat } = this
 
           let user = storage.get('user')
-          usersRepo.addCat(user.email, newcat, (err, res) => {
-            if (err) {
-              alert('Addcat failed')
-              return
-            } else {
-              user.categories.push(newcat)
-              storage.set('user', user)
-              this.$forceUpdate()
-              this.newcat = ""
-            }
-          })
+
+
+          if (user.categories.indexOf(newcat.toLowerCase().trim()) >= 0) {
+            alert('Category already exists')
+          } else {
+            usersRepo.addCat(user.email, newcat.toLowerCase().trim(), (err, res) => {
+              if (err) {
+                alert('Unable to add category')
+                return
+              }
+              else {
+                user.categories.push(newcat.toLowerCase())
+                storage.set('user', user)
+                this.$forceUpdate()
+                this.newcat = ""
+              }
+            })
+          }
         }
       }
     })

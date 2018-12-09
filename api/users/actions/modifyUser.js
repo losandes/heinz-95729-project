@@ -4,11 +4,16 @@ module.exports.factory = function (repo) {
   'use strict'
 
   const addCategory = (email, category) => (resolve, reject) => {
-    // TODO: make sure the properties we need are here
     return repo.addCategory(email, category)
       .then(resolve)
       .catch(reject)
   }
 
-  return { addCategory }
+  const removeCategory = (email, category) => (resolve, reject) => {
+    return repo.removeCategory(email, category)
+      .then(resolve)
+      .catch(reject)
+  }
+
+  return { addCategory, removeCategory }
 }

@@ -4,7 +4,7 @@ module.exports.factory = (
   router,
   { register, validateBody },
   { getUser, makeAuthToken },
-  { addCategory },
+  { addCategory, removeCategory },
   logger
 ) => {
   router.post('/users', function (req, res) {
@@ -56,6 +56,26 @@ module.exports.factory = (
         return body
       })
       .then(body => new Promise(addCategory(req.params.email, body)))
+      .then(response => {
+        res.status(200).send(response)
+      }).catch(err => {
+        logger.error(err)
+        res.status(400).send({ messages: [err.message] })
+      })
+  })
+
+  router.put('/users/:email/remcat', function (req, res) {
+    const body = req.body
+    Promise.resolve(body)
+      .then(() => new Promise(getUser(req.params.email)))
+      .then(user => {
+        if (!user) {
+          throw new Error('A user with that email address does not exist')
+        }
+
+        return body
+      })
+      .then(body => new Promise(removeCategory(req.params.email, body)))
       .then(response => {
         res.status(200).send(response)
       }).catch(err => {
