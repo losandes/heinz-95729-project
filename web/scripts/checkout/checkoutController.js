@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutController',
-  dependencies: ['router', 'checkoutComponent', 'ShoppingCart'],
-  factory: (router, checkoutComponent, shoppingCart) => {
+  dependencies: ['router', 'Stripe', 'checkoutComponent', 'ShoppingCart'],
+  factory: (router, Stripe, checkoutComponent, shoppingCart) => {
     'use strict'
 
     /**
@@ -13,11 +13,13 @@ module.exports = {
       // Spread set into array.
       const products = shoppingCart.getItems()
       const subtotal = shoppingCart.getSubtotal()
+      const stripe = Stripe('pk_test_4VicAuG5Ou9zuqA4LVIRI0dC')
 
       return {
         products,
         subtotal,
-        shoppingCart
+        shoppingCart,
+        stripe
       }
     }
 

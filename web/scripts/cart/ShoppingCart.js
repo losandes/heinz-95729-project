@@ -24,11 +24,12 @@ module.exports = {
         // For now, we will use this during the demo tomorrow.
         /* eslint no-undef: "error" */
         /* eslint-env browser */
+        const demo = false
         if (findIndex(product) === -1) {
           products.push(product)
-          // alert(`${product.title} added to cart!`)
+          if (demo) { alert(`${product.title} added to cart!`) }
         } else {
-          // alert(`${product.title} is already in your cart.`)
+          if (demo) { alert(`${product.title} is already in your cart.`) }
         }
       }
 
