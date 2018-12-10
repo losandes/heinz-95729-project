@@ -25,6 +25,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
         required: false
       }
     }),
+	purchased_quantity : 'number',
     price: 'money',
     thumbnailLink: 'string',
     type: 'string'
@@ -55,6 +56,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
     self.description = product.description
     self.metadata = product.metadata
     self.price = product.price
+	self.purchased_quantity = product.purchased_quantity
     self.thumbnailLink = product.thumbnailLink
     self.type = product.type
 

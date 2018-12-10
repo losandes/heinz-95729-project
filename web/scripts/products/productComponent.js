@@ -27,7 +27,7 @@ module.exports = {
     })
 
     const setProduct = (product) => {
-      state = product
+		state = product
     }
 
     return { component, setProduct }

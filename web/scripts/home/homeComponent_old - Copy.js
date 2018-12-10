@@ -5,8 +5,6 @@ module.exports = {
   factory: (Vue, locale) => {
     'use strict'
 
-	var state 
-	
     const component = Vue.component('home', {
       template: `
         <div class="component empty-component">

@@ -36,6 +36,7 @@ module.exports = {
 
     const setProducts = (searchResults) => {
       state = searchResults
+	  //console.log(JSON.stringify(searchResults))
     }
 
     return { component, setProducts }
