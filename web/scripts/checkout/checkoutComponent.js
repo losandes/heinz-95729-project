@@ -1,11 +1,12 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutComponent',
-  dependencies: ['Vue', 'ShoppingCart'],
-  factory: (Vue, shoppingCart) => {
+  dependencies: ['Vue', 'ShoppingCart', 'router'],
+  factory: (Vue, shoppingCart, router) => {
     'use strict'
 
-    var state = { products: [], subtotal: 0.0, shoppingCart }
+    let state = { products: [], subtotal: 0.0, shoppingCart, stripe: {} }
+    let card = 'invalid'
 
     const component = Vue.component('checkout', {
       template: `
@@ -35,13 +36,66 @@ module.exports = {
           <div class="subtotal">
             <h2>Subtotal: \${{subtotal}}</h2>
           </div>
-          <div class="checkoutButton" v-if="products.length > 0">
-            <a href="/purchase"><button type="button" class="btn btn-primary">Proceed to Purchase</button></a>
+          <div class="checkout" v-if="products.length > 0">
+            <br>
+            <form action="/charge" method="post" id="payment-form">
+              <div class="form-row">
+                <label for="card-element">
+                  Credit or debit card
+                </label>
+                <div id="card-element">
+                  <!-- A Stripe Element will be inserted here. -->
+                </div>
+                <!-- Used to display Element errors. -->
+                <div id="card-errors" role="alert"></div>
+              </div>
+              <br>
+              <button class="btn btn-primary">Submit Payment</button>
+            </form>
           </div>
           <div class="emptyCart" v-else><h2>Your cart is empty</h2></div>
         </div><!-- /component -->`,
       data: () => {
         return state
+      },
+      mounted: () => {
+        if (state.products.length > 0) {
+          // Create stripe card input.
+          card = state.stripe.elements().create('card')
+          card.mount('#card-element')
+          // Add event listener for input errors in real time.
+          card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors')
+            if (event.error) {
+              displayError.textContent = event.error.message
+            } else {
+              displayError.textContent = ''
+            }
+          })
+          // Add event listener to handle payment processing with stripe.
+          const form = document.getElementById('payment-form')
+          form.addEventListener('submit', function (event) {
+            event.preventDefault()
+
+            state.stripe.createToken(card).then(function (result) {
+              if (result.error) {
+                // Inform the customer that there was an error.
+                var errorElement = document.getElementById('card-errors')
+                errorElement.textContent = result.error.message
+              } else {
+                // Send the token to your server.
+                console.log('Payment token created')
+                console.log(result.token)
+                console.log(`Still need to charge user $${state.subtotal}`)
+                // TODO: Send token to server to charge card
+                // After charging the user, add the purchase to their purchase history
+                // Route user to page where they can download the e-book.
+                // Empty the shopping cart after as well.
+                router.navigate('/')
+              }
+            })
+          })
+        }
       }
     })
 
