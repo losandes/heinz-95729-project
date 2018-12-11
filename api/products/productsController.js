@@ -2,7 +2,7 @@ module.exports.name = 'productsController'
 module.exports.dependencies = ['router', 'searchProducts', 'getProduct']
 module.exports.factory = function (
   router,
-  { searchProducts, bindToManyProducts },
+  { searchProducts, bindToManyProducts},
   { getProduct, bindToProduct }
 ) {
   router.get('/products', function (req, res) {

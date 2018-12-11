@@ -29,6 +29,42 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
    * @param {number} options.skip - the number of records to skip before taking records
    * @param {number} options.limit - the number of records to take
    */
+   
+  const getFive = (options) =>{
+	options = Object.assign({
+      skip: 0,
+      limit: 5
+    }, options)
+	
+	return new Promise((resolve, reject) => {
+     // Since options is an object, we can use Blueprint to validate it.
+      if (!findOptionsBlueprint.syncSignatureMatches(options).result) {
+        return reject(new Error(
+          findOptionsBlueprint.syncSignatureMatches(options)
+            .errors
+            .join(', ')
+        ))
+      }
+
+      // This uses mongodb's find feature to obtain multiple documents,
+      // although it still limits the result set. `find`, `skip`, and `limit`
+      // return promises, so the query isn't executed until `toArray` is
+      // called. It receives a callback function so it can perform the
+      // IO asynchronously, and free up the event-loop, while it's waiting.
+      collection.find().sort({purchased_quantity:-1})
+        .skip(options.skip)
+        .limit(options.limit)
+        .toArray(function (err, docs) {
+          if (err) {
+            return reject(err)
+          }
+
+          return resolve(docs.map(doc => new Product(doc)))
+        })
+    })
+  }
+   
+   
   const find = (options) => {
     // Make sure the options are defined, and set the default
     // skip and limit values if they weren't set

@@ -14,7 +14,11 @@ module.exports = {
     const search = (query, callback) => {
       repo.get({ path: `/products?q=${query}` }, callback)
     }
+	
+	const getFive = () =>{
+		repo.get({path:'/'})
+	}
 
-    return { get, search }
+    return { get, search, getFive }
   }
 }
