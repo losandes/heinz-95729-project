@@ -7,8 +7,8 @@ module.exports.factory = function ({ Blueprint }, Product, logger) {
   var blueprint,
     Book
 
-    // The Product blueprint will validate the majority of the model.
-    // This blueprint is meant to enforce properties that are unique to Book.
+  // The Product blueprint will validate the majority of the model.
+  // This blueprint is meant to enforce properties that are unique to Book.
   blueprint = new Blueprint({
     metadata: new Blueprint({
       authors: 'array'

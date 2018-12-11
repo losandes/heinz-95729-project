@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'Product',
-  dependencies: ['router'],
-  factory: (router) => {
+  dependencies: ['router', 'ShoppingCart'],
+  factory: (router, shoppingCart) => {
     'use strict'
 
     return function Product (product) {
@@ -40,7 +40,7 @@ module.exports = {
       }
 
       self.addToCart = (event) => {
-        console.log(`TODO: add ${self.title} to shopping cart`)
+        shoppingCart.addItem(self)
       }
 
       return self
