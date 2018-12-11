@@ -23,15 +23,14 @@ module.exports = {
 
     const addCat = (email, categories, callback) => {
       repo.put({
-        path: '/users/' + email + '/addcat',
+        path: '/users/' + email + '/category',
         body: { categories }
       }, callback)
     }
 
     const remCat = (email, categories, callback) => {
-      repo.put({
-        path: '/users/' + email + '/remcat',
-        body: { categories }
+      repo.remove({
+        path: '/users/' + email + '/category?categories=' + categories,
       }, callback)
     }
 

@@ -43,7 +43,7 @@ module.exports.factory = (
       })
   })
 
-  router.put('/users/:email/addcat', function (req, res) {
+  router.put('/users/:email/category', function (req, res) {
     const body = req.body
 
     Promise.resolve(body)
@@ -64,8 +64,8 @@ module.exports.factory = (
       })
   })
 
-  router.put('/users/:email/remcat', function (req, res) {
-    const body = req.body
+  router.delete('/users/:email/category', function (req, res) {
+    const body = {categories: req.query.categories}
     Promise.resolve(body)
       .then(() => new Promise(getUser(req.params.email)))
       .then(user => {

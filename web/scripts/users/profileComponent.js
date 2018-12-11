@@ -51,7 +51,7 @@ module.exports = {
       methods: {
         logout: function (event) {
           storage.clear()
-          document.getElementById("username-view").innerHTML = ''
+          document.getElementById('username-view').innerHTML = ''
 
           return router.navigate('/')
         },
@@ -62,7 +62,6 @@ module.exports = {
           usersRepo.remCat(user.email, cat, (err, res) => {
             if (err) {
               alert('Unable to remove category: check connection')
-              return
             } else {
               user.categories.splice(user.categories.indexOf(cat), 1)
               storage.set('user', user)
@@ -76,20 +75,22 @@ module.exports = {
 
           let user = storage.get('user')
 
+          if (user.categories === undefined) {
+            user.categories = []
+          }
 
           if (user.categories.indexOf(newcat.toLowerCase().trim()) >= 0) {
             alert('Category already exists')
           } else {
-            usersRepo.addCat(user.email, newcat.toLowerCase().trim(), (err, res) => {
-              if (err) {
+            usersRepo.addCat(user.email, newcat.toLowerCase().trim(), (rerr, res) => {
+              if (rerr) {
+                console.log(rerr)
                 alert('Unable to add category')
-                return
-              }
-              else {
+              } else {
                 user.categories.push(newcat.toLowerCase())
                 storage.set('user', user)
                 this.$forceUpdate()
-                this.newcat = ""
+                this.newcat = ''
               }
             })
           }
