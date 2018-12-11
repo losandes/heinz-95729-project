@@ -65,7 +65,7 @@ module.exports.factory = (
   })
 
   router.delete('/users/:email/category', function (req, res) {
-    const body = {categories: req.query.categories}
+    const body = { categories: req.query.categories }
     Promise.resolve(body)
       .then(() => new Promise(getUser(req.params.email)))
       .then(user => {

@@ -30,7 +30,7 @@ module.exports = {
 
     const remCat = (email, categories, callback) => {
       repo.remove({
-        path: '/users/' + email + '/category?categories=' + categories,
+        path: '/users/' + email + '/category?categories=' + categories
       }, callback)
     }
 
