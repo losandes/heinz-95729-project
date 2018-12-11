@@ -35,6 +35,11 @@ module.exports = {
 
             storage.set('jwt', res.authToken)
             storage.set('user', res.user)
+
+            // Set username view
+            document.getElementById('username-view').innerHTML
+                = '<u>' + res.user.name + '</u>'
+
             return router.navigate('/')
           })
         }

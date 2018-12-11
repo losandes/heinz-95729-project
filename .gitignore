@@ -57,3 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
+invoke-rest.ps1
+web/styles/main.css

@@ -26,6 +26,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
     self._id = new ObjectID(user._id)
     self.name = user.name
     self.email = user.email
+    self.categories = user.categories
 
     return self
   }
