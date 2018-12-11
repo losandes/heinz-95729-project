@@ -60,3 +60,5 @@ typings/
 *.json
 
 invoke-rest.ps1
+web/styles/main.less
+web/styles/main.css
