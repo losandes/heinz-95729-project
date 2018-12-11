@@ -57,5 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
-invoke-rest.ps1
-web/styles/main.css
+# Powershell scripts
+*.ps1
+
+# Ignore main.css as this will be part of the build.
+main.css

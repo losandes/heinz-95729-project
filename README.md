@@ -27,6 +27,7 @@ $ npm start
 ```Shell
 $ cd web
 $ npm install
+$ npm run style
 $ npm start
 ```
 
