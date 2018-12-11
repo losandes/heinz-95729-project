@@ -130,5 +130,5 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
     })
   }
 
-  return { find, get }
+  return { find, get, getFive }
 }

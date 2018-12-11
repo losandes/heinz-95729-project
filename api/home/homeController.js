@@ -1,21 +1,23 @@
 module.exports.name = 'homeController'
-module.exports.dependencies = ['router','getFive']
-module.exports.factory = function (
-  router,
-  {getFive, bindToManyProducts })
+module.exports.dependencies = ['router', 'docRenderer', 'environment']
+module.exports.factory = function (router, docRenderer, env) {
   'use strict'
-  {
-  router.get('/', function (req,res) {
-    Promise.resolve(req)
-      .then(query => new Promise(getFive()))
-      .then(docs => new Promise(bindToManyProducts(docs)))
-      .then(products => {
-        res.send(products)
-      }).catch(err => {
-        console.log(err)
-        res.status(400).send({ messages: [err.message] })
-      })
-  })
+
+  router.get('/', getHandler)
+  router.get('/docs/:lang', getHandler)
+
+  function getHandler (req, res, next) {
+    var options = env.get('docs') || {}
+    options.language = req.params.lang
+
+    docRenderer.render(options, function (err, rendered) {
+      if (err) {
+        return next(err)
+      }
+
+      res.render('docs', rendered)
+    })
+  }
 
   return router
 }

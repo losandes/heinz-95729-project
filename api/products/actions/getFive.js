@@ -4,14 +4,20 @@ module.exports.factory = function (repo, Product) {
   'use strict'
 
   const getFive = (query) => (resolve, reject) => {
-    repo.getFive()
+    repo.getFive({
+      query: {
+        $text: {
+          $search: ''
+        }
+      }
+    })
 	.then(resolve)
       .catch(reject)
   }
 
-  const bindToManyProducts = (docs) => (resolve, reject) => {
+  const bindToManyProductss = (docs) => (resolve, reject) => {
     return resolve(docs.map(product => new Product(product)))
   }
 
-  return { getFive, bindToManyProducts }
+  return { getFive, bindToManyProductss }
 }

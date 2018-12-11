@@ -28,17 +28,37 @@ module.exports = {
     function registerRoutes (app) {
       router('/products', (context) => {
         app.currentView = 'loading'
-
         repo.search(context.query.q, (err, products) => {
           if (err) {
             console.log(err)
             // TODO: render error view
           }
-
-          if (products && products.length) {
+          if (products && products.length) { 
+			products.slice(0,products.length-1)
             productsComponent.setProducts(new ProductSearchResult(products))
             app.currentView = 'products'
           } else {
+            // TODO: route to a "none found" page
+            router.navigate('/')
+          }
+        })
+      })
+	  
+	  
+	  router('/top', (context) => {
+        app.currentView = 'loading'
+        repo.getFive(context,(err, products) => {
+          if (err) {
+            console.log(err)
+            // TODO: render error view
+          }
+		  console.log(products)
+
+          if (products && products.length) {
+			  console.log('here')
+            productsComponent.setProducts(new ProductSearchResult(products))
+            app.currentView = 'products'
+          } else {	
             // TODO: route to a "none found" page
             router.navigate('/')
           }
