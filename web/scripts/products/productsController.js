@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'productsController',
-  dependencies: ['router', 'productsComponent', 'productComponent', 'Product', 'productsRepo'],
-  factory: (router, productsComponent, productComponent, Product, repo) => {
+  dependencies: ['router', 'productsComponent', 'productComponent', 'fiveComponent', 'Product', 'productsRepo'],
+  factory: (router, productsComponent, productComponent, fiveComponent, Product, repo) => {
     'use strict'
 
     /**
@@ -34,7 +34,6 @@ module.exports = {
             // TODO: render error view
           }
           if (products && products.length) { 
-			products.slice(0,products.length-1)
             productsComponent.setProducts(new ProductSearchResult(products))
             app.currentView = 'products'
           } else {
@@ -52,12 +51,12 @@ module.exports = {
             console.log(err)
             // TODO: render error view
           }
-		  console.log(products)
+		  //console.log(products)
 
           if (products && products.length) {
-			  console.log('here')
-            productsComponent.setProducts(new ProductSearchResult(products))
-            app.currentView = 'products'
+			//console.log(products.length)
+            fiveComponent.setProducts(new ProductSearchResult(products))
+            app.currentView = 'Five'
           } else {	
             // TODO: route to a "none found" page
             router.navigate('/')
