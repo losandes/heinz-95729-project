@@ -12,6 +12,7 @@ module.exports = {
     function registerRoutes (app) {
       router('/login', () => {
         if (storage.get('jwt')) {
+			//app.currentView = 'loading'
           // TODO: the user is logged in, send them to a profile page
         }
 

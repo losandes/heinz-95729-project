@@ -43,6 +43,7 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
           }
 
           if (doc) {
+			  //console.log(JSON.stringify(doc))
             return resolve(new User(doc))
           } else {
             return resolve()
