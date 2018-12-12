@@ -1,12 +1,13 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutComponent',
-  dependencies: ['Vue', 'ShoppingCart', 'router', 'storage'],
-  factory: (Vue, shoppingCart, router, storage) => {
+  dependencies: ['Vue', 'ShoppingCart', 'router', 'storage', 'checkoutRepo', 'Checkout'],
+  factory: (Vue, shoppingCart, router, storage, checkoutRepo, Checkout) => {
     'use strict'
 
     let state = { products: [], subtotal: 0.0, shoppingCart, stripe: {} }
     let card = 'invalid'
+    let message = {}
 
     const component = Vue.component('checkout', {
       template: `
@@ -65,6 +66,7 @@ module.exports = {
           card.mount('#card-element')
           // Add event listener for input errors in real time.
           const displayError = document.getElementById('card-errors')
+          message = displayError
           card.addEventListener('change', function (event) {
             if (event.error) {
               displayError.textContent = event.error.message
@@ -93,15 +95,31 @@ module.exports = {
           var errorElement = document.getElementById('card-errors')
           errorElement.textContent = result.error.message
         } else {
-          // Send the token to your server.
-          console.log('Payment token created')
-          console.log(result.token)
-          console.log(`Still need to charge user $${state.subtotal}`)
-          // TODO: Send token to server to charge card
-          // After charging the user, add the purchase to their purchase history
+          // Send the token to the server.
+          const checkout = new Checkout({
+            email: storage.get('user').email,
+            tokenID: result.token.id,
+            total: state.subtotal,
+            products: state.products
+          })
+          checkoutRepo.charge(checkout, (err, res) => {
+            if (err) {
+              console.log(err)
+              console.log('Charge failed')
+              return
+            }
+
+            console.log(res)
+            // Empty the shopping cart.
+            while (shoppingCart.getItems().length !== 0) {
+              shoppingCart.removeItem(state.products[0])
+            }
+            router.navigate('/checkout-success')
+          })
+          message.textContent = 'Please wait while we process your order'
+          // TODO: After charging the user, add the purchase to their purchase history
           // Route user to page where they can download the e-book.
-          // Empty the shopping cart after as well.
-          router.navigate('/')
+          // Should we add tax?
         }
       })
     }

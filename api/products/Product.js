@@ -7,10 +7,10 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
   var blueprint,
     Product
 
-    /*
-    // This blueprint will be used to validate objects, and ensure that they
-    // meet the minimum requirements for being a Product
-    */
+  /*
+  // This blueprint will be used to validate objects, and ensure that they
+  // meet the minimum requirements for being a Product
+  */
   blueprint = new Blueprint({
     _id: {
       type: 'object',

@@ -34,6 +34,7 @@ function init () {
     scope.makeRegistrationTask(require('./legos')),
     scope.makeRegistrationTask(require('./products')),
     scope.makeRegistrationTask(require('./users')),
+    scope.makeRegistrationTask(require('./checkout')),
 
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // TODO: REGISTER ANY NEW FOLDERS YOU CREATE HERE

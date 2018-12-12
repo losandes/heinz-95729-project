@@ -13,7 +13,7 @@ module.exports = {
       // Spread set into array.
       const products = shoppingCart.getItems()
       const subtotal = shoppingCart.getSubtotal()
-      const stripe = Stripe('pk_test_4VicAuG5Ou9zuqA4LVIRI0dC')
+      const stripe = Stripe('pk_test_Lz1JhxYc3eAnK4P3Sc8kQHsh')
 
       // Rebuild objects that were stored in the local storage.
       for (let i = 0; i < products.length; i++) {
@@ -39,6 +39,10 @@ module.exports = {
         app.currentView = 'loading'
         checkoutComponent.setCheckout(new CartResult(shoppingCart))
         app.currentView = 'checkout'
+      })
+
+      router('/checkout-success', () => {
+        app.currentView = 'checkoutSuccess'
       })
     }
 
