@@ -6,7 +6,6 @@ CMU Heinz 95729 Course Project Team Dexter (2018)
 1. Shopping Cart
 1. User Profile
 1. Customer User Experience
-1. Review System
 
 ## Getting Started
 
@@ -29,6 +28,14 @@ $ cd web
 $ npm install
 $ npm run style
 $ npm start
+```
+
+## Testing
+```Shell
+$ cd web
+$ npm test
+$ cd ../api
+$ npm test
 ```
 
 ## Starting the CUI app
