@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'homeComponent',
-  dependencies: ['Vue', 'locale', 'productsComponent'],
-  factory: (Vue, locale, productsComponent) => {
+  dependencies: ['Vue', 'locale', 'productsComponent', 'storage'],
+  factory: (Vue, locale, productsComponent, storage) => {
     'use strict'
     var state = { products: [] }
 

@@ -10,6 +10,7 @@ module.exports = {
     const component = Vue.component('products', {
       template: `
         <div class="products-component">
+          <h2> These are the recommended books based on your preferred categories or searched string </h2>
           <div class="row">
             <div v-for="product in products">
               <div class="col-sm-6 col-md-4 product-col">

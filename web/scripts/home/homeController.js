@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'homeController',
-  dependencies: ['router', 'productsComponent', 'Product', 'productsRepo'],
-  factory: (router, productsCategoriesComponent, Product, repo) => {
+  dependencies: ['router', 'productsComponent', 'Product', 'productsRepo', 'storage'],
+  factory: (router, productsComponent, Product, repo, storage) => {
     'use strict'
 
     /**
@@ -15,14 +15,14 @@ module.exports = {
 
       router('/', () => {
         // let user = storage.get('user')
-        repo.search('fiction', (err, products) => {
+        repo.search('love', (err, products) => {
           if (err) {
             console.log(err)
             // TODO: render error view
           }
 
           if (products && products.length) {
-            productsCategoriesComponent.setProducts(new ProductSearchResult(products))
+            productsComponent.setProducts(new ProductSearchResult(products))
             app.currentView = 'products'
           } else {
             // TODO: route to a "none found" page
