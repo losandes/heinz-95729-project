@@ -30,6 +30,7 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     // Get a single user
     */
   const get = (email) => {
+	  //console.log(email)
     return new Promise((resolve, reject) => {
       if (is.not.string(email)) {
         return reject(new Error('An email is required to get a User'))

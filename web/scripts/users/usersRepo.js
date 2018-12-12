@@ -20,7 +20,11 @@ module.exports = {
         body
       }, callback)
     }
+	
+	const my_history = (body, callback) =>{
+	repo.get({path:'/history'}, callback)
+	}
 
-    return { login, register }
+    return { login, register, my_history}
   }
 }
