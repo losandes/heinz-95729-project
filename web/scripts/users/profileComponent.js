@@ -38,8 +38,6 @@ module.exports = {
             </tr>
           </table>
         </div>
-        <br/>
-        <br/>
         <button class="btn btn-primary" v-on:click="logout">Logout</button>
         <br />
         <br />

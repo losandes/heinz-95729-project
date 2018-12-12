@@ -1,6 +1,6 @@
 module.exports.name = 'usersRepo'
-module.exports.dependencies = ['db', 'User', 'polyn']
-module.exports.factory = (db, User, { Blueprint, is }) => {
+module.exports.dependencies = ['db', 'UserPurchaseHistory', 'User', 'polyn']
+module.exports.factory = (db, UserPurchaseHistory, User, { Blueprint, is }) => {
   const collection = db.collection(User.db.collection)
 
   User.db.indexes.forEach(index => {
@@ -100,6 +100,31 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
   }
 
   /*
+// Add a purchase to purchase history
+*/
+  const getPurchases = (email) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(email)) {
+        return reject(new Error('An email is required to get purchase history'))
+      }
+
+      collection.find({ email })
+        .limit(1)
+        .next((err, doc) => {
+          if (err) {
+            return reject(err)
+          }
+
+          if (doc) {
+            return resolve(new UserPurchaseHistory(doc))
+          } else {
+            return resolve()
+          }
+        })
+    })
+  }
+
+  /*
   // Get a single user
   */
   const get = (email) => {
@@ -124,5 +149,5 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     })
   }
 
-  return { create, addCategory, removeCategory, addPurchase, get }
+  return { create, addCategory, removeCategory, addPurchase, getPurchases, get }
 }
