@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutComponent',
-  dependencies: ['Vue', 'ShoppingCart', 'router'],
-  factory: (Vue, shoppingCart, router) => {
+  dependencies: ['Vue', 'ShoppingCart', 'router', 'storage'],
+  factory: (Vue, shoppingCart, router, storage) => {
     'use strict'
 
     let state = { products: [], subtotal: 0.0, shoppingCart, stripe: {} }
@@ -64,8 +64,8 @@ module.exports = {
           card = state.stripe.elements().create('card')
           card.mount('#card-element')
           // Add event listener for input errors in real time.
+          const displayError = document.getElementById('card-errors')
           card.addEventListener('change', function (event) {
-            var displayError = document.getElementById('card-errors')
             if (event.error) {
               displayError.textContent = event.error.message
             } else {
@@ -76,28 +76,35 @@ module.exports = {
           const form = document.getElementById('payment-form')
           form.addEventListener('submit', function (event) {
             event.preventDefault()
-
-            state.stripe.createToken(card).then(function (result) {
-              if (result.error) {
-                // Inform the customer that there was an error.
-                var errorElement = document.getElementById('card-errors')
-                errorElement.textContent = result.error.message
-              } else {
-                // Send the token to your server.
-                console.log('Payment token created')
-                console.log(result.token)
-                console.log(`Still need to charge user $${state.subtotal}`)
-                // TODO: Send token to server to charge card
-                // After charging the user, add the purchase to their purchase history
-                // Route user to page where they can download the e-book.
-                // Empty the shopping cart after as well.
-                router.navigate('/')
-              }
-            })
+            if (storage.get('user')) {
+              createToken()
+            } else {
+              displayError.textContent = 'Please login to complete your purchase'
+            }
           })
         }
       }
     })
+
+    function createToken () {
+      state.stripe.createToken(card).then(function (result) {
+        if (result.error) {
+          // Inform the customer that there was an error.
+          var errorElement = document.getElementById('card-errors')
+          errorElement.textContent = result.error.message
+        } else {
+          // Send the token to your server.
+          console.log('Payment token created')
+          console.log(result.token)
+          console.log(`Still need to charge user $${state.subtotal}`)
+          // TODO: Send token to server to charge card
+          // After charging the user, add the purchase to their purchase history
+          // Route user to page where they can download the e-book.
+          // Empty the shopping cart after as well.
+          router.navigate('/')
+        }
+      })
+    }
 
     const setCheckout = (cart) => {
       state = cart

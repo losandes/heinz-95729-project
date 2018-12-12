@@ -49,9 +49,9 @@
 
     <!-- Set username if available -->
     <script>
-        if (sessionStorage.user){
+        if (localStorage.user){
             document.getElementById('username-view').innerHTML
-                = "<u>" + JSON.parse(sessionStorage.user).payload.name + "</u>"
+                = "<u>" + JSON.parse(localStorage.user).payload.name + "</u>"
         }
     </script>
 

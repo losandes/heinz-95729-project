@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutController',
-  dependencies: ['router', 'Stripe', 'checkoutComponent', 'ShoppingCart'],
-  factory: (router, Stripe, checkoutComponent, shoppingCart) => {
+  dependencies: ['router', 'Stripe', 'checkoutComponent', 'ShoppingCart', 'Product'],
+  factory: (router, Stripe, checkoutComponent, shoppingCart, Product) => {
     'use strict'
 
     /**
@@ -14,6 +14,13 @@ module.exports = {
       const products = shoppingCart.getItems()
       const subtotal = shoppingCart.getSubtotal()
       const stripe = Stripe('pk_test_4VicAuG5Ou9zuqA4LVIRI0dC')
+
+      // Rebuild objects that were stored in the local storage.
+      for (let i = 0; i < products.length; i++) {
+        if (!products[i].viewDetails) {
+          products[i] = new Product(products[i])
+        }
+      }
 
       return {
         products,
