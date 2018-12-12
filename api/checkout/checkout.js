@@ -1,15 +1,7 @@
 module.exports.name = 'checkout'
-module.exports.dependencies = ['usersRepo']
-module.exports.factory = function (repo) {
+module.exports.dependencies = ['stripe']
+module.exports.factory = function (stripe) {
   'use strict'
-
-  var stripe = require('stripe')('sk_test_msbYVDiCFgtNQsqZCZqnckYf')
-
-  /* const register = (body) => (resolve, reject) => {
-    return repo.create(body)
-      .then(resolve)
-      .catch(reject)
-  } */
 
   const charge = (checkoutInfo, curDate) => (resolve, reject) => {
     return stripe.charges.create({

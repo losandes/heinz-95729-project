@@ -2,6 +2,7 @@
     "PORT": 3000,
     "projectName": "heinz-95729",
     "storeThisConfigInMemory": true,
+    "stripe_sk": "sk_test_msbYVDiCFgtNQsqZCZqnckYf",
     "db": {
         "connection-string": "mongodb://localhost:27017/heinz95729"
     },

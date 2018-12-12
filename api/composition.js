@@ -10,6 +10,8 @@ const MongoClient = require('mongodb').MongoClient
 // directories
 const environment = require('./common/environment/environment.js')
 const env = environment.factory(nconf)
+const secretKey = env.get('stripe_sk')
+const stripe = require('stripe')(secretKey)
 const scopeId = env.get('projectName')
 // log and various other function defined at bottom
 
@@ -53,6 +55,7 @@ function init () {
       scope.register({ name: 'appDir', factory: __dirname })
       scope.register({ name: 'ObjectID', factory: ObjectID, dependencies: [] })
       scope.register({ name: 'environment', factory: function () { return env } })
+      scope.register({ name: 'stripe', factory: function () { return stripe } })
       next(null, scope)
     },
     function connectToAndRegisterDataConnection (scope, next) {
