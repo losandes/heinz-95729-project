@@ -1,12 +1,13 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutComponent',
-  dependencies: ['Vue', 'ShoppingCart', 'router'],
-  factory: (Vue, shoppingCart, router) => {
+  dependencies: ['Vue', 'ShoppingCart', 'router', 'storage', 'checkoutRepo', 'Checkout'],
+  factory: (Vue, shoppingCart, router, storage, checkoutRepo, Checkout) => {
     'use strict'
 
     let state = { products: [], subtotal: 0.0, shoppingCart, stripe: {} }
     let card = 'invalid'
+    let message = {}
 
     const component = Vue.component('checkout', {
       template: `
@@ -64,8 +65,9 @@ module.exports = {
           card = state.stripe.elements().create('card')
           card.mount('#card-element')
           // Add event listener for input errors in real time.
+          const displayError = document.getElementById('card-errors')
+          message = displayError
           card.addEventListener('change', function (event) {
-            var displayError = document.getElementById('card-errors')
             if (event.error) {
               displayError.textContent = event.error.message
             } else {
@@ -76,28 +78,50 @@ module.exports = {
           const form = document.getElementById('payment-form')
           form.addEventListener('submit', function (event) {
             event.preventDefault()
-
-            state.stripe.createToken(card).then(function (result) {
-              if (result.error) {
-                // Inform the customer that there was an error.
-                var errorElement = document.getElementById('card-errors')
-                errorElement.textContent = result.error.message
-              } else {
-                // Send the token to your server.
-                console.log('Payment token created')
-                console.log(result.token)
-                console.log(`Still need to charge user $${state.subtotal}`)
-                // TODO: Send token to server to charge card
-                // After charging the user, add the purchase to their purchase history
-                // Route user to page where they can download the e-book.
-                // Empty the shopping cart after as well.
-                router.navigate('/')
-              }
-            })
+            if (storage.get('user')) {
+              createToken()
+            } else {
+              displayError.textContent = 'Please login to complete your purchase'
+            }
           })
         }
       }
     })
+
+    function createToken () {
+      state.stripe.createToken(card).then(function (result) {
+        if (result.error) {
+          // Inform the customer that there was an error.
+          var errorElement = document.getElementById('card-errors')
+          errorElement.textContent = result.error.message
+        } else {
+          // Send the token to the server.
+          const checkout = new Checkout({
+            email: storage.get('user').email,
+            tokenID: result.token.id,
+            total: state.subtotal,
+            products: state.products
+          })
+          checkoutRepo.charge(checkout, (err, res) => {
+            if (err) {
+              console.log(err)
+              console.log('Charge failed')
+              return
+            }
+
+            // Empty the shopping cart.
+            while (shoppingCart.getItems().length !== 0) {
+              shoppingCart.removeItem(state.products[0])
+            }
+            router.navigate('/checkout-success')
+          })
+          message.textContent = 'Please wait while we process your order'
+          // TODO: Are we allowing user to download a fake e-book?
+          // If so, this can be done from user profile.
+          // Should we add tax?
+        }
+      })
+    }
 
     const setCheckout = (cart) => {
       state = cart

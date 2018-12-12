@@ -37,8 +37,7 @@ module.exports = {
             storage.set('user', res.user)
 
             // Set username view
-            document.getElementById('username-view').innerHTML
-                = '<u>' + res.user.name + '</u>'
+            document.getElementById('username-view').innerHTML = '<u>' + res.user.name + '</u>'
 
             return router.navigate('/')
           })

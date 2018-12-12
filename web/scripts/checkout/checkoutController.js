@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutController',
-  dependencies: ['router', 'Stripe', 'checkoutComponent', 'ShoppingCart'],
-  factory: (router, Stripe, checkoutComponent, shoppingCart) => {
+  dependencies: ['router', 'Stripe', 'checkoutComponent', 'ShoppingCart', 'Product', 'environment'],
+  factory: (router, Stripe, checkoutComponent, shoppingCart, Product, env) => {
     'use strict'
 
     /**
@@ -13,7 +13,15 @@ module.exports = {
       // Spread set into array.
       const products = shoppingCart.getItems()
       const subtotal = shoppingCart.getSubtotal()
-      const stripe = Stripe('pk_test_4VicAuG5Ou9zuqA4LVIRI0dC')
+      const pubKey = env.get('stripe_pk')
+      const stripe = Stripe(pubKey)
+
+      // Rebuild objects that were stored in the local storage.
+      for (let i = 0; i < products.length; i++) {
+        if (!products[i].viewDetails) {
+          products[i] = new Product(products[i])
+        }
+      }
 
       return {
         products,
@@ -32,6 +40,10 @@ module.exports = {
         app.currentView = 'loading'
         checkoutComponent.setCheckout(new CartResult(shoppingCart))
         app.currentView = 'checkout'
+      })
+
+      router('/checkout-success', () => {
+        app.currentView = 'checkoutSuccess'
       })
     }
 

@@ -1,7 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'ShoppingCart',
-  factory: () => {
+  dependencies: ['storage'],
+  factory: (storage) => {
     'use strict'
 
     const cart = new ShoppingCart()
@@ -9,7 +10,11 @@ module.exports = {
     return cart
 
     function ShoppingCart () {
-      const products = []
+      let products = []
+      products = storage.get('cartItems')
+      if (products === null) {
+        products = []
+      }
 
       return {
         products,
@@ -27,6 +32,7 @@ module.exports = {
         const demo = false
         if (findIndex(product) === -1) {
           products.push(product)
+          saveCart()
           if (demo) { alert(`${product.title} added to cart!`) }
         } else {
           if (demo) { alert(`${product.title} is already in your cart.`) }
@@ -35,6 +41,11 @@ module.exports = {
 
       function removeItem (product) {
         products.splice(findIndex(product), 1)
+        saveCart()
+      }
+
+      function saveCart () {
+        storage.set('cartItems', products)
       }
 
       function getItems () {

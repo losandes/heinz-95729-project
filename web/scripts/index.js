@@ -1,5 +1,5 @@
-/* global hilary, Vue, page, sessionStorage */
-(function (hilary, Vue, page, sessionStorage) {
+/* global hilary, Vue, page, localStorage */
+(function (hilary, Vue, page, localStorage) {
   'use strict'
 
   const scope = hilary.scope('heinz', {
@@ -24,7 +24,7 @@
     (scope, next) => {
       log('registering utils')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       scope.register({ name: 'locale', factory: locale, dependencies: false })
-      scope.register({ name: 'storage-engine', factory: sessionStorage, dependencies: false })
+      scope.register({ name: 'storage-engine', factory: localStorage, dependencies: false })
 
       next(null, scope)
     },
@@ -130,4 +130,4 @@
       log('application running')
     }
   })
-}(hilary, Vue, page, sessionStorage))
+}(hilary, Vue, page, localStorage))
