@@ -109,7 +109,6 @@ module.exports = {
               return
             }
 
-            console.log(res)
             // Empty the shopping cart.
             while (shoppingCart.getItems().length !== 0) {
               shoppingCart.removeItem(state.products[0])
@@ -117,8 +116,8 @@ module.exports = {
             router.navigate('/checkout-success')
           })
           message.textContent = 'Please wait while we process your order'
-          // TODO: After charging the user, add the purchase to their purchase history
-          // Route user to page where they can download the e-book.
+          // TODO: Are we allowing user to download a fake e-book?
+          // If so, this can be done from user profile.
           // Should we add tax?
         }
       })

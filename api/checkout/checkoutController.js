@@ -1,15 +1,20 @@
 module.exports.name = 'checkoutController'
-module.exports.dependencies = ['router', 'checkout']
-module.exports.factory = function (router, checkout) {
+module.exports.dependencies = ['router', 'checkout', 'modifyUser']
+module.exports.factory = function (
+  router,
+  checkout,
+  { addPurchase }
+) {
   router.post('/checkout/:email', function (req, res) {
     const checkoutInfo = req.body.checkout
+    const purchaseDate = new Date()
 
     Promise.resolve(checkoutInfo)
-      .then(checkoutInfo => new Promise(checkout.charge(checkoutInfo, new Date())))
-      .then(charge => res.status(200).send(charge))
+      .then(checkoutInfo => new Promise(checkout.charge(checkoutInfo, purchaseDate)))
+      .then(() => new Promise(addPurchase(checkoutInfo, purchaseDate)))
+      .then(() => res.status(200).send({ 'status': 'Payment complete and purchase history updated.' }))
       .catch(err => {
-        console.log(err)
-        res.status(401).send(err)
+        res.status(400).send(err)
       })
   })
 
