@@ -15,7 +15,7 @@ module.exports.factory = function (nconf) {
     .file('environment', './common/environment/environment.json')
   // ^^ Note that these are relative to root
 
-    // check to see if the configuration turns memory off (default is true)
+  // check to see if the configuration turns memory off (default is true)
   useMemory = nconf.get('storeThisConfigInMemory')
   useMemory = useMemory !== undefined ? useMemory : true
 
