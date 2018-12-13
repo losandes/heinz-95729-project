@@ -118,7 +118,7 @@ module.exports.factory = (db, UserPurchaseHistory, User, { Blueprint, is }) => {
           if (doc) {
             return resolve(new UserPurchaseHistory(doc))
           } else {
-            return resolve()
+            return reject(err)
           }
         })
     })

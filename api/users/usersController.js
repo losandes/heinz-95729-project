@@ -85,7 +85,7 @@ module.exports.factory = (
       })
   })
 
-  router.get('/users/:email/purchasehistory', function (req, res) {
+  router.get('/users/:email/purchase-history', function (req, res) {
     Promise.resolve()
       .then(() => new Promise(getUser(req.params.email)))
       .then(user => {

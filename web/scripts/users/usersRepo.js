@@ -36,7 +36,7 @@ module.exports = {
 
     const getHistory = (email, callback) => {
       repo.get({
-        path: '/users/' + email + '/purchasehistory'
+        path: '/users/' + email + '/purchase-history'
       }, callback)
     }
 
