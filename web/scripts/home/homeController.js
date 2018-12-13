@@ -1,37 +1,38 @@
 module.exports = {
   scope: 'heinz',
   name: 'homeController',
-  dependencies: ['router', 'productsComponent', 'Product', 'productsRepo', 'storage'],
-  factory: (router, productsComponent, Product, repo, storage) => {
+  dependencies: ['router', 'homeComponent', 'Product', 'productsRepo', 'storage'],
+  factory: (router, homeComponent, Product, repo, storage) => {
     'use strict'
 
     /**
      * Route binding (controller)
      */
     function registerRoutes (app) {
-      // router('/', () => {
-      //   app.currentView = 'home'
-      // })
-
       router('/', () => {
-        let user = storage.get('user')
-        console.log(user.categories)
-        console.log(user.categories[0])
-        // let categoriesArray = JSON.parse(categories)
-        repo.search(user.categories[0], (err, products) => {
-          if (err) {
-            console.log(err)
-            // TODO: render error view
-          }
+        const user = storage.get('user')
+        if (user !== null && user.categories[0] !== undefined) {
+          const chosenCategory = user.categories[0]
+          repo.search(chosenCategory, (err, products) => {
+            if (err) {
+              console.log(err)
+              // TODO: render error view
+            }
 
-          if (products && products.length) {
-            productsComponent.setProducts(new ProductSearchResult(products))
-            app.currentView = 'products'
-          } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
-          }
-        })
+            app.currentView = 'loading'
+            if (products && products.length) {
+              homeComponent.setProducts(new ProductSearchResult(products, chosenCategory))
+            } else {
+              // TODO: route to a "none found" page
+              homeComponent.setProducts(new ProductSearchResult(null))
+            }
+            app.currentView = 'home'
+          })
+        } else {
+          app.currentView = 'loading'
+          homeComponent.setProducts(new ProductSearchResult(null))
+          app.currentView = 'home'
+        }
       })
     }
 
@@ -39,7 +40,7 @@ module.exports = {
      * A view model for the search results (an array of products)
      * @param {Array} products - the products that were returned by the result
      */
-    function ProductSearchResult (products) {
+    function ProductSearchResult (products, category) {
       if (!Array.isArray(products)) {
         return {
           products: []
@@ -47,7 +48,8 @@ module.exports = {
       }
 
       return {
-        products: products.map(product => new Product(product))
+        products: products.map(product => new Product(product)),
+        category
       }
     }
 
