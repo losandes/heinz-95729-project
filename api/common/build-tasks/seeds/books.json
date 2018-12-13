@@ -7,7 +7,7 @@
     "authors": [{
       "name": "Jonathan Tropper"
     }] , 
-    "categories": [	"horror","fiction"]
+    "categories": [	"psychological"]
   },
   "price": 8.77,
   "thumbnailLink": "/images/books/beforeIGo.jpg",
@@ -21,7 +21,7 @@
     "authors": [{
       "name": "Jacob Bacharach"
     }],
-    "categories": [	"fiction","philosophy"]
+    "categories": [	"philosophy"]
   },
   "price": 12.99,
   "thumbnailLink": "/images/books/bendOfTheWorld.jpg",
@@ -49,7 +49,7 @@
     "authors": [{
       "name": "Douglas Adams"
     }],
-    "categories": [	"fiction","crime","mystry"]
+    "categories": [	"crime","mystery"]
   },
   "price": 6.83,
   "thumbnailLink": "/images/books/dirkgently.jpeg",
@@ -80,7 +80,7 @@
     "keywords": [
       "hitchhiker"
     ],
-    "categories": [	"fiction","fantasy"]
+    "categories": [	"science-fiction","fantasy"]
   },
   "price": 4.59,
   "thumbnailLink": "/images/books/hitchiker.jpeg",
@@ -94,7 +94,7 @@
     "authors": [{
       "name": "Jonathan Tropper"
     }],
-    "categories": [	"fiction"]
+    "categories": [	"drama", "comedy"]
   },
   "price": 7.99,
   "thumbnailLink": "/images/books/whereILeaveYou.jpg",
@@ -108,7 +108,7 @@
     "authors": [{
       "name": "Edward St. Aubyn"
     }],
-    "categories": [	"fiction","philosophy"]
+    "categories": [	"philosophy"]
   },
   "price": 11.04,
   "thumbnailLink": "/images/books/lostForWords.jpg",
@@ -126,7 +126,7 @@
       "hitchhiker",
       "hitchhiker's guide to the galaxy"
     ],
-    "categories": [	"fiction","fantasy","science-fiction"]
+    "categories": [	"fantasy","science-fiction"]
   },
   "price": 6.83,
   "thumbnailLink": "/images/books/restaurantuniverse.jpeg",
@@ -140,7 +140,7 @@
     "authors": [{
       "name": "Tom Rachman"
     }],
-    "categories": [	"philosophy","biography"]
+    "categories": [	"philosophy"]
   },
   "price": 11.84,
   "thumbnailLink": "/images/books/riseAndFall.jpg",
@@ -158,7 +158,7 @@
       "India",
       "Indian"
     ],
-    "categories": [	"autobiography","religion"]
+    "categories": [	"auto-biography","religion"]
   },
   "price": 0.99,
   "thumbnailLink": "/images/books/siddhartha.jpg",
@@ -172,7 +172,7 @@
     "authors": [{
       "name": "Tom Robbins"
     }],
-    "categories": [	"love","crime","mystry"]
+    "categories": [	"love","crime","mystery"]
   },
   "price": 9.99,
   "thumbnailLink": "/images/books/woodpecker.jpg",
@@ -189,7 +189,7 @@
     "keywords": [
       "swamp"
     ],
-    "categories": [	"fiction","mystry"]
+    "categories": [	"magic realism","mystery"]
   },
   "price": 9.99,
   "thumbnailLink": "/images/books/swamplandia.jpg",
@@ -203,7 +203,7 @@
     "authors": [{
       "name": "Tom Robbins"
     }],
-    "categories": [	"fiction","mystry"]
+    "categories": [	"biography","mystery"]
   },
   "price": 12.74,
   "thumbnailLink": "/images/books/tibetanPeachPie.jpg",
@@ -221,7 +221,7 @@
       "hitchhiker",
       "hitchhiker's guide to the galaxy"
     ],
-    "categories": [	"fiction","fantasy","science-fiction"]
+    "categories": [	"fantasy","science-fiction"]
   },
   "price": 5.99,
   "thumbnailLink": "/images/books/lifeandeverything.jpeg",
@@ -235,7 +235,7 @@
     "authors": [{
       "name": "Jennifer Egan"
     }],
-    "categories": [	"fiction","mystry"]
+    "categories": [	"psychological"]
   },
   "price": 9.77,
   "thumbnailLink": "/images/books/goonSquad.jpg",
@@ -253,7 +253,7 @@
       "India",
       "Indian"
     ],
-    "categories": [	"fiction","crime","comedy"]
+    "categories": [	"mystery"]
   },
   "price": 8.62,
   "thumbnailLink": "/images/books/whiteTiger.jpg",
@@ -267,7 +267,7 @@
     "authors": [{
       "name": "Cheryl Strayed"
     }],
-    "categories": [	"fiction","sad","inspirational"]
+    "categories": [	"auto-biography","inspirational"]
   },
   "price": 6.99,
   "thumbnailLink": "/images/books/wild.jpg",
@@ -281,7 +281,7 @@
     "authors": [{
       "name": "Tom Robbins"
     }],
-    "categories": [	"sad","fiction"]
+    "categories": ["anthology"]
   },
   "price": 9.41,
   "thumbnailLink": "/images/books/flyingBackward.jpg",
@@ -295,7 +295,7 @@
     "authors": [{
       "name": "Chimamanda Ngozi Adichie"
     }],
-    "categories": [	"history","autobiography","inspirational"]
+    "categories": [	"history","auto-biography","inspirational"]
   },
   "price": 8.99,
   "thumbnailLink": "/images/books/yellowSun.jpg",
