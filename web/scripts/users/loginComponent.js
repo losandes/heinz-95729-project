@@ -36,6 +36,15 @@ module.exports = {
             storage.set('jwt', res.authToken)
             storage.set('user', res.user)
 
+            usersRepo.getHistory(email, (err, res) => {
+              if (err) {
+                alert('Check connection')
+                return
+              }
+
+              storage.set('purchaseHistory', res)
+            })
+
             // Set username view
             document.getElementById('username-view').innerHTML = '<u>' + res.user.name + '</u>'
 

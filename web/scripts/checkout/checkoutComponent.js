@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'checkoutComponent',
-  dependencies: ['Vue', 'ShoppingCart', 'router', 'storage', 'checkoutRepo', 'Checkout'],
-  factory: (Vue, shoppingCart, router, storage, checkoutRepo, Checkout) => {
+  dependencies: ['Vue', 'ShoppingCart', 'router', 'storage', 'checkoutRepo', 'Checkout', 'usersRepo'],
+  factory: (Vue, shoppingCart, router, storage, checkoutRepo, Checkout, usersRepo) => {
     'use strict'
 
     let state = { products: [], subtotal: 0.0, shoppingCart, stripe: {} }
@@ -113,6 +113,16 @@ module.exports = {
             while (shoppingCart.getItems().length !== 0) {
               shoppingCart.removeItem(state.products[0])
             }
+
+            // Reload purchase history
+            usersRepo.getHistory(storage.get('user').email, (err, res) => {
+              if (err) {
+                console.log('Check connection')
+                return
+              }
+
+              storage.set('purchaseHistory', res)
+            })
             router.navigate('/checkout-success')
           })
           message.textContent = 'Please wait while we process your order'
