@@ -11,6 +11,8 @@ module.exports = {
       template: `
       <div id="profile-root">
         <div id="user-profile">
+          <h2 style="text-align: center">Profile Information</h2>
+          </br>
           <div class="form-group">
             <label>Full Name</label></br>
             {{storage.get('user').name}}
@@ -45,7 +47,7 @@ module.exports = {
         </div>
 
         <div id="purchase-history">
-          <h1>Purchase History</h1>
+          <h2 style="text-align: center">Purchase History</h2>
           <div class="purchase-item" v-for="purchase in storage.get('purchaseHistory')">
             <label>{{moment(purchase.time).format('MMMM Do YYYY')}}</label></br>
             <label>Total:</label>&nbsp{{'$' + purchase.amount/100}}
