@@ -64,7 +64,7 @@
         components
       })
 
-      scope.register({ name: 'app1', factory: app, dependencies: false })
+      scope.register({ name: 'app', factory: app, dependencies: false })
 
       next(null, app, scope)
     },
@@ -91,7 +91,6 @@
     },
     (headerComponent, app, scope, next) => {
       log('registering routes')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
       const byControllers = () => key => {
         return key.toLowerCase().indexOf('controller') > -1
