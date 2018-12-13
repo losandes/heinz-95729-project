@@ -62,7 +62,7 @@ module.exports = {
           <h2>Purchase History</h2>
           <div class="purchase-item" v-for="purchase in storage.get('purchaseHistory')">
             <label>{{moment(purchase.time).format('MMMM Do YYYY')}}</label></br>
-            <label>Total:</label>&nbsp{{'$' + purchase.amount/100}}
+            <label>Total:</label>&nbsp{{'$' + (purchase.amount/100).toFixed(2)}}
             </br>
             <table v-if="purchase.items.length >= 1">
               <col width="60%">
@@ -78,7 +78,7 @@ module.exports = {
                     <a href="javascript:void(0);" v-on:click="viewItem(item)">{{item.title}}</a>
                   </td>
                   <td>
-                    {{item.price}}
+                    {{ item.price.toFixed(2) }}
                   </td>
                   <td>
                     <div v-for="author in item.authors">{{author.name}}</div>
