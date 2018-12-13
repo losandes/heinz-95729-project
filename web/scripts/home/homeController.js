@@ -14,8 +14,11 @@ module.exports = {
       // })
 
       router('/', () => {
-        // let user = storage.get('user')
-        repo.search('love', (err, products) => {
+        let user = storage.get('user')
+        console.log(user.categories)
+        console.log(user.categories[0])
+        // let categoriesArray = JSON.parse(categories)
+        repo.search(user.categories[0], (err, products) => {
           if (err) {
             console.log(err)
             // TODO: render error view
