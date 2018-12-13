@@ -22,7 +22,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
       return
     }
 
-
+    // Create purchase history
     for (let i = 0; i < doc.purchaseHistory.length; i++) {
       self[i] = {}
       self[i].time = doc.purchaseHistory[i].time
@@ -30,6 +30,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
       self[i].items = []
 
       let noItems = doc.purchaseHistory[i].products.length
+
       for (let j = 0; j < noItems; j++) {
         let item = {}
         item.type = doc.purchaseHistory[i].products[j].type
@@ -40,6 +41,9 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
         self[i].items[j] = item
       }
     }
+
+    // Order by purchase date
+    self.sort(function (a, b) { return b.time - a.time })
 
     return self
   }
