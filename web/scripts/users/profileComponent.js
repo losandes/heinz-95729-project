@@ -6,7 +6,14 @@ module.exports = {
   factory: (router, Vue, usersRepo, storage) => {
     'use strict'
 
-    var state = { storage, newcat: null }
+    const categories = [
+      'history', 'auto-biography', 'inspirational', 'love', 'crime',
+      'anthology', 'mystery', 'psychological', 'fantasy',
+      'science-fiction', 'biography', 'magic realism', 'religion',
+      'philosophy', 'drama', 'comedy', 'technology', 'software engineering'
+    ]
+    var state = { storage, newcat: null, categories }
+
     const component = Vue.component('profile', {
       template: `
       <div id="profile-root">
@@ -34,9 +41,14 @@ module.exports = {
                 </td>
               </tr>
               <tr>
-                <td class = "td"><input v-model="newcat" name="newcat" class="form-control form-control-sm" type="text" placeholder="New Category"></td>
                 <td class = "td">
-                <button class="btn btn btn-success btn-sm" v-on:click="addCat">Add</button>
+                  <select v-model="newcat" class="mdb-select md-form">
+                    <option value="" disabled selected>Choose a category</option>
+                    <option v-for="cat in categories" :value="cat">{{ cat }}</option>
+                  </select>
+                </td>
+                <td class = "td">
+                  <button class="btn btn btn-success btn-sm" v-on:click="addCat">Add</button>
                 </td>
               </tr>
             </table>
