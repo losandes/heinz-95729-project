@@ -15,5 +15,11 @@ module.exports.factory = function (repo) {
       .catch(reject)
   }
 
-  return { addCategory, removeCategory }
+  const addPurchase = (checkoutInfo, purchaseDate) => (resolve, reject) => {
+    return repo.addPurchase(checkoutInfo, purchaseDate)
+      .then(resolve)
+      .catch(reject)
+  }
+
+  return { addCategory, removeCategory, addPurchase }
 }

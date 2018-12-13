@@ -2,10 +2,21 @@
 const expect = require('chai').expect
 const productFactory = require('../scripts/products/Product.js').factory
 const ShoppingCartFactory = require('../scripts/cart/ShoppingCart').factory
+// Create mock storage.
+const Storage = function () {
+  const get = (key) => {
+    return null
+  }
+  const set = (key) => {
+    return null
+  }
+
+  return { get, set }
+}
 
 describe('ShoppingCart', function () {
   const Product = productFactory()
-  const shoppingCart = ShoppingCartFactory()
+  const shoppingCart = ShoppingCartFactory(new Storage())
   const product1 = new Product({ type: 'book', uid: 'test1', price: 5.99 })
   const product2 = new Product({ type: 'book', uid: 'test2', price: 5.00 })
 

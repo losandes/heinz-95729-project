@@ -7,7 +7,8 @@ module.exports = {
 
     const env = {
       apiOrigin: 'http://localhost:3000',
-      defaultVersion: '20171101'
+      defaultVersion: '20171101',
+      stripe_pk: 'pk_test_Lz1JhxYc3eAnK4P3Sc8kQHsh'
     }
 
     return {

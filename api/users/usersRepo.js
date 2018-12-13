@@ -1,6 +1,6 @@
 module.exports.name = 'usersRepo'
-module.exports.dependencies = ['db', 'User', 'polyn']
-module.exports.factory = (db, User, { Blueprint, is }) => {
+module.exports.dependencies = ['db', 'UserPurchaseHistory', 'User', 'polyn']
+module.exports.factory = (db, UserPurchaseHistory, User, { Blueprint, is }) => {
   const collection = db.collection(User.db.collection)
 
   User.db.indexes.forEach(index => {
@@ -8,8 +8,8 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
   })
 
   /*
-    // Create a user
-    */
+  // Create a user
+  */
   const create = (payload) => {
     return new Promise((resolve, reject) => {
       if (is.not.object(payload)) {
@@ -28,8 +28,8 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
 
 
   /*
-    // Add Category
-    */
+  // Add Category
+  */
   const addCategory = (email, category) => {
     return new Promise((resolve, reject) => {
       if (is.not.string(email)) {
@@ -54,11 +54,9 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     })
   }
 
-
-
   /*
-    // Remove Category
-    */
+  // Remove Category
+  */
   const removeCategory = (email, category) => {
     return new Promise((resolve, reject) => {
       if (is.not.string(email)) {
@@ -66,8 +64,6 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
       }
 
       if (is.not.string(category.categories)) {
-        console.log(email)
-        console.log(category)
         return reject(new Error('Categories is required to remove a Category'))
       }
 
@@ -80,10 +76,57 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     })
   }
 
+  /*
+  // Add a purchase to purchase history
+  */
+  const addPurchase = (checkoutInfo, purchaseDate) => {
+    const email = checkoutInfo.email
+    const purchaseHistory = {
+      time: purchaseDate,
+      amount: checkoutInfo.total,
+      products: checkoutInfo.products
+    }
+    return new Promise((resolve, reject) => {
+      if (is.not.string(checkoutInfo.email)) {
+        return reject(new Error('An email is required to add the purchase'))
+      }
+      collection.findOneAndUpdate({ email }, { $addToSet: { 'purchaseHistory': purchaseHistory } }, (err, res) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(res)
+      })
+    })
+  }
 
   /*
-    // Get a single user
-    */
+// Add a purchase to purchase history
+*/
+  const getPurchases = (email) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(email)) {
+        return reject(new Error('An email is required to get purchase history'))
+      }
+
+      collection.find({ email })
+        .limit(1)
+        .next((err, doc) => {
+          if (err) {
+            return reject(err)
+          }
+
+          if (doc) {
+            return resolve(new UserPurchaseHistory(doc))
+          } else {
+            return reject(err)
+          }
+        })
+    })
+  }
+
+  /*
+  // Get a single user
+  */
   const get = (email) => {
     return new Promise((resolve, reject) => {
       if (is.not.string(email)) {
@@ -106,5 +149,5 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     })
   }
 
-  return { create, addCategory, removeCategory, get }
+  return { create, addCategory, removeCategory, addPurchase, getPurchases, get }
 }

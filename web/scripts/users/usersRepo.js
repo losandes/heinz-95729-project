@@ -34,6 +34,12 @@ module.exports = {
       }, callback)
     }
 
-    return { login, register, addCat, remCat }
+    const getHistory = (email, callback) => {
+      repo.get({
+        path: '/users/' + email + '/purchase-history'
+      }, callback)
+    }
+
+    return { login, register, addCat, remCat, getHistory }
   }
 }
