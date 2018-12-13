@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'homeController',
-  dependencies: ['router', 'homeComponent', 'Product', 'productsRepo', 'storage'],
-  factory: (router, homeComponent, Product, repo, storage) => {
+  dependencies: ['router'],
+  factory: (router) => {
     'use strict'
 
     /**
@@ -31,6 +31,7 @@ module.exports = {
      */
     function registerRoutes (app) {
       router('/', () => {
+
         const user = storage.get('user')
         // If user is logged in, and they have at least 1 favorite category.
         if (user !== null && user.categories[0] !== undefined) {
@@ -52,6 +53,7 @@ module.exports = {
         }
       })
     }
+
     return { registerRoutes }
   }
 }
