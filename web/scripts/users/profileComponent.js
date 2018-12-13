@@ -59,6 +59,7 @@ module.exports = {
                 <th class="pitem">Item</th>
                 <th class="pprice">Price</th>
                 <th class="pauthor">Author(s)</th>
+                <th>Download</th>
               </tr>
               <tr v-for="item in purchase.items">
                   <td>
@@ -69,6 +70,11 @@ module.exports = {
                   </td>
                   <td>
                     <div v-for="author in item.authors">{{author.name}}</div>
+                  </td>
+                  <td class="download-button">
+                    <a href="https://etc.usf.edu/lit2go/pdf/passage/5352/the-works-of-edgar-allan-poe-078-the-raven.pdf" download>
+                      <i class="fa fa-book" aria-hidden="true"></i>
+                    </a>
                   </td>
               </tr>
             </table>
