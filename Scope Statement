@@ -1,0 +1,92 @@
+Scope Statement
+
+Project Name	 Amazon90s	Date	11/27/2018
+Project Number	1	Project Manager	
+
+
+Business Need / Project Objectives
+Sell eBooks through the internet.
+
+
+
+
+Project Description and How it Meets the Business Need
+Implement a functional website that permits to search, recommend (Some basic recommendations), pay via 
+safe platform, manage the purchase (shopping cart) and review the previous purchases (Purchase history)
+
+
+
+Project Benefits
+1.  Pay via web the books (Nice purchase experience)
+2.  Search and recommend books
+3.  Review your previous purchase.
+
+
+Project Requirements
+1.  Implement a web payment platform 
+2.  Implement a search and recommendation system (Top sellers recommendation only)
+3.  Implement a cart tool to choose purchases
+4. Implement a Purchase history view.
+
+
+Project Deliverables
+1.  Website functioning with the 4 requirements
+2.  User Cases of each functionality (Happy and alternative paths)
+3.  Basic test guide.
+
+
+Project Does Not Include
+1.  Documentation of the new and existing code.
+2.  Recommendations other than top sellers.
+3.  Password for the users.
+
+
+Success / Acceptance Criteria
+1. Pass a basic test. Going through all the User Stories
+2.  User cases for each of the 4 requirements (At least one happy path and 2 alternatives)
+3.  
+
+
+Human Resource Requirements
+Personnel Type / Role	Quantity	Estimated Length of Time
+1.  Developer	3	30 hours
+2.  UX	3	10 hours
+3.  		
+4.		
+5.		
+6.  		
+
+
+Project Assumptions
+1.  The base projects support searches and API implementations.
+2.  Ability to implement the API Stripe.com on the base project
+3.  
+
+
+Decision
+				
+		Approved		Rejected
+				
+		Approved with modifications		Deferred
+				
+Required Modifications
+
+
+
+
+Additional Comments
+
+
+
+
+
+
+__________________________________                 ________________________________
+Approver’s Printed Name                                             Date
+
+__________________________________
+Title
+
+__________________________________
+Signature
+
