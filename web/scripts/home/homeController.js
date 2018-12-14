@@ -16,7 +16,7 @@ module.exports = {
       router('/', () => {
         const user = storage.get('user')
         // If user is logged in, and they have at least 1 favorite category.
-        if (user !== null && user.categories[0] !== undefined) {
+        if (user !== null && user.categories !== undefined) {
           app.currentView = 'loading'
           var userCategoryView = []
           for (let i = 0; i < user.categories.length; i++) {
