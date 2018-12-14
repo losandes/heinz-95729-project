@@ -1,9 +1,12 @@
-Design:
 View:
 •	Search view with the top 5 views.
-•	Check Out view with the items to pay and the total amount, here you can remove items
+•	Check Out view with the items to pay and the total amount, here you can change quantity
 Controllers:
 •	Check out, controls what every user has.
 •	Payment Charges the correct amount for the user.
 •	Quantity controls the number of the total sold copies.
 •	Search, controls the book we have and their tittles.
+Model:
+•	Add purchased quantity to maintain top 5.
+•	Add quantity property to product in cart to enable quantity.
+•	Add purchase history for each user.
