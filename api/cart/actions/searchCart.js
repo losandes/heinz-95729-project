@@ -51,6 +51,5 @@ module.exports.factory = function (db, ProductInCart, getProduct) {
     }).then(userAndProduct => getProductInCart(userAndProduct))
   }
 
-
   return {searchCart}
 }

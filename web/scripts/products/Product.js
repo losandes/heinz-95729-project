@@ -38,10 +38,10 @@ module.exports = {
         }
       }
 
-      self.addToCart = (products) => {
+      self.addToCart = () => {
         console.log(`TODO: add ${self.title} to shopping cart`)
-        console.log(products)
         self.price = 'Added'
+        router.navigate(`/addToCart/${self.uid}`)
       }
 
       return self

@@ -16,6 +16,10 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
         })
       })
     }
-    return {find}
+
+    const add = (pid) => {
+      console.log('tring to add a product to the database: '.concat(pid))
+    }
+    return {find, add}
   })
 }

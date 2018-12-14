@@ -11,22 +11,6 @@ module.exports = {
         subtotal: ps.reduce((p1, p2) => p1.price * p1.quantity + p2.price * p2.quantity),
         email: storage.get('user').email
       }
-
-      self.checkout = () => {
-        console.log(`TODO: checkout`)
-        console.log('subtotal: '.concat(self.subtotal))
-        console.log('email: '.concat(self.email))
-        console.log(self.products)
-        console.log(`TODO: checkout`)
-        repo.checkout(self, (err, success) => {
-          if (err) {
-            console.log(err)
-            // TODO: render error view
-          }
-          console.log('inside repo get ')
-          console.log(success)
-        })
-      }
       self.pay = () => {
         var handler = StripeCheckout.configure({
           key: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
@@ -36,11 +20,17 @@ module.exports = {
             // You can access the token ID with `token.id`.
             // Get the token ID to your server-side code for use.
             console.log('on success')
-            console.log(token.id)
-            // TODO: send to server
+
+            let readyToPay = self.products.filter(p => p.quantity > 0)
+            if(readyToPay.length === 0) {
+              router.navigate('/')
+              return
+            }
+            let productsAndToken = JSON.stringify({ps: readyToPay.map(p => p.uid), tid: token.id})
+            console.log(productsAndToken)
+            router.navigate(`/paymentToServer/${productsAndToken}`)
           }
         })
-        console.log('in side cart.pay')
         handler.open({
           name: 'Pay By Stripe',
           description: String(self.products.map(p => p.quantity).reduce((q1, q2) => q1 + q2)).concat(' Books'),
@@ -52,11 +42,7 @@ module.exports = {
         window.addEventListener('popstate', function () {
           handler.close()
         })
-
-        // router.navigate('/pay')
       }
-
-
       return self
     }
   }
