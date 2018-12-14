@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
-  name: 'Product',
-  dependencies: ['router'],
-  factory: (router) => {
+  name: 'CartProduct',
+  dependencies: ['router', 'cartComponent'],
+  factory: (router, cartComponent) => {
     'use strict'
 
     return function Product (product) {
@@ -20,7 +20,8 @@ module.exports = {
         thumbnailLink: product.thumbnailLink || '/images/products/default.png',
         thumbnailAlt: `thumbnail for ${product.title}`,
         showThumbnail: product.thumbnailLink != null,
-        detailsLink: `/${product.type}/${product.uid}`
+        detailsLink: `/${product.type}/${product.uid}`,
+        quantity: product.quantity
       }
 
       self.viewDetails = (event) => {
@@ -38,10 +39,27 @@ module.exports = {
         }
       }
 
-      self.addToCart = () => {
-        console.log(`TODO: add ${self.title} to shopping cart`)
-        self.price = 'Added'
-        router.navigate(`/addToCart/${self.uid}`)
+      self.subtotal = () => {
+        return Math.round(self.quantity * self.price * 100) / 100
+      }
+
+      self.increment = (state) => {
+        console.log(`TODO: increment ${self.title} to shopping cart`)
+        console.log(state)
+        console.log(self.quantity)
+        self.quantity = self.quantity + 1
+        console.log(self.quantity)
+        cartComponent.updateSubtotal()
+        // document.getElementById('test').textContent = self.quantity
+      }
+
+      self.decrement = () => {
+        if (self.quantity === 0) return
+        console.log(`TODO: decrement ${self.title} to shopping cart`)
+        console.log(self.quantity)
+        self.quantity = self.quantity - 1
+        console.log(self.quantity)
+        cartComponent.updateSubtotal()
       }
 
       return self

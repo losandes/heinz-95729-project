@@ -34,13 +34,14 @@ module.exports = {
             console.log(err)
             // TODO: render error view
           }
-
+          console.log(products)
           if (products && products.length) {
+            console.log('find')
             productsComponent.setProducts(new ProductSearchResult(products))
             app.currentView = 'products'
           } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
+            console.log('not find')
+            app.currentView = 'noSearchResult'
           }
         })
       })
@@ -56,8 +57,7 @@ module.exports = {
             productComponent.setProduct(new Product(product))
             app.currentView = 'product'
           } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
+            app.currentView = 'noSearchResult'
           }
         })
       })

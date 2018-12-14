@@ -15,12 +15,10 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
       if (is.not.object(payload)) {
         return reject(new Error('A payload is required to create a User'))
       }
-
       collection.insertOne(payload, (err, res) => {
         if (err) {
           return reject(err)
         }
-
         return resolve(res)
       })
     })
