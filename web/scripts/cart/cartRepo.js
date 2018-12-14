@@ -22,6 +22,7 @@ module.exports = {
       repo.get({ path: `/products?q=${query}` }, callback)
     }
 
+
     const add = (body, callback) => {
       repo.post({
         path: '/addToCart',
@@ -30,5 +31,6 @@ module.exports = {
     }
 
     return { get, search, checkout, add }
+
   }
 }

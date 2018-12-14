@@ -25,11 +25,13 @@ module.exports = {
      */
     function registerRoutes (app) {
       router('/checkout', (context) => {
+
         console.log('in cartController.js /checkout')
         let user = storage.get('user')
         if (!user) {
           router.navigate('/login')
         }
+
         repo.get(user.email, (err, products) => {
           if (err) {
             console.log(err)
@@ -39,6 +41,7 @@ module.exports = {
             product.quantity = 1
           })
           console.log('inside repo get ')
+
           console.log(products.length)
 
           if (products && products.length) {
@@ -46,10 +49,12 @@ module.exports = {
             cartComponent.setProducts(new Cart(new ProductSearchResult(products)))
             app.currentView = 'productsInCart'
           } else {
+
             router.navigate('/')
           }
         })
       })
+
 
       router('/paymentToServer/:productsAndToken', (context) => {
         console.log('in cartcontroller pay')
@@ -73,6 +78,7 @@ module.exports = {
             console.log(err)
           }
           console.log('add to cart successful')
+
         })
       })
     }
