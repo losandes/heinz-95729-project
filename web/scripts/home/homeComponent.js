@@ -49,7 +49,6 @@ module.exports = {
 
     const setProducts = (customCategories) => {
       state.customCategories = customCategories
-      console.log(state.customCategories)
     }
 
     return { component, setProducts }
