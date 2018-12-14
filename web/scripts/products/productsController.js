@@ -33,12 +33,18 @@ module.exports = {
             console.log(err)
             // TODO: render error view
           }
+<<<<<<< HEAD
           if (products && products.length) { 
+=======
+          console.log(products)
+          if (products && products.length) {
+            console.log('find')
+>>>>>>> 9e0b3948232bc7d6595edd95a5dd962d3e04bb96
             productsComponent.setProducts(new ProductSearchResult(products))
             app.currentView = 'products'
           } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
+            console.log('not find')
+            app.currentView = 'noSearchResult'
           }
         })
       })
@@ -75,8 +81,7 @@ module.exports = {
             productComponent.setProduct(new Product(product))
             app.currentView = 'product'
           } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
+            app.currentView = 'noSearchResult'
           }
         })
       })

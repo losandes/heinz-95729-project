@@ -95,7 +95,6 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
           if (err) {
             return reject(err)
           }
-
           return resolve(docs.map(doc => new Product(doc)))
         })
     })

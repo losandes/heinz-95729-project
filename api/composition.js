@@ -34,7 +34,9 @@ function init () {
     scope.makeRegistrationTask(require('./legos')),
     scope.makeRegistrationTask(require('./products')),
     scope.makeRegistrationTask(require('./users')),
-
+    // Chu's componets >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    scope.makeRegistrationTask(require('./cart')),
+    // Chu's componets >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // TODO: REGISTER ANY NEW FOLDERS YOU CREATE HERE
     // Make sure the folder has an index.js in it.
