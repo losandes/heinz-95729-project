@@ -33,7 +33,8 @@ module.exports = {
 
           usersRepo.register({ name, email }, (err, res) => {
             if (err) {
-              alert('Login failed')
+              alert('Registration failed')
+              console.log(err)
               return
             }
 
@@ -43,7 +44,7 @@ module.exports = {
             // Set username view
             document.getElementById('username-view').innerHTML = '<u>' + res.user.name + '</u>'
 
-            return router.navigate('/')
+            return router.navigate('/login')
           })
         }
       }
