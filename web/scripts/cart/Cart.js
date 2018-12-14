@@ -12,6 +12,7 @@ module.exports = {
         email: storage.get('user').email
       }
 
+
       self.checkout = () => {
         console.log(`TODO: checkout`)
         console.log('subtotal: '.concat(self.subtotal))
@@ -32,12 +33,14 @@ module.exports = {
       self.pay = () => {
         var handler = StripeCheckout.configure({
           key: 'pk_test_dn2mCicRzdaZ41UcglnzcKTM',
+
           image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
           locale: 'auto',
           token: function (token) {
             // You can access the token ID with `token.id`.
             // Get the token ID to your server-side code for use.
             console.log('on success')
+
             console.log(token.id)
             // TODO: send to server
             
@@ -47,11 +50,18 @@ module.exports = {
               currency: 'usd',
               description: 'Example charge',
               source: "tok_mastercard",
-            });
             
+            let readyToPay = self.products.filter(p => p.quantity > 0)
+            if(readyToPay.length === 0) {
+              router.navigate('/')
+              return
+            }
+            let productsAndToken = JSON.stringify({ps: readyToPay.map(p => p.uid), tid: token.id})
+            console.log(productsAndToken)
+            router.navigate(`/paymentToServer/${productsAndToken}`)
           }
         })
-        console.log('in side cart.pay')
+
         handler.open({
           name: 'Pay By Stripe',
           description: String(self.products.map(p => p.quantity).reduce((q1, q2) => q1 + q2)).concat(' Books'),
@@ -64,8 +74,10 @@ module.exports = {
           handler.close()
         })
 
+
         //router.navigate('/pay')
       }
+
 
 
       return self

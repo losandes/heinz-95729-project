@@ -28,7 +28,6 @@ module.exports = {
           // this must be the default VM
           return
         }
-
         switch (self.type) {
           case 'book':
             router.navigate(`/books/${self.uid}`)
@@ -39,8 +38,10 @@ module.exports = {
         }
       }
 
-      self.addToCart = (event) => {
+      self.addToCart = () => {
         console.log(`TODO: add ${self.title} to shopping cart`)
+        self.price = 'Added'
+        router.navigate(`/addToCart/${self.uid}`)
       }
 
       return self

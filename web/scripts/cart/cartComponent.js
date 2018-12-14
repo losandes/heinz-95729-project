@@ -52,9 +52,9 @@ module.exports = {
 
     const setProducts = (cart) => {
       console.log('inside cartComponents trying to set')
-      console.log(cart)
+
       state = cart
-      console.log(state)
+
       updateSubtotal()
     }
 

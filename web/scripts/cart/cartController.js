@@ -25,7 +25,13 @@ module.exports = {
      */
     function registerRoutes (app) {
       router('/checkout', (context) => {
+
+        console.log('in cartController.js /checkout')
         let user = storage.get('user')
+        if (!user) {
+          router.navigate('/login')
+        }
+
         repo.get(user.email, (err, products) => {
           if (err) {
             console.log(err)
@@ -35,48 +41,44 @@ module.exports = {
             product.quantity = 1
           })
           console.log('inside repo get ')
-          console.log(products[0])
+
+          console.log(products.length)
 
           if (products && products.length) {
+            console.log('reset')
             cartComponent.setProducts(new Cart(new ProductSearchResult(products)))
             app.currentView = 'productsInCart'
           } else {
-            // TODO: route to a "none found" page
+
             router.navigate('/')
           }
         })
       })
 
-      router('/pay', (context) => {
-        // let user = storage.get('user')
-        console.log('move to strip')
-        // app.currentView = 'strip'
 
-        var handler = StripeCheckout.configure({
-          key: 'pk_test_dn2mCicRzdaZ41UcglnzcKTM',
-          image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-          locale: 'auto',
-          token: function (token) {
-            // You can access the token ID with `token.id`.
-            // Get the token ID to your server-side code for use.
-            const token = token
-                        
+      router('/paymentToServer/:productsAndToken', (context) => {
+        console.log('in cartcontroller pay')
+        let body = JSON.parse(context.params.productsAndToken)
+        body['email'] = storage.get('user').email
+        console.log(body)
+        repo.checkout(body, (err, success) => {
+          if (err) {
+            console.log(err)
           }
-          
-
+          console.log(success)
+          router.navigate('/checkout') // TODO: fail to refresh by click cart button
         })
-        
+      })
 
-        handler.open({
-          name: 'Stripe.com',
-          description: '2 widgets',
-          zipCode: true,
-          amount: 2000
-        })
+      router('/addToCart/:uid', (context) => {
+        console.log('in cartcontroller add to cart '.concat(context.params.uid))
+        var body = {email: storage.get('user').email, p: context.params.uid}
+        repo.add(body, (err, success) => {
+          if (err) {
+            console.log(err)
+          }
+          console.log('add to cart successful')
 
-        // Close Checkout on page navigation:
-        window.addEventListener('popstate', function () {
-          handler.close()
         })
       })
     }

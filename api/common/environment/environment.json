@@ -3,7 +3,7 @@
     "projectName": "heinz-95729",
     "storeThisConfigInMemory": true,
     "db": {
-        "connection-string": "mongodb://localhost:27017/heinz95729"
+        "connection-string" : "mongodb://chuw:password1@ds037047.mlab.com:37047/e_commerce_cmu"
     },
     "jwt": {
         "secret": "fdaoikn452kn543w8sddfy8sdfgwlkj54wl6jt3456khj",
