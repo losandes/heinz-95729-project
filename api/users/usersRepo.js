@@ -50,13 +50,12 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
         })
     })
   }
-  
-	const AddPurchase = (product, user, quantity) => {
-		user.purchase.push(product.uid)
+
+	const AddPurchase = (user, product) => {
+		user.purchase.push(product)
 		product.purchased_quantity += 1
 	}
 
 
   return { create, get, AddPurchase}
 }
-
