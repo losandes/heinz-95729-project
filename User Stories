@@ -1,0 +1,14 @@
+User Stories
+As a buyer, I want to add a new book to my cart, so I can select it and then buy it.
+As a buyer, I want to add more that one book at my cart, so I can make only one payment for my books
+As a site buyer, I want to add a book to my cart, so I can see what’s the final value (With Tax)
+As a buyer, I want to edit my cart, so if I want to edit some of the books I added, I don’t have to start all over again.
+As a buyer, I want to be able to go and see my previous books, so I can download them again when I need them.
+As a buyer, I want to see my purchase history, so I can see how much I pay for a specific product.
+As a buyer, I want to know if the book was added to the cart, so I don’t add it again.
+As a buyer, When I’m writing my credit card I wanted to be on a safe place.
+As a buyer, I want to know if the credit card that I insert is correct.
+As a buyer, I want to know if I enter an expired Credit Card the software will tell me.
+As a buyer, I want to know if my credit card is valid and if the system recognized it by giving me the tipe of credit card.
+As the owner of the website, I want to be able to see all the transaction and payments.
+As the owner of the website, I want to know how many books have been sold and in which amount each.
