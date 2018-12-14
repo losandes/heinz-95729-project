@@ -61,7 +61,7 @@ module.exports = {
         <div id="purchase-history">
           <h2>Purchase History</h2>
           <div class="purchase-item" v-for="purchase in storage.get('purchaseHistory')">
-            <label>{{moment(purchase.time).format('MMMM Do YYYY')}}</label></br>
+            <label>{{displayDate(purchase.time)}}</label></br>
             <label>Total:</label>&nbsp{{'$' + (purchase.amount/100).toFixed(2)}}
             </br>
             <table v-if="purchase.items.length >= 1">
@@ -145,8 +145,42 @@ module.exports = {
           }
         },
 
-        moment: function () {
-          return moment()
+        displayDate: function (isodate) {
+          let date = new Date(isodate)
+          let month = date.getMonth()
+
+          let display = date.getDate()
+
+          switch (month) {
+            case 0: display += ' January '
+              break
+            case 1: display += ' February '
+              break
+            case 2: display += ' March '
+              break
+            case 3: display += ' April '
+              break
+            case 4: display += ' May '
+              break
+            case 5: display += ' June '
+              break
+            case 6: display += ' July '
+              break
+            case 7: display += ' August '
+              break
+            case 8: display += ' September '
+              break
+            case 9: display += ' October '
+              break
+            case 10: display += ' November '
+              break
+            case 11: display += ' December '
+              break
+          }
+
+          display += date.getFullYear()
+
+          return display
         },
 
         viewItem: function (item) {
