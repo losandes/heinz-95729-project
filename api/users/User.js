@@ -9,7 +9,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
     name: 'string',
     email: 'string',
 	purchase: [{
-		product_id : 'string'
+		product : 'object'
   }]})
 
   User = function (user) {
@@ -29,7 +29,7 @@ module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
     self.name = user.name
     self.email = user.email
 	self.purchase = user.purchase
-	
+
     return self
   }
 
