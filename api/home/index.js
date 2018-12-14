@@ -6,5 +6,5 @@ module.exports = [
   require('./producers/curlProducer.js'),
   require('./producers/goProducer.js'),
   require('./producers/jsProducer-browser-fetch.js'),
-  require('./producers/jsProducer-node-request.js')
+  require('./producers/jsProducer-node-request.js'),
 ]

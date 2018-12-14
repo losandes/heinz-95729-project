@@ -30,6 +30,7 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
     // Get a single user
     */
   const get = (email) => {
+	  //console.log(email)
     return new Promise((resolve, reject) => {
       if (is.not.string(email)) {
         return reject(new Error('An email is required to get a User'))
@@ -43,6 +44,7 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
           }
 
           if (doc) {
+			  //console.log(JSON.stringify(doc))
             return resolve(new User(doc))
           } else {
             return resolve()
@@ -50,6 +52,13 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
         })
     })
   }
+  
+	const AddPurchase = (product, user, quantity) => {
+		user.purchase.push(product.uid)
+		product.purchased_quantity += 1
+	}
 
-  return { create, get }
+
+  return { create, get, AddPurchase}
 }
+

@@ -1,13 +1,13 @@
 module.exports = {
   scope: 'heinz',
-  name: 'productsComponent',
+  name: 'fiveComponent',
   dependencies: ['Vue'],
   factory: (Vue) => {
     'use strict'
 
     var state = { products: [] }
 
-    const component = Vue.component('products', {
+    const component = Vue.component('Five', {
       template: `
         <div class="products-component">
           <div class="row">
@@ -17,17 +17,25 @@ module.exports = {
                   <a class="thumbnail-img" href="javascript:void(0);" v-on:click="product.viewDetails">
                     <img :src="product.thumbnailLink" :alt="product.thumbnailAlt">
                   </a>
-
-                  <div class="caption">
+				  
+                  <div class="caption"> 
                     <h3><a href="javascript:void(0);" v-on:click="product.viewDetails">{{product.title}}</a></h3>
                     <div class="description">{{product.description}}</div>
                     <div class="overlay"></div>
                     <a class="buy-now" href="javascript:void(0);" v-on:click="product.addToCart">{{product.price}}</a>
-                  </div>
-                </div>
-              </div>
+				  </div>
+			
+            
+			</div>
+			
+			<div class="purchased_quantity"> <strong><font size ="+2">Copies Sold : {{product.purchased_quantity}}</font> </strong></div>
+          <div class = "space">------------------------</div>
+			      
+			  </div>
+			  
             </div> <!-- /products -->
-          </div><!-- /row -->
+          
+		  </div><!-- /row -->
         </div><!-- /component -->`,
       data: () => {
         return state

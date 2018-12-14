@@ -35,7 +35,7 @@ module.exports = {
 
             storage.set('jwt', res.authToken)
             storage.set('user', res.user)
-            return router.navigate('/')
+            return router.navigate('/history')
           })
         }
       }

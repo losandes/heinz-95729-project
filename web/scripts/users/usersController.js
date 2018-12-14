@@ -10,8 +10,12 @@ module.exports = {
      * @param {Vue} app - the main Vue instance (not the header)
      */
     function registerRoutes (app) {
+		
       router('/login', () => {
         if (storage.get('jwt')) {
+		console.log('here')
+		app.currentView = 'history'
+		   //app.currentView = 'loading'
           // TODO: the user is logged in, send them to a profile page
         }
 
@@ -21,6 +25,12 @@ module.exports = {
       router('/register', () => {
         app.currentView = 'register'
       })
+	  
+	  router('/history', () => {
+        app.currentView = 'history'
+      })
+	  
+	  
     }
 
     return { registerRoutes }

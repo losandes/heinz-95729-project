@@ -16,6 +16,7 @@ module.exports = {
         description: product.description,
         metadata: product.metadata,
         price: product.price,
+		purchased_quantity: product.purchased_quantity,
         images: [],
         thumbnailLink: product.thumbnailLink || '/images/products/default.png',
         thumbnailAlt: `thumbnail for ${product.title}`,
