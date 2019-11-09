@@ -57,7 +57,7 @@ module.exports.factory = (app, path, appDir, bodyParser, favicon, serveStatic, h
     app.use(corsHandler)
     app.use(helmet.hsts({
       maxAge: 10886400000,        // Must be at least 18 weeks to be approved by Google
-      includeSubdomains: true,    // Must be enabled to be approved by Google
+      includeSubDomains: true,    // Must be enabled to be approved by Google
       preload: true
     }))
     app.use(helmet.frameguard('deny'))

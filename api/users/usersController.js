@@ -1,11 +1,11 @@
 module.exports.name = 'usersController'
 module.exports.dependencies = ['router', 'register', 'login', 'logger']
-module.exports.factory = (
-  router,
-  { register, validateBody },
-  { getUser, makeAuthToken },
-  logger
-) => {
+module.exports.factory = (router, _register, _login, logger) => {
+  'use strict'
+
+  const { register, validateBody } = _register
+  const { getUser, makeAuthToken } = _login
+
   router.post('/users', function (req, res) {
     const body = req.body
 

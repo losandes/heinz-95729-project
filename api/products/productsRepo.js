@@ -3,20 +3,18 @@
 */
 module.exports.name = 'productsRepo'
 module.exports.singleton = true
-module.exports.dependencies = ['db', 'Product', 'polyn']
-module.exports.factory = function (db, Product, { Blueprint, is }) {
-  const collection = db.collection(Product.db.collection)
-  const findOptionsBlueprint = new Blueprint({
+module.exports.dependencies = ['db', 'Product', '@polyn/blueprint', '@polyn/immutable']
+module.exports.factory = function (db, Product, _blueprint, _immutable) {
+  'use strict'
+
+  const { is, optional } = _blueprint
+  const { immutable } = _immutable
+  const FindOptions = immutable('FindOptions', {
     query: 'object',
-    skip: {
-      type: 'number',
-      required: false
-    },
-    limit: {
-      type: 'number',
-      required: false
-    }
+    skip: optional('number').withDefault(0),
+    limit: optional('number').withDefault(20)
   })
+  const collection = db.collection(Product.db.collection)
 
   Product.db.indexes.forEach(index => {
     collection.createIndex(index.keys, index.options)
@@ -30,37 +28,24 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
    * @param {number} options.limit - the number of records to take
    */
   const find = (options) => {
-    // Make sure the options are defined, and set the default
-    // skip and limit values if they weren't set
-    options = Object.assign({
-      skip: 0,
-      limit: 20
-    }, options)
-
     return new Promise((resolve, reject) => {
-      // Since options is an object, we can use Blueprint to validate it.
-      if (!findOptionsBlueprint.syncSignatureMatches(options).result) {
-        return reject(new Error(
-          findOptionsBlueprint.syncSignatureMatches(options)
-            .errors
-            .join(', ')
-        ))
-      }
+      // validate the options, and set query defaults
+      const _options = new FindOptions(options)
 
       // This uses mongodb's find feature to obtain multiple documents,
       // although it still limits the result set. `find`, `skip`, and `limit`
       // return promises, so the query isn't executed until `toArray` is
       // called. It receives a callback function so it can perform the
       // IO asynchronously, and free up the event-loop, while it's waiting.
-      collection.find(options.query)
-        .skip(options.skip)
-        .limit(options.limit)
+      collection.find(_options.query)
+        .skip(_options.skip)
+        .limit(_options.limit)
         .toArray(function (err, docs) {
           if (err) {
             return reject(err)
           }
 
-          return resolve(docs.map(doc => new Product(doc)))
+          return resolve(docs)
         })
     })
   }
@@ -74,7 +59,7 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
       // Blueprint isn't helpful for defending arguments, when they are
       // not objects. Here we defend the function arguments by hand.
       if (is.not.string(uid)) {
-        return reject(new Error('An uid is required to get a Product'))
+        return reject(new Error('A uid is required to get a Product'))
       }
 
       // This uses mongodb's find feature to obtain 1 document, by
@@ -89,7 +74,7 @@ module.exports.factory = function (db, Product, { Blueprint, is }) {
             return reject(err)
           }
 
-          return resolve(new Product(doc))
+          return resolve(doc)
         })
     })
   }

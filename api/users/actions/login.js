@@ -1,6 +1,6 @@
 module.exports.name = 'login'
-module.exports.dependencies = ['usersRepo', 'jsonwebtoken', 'environment']
-module.exports.factory = function (repo, jwt, env) {
+module.exports.dependencies = ['usersRepo', 'User', 'jsonwebtoken', 'environment']
+module.exports.factory = function (repo, User, jwt, env) {
   'use strict'
 
   const SECRET = env.get('jwt:secret')
@@ -8,6 +8,7 @@ module.exports.factory = function (repo, jwt, env) {
 
   const getUser = (email) => (resolve, reject) => {
     return repo.get(email)
+      .then((doc) => new User(doc))
       .then(resolve)
       .catch(reject)
   }

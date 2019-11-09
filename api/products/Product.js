@@ -2,64 +2,35 @@
 // See the README.md for info on this module
 */
 module.exports.name = 'Product'
-module.exports.dependencies = ['polyn', 'ObjectID', 'logger']
-module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
-  var blueprint,
-    Product
+module.exports.dependencies = ['@polyn/blueprint', '@polyn/immutable', 'ObjectID', 'logger']
+module.exports.factory = function (_blueprint, _immutable, ObjectID, logger) {
+  'use strict'
 
-    /*
-    // This blueprint will be used to validate objects, and ensure that they
-    // meet the minimum requirements for being a Product
-    */
-  blueprint = new Blueprint({
-    _id: {
-      type: 'object',
-      required: false
-    },
+  const { optional } = _blueprint
+  const { immutable } = _immutable
+  const productBp = {
+    _id: optional('string')
+      .from(({ value }) => value ? new ObjectID(value).toString() : null)
+      .withDefault(new ObjectID().toString()),
     uid: 'string',
     title: 'string',
     description: 'string',
-    metadata: new Blueprint({
-      keywords: {
-        type: 'array',
-        required: false
-      }
-    }),
-    price: 'money',
+    metadata: {
+      keywords: 'string[]?'
+    },
+    price: 'decimal:2',
     thumbnailLink: 'string',
     type: 'string'
-  })
-
-  /*
-    // This is the Product constructor, which will be returned by this factory
-    */
-  Product = function (product) {
-    // often times, we use selfies to provide a common object on which
-    // to define properties. It's also common to see `var self = this`.
-    var self = {}
-
-    // Validate the the product argument passes muster with the Product blueprint
-    if (!blueprint.syncSignatureMatches(product).result) {
-      // If it doesn't, log the error
-      logger.error(new Error(
-        blueprint.syncSignatureMatches(product).errors.join(', ')
-      ))
-      // We don't know whether or not it will actually throw, so return undefined;
-      return
-    }
-
-    // define the Product properties from the product argument
-    self._id = new ObjectID(product._id)
-    self.uid = product.uid
-    self.title = product.title
-    self.description = product.description
-    self.metadata = product.metadata
-    self.price = product.price
-    self.thumbnailLink = product.thumbnailLink
-    self.type = product.type
-
-    return self
   }
+
+  /**
+   * This is the Product constructor, which will be returned by this factory.
+   * It uses @polyn/immutable, which accepts a @polyn/blueprint argument.
+   * When being constructed, the input is validated automatically.
+   */
+  const Product = immutable('Product', productBp)
+  Product.blueprint = Object.freeze(productBp)
+  Object.freeze(Product.blueprint.metadata)
 
   /*
     // The db object is used to create and connect to the appropriate database

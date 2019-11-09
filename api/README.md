@@ -1,16 +1,15 @@
-heinz-95729 API
-===============
+# Heinz-95729 API
 
 ## Getting Started
-This app is composed with [hilary](https://github.com/losandes/hilaryjs), uses [polyn](https://github.com/losandes/polyn) for models, and runs on [express](http://expressjs.com).
+This app is composed with [hilary](https://github.com/losandes/hilaryjs), uses [@polyn/blueprint](https://github.com/losandes/polyn-blueprint), and [@polyn/immutable](https://github.com/losandes/polyn-immutable) for models, and runs on [express](http://expressjs.com).
 
 To start the app:
 
 ```
-npm start
+npm run dev
 ```
 
-> NOTE: npm start depends on a global installation of _nodemon_: `npm install -g nodemon`. If you don't wish to install _nodemon_, you car start the app with: `node app.js -e js,hbs`
+> NOTE: `npm run dev` uses nodemon, which is not a tool we would use in production. `npm start` runs the app without monitoring for change, which is how we would start the app in production.
 
 ### Adding New APIs
 1. At the root-level of the app, add a new folder, describing the type of the new API (i.e. Users, Legos, etc.)
@@ -36,6 +35,7 @@ scope.bootstrap([
     // ...
     scope.makeRegistrationTask(require('./models')),
     // ...
+], (err) => { /*...*/ })
 ```
 
 > NOTE: all modules that have the word "controller" in their name will be executed during startup to register the routes that are defined in them.
@@ -54,9 +54,9 @@ module.exports.factory = function(router) {
 ```
 
 ## Directories
-This project is organized, using _type-driven_ folders, as opposed to _capability-driven_ folders. Definitions follow:
+This project is organized with a [screaming architecture](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html), as opposed to _capability-driven_ folders. Definitions follow:
 
-> **type-driven folders**: folders that are named after the domain boundaries (i.e. Pricing, Broker, Product, etc.)
+> **folders in a screaming architecture**: folders that are named after the domain boundaries (i.e. Pricing, Broker, Product, etc.)
 
 > **capability-driven folders**: folders that are named after the job that they perform (i.e. Controllers, Repositories, Models, etc.)
 
@@ -65,7 +65,6 @@ The root of the app includes:
 
 * **app.js**: the entry point of the app
 * **composition.js**: where we bootstrap hilary, and compose our dependency graph. It's the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) of the app.
-* **apis.js**: An index of all the APIs that are to be exposed. This should require the controllers, and anything they depend on. When you add a new type/controller, you can register it and start using it, by requiring it in this file.
 
 ### home
 The home folder contains the default/home controller, which responds to requests to the root of this API. It renders the README files as HTML. Visit the home page of this API and click, _About_ to learn more.

@@ -1,10 +1,11 @@
 module.exports.name = 'Lego'
-module.exports.dependencies = ['polyn']
-module.exports.factory = function (polyn) {
+module.exports.dependencies = ['@polyn/immutable']
+module.exports.factory = (_immutable) => {
   'use strict'
 
-  return new polyn.Immutable({
-    __blueprintId: 'Lego',
+  const { immutable } = _immutable
+
+  return immutable('Lego', {
     color: 'string',
     width: 'number',
     length: 'number',

@@ -1,10 +1,11 @@
 module.exports.name = 'productsController'
 module.exports.dependencies = ['router', 'searchProducts', 'getProduct']
-module.exports.factory = function (
-  router,
-  { searchProducts, bindToManyProducts },
-  { getProduct, bindToProduct }
-) {
+module.exports.factory = (router, _searchProducts, _getProduct) => {
+  'use strict'
+
+  const { searchProducts, bindToManyProducts } = _searchProducts
+  const { getProduct, bindToProduct } = _getProduct
+
   router.get('/products', function (req, res) {
     Promise.resolve(req.query.q)
       .then(query => new Promise(searchProducts(query)))
