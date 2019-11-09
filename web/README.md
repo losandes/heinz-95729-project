@@ -2,7 +2,7 @@ heinz-95729 Web App
 ===================
 
 ## Getting Started
-If you don't already have them, install [node.js](https://nodejs.org/en/), and [bower](https://bower.io).
+If you don't already have it, install [node.js](https://nodejs.org/en/).
 
 Install the package dependencies:
 
@@ -10,21 +10,20 @@ Install the package dependencies:
 (/web) $ npm install
 ```
 
-Install the web dependencies:
-
-```Shell
-(/web) $ bower install
-```
-
 ## Starting the App
 
 Before starting this app, [start the API](../api)
 
 ```Shell
-(/web) $ npm start
+(/web) $ npm run dev
 ```
 
 Then navigate to the app in your browser: http://localhost:3001
+
+## Signing in
+
+If you ran `npm run seed` in the api directory, the following users should exist: shopper1@95729.com, shopper2@95729.com, shopper3@95729.com, shopper4@95729.com. All you need is the email address to sign in.
+
 
 ## Folder structure
 
