@@ -17,15 +17,15 @@
   "homepage": "https://github.com/losandes/heinz-95729-project-2017",
   "license": "MIT",
   "dependencies": {
-    "terminal-adventure": "^1.0.1"
+    "terminal-adventure": "~1.0.2"
   },
   "devDependencies": {
-    "eslint": "^4.5.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "supposed": "^0.1.0"
+    "eslint": "~6.6.0",
+    "eslint-config-standard": "~14.1.0",
+    "eslint-plugin-import": "~2.18.2",
+    "eslint-plugin-node": "~10.0.0",
+    "eslint-plugin-promise": "~4.2.1",
+    "eslint-plugin-standard": "~4.0.1",
+    "supposed": "~1.0.7-beta.1"
   }
 }
