@@ -1,20 +1,20 @@
 CMU Heinz 95729 Course Project (2017)
 =======================================
 
-This repository is the foundation we'll use for our course project for Heinz 95729 E-Commerce Tech, Machine Learning, Analytics, and Bots.
+This repository provides a foundation for Heinz 95729 E-Commerce Tech course projects that include APIs, and/or web apps.
 
 ## Getting Started
 
 1. Make sure you have NodeJS installed
 1. Make sure you have MongoDB installed and running
-1. Install nodemon if you don't have it: `npm install -g nodemon`
 
 ## Starting the API
 
 ```Shell
 $ cd api
 $ npm install
-$ npm start
+$ npm run seed # first time, or any time you change the seed data
+$ npm run dev
 ```
 
 ## Starting the Web app

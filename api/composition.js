@@ -6,7 +6,7 @@ const hilary = require('hilary')
 const express = require('express')
 const nconf = require('nconf')
 const ObjectID = require('bson-objectid')
-const MongoClient = require('mongodb').MongoClient
+const { MongoClient, Server } = require('mongodb')
 // directories
 const environment = require('./common/environment/environment.js')
 const env = environment.factory(nconf)
@@ -55,17 +55,18 @@ function init () {
       next(null, scope)
     },
     function connectToAndRegisterDataConnection (scope, next) {
-      const connectionString = env.get('db:connection-string')
+      MongoClient(new Server(env.get('db:host'), parseInt(env.get('db:port'))))
+        .connect((err, client) => {
+          if (err) {
+            log(err)
+            throw err
+          }
 
-      MongoClient.connect(connectionString, function (err, db) {
-        if (err) {
-          log(err)
-          throw err
-        }
+          const db = client.db(env.get('db:name'))
 
-        scope.register({ name: 'db', factory: function () { return db } })
-        next(null, scope)
-      })
+          scope.register({ name: 'db', factory: function () { return db } })
+          next(null, scope)
+        })
     },
     function composeExpress (scope, next) {
       /*

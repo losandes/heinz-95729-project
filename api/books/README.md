@@ -4,17 +4,17 @@
 
 Books `/books` have the following schema:
 
-Property | Type | Description
----- | ---- | -----------
-_id | ObjectID | The unique identifier
-uid | string | A unique human-readable identifier
-title | string | The title of the book
-description | string | A description of the book
-price | number | The price of the book (decimal to 2 places)
-thumbnailLink | string | the URL for the thumbnail
-type | string | the product type: "book"
-metadata.keywords | array | Terms to improve searching
-metadata.authors | array | The authors of this book
+| Property          | Type     | Description                                    |
+|-------------------|----------|------------------------------------------------|
+| _id               | ObjectID | The unique identifier                          |
+| uid               | string   | A unique human-readable identifier             |
+| title             | string   | The title of the product                       |
+| description       | string   | A description of the product                   |
+| price             | number   | The price of the product (decimal to 2 places) |
+| thumbnailLink     | string   | the URL for the thumbnail                      |
+| type              | string   | the product type: "product"                    |
+| metadata.keywords | array    | Terms to improve searching                     |
+| metadata.authors  | array    | The authors of this book                       |
 
 > # Example Book
 
@@ -85,9 +85,9 @@ This endpoint retrieves a single Book, by id `GET http://api.example.com/books/:
 
 > # Parameters
 
-Name | Type | Description
----- | ---- | -----------
-uid | string | The human readable uid of the book you wish to retrieve
+| Name | Type   | Description                                             |
+| ---- | ------ | ------------------------------------------------------- |
+| uid  | string | The human readable uid of the book you wish to retrieve |
 
 
 > # Example Request
@@ -128,38 +128,21 @@ uid | string | The human readable uid of the book you wish to retrieve
 ```
 
 # Book.js Source
-The Book module demonstrates subtype polymorphism in JavaScript. Upon construction, it inherits Product by setting its own value to a new Product.
+The Book module demonstrates subtype polymorphism in JavaScript. Using `Object.assign`, or the spread operator, we can extend the schema of `Product`
 
 ```JavaScript
-//~// (removed for brevity)
-
-    var self = new Product(book);
-
-//~// (removed for brevity)
-```
-
-It then further validates the schema with its own Blueprint. By the time a result is returned, the constructor guarantees that the object meets the definition for both a Product and a Book.
-
-```JavaScript
-//~// (removed for brevity)
-
-// The Product blueprint will validate the majority of the model.
-// This blueprint is meant to enforce properties that are unique to Book.
-blueprint = new Blueprint({
-    metadata: new Blueprint({
-        authors: 'array'
-    })
-});
-
-//~// (removed for brevity)
-
-    // Validate that this meets the Book schema
-    if (!book || !blueprint.syncSignatureMatches(book).result) {
-      logger.error(new Error(
-        blueprint.syncSignatureMatches(book).errors.join(', ')
-      ))
-      return
+const Book = immutable('book', {
+  // Inherit/Extend Product
+  ...Product.blueprint,
+  ...{
+    metadata: {
+      // Inherit Product.metadata
+      ...Product.blueprint.metadata,
+      // extend Product.metadata with a required array of authors
+      ...{
+        authors: 'Author[]'
+      }
     }
-
-//~// (removed for brevity)
+  }
+})
 ```

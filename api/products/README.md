@@ -4,16 +4,16 @@
 
 Products `/products` of any type have the following schema:
 
-Property | Type | Description
----- | ---- | -----------
-_id | ObjectID | The unique identifier
-uid | string | A unique human-readable identifier
-title | string | The title of the product
-description | string | A description of the product
-price | number | The price of the product (decimal to 2 places)
-thumbnailLink | string | the URL for the thumbnail
-type | string | the product type: "product"
-metadata.keywords | array | Terms to improve searching
+| Property          | Type     | Description                                    |
+|-------------------|----------|------------------------------------------------|
+| _id               | ObjectID | The unique identifier                          |
+| uid               | string   | A unique human-readable identifier             |
+| title             | string   | The title of the product                       |
+| description       | string   | A description of the product                   |
+| price             | number   | The price of the product (decimal to 2 places) |
+| thumbnailLink     | string   | the URL for the thumbnail                      |
+| type              | string   | the product type: "product"                    |
+| metadata.keywords | array    | Terms to improve searching                     |
 
 > # Example Product
 

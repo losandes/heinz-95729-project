@@ -1,6 +1,9 @@
 module.exports.name = 'usersRepo'
-module.exports.dependencies = ['db', 'User', 'polyn']
-module.exports.factory = (db, User, { Blueprint, is }) => {
+module.exports.dependencies = ['db', 'User', '@polyn/blueprint']
+module.exports.factory = (db, User, _blueprint) => {
+  'use strict'
+
+  const { is } = _blueprint
   const collection = db.collection(User.db.collection)
 
   User.db.indexes.forEach(index => {
@@ -43,7 +46,7 @@ module.exports.factory = (db, User, { Blueprint, is }) => {
           }
 
           if (doc) {
-            return resolve(new User(doc))
+            return resolve(doc)
           } else {
             return resolve()
           }

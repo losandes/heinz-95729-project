@@ -1,34 +1,20 @@
 module.exports.name = 'User'
-module.exports.dependencies = ['polyn', 'ObjectID', 'logger']
-module.exports.factory = function ({ Blueprint }, ObjectID, logger) {
-  var blueprint,
-    User
+module.exports.dependencies = ['@polyn/blueprint', '@polyn/immutable', 'ObjectID', 'logger']
+module.exports.factory = function (_blueprint, _immutable, ObjectID, logger) {
+  'use strict'
 
-  blueprint = new Blueprint({
-    __blueprintId: 'User',
+  const { optional } = _blueprint
+  const { immutable } = _immutable
+  const userBp = {
+    _id: optional('string')
+      .from(({ value }) => value ? new ObjectID(value).toString() : null)
+      .withDefault(new ObjectID().toString()),
     name: 'string',
     email: 'string'
-  })
-
-  User = function (user) {
-    var self = {}
-    user = Object.assign({}, user)
-
-    if (!blueprint.syncSignatureMatches(user).result) {
-      // If it doesn't, log the error
-      logger.error(new Error(
-        blueprint.syncSignatureMatches(user).errors.join(', ')
-      ))
-      // We don't know whether or not it will actually throw, so return undefined;
-      return
-    }
-
-    self._id = new ObjectID(user._id)
-    self.name = user.name
-    self.email = user.email
-
-    return self
   }
+
+  const User = immutable('User', userBp)
+  User.blueprint = Object.freeze(userBp)
 
   User.db = {
     collection: 'users',

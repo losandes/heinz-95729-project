@@ -3,7 +3,9 @@
     "projectName": "heinz-95729",
     "storeThisConfigInMemory": true,
     "db": {
-        "connection-string": "mongodb://localhost:27017/heinz95729"
+        "host": "localhost",
+        "port": 27017,
+        "name": "heinz95729"
     },
     "jwt": {
         "secret": "fdaoikn452kn543w8sddfy8sdfgwlkj54wl6jt3456khj",

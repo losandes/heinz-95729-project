@@ -1,10 +1,11 @@
 module.exports.name = 'booksController'
 module.exports.dependencies = ['router', 'searchBooks', 'getBook']
-module.exports.factory = function (
-  router,
-  { searchBooks, bindToManyBooks },
-  { getBook, bindToBook }
-) {
+module.exports.factory = (router, _searchBooks, _getBook) => {
+  'use strict'
+
+  const { searchBooks, bindToManyBooks } = _searchBooks
+  const { getBook, bindToBook } = _getBook
+
   router.get('/books', function (req, res) {
     Promise.resolve(req.query.q)
       .then(query => new Promise(searchBooks(query)))

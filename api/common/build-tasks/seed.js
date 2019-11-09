@@ -1,58 +1,53 @@
-const mongodb = require('mongodb')
+const { MongoClient, ObjectID, Server } = require('mongodb')
 const nconf = require('nconf')
 const async = require('async')
 const seeds = require('./seeds')
 
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
 const env = nconf
   .argv()
   .env()
   .file('environment', './common/environment/environment.json')
 
-MongoClient.connect(env.get('db:connection-string'), (err, db) => {
-  if (err) {
-    throw err
-  }
+MongoClient(new Server(env.get('db:host'), parseInt(env.get('db:port'))))
+  .connect((err, client) => {
+    if (err) {
+      throw err
+    }
 
-  function makeSeedHandler (collection, seedName, seed) {
-    return (callback) => {
-      seed._id = new ObjectID(seed._id)
+    const db = client.db(env.get('db:name'))
+    const makeSeedHandler = (collection, seedName, seed) => (callback) => {
+      const _seed = { ...seed, ...{ _id: new ObjectID(seed._id) } }
 
       collection.updateOne(
-        { _id: seed._id },
-        seed,
-        { upsert: true, forceServerObjectId: true },
+        { _id: _seed._id },
+        { $set: _seed },
+        { upsert: true },
         (err, result) => {
           if (err) {
             return callback(err)
           }
 
           return callback(null, {
-            name: `${seedName}::${seed.uid || seed.email || seed._id}`,
+            name: `${seedName}::${_seed.uid || _seed.email || _seed._id}`,
             matched: result.matchedCount,
-            upserted: result.upsertedCount
+            modified: result.modifiedCount,
+            upsertedId: result.upsertedId || { _id: _seed._id }
           })
         })
     }
-  }
 
-  const tasks = []
+    const tasks = Object.keys(seeds).reduce((_tasks, key) => {
+      const collection = db.collection(key)
+      return _tasks.concat(seeds[key].map((seed) => makeSeedHandler(collection, key, seed)))
+    }, [])
 
-  Object.keys(seeds).forEach(key => {
-    const collection = db.collection(key)
-    return seeds[key].forEach(seed => {
-      tasks.push(makeSeedHandler(collection, key, seed))
+    async.parallel(tasks, (err, results) => {
+      if (err) {
+        console.log(' SEED ERROR:', err)
+        process.exit(1)
+      } else {
+        console.log(results)
+        process.exit(0)
+      }
     })
   })
-
-  async.parallel(tasks, (err, results) => {
-    if (err) {
-      console.log(' SEED ERROR:', err)
-      process.exit(1)
-    } else {
-      console.log(results)
-      process.exit(0)
-    }
-  })
-})
