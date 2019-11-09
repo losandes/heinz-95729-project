@@ -1,5 +1,4 @@
-heinz-95729 Web App
-===================
+# Heinz-95729 Web App
 
 ## Getting Started
 If you don't already have it, install [node.js](https://nodejs.org/en/).
@@ -20,14 +19,16 @@ Before starting this app, [start the API](../api)
 
 Then navigate to the app in your browser: http://localhost:3001
 
+> NOTE: `npm run dev` uses nodemon, which monitors the filesystem, and restarts the app when you make changes. This is not a tool we would use in production. `npm start` runs the app without monitoring for changes, which is how we would start the app in production.
+
 ## Signing in
 
-If you ran `npm run seed` in the api directory, the following users should exist: shopper1@95729.com, shopper2@95729.com, shopper3@95729.com, shopper4@95729.com. All you need is the email address to sign in.
+If you ran `npm run seed` in the [api directory](../api), the following users should exist: `shopper1@95729.com`, `shopper2@95729.com`, `shopper3@95729.com`, `shopper4@95729.com`. All you need is the email address to sign in.
 
 
 ## Folder structure
 
-- bower_components (third party js libs)
+- node_modules (third party js libs)
 - images (book covers, product images, etc.)
 - scripts (javascript)
     - common
