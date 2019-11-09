@@ -3,13 +3,21 @@
 ## Getting Started
 This app is composed with [hilary](https://github.com/losandes/hilaryjs), uses [@polyn/blueprint](https://github.com/losandes/polyn-blueprint), and [@polyn/immutable](https://github.com/losandes/polyn-immutable) for models, and runs on [express](http://expressjs.com).
 
+The first time you run the app, or any time you make changes to the [seed files](common/build-tasks):
+
+```
+npm run seed
+```
+
 To start the app:
 
 ```
 npm run dev
 ```
 
-> NOTE: `npm run dev` uses nodemon, which is not a tool we would use in production. `npm start` runs the app without monitoring for change, which is how we would start the app in production.
+Navigate to http://localhost:3000 to see the documentation
+
+> NOTE: `npm run dev` uses nodemon, which monitors the filesystem, and restarts the app when you make changes. This is not a tool we would use in production. `npm start` runs the app without monitoring for changes, which is how we would start the app in production.
 
 ### Adding New APIs
 1. At the root-level of the app, add a new folder, describing the type of the new API (i.e. Users, Legos, etc.)
