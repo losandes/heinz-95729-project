@@ -1,22 +1,15 @@
-# CMU Heinz 95729 Course Project (2017)
+# CMU Heinz 95729 Course Project (2019)
+## Contibutors : [Keshav Pandey](https://github.com/Keshav-Pandey/) Monika Jengaria
 
-This repository provides a foundation for Heinz 95729 E-Commerce Tech course projects that include APIs, and/or web apps.
 
-## Getting Started
+## Introduction
 
-1. Make sure you have NodeJS installed
-1. Make sure you have MongoDB installed and running
+Our project is focused on utilizing ML algorithms to create value for users.
 
-## Starting the API
+## Git Branching strategy
 
-Also see the [API README](api/README.md)
+We are using [feature branching](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops) for out git strategy.
 
-```Shell
-$ cd api
-$ npm install
-$ npm run seed # first time, or any time you change the seed data
-$ npm run dev
-```
 
 Navigate to http://localhost:3000 to see the documentation
 
