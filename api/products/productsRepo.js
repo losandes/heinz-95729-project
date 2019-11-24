@@ -37,11 +37,28 @@ module.exports.factory = function (db, Product, _blueprint, _immutable) {
       // return promises, so the query isn't executed until `toArray` is
       // called. It receives a callback function so it can perform the
       // IO asynchronously, and free up the event-loop, while it's waiting.
-      //console.log("this", _options.query["$text"]["$search"])
-      const query = _options.query["$text"]["$search"] ? _options.query : {}
-      collection.find(query)
+     
+      collection.find(_options.query)
         .skip(_options.skip)
         .limit(_options.limit)
+        .toArray(function (err, docs) {
+          if (err) {
+            return reject(err)
+          }
+
+          return resolve(docs)
+        })
+    })
+  }
+
+  /**
+   * Find all Products
+   * Retrieve all products
+   */
+  const findAll = () => {
+    return new Promise((resolve, reject) => {
+     
+      collection.find()
         .toArray(function (err, docs) {
           if (err) {
             return reject(err)
@@ -81,5 +98,5 @@ module.exports.factory = function (db, Product, _blueprint, _immutable) {
     })
   }
 
-  return { find, get }
+  return { find, get, findAll }
 }
