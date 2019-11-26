@@ -40,7 +40,7 @@ function init () {
     // Make sure the folder has an index.js in it.
     // Look at the home folder for an example
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+    scope.makeRegistrationTask(require('./shopping-cart')),
 
 
 
