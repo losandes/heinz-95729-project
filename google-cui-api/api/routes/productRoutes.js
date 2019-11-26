@@ -8,8 +8,8 @@ module.exports = function(app) {
     .post(product.create_a_product);
 
 
-  // app.route('/tasks/:taskId')
-  //   .get(todoList.read_a_task)
-  //   .put(todoList.update_a_task)
-  //   .delete(todoList.delete_a_task);
+  app.route('/product/:product_name')
+    .get(product.readTtemDetail)
+    // .put(product.addToShoppingCart)
+    // .delete(product.deletefromShoppingCart);
 };
