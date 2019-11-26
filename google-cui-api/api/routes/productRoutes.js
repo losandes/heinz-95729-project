@@ -9,7 +9,14 @@ module.exports = function(app) {
 
 
   app.route('/product/:product_name')
-    .get(product.readTtemDetail)
+    .get(product.readTtemDetail);
     // .put(product.addToShoppingCart)
     // .delete(product.deletefromShoppingCart);
+  app.route('/cart/:product_name')
+    .post(cart.add_an_item)
+    // .put(todoList.update_a_task)
+    .delete(cart.delete_an_item);
+
+  app.route('/cart/:user_name')
+    .get(cart.list_all_carts)
 };
