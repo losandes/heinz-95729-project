@@ -14,5 +14,19 @@ module.exports.factory = function (repo) {
       .catch(reject)
   }
 
-  return { addToCart, validateCart }
+  const getCart = (uid) => (resolve, reject) => {
+    return repo.get(uid)
+      .then(resolve)
+      .catch(reject)
+  }
+
+  const createCart = (body) => {
+    var cart = {}
+    cart.uid = body.uid
+    cart.total = body.price * body.quantity
+    cart.items = [{"name": body.name, "quantity": body.quantity, "price": body.price}]
+    return cart
+  }
+
+  return { getCart, addToCart, validateCart, createCart }
 }
