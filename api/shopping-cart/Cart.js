@@ -16,7 +16,7 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID) {
     items: {
       keywords: 'object[]?'
     },
-    total: 'decimal:2',
+    total: optional('decimal:2').withDefault(0.00),
   }
 
   /**
