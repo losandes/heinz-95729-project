@@ -25,6 +25,7 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID) {
    * When being constructed, the input is validated automatically.
    */
   const Cart = immutable('Product', cartBp)
+  Cart.blueprint = Object.freeze(cartBp)
   
 
   /*
