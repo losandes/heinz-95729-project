@@ -5,27 +5,25 @@ module.exports.factory = (router, _addToCart, logger) => {
 
   const { getCart, addToCart, validateCart, createCart } = _addToCart
   
-
   router.post('/carts/add', function (req, res) {
     const body = req.body
-
     Promise.resolve(body)
       .then(body => new Promise(validateCart(body)))
       .then(body => new Promise(getCart(body.uid)))
       .then(cart => {
-        /**
-         * Update Cart here
-         */
-        return cart
+          if(cart == null){
+            //add new item to shopping cart
+            return Promise.resolve(createCart(body))
+            .then(cart => new Promise(addToCart(cart)))
+          }
+          else{
+            //update the quantity of an exiting item in shopping cart
+          }
       })
-     
-      .then(body => {
-          var cart = createCart(body)
-          new Promise(addToCart(cart))
+      .then(cart => {
+        res.status(201).send(cart.ops[0])
       })
-      .then(response => {
-        res.status(201).send(response)
-      }).catch(err => {
+      .catch(err => {
         logger.error(err)
         res.status(400).send({ messages: [err.message] })
       })
