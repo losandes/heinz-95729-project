@@ -63,5 +63,5 @@ module.exports.factory = function (db, Cart, _blueprint) {
     })
   }
 
-  return { get }
+  return { get, create }
 }
