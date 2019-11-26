@@ -1,6 +1,6 @@
 module.exports.name = 'addToCart'
-module.exports.dependencies = ['cartsRepo']
-module.exports.factory = function (repo) {
+module.exports.dependencies = ['cartsRepo', 'Cart']
+module.exports.factory = function (repo, Cart) {
   'use strict'
 
   const validateCart = (cart) => (resolve, reject) => {
@@ -28,5 +28,5 @@ module.exports.factory = function (repo) {
     return cart
   }
 
-  return { getCart, addToCart, validateCart, createCart }
+  return { getCart, addToCart, validateCart, createCart, bindToCart }
 }
