@@ -1,3 +1,4 @@
 module.exports = [
-  require('./Cart.js')
+  require('./Cart.js'),
+  require('./CartsRepo.js')
 ]
