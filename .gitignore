@@ -58,3 +58,7 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Ignore user settings
+.idea/
+.vscode/
