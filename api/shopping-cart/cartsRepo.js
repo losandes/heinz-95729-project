@@ -1,7 +1,7 @@
 /*
 // See the README.md for info on this module
 */
-module.exports.name = 'CartsRepo'
+module.exports.name = 'cartsRepo'
 module.exports.singleton = true
 module.exports.dependencies = ['db', 'Cart', '@polyn/blueprint']
 module.exports.factory = function (db, Cart, _blueprint) {
