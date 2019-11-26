@@ -4,7 +4,7 @@ html, body {
 
 body {
   margin: 0;
-  font-family:  'Montserrat', 'Helvetica Neue', sans-serif; /* For body */
+  font-family:  'Montserrat', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
