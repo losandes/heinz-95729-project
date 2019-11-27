@@ -3,5 +3,6 @@ module.exports = [
   require('./cartsRepo.js'),
   require('./actions/addToCart'),
   require('./actions/addToExistingCart'),
+  require('./actions/updateCart'),
   require('./cartsController')
 ]
