@@ -14,7 +14,13 @@ module.exports.factory = function (repo, Cart) {
       .catch(reject)
   }
 
+  const deleteCartItem = (payload) => (resolve, reject) => {
+    return repo.deleteCartItem(payload)
+      .then(resolve)
+      .catch(reject)
+  }
+
   
 
-  return { updateCartItemQuantity }
+  return { updateCartItemQuantity, deleteCartItem }
 }

@@ -38,6 +38,7 @@ module.exports.factory = function (db, Cart, _blueprint) {
       })
     })
   }
+
   /**
    * Adds an item to an existing shopping cart
    * @param {Object} payload - the item details
@@ -67,6 +68,7 @@ module.exports.factory = function (db, Cart, _blueprint) {
       )
     })
   }
+  
   /**
    * Updates the quantity of an item in a cart
    * @param {Object} payload - contains details of item to be updated
@@ -93,6 +95,34 @@ module.exports.factory = function (db, Cart, _blueprint) {
       )
     })
   }
+
+
+  /**
+   * Deletes an item from a shopping cart
+   * @param {Object} payload - contains details of item to be deleted
+   * @param {string} payload.uid - the uid of the cart owner
+   * @param {string} payload.item_uid - the uid of the item to be deleted
+   */
+  const deleteCartItem = (payload) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(payload.uid)) {
+        return reject(new Error('A uid is required to get a Cart'))
+      }
+
+      collection.updateOne(
+        { uid: payload.uid, "items.item_uid": payload.item_uid },
+        { $pull: { items: { item_uid: payload.item_uid } } },
+        (err, doc) => {
+          if(err){
+            return reject(err)
+          }else{
+            return resolve(doc)
+          }
+        }
+      )
+    })
+  }
+
 
   /**
    * Updates the total price of a shopping cart
@@ -149,5 +179,5 @@ module.exports.factory = function (db, Cart, _blueprint) {
     })
   }
 
-  return { get, create, add, updateCartTotal, updateItemQuantity }
+  return { get, create, add, updateCartTotal, updateItemQuantity, deleteCartItem }
 }

@@ -5,7 +5,7 @@ module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, l
 
   const { getCart, addToCart, validateCart, createCart } = _addToCart
   const { addToExistingCart, updateCartTotal } = _addToExistingCart
-  const { updateCartItemQuantity } = _updateCart
+  const { updateCartItemQuantity, deleteCartItem } = _updateCart
   
   router.post('/carts/add', function (req, res) {
     const body = req.body
@@ -40,6 +40,22 @@ module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, l
     
     Promise.resolve(body)
       .then(body => new Promise(updateCartItemQuantity(body)))
+      .then(() => new Promise(updateCartTotal(body.uid)))
+      .then(() => new Promise(getCart(body.uid)))
+      .then(cart => {
+        res.status(201).send(cart)
+      })
+      .catch(err => {
+        logger.error(err)
+        res.status(400).send({ messages: [err.message] })
+      })
+  })
+
+  router.post('/carts/delete-item', function (req, res) {
+    const body = req.body
+    
+    Promise.resolve(body)
+      .then(body => new Promise(deleteCartItem(body)))
       .then(() => new Promise(updateCartTotal(body.uid)))
       .then(() => new Promise(getCart(body.uid)))
       .then(cart => {
