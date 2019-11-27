@@ -68,7 +68,7 @@ module.exports.factory = function (db, Cart, _blueprint) {
       )
     })
   }
-  
+
   /**
    * Updates the quantity of an item in a cart
    * @param {Object} payload - contains details of item to be updated
@@ -112,6 +112,30 @@ module.exports.factory = function (db, Cart, _blueprint) {
       collection.updateOne(
         { uid: payload.uid, "items.item_uid": payload.item_uid },
         { $pull: { items: { item_uid: payload.item_uid } } },
+        (err, doc) => {
+          if(err){
+            return reject(err)
+          }else{
+            return resolve(doc)
+          }
+        }
+      )
+    })
+  }
+
+  /**
+   * Deletes a shopping cart
+   * @param {string} uid - the uid of the cart owner
+   */
+  const deleteCart = (uid) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(uid)) {
+        return reject(new Error('A uid is required to get a Cart'))
+      }
+
+      collection.deleteOne(
+        { uid: uid },
+        
         (err, doc) => {
           if(err){
             return reject(err)
@@ -179,5 +203,5 @@ module.exports.factory = function (db, Cart, _blueprint) {
     })
   }
 
-  return { get, create, add, updateCartTotal, updateItemQuantity, deleteCartItem }
+  return { get, create, add, updateCartTotal, updateItemQuantity, deleteCartItem, deleteCart }
 }
