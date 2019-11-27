@@ -4,8 +4,11 @@ module.exports.factory = function (repo, Cart) {
   'use strict'
 
   const validateCart = (cart) => (resolve, reject) => {
-    // TODO: make sure the properties we need are here
     resolve(cart)
+  }
+
+  const bindToCart = (doc) => (resolve, reject) => {
+    return resolve(doc.ops[0])
   }
 
   const addToCart = (cart) => (resolve, reject) => {
@@ -23,8 +26,9 @@ module.exports.factory = function (repo, Cart) {
   const createCart = (body) => {
     var cart = {}
     cart.uid = body.uid
-    cart.total = body.price * body.quantity
-    cart.items = [{"name": body.name, "quantity": body.quantity, "price": body.price}]
+    var total = body.price * body.quantity
+    cart.total = parseFloat(total.toFixed(2))
+    cart.items = [{"name": body.name, "quantity": body.quantity, "price": body.price, "item_uid": body.item_uid}]
     return cart
   }
 
