@@ -33,12 +33,13 @@ module.exports.factory = function (repo, Cart) {
    * Computes the total of all items in the shopping cart
    * @param {*} cartItems 
    */
-  const computeCartTotal = (cartItems, newItem) => {
+  const computeCartTotal = (cartItems) => {
+    
     var total = 0.0
     cartItems.forEach(function (item) {
       total = total + (item.price * item.quantity)
     });
-    total = total + (newItem.price * newItem.quantity)
+   
     return total.toFixed(2)
   }
   
@@ -46,10 +47,12 @@ module.exports.factory = function (repo, Cart) {
    * Updates the total price of all items with a shopping cart
    * @param {Object} cart - the cart 
    */
-  const updateCartTotal = (cart, newItem) => (resolve, reject) => {
-    return repo.updateCartTotal(cart.uid, computeCartTotal(cart.items, newItem))
-      .then(resolve)
-      .catch(reject)
+  const updateCartTotal = (uid) => (resolve, reject) => {
+    
+    return repo.get(uid)
+    .then(cart => repo.updateCartTotal(cart.uid, computeCartTotal(cart.items)))
+    .then(resolve)
+    .catch(reject)
   }
 
   const bindUpdateToCart = (doc) => (resolve, reject) => {
