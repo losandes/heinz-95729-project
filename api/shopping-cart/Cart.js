@@ -16,7 +16,7 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID) {
     items: {
       keywords: 'object[]?'
     },
-    total: optional('decimal:2').withDefault(0.00),
+    total: optional('decimal').withDefault(0.00),
   }
 
   /**
@@ -24,9 +24,9 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID) {
    * It uses @polyn/immutable, which accepts a @polyn/blueprint argument.
    * When being constructed, the input is validated automatically.
    */
-  const Cart = immutable('Product', cartBp)
+  const Cart = immutable('Cart', cartBp)
   Cart.blueprint = Object.freeze(cartBp)
-  
+  Object.freeze(Cart.blueprint.items)
 
   /*
     // The db object is used to create and connect to the appropriate database
@@ -38,7 +38,7 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID) {
     // The indexes improve query performance
     indexes: [
       // This index enforces a unique uid, it allows multiple nulls
-      // (sparse: true), although the Product model requires the uid property,
+      // (sparse: true), although the Cart model requires the uid property,
       // so a null should never be present.
       {
         keys: { name: 1 },
