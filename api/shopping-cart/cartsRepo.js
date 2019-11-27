@@ -67,6 +67,32 @@ module.exports.factory = function (db, Cart, _blueprint) {
       )
     })
   }
+  /**
+   * Updates the quantity of an item in a cart
+   * @param {Object} payload - contains details of item to be updated
+   * @param {string} payload.uid - the uid of the cart owner
+   * @param {string} payload.item_uid - the uid of the item to be updated
+   * @param {nunmber} payload.quantity - the new quantity of the item
+   */
+  const updateItemQuantity = (payload) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(payload.uid)) {
+        return reject(new Error('A uid is required to get a Cart'))
+      }
+
+      collection.updateOne(
+        { uid: payload.uid, "items.item_uid": payload.item_uid },
+        { $set: { "items.$.quantity" : payload.quantity } },
+        (err, doc) => {
+          if(err){
+            return reject(err)
+          }else{
+            return resolve(doc)
+          }
+        }
+      )
+    })
+  }
 
   /**
    * Updates the total price of a shopping cart
@@ -123,5 +149,5 @@ module.exports.factory = function (db, Cart, _blueprint) {
     })
   }
 
-  return { get, create, add, updateCartTotal }
+  return { get, create, add, updateCartTotal, updateItemQuantity }
 }
