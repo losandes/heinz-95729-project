@@ -1,76 +1,80 @@
 // main: main.less
 
 header {
-    text-align: justify;
-    letter-spacing: 1px;
-    height: 120px;
-    padding: 2em 10%;
-    background: @header-bg;
-    color: @header-text-color;
+  text-align: justify;
+  letter-spacing: 1px;
+  height: 120px;
+  padding: 2em 10%;
+  color: @primary-color;
+  font-size: 2em;
 
-    h1,
-    .search-form,
-    nav {
-        display: inline-block;
-        vertical-align: middle;
+  .search-form,
+  h1,
+  nav {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
 
-        a {
-            color: @header-link-color;
-            margin-right: 15px;
-        }
-
-        .fa {
-            font-size: 1.3em;
-
-            // add space between the icon and the text
-            &:before {
-                margin: 3px;
-            }
-        }
+    a {
+      color: @primary-hover-color;
+      margin-right: 15px;
     }
 
+    .fa {
+      font-size: 1.3em;
+      // add space between the icon and the text
+      &:before {
+        margin: 3px;
+      }
+    }
+  }
+
+  h1 {
+    padding-bottom: 0.5em;
+  }
+
+  .search-form {
+    width: 70%;
+
+    .input-group {
+      .btn,
+      .form-control {
+        border: 3px solid @primary-color;
+        //border-left: 1px solid #ccc;
+        color: @secondary-color;
+        background:transparent;
+        text-shadow: 0 1px 0 #fff;
+      }
+      button{
+        background: @primary-color;
+      }
+    }
+  }
+
+  &:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 1020px) {
+  header {
+    padding: 5px 15px;
+
     h1 {
-        padding-bottom: .5em;
+      margin: 0;
+      font-size: 24px;
     }
 
     .search-form {
-        width: 70%;
-
-        .input-group {
-            .form-control,
-            .btn {
-                border: none;
-                border-left: 1px solid #ccc;
-                border-radius: 0;
-            }
-        }
+      position: absolute;
+      top: 60px;
+      left: 5%;
+      width: 90%;
     }
 
-    &:after {
-        content: '';
-        display: inline-block;
-        width: 100%;
+    .input-group-lg > .input-group-btn > .btn {
+      padding: 5px 10px;
     }
-}
-
-@media screen and (max-width: 1020px) {
-    header {
-        padding: 5px 15px;
-
-        h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .search-form {
-            position: absolute;
-            top: 60px;
-            left: 5%;
-            width: 90%;
-        }
-
-        .input-group-lg>.input-group-btn>.btn {
-            padding: 5px 10px;
-        }
-    }
+  }
 }

@@ -7,9 +7,7 @@ module.exports = {
 
     const component = Vue.component('home', {
       template: `
-        <div class="component empty-component">
-          <h1>{{heading}}</h1>
-          <div>{{body}}</div>
+        <div class="component empty-component home">
         </div>`,
       data: () => {
         return {
@@ -19,6 +17,8 @@ module.exports = {
       }
     })
 
-    return { component }
+    return {
+      component
+    }
   }
 }
