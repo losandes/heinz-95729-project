@@ -912,6 +912,8 @@ Table of Contents
 }
 #user-registration-form,
 #user-login {
+  background: #272932;
+  opacity: 0.9;
   width: 400px;
   margin: 30px auto;
   padding: 30px;
