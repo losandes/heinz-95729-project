@@ -7,6 +7,19 @@ module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, l
   const { addToExistingCart, updateCartTotal } = _addToExistingCart
   const { updateCartItemQuantity, deleteCartItem, deleteCart } = _updateCart
   
+
+  router.get('/carts/:uid', function(req, res){
+    Promise.resolve(req.params.uid)
+      .then(uid => new Promise(getCart(uid)))
+      .then(cart => {
+        res.status(201).send(cart)
+      })
+      .catch(err => {
+        logger.error(err)
+        res.status(400).send({ messages: [err.message] })
+      })
+  });
+
   router.post('/carts/add', function (req, res) {
     const body = req.body
     Promise.resolve(body)
@@ -35,7 +48,7 @@ module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, l
   })
 
 
-  router.post('/carts/update-quantity', function (req, res) {
+  router.put('/carts/update-quantity', function (req, res) {
     const body = req.body
     
     Promise.resolve(body)
