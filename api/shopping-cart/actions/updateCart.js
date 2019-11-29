@@ -3,7 +3,6 @@ module.exports.dependencies = ['cartsRepo', 'Cart']
 module.exports.factory = function (repo, Cart) {
   'use strict'
  
-  
   /**
    * Updates the quantity of an item in a shopping cart
    * @param {Object} payload - the cart and item details
@@ -28,5 +27,5 @@ module.exports.factory = function (repo, Cart) {
 
   
 
-  return { updateCartItemQuantity, deleteCartItem, deleteCart }
+  return { deleteCart, updateCartItemQuantity, deleteCartItem }
 }
