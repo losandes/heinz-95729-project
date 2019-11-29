@@ -8,7 +8,6 @@ module.exports = {
     const component = Vue.component('home', {
       template: `
         <div class="component empty-component home">
-         <image src="/images/paypr.png" class="center-block logo"></image>
         </div>`,
       data: () => {
         return {
