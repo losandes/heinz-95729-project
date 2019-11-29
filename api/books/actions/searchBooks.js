@@ -2,7 +2,7 @@ module.exports.name = 'searchBooks'
 module.exports.dependencies = ['productsRepo', 'Book']
 module.exports.factory = function (repo, Book) {
   'use strict'
-
+  
   const searchBooks = (query) => (resolve, reject) => {
     repo.find({
       query: {
