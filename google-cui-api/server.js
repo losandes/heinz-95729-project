@@ -8,7 +8,7 @@ var express = require('express'),
   
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Product_Test'); 
+mongoose.connect('mongodb://localhost/product_collection'); 
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +19,8 @@ app.use(bodyParser.json());
 
 var routes = require('./api/routes/productRoutes'); //importing route
 routes(app); //register the route
-
+// var routes_cart = require('./api/routes/cartRoutes'); //importing route
+// routes_cart(app); //register the route
 
 app.listen(port);
 

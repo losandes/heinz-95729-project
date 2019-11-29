@@ -3,13 +3,13 @@
 
 var mongoose = require('mongoose'),
 Product = mongoose.model('Product');
-  Cart = mongoose.model('Cart');
+Cart = mongoose.model('Cart');
 
 
 
 
 exports.add_an_item = function(req, res) {
-  var product = Product.findOne({product_name:req.body})
+  var product = Product.findOne(req.body)
     //how to get the current user, what is the syntax
   var new_item = new Cart({product_name:product.product_name,product_price:product.product_price,user_name:"HI"})
   // console.log("POST REQUEST: add an item");
