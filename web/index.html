@@ -1,94 +1,96 @@
 <html lang="en">
 
 <head>
-    <title>Papyr</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Papyr</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="/styles/main.css">
 </head>
 
 <body>
-    <header id="header">
-        <h1><a href="/">Papyr</a></h1>
-        <div class="search-form">
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" v-model="query" placeholder="search" v-on:keyup.enter="search">
-                <span class="input-group-btn">
+  <video muted="muted" loop="loop" autoplay="autoplay" src="/images/magazine.mp4"id="vid"></video>
+  <header id="header">
+    <h1><a href="/">Papyr</a></h1>
+    <div class="search-form">
+      <div class="input-group input-group-lg">
+        <input type="text" class="form-control" v-model="query" placeholder="search" v-on:keyup.enter="search">
+        <span class="input-group-btn">
                     <button class="btn btn-default" type="button" v-on:click="search">Go!</button>
                 </span>
-            </div><!-- /input-group -->
-        </div>
-        <nav>
-            <a href="/login">
+      </div>
+      <!-- /input-group -->
+    </div>
+    <nav>
+      <a href="/login">
                 <i class="fa fa-user-circle-o" aria-hidden="true"></i>
             </a>
-            <a href="/checkout">
+      <a href="/checkout">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
             </a>
-        </nav>
-    </header>
-    <div class="container">
-        <div id="app" class="main" role="main">
-            <component v-bind:is="currentView">
-                <!-- component changes when vm.currentView changes! -->
-            </component>
-        </div>
-    </div><!-- /container -->
+    </nav>
+  </header>
+  <div class="container">
+    <div id="app" class="main" role="main">
+      <component v-bind:is="currentView">
+        <!-- component changes when vm.currentView changes! -->
+      </component>
+    </div>
+  </div>
+  <!-- /container -->
+  <script id="t-loading" type="text/x-template">
+    <div class="component">Loading...</div>
+  </script>
 
-    <script id="t-loading" type="text/x-template">
-        <div class="component">Loading...</div>
-    </script>
 
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- uncomment these if you are supporting old browsers, like IE 11 -->
+  <!-- <script src="/node_modules/promise-polyfill/dist/polyfill.min.js"></script> -->
+  <!-- <script src="/node_modules/whatwg-fetch/fetch.js"></script> -->
 
-    <!-- uncomment these if you are supporting old browsers, like IE 11 -->
-    <!-- <script src="/node_modules/promise-polyfill/dist/polyfill.min.js"></script> -->
-    <!-- <script src="/node_modules/whatwg-fetch/fetch.js"></script> -->
+  <script src="/node_modules/async/dist/async.min.js"></script>
+  <script src="/node_modules/page/page.js"></script>
+  <script src="/node_modules/polyn/release/polyn.js"></script>
+  <script src="/node_modules/@polyn/blueprint/dist/blueprint.js"></script>
+  <script src="/node_modules/@polyn/immutable/dist/immutable.js"></script>
+  <script src="/node_modules/hilary/release/hilary.js"></script>
+  <script src="/node_modules/hilary/release/hilary-browser-module-shim.js"></script>
 
-    <script src="/node_modules/async/dist/async.min.js"></script>
-    <script src="/node_modules/page/page.js"></script>
-    <script src="/node_modules/polyn/release/polyn.js"></script>
-    <script src="/node_modules/@polyn/blueprint/dist/blueprint.js"></script>
-    <script src="/node_modules/@polyn/immutable/dist/immutable.js"></script>
-    <script src="/node_modules/hilary/release/hilary.js"></script>
-    <script src="/node_modules/hilary/release/hilary-browser-module-shim.js"></script>
+  <script src="/scripts/common/environment.js"></script>
+  <script src="/scripts/common/storage.js"></script>
+  <script src="/scripts/common/Repo.js"></script>
+  <script src="/scripts/common/router.js"></script>
+  <script src="/scripts/locales/en_US.js"></script>
 
-    <script src="/scripts/common/environment.js"></script>
-    <script src="/scripts/common/storage.js"></script>
-    <script src="/scripts/common/Repo.js"></script>
-    <script src="/scripts/common/router.js"></script>
-    <script src="/scripts/locales/en_US.js"></script>
+  <script src="/scripts/home/homeComponent.js"></script>
+  <script src="/scripts/home/homeController.js"></script>
 
-    <script src="/scripts/home/homeComponent.js"></script>
-    <script src="/scripts/home/homeController.js"></script>
+  <script src="/scripts/books/Book.js"></script>
+  <script src="/scripts/books/bookComponent.js"></script>
+  <script src="/scripts/books/booksController.js"></script>
+  <script src="/scripts/books/booksRepo.js"></script>
 
-    <script src="/scripts/books/Book.js"></script>
-    <script src="/scripts/books/bookComponent.js"></script>
-    <script src="/scripts/books/booksController.js"></script>
-    <script src="/scripts/books/booksRepo.js"></script>
+  <script src="/scripts/products/Product.js"></script>
+  <script src="/scripts/products/productComponent.js"></script>
+  <script src="/scripts/products/productsComponent.js"></script>
+  <script src="/scripts/products/productsController.js"></script>
+  <script src="/scripts/products/productsRepo.js"></script>
 
-    <script src="/scripts/products/Product.js"></script>
-    <script src="/scripts/products/productComponent.js"></script>
-    <script src="/scripts/products/productsComponent.js"></script>
-    <script src="/scripts/products/productsController.js"></script>
-    <script src="/scripts/products/productsRepo.js"></script>
+  <script src="/scripts/users/loginComponent.js"></script>
+  <script src="/scripts/users/registrationComponent.js"></script>
+  <script src="/scripts/users/usersController.js"></script>
+  <script src="/scripts/users/usersRepo.js"></script>
 
-    <script src="/scripts/users/loginComponent.js"></script>
-    <script src="/scripts/users/registrationComponent.js"></script>
-    <script src="/scripts/users/usersController.js"></script>
-    <script src="/scripts/users/usersRepo.js"></script>
-
-    <script src="/scripts/index.js"></script>
+  <script src="/scripts/index.js"></script>
 </body>
 
 </html>
