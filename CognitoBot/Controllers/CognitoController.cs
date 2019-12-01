@@ -11,5 +11,19 @@ namespace CognitoBot.Controllers
     [ApiController]
     public class CognitoController : ControllerBase
     {
+
+        // GET: api/Default
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "Hello", "World" };
+        }
+
+        // POST: api/Default
+        [HttpPost]
+        public string Post([FromBody] string value)
+        {
+            return "Hello Post world";
+        }
     }
 }
