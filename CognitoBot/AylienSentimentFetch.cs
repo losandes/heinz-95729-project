@@ -12,7 +12,6 @@ namespace CognitoBot
         {
             var client = new RestClient("https://api.aylien.com/api/v1/sentiment?mode=tweet&text=" + text);
             var request = new RestRequest(Method.GET);
-            request.AddHeader("Postman-Token", "3e30216a-3814-4f35-a050-f08f12488101");
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("X-AYLIEN-TextAPI-Application-ID", "9915cb86");
