@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using RestSharp;
+using static CognitoBot.AylienSentimentFetch;
 
 namespace CognitoBot.Controllers
 {
@@ -22,54 +20,68 @@ namespace CognitoBot.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "Hello", "World" , res.ToString(), pres };
+            return new string[] { "Hello", "World", res.ToString(), pres };
         }
 
         // POST: api/Default
         [HttpPost]
         public String Post([FromBody] JObject json)
         {
-            String text = json.SelectToken("event.text").ToString();
-            String channel = json.SelectToken("event.channel").ToString();
-            res = json;
-            AylienSentimentFetch getSentiment = new AylienSentimentFetch();
-            String sentiment = getSentiment.getSentimentScore(text);
-            if (sentiment.Equals("positive"))
+            String username = json.SelectToken("event.username").ToString();
+            String bot_id = json.SelectToken("event.bot_id") != null ? json.SelectToken("event.bot_id").ToString() : "";
+            if (!username.Equals("CognitoBot") && !bot_id.Equals("BQJ4N67GU"))
             {
-                sentiment = "happy minion";
+                String text = json.SelectToken("event.text").ToString();
+                String channel = json.SelectToken("event.channel").ToString();
+                res = json;
+                AylienSentimentFetch getSentiment = new AylienSentimentFetch();
+                SentimentResponse sentimentResponse = getSentiment.getSentimentScore(text);
+                String sentiment = sentimentResponse.polarity;
+                if (sentimentResponse.polarity_confidence >= 0.7)
+                {
+                    String msg = "";
+                    if (sentiment.Equals("positive"))
+                    {
+                        sentiment = "cheers";
+                        msg = "You look happy!. Here's a fun gif for you";
+                    }
+                    else
+                    {
+                        sentiment = "happy minion";
+                        msg = "You sound sad. He's something to cheer you up";
+                    }
+                    String giphyUrl = getGiphy(sentiment);
+                    String content = createResponse(channel, giphyUrl, msg);
+                    Thread.Sleep(100);
+                    return sendResponseToSlack(content);
+                }
             }
-            else
-            {
-                sentiment = "sad minion";
-            }
-            String giphyUrl = getGiphy(sentiment);
-
-            String content = createResponse(channel, giphyUrl);
-            return sendResponseToSlack(content);
+            return null;
         }
 
         public String getGiphy(String searchText)
         {
 
-            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create("http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + searchText);
-            //request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
-            using (System.IO.Stream stream = response.GetResponseStream())
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + searchText);
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
             {
                 String responseText = reader.ReadToEnd();
                 JObject json = JObject.Parse(responseText);
-                String giphyUrl = json.SelectToken("data[0].url").ToString();
+                Random rnd = new Random();
+                int randomNum = rnd.Next(0, 10);
+                String imageUrl = "data[" + randomNum + "].url";
+                String giphyUrl = json.SelectToken(imageUrl).ToString();
                 return giphyUrl;
             }
         }
 
-        public String createResponse(String channel, String giphyUrl)
+        public String createResponse(String channel, String giphyUrl, String msg)
         {
             JObject json = new JObject();
             json["channel"] = channel;
-            json["text"] = giphyUrl;
+            json["text"] = msg + "\n" + giphyUrl;
             return json.ToString();
         }
 
@@ -80,7 +92,7 @@ namespace CognitoBot.Controllers
             var postData = System.Text.Encoding.ASCII.GetBytes(content);
             request.ContentType = "application/json";
             request.ContentLength = content.Length;
-            request.Headers.Add("Authorization", "Bearer " + "xoxb-798833029521-823150967955-eqPjF5x1OtROkqpZPAArxGvb");
+            request.Headers.Add("Authorization", "Bearer " + "xoxb-798833029521-823150967955-bCboJFqhXYFDHwmd7ihvb2v9");
 
             using (var stream = request.GetRequestStream())
             {
