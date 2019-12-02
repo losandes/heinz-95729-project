@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+<<<<<<< HEAD
+=======
 using RestSharp;
+>>>>>>> Update api for slack challenge
 
 namespace CognitoBot.Controllers
 {
@@ -23,6 +26,7 @@ namespace CognitoBot.Controllers
 
         // POST: api/Default
         [HttpPost]
+<<<<<<< HEAD
         public String Post([FromBody] JObject json)
         {
             String text = json.SelectToken("event.text").ToString();
@@ -65,6 +69,11 @@ namespace CognitoBot.Controllers
             json["channel"] = channel;
             json["text"] = giphyUrl;
             return json.ToString();
+=======
+        public string Post([FromBody] JsonObject json)
+        {
+            return json[1].ToString();
+>>>>>>> Update api for slack challenge
         }
     }
 }
