@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace CognitoBot.Controllers
 {
@@ -21,48 +22,49 @@ namespace CognitoBot.Controllers
 
         // POST: api/Default
         [HttpPost]
-        public HttpResponse Post([FromBody] string value)
+        public String Post([FromBody] string value)
         {
             JObject json = JObject.Parse(value);
-            return json.SelectToken("challenge");
-
-            /*JObject json = JObject.Parse(value);
-            String text = json.SelectToken("event.text");
+            String text = json.SelectToken("event.text").ToString();
+            String channel = json.SelectToken("event.channel").ToString();
             AylienSentimentFetch getSentiment = new AylienSentimentFetch();
             String sentiment = getSentiment.getSentimentScore(text);
-            if(sentiment.Equals("positive")){
+            if (sentiment.Equals("positive"))
+            {
                 sentiment = "happy minion";
-            }else{
+            }
+            else
+            {
                 sentiment = "sad minion";
             }
-            String giphyUrl =  getGiphy(sentiment);
+            String giphyUrl = getGiphy(sentiment);
 
-            createResponse();*/
+            return createResponse(channel,giphyUrl);
         }
 
-        public String getGiphy(String searchText){
+        public String getGiphy(String searchText)
+        {
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + searchText);
+            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create("http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + searchText);
             //request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-            using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using(Stream stream = response.GetResponseStream())
-            using(StreamReader reader = new StreamReader(stream))
+            using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
+            using (System.IO.Stream stream = response.GetResponseStream())
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
             {
-                String response = reader.ReadToEnd();
-                JObject json = JObject.Parse(response);
-                String giphyUrl = json.SelectToken("data[0].url");
+                String responseText = reader.ReadToEnd();
+                JObject json = JObject.Parse(responseText);
+                String giphyUrl = json.SelectToken("data[0].url").ToString();
                 return giphyUrl;
             }
         }
 
-        public String createResponse(){
+        public String createResponse(String channel, String giphyUrl)
+        {
             JObject json = new JObject();
-            
-            //{
- // "channel": "YOUR_CHANNEL_ID",
-//  "text": "Hello, world"
-//}
+            json["channel"] = channel;
+            json["text"] = giphyUrl;
+            return json.ToString();
         }
     }
 }
