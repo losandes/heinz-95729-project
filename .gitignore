@@ -62,3 +62,5 @@ typings/
 CognitoBot/.vs/*
 CognitoBot/bin/*
 CognitoBot/obj/*
+CognitoBot/bin/Debug/*
+CognitoBot/bin/Release/*
