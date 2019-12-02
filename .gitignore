@@ -60,3 +60,5 @@ typings/
 .env
 
 CognitoBot/.vs
+CognitoBot/bin
+CognitoBot/obj
