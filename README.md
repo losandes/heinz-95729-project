@@ -15,20 +15,9 @@ Navigate to http://localhost:3000 to see the documentation
 
 ## Starting the Web app
 
-Also see the [web README](web/README.md)
+After cloning the repository open the CognitoBot.sln file with visual studio to get started. Run the project and you should be good to go.
 
-```Shell
-$ cd web
-$ npm install
-$ npm run dev
-```
+## Aylien Sentiment API
 
-Navigate to http://localhost:3001 to see the app
-
-## Starting the CUI app
-
-```Shell
-$ cd cui
-$ npm install
-$ npm start
-```
+We are using a free tier for the Aylien Sentiment API. In case the API doesn't run using our key and if you want to use your own key you can goto https://aylien.com/ and signup to get your own free key. It should be issued immidiately after signup.
+You can put the required auth fields in [AylienSentimentFetch](https://github.com/Keshav-Pandey/heinz-95729-project/blob/master/CognitoBot/AylienSentimentFetch.cs)
