@@ -22,9 +22,8 @@ namespace CognitoBot.Controllers
 
         // POST: api/Default
         [HttpPost]
-        public String Post([FromBody] string value)
+        public String Post([FromBody] JObject json)
         {
-            JObject json = JObject.Parse(value);
             String text = json.SelectToken("event.text").ToString();
             String channel = json.SelectToken("event.channel").ToString();
             AylienSentimentFetch getSentiment = new AylienSentimentFetch();
