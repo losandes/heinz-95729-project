@@ -1,21 +1,17 @@
 ﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CognitoBot
 {
     public class AylienSentimentFetch : ISentimentFetch
     {
-        public string getSentimentScore(string text)
+        public SentimentResponse getSentimentScore(string text)
         {
             var client = new RestClient("https://api.aylien.com/api/v1/sentiment?mode=tweet&text=" + text);
             var request = new RestRequest(Method.GET);
             addHeaders(request);
             IRestResponse response = client.Execute(request);
             SentimentResponse reply = SimpleJson.DeserializeObject<SentimentResponse>(response.Content);
-            return reply.polarity;
+            return reply;
         }
 
         public void addHeaders(RestRequest request) {

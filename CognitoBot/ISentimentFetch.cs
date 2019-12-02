@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using static CognitoBot.AylienSentimentFetch;
 
 namespace CognitoBot
 {
     interface ISentimentFetch
     {
-        public string getSentimentScore(string text);
+        public SentimentResponse getSentimentScore(string text);
     }
 }
