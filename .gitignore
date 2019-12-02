@@ -59,4 +59,8 @@ typings/
 # dotenv environment variables file
 .env
 
-CognitoBot/.vs
+CognitoBot/.vs/*
+CognitoBot/bin/*
+CognitoBot/obj/*
+CognitoBot/bin/Debug/*
+CognitoBot/bin/Release/*
