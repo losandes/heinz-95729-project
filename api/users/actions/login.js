@@ -5,16 +5,13 @@ module.exports.factory = function (repo, User, jwt, env) {
     var ncrypt = require('ncrypt')
 
 
-    const SECRET = env.get('jwt:secret')
+  const SECRET = env.get('jwt:secret')
   const EXPIRATION = env.get('jwt:expiresIn')
 
   const getUser = (email,password) => (resolve, reject) => {
-
-      var encrypted_password = ncrypt.encr(password)
-      //console.log(encrypted_data)
-
-    return repo.get(email,encrypted_password)
-      .then((doc) => new User(doc))
+    console.log("Password ", password, "Email ", email)
+    var encryptedPassword = ncrypt.encr(password)
+    return repo.get(email,encryptedPassword)
       .then(resolve)
       .catch(reject)
   }
