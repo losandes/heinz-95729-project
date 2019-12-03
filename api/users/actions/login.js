@@ -9,10 +9,9 @@ module.exports.factory = function (repo, User, jwt, env) {
   const EXPIRATION = env.get('jwt:expiresIn')
 
   const getUser = (email,password) => (resolve, reject) => {
-
-    var encrypted_password = ncrypt.encr(password)
-     
-    return repo.get(email,encrypted_password)
+    console.log("Password ", password, "Email ", email)
+    var encryptedPassword = ncrypt.encr(password)
+    return repo.get(email,encryptedPassword)
       .then(resolve)
       .catch(reject)
   }

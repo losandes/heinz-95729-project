@@ -31,8 +31,8 @@ module.exports.factory = (router, _register, _login, logger) => {
   })
 
   router.post('/users/login', function (req, res) {
-    Promise.resolve(req.body.email, req.body.password)
-      .then((email, password) => new Promise(getUser(email, password)))
+    Promise.resolve(req.body)
+      .then((body) => new Promise(getUser(body.email, body.password)))
       .then(user => new Promise(makeAuthToken(user)))
       .then(response => {
         res.status(200).send(response)
