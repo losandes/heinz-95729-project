@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'Product',
-  dependencies: ['router', 'productsRepo'],
-  factory: (router, productsRepo) => {
+  dependencies: ['router', 'productsRepo', 'storage'],
+  factory: (router, productsRepo, storage) => {
     'use strict'
 
     return function Product(product) {
@@ -54,6 +54,7 @@ module.exports = {
 
         productsRepo.addToCart(data, (err, res) => {
           if (err) {
+            console.log(err)
             alert('Add to cart failed')
             return
           }
