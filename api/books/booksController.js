@@ -43,5 +43,18 @@ module.exports.factory = (router, _searchBooks, _getBook, _getBooks) => {
       })
   })
 
+  router.get('/books/download/:uid', function (req, res) {
+    Promise.resolve(req.params.uid)
+      .then(query => new Promise(getBook(query)))
+      .then(doc => new Promise(bindToBook(doc)))
+      .then(book => {
+        console.log(book)
+        res.download(book.downloadLink)
+      }).catch(err => {
+        console.log(err)
+        res.status(400).send({ messages: [err.message] })
+      })
+  })
+
   return router
 }
