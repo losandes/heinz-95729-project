@@ -10,7 +10,7 @@ module.exports.factory = (router, _register, _login, logger) => {
     const body = req.body
 
     Promise.resolve(body)
-      .then(body => new Promise(getUser(body.email)))
+      .then(body => new Promise(getUser(body.email, body.password)))
       .then(user => {
         if (user) {
           throw new Error('A user with that email address already exists')
@@ -20,7 +20,7 @@ module.exports.factory = (router, _register, _login, logger) => {
       })
       .then(body => new Promise(validateBody(body)))
       .then(body => new Promise(register(body)))
-      .then(() => new Promise(getUser(body.email)))
+      .then(() => new Promise(getUser(body.email, body.password)))
       .then(user => new Promise(makeAuthToken(user)))
       .then(response => {
         res.status(201).send(response)
@@ -31,8 +31,8 @@ module.exports.factory = (router, _register, _login, logger) => {
   })
 
   router.post('/users/login', function (req, res) {
-    Promise.resolve(req.body.email)
-      .then(email => new Promise(getUser(email)))
+    Promise.resolve(req.body.email, req.body.password)
+      .then((email, password) => new Promise(getUser(email, password)))
       .then(user => new Promise(makeAuthToken(user)))
       .then(response => {
         res.status(200).send(response)
