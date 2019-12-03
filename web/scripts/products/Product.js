@@ -1,12 +1,14 @@
 module.exports = {
   scope: 'heinz',
   name: 'Product',
-  dependencies: ['router'],
-  factory: (router) => {
+  dependencies: ['router', 'productsRepo'],
+  factory: (router, productsRepo) => {
     'use strict'
 
-    return function Product (product) {
+    return function Product(product) {
       product = Object.assign({}, product)
+
+      let quantity = 0
 
       const self = {
         type: product.type || 'product',
@@ -40,7 +42,34 @@ module.exports = {
       }
 
       self.addToCart = (event) => {
-        console.log(`TODO: add ${self.title} to shopping cart`)
+        const data = {
+          name: self.title,
+          quantity: ++quantity,
+          price: self.price,
+          item_uid: self.uid,
+          uid: self._id
+        }
+
+        console.log("Adding... \n"+data);
+
+        productsRepo.addToCart(data, (err, res) => {
+          if (err) {
+            alert('Add to cart failed')
+            return
+        }
+
+        console.log(res); 
+        
+          // TODO add storage
+          // storage.set('jwt', res.authToken)
+          // storage.set('user', res.user)
+          return router.navigate(`/books/${self.uid}`)
+        })
+
+        
+
+
+        // console.log(`TODO: add ${self.title} to shopping cart`)
       }
 
       return self

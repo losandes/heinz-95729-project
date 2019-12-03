@@ -5,8 +5,6 @@ module.exports = {
   factory: (Vue) => {
     'use strict'
 
-    //const state = { total: '' }
-
     const component = Vue.component('checkout', {
       // shopping cart UI code from:https://bootsnipp.com/snippets/yP7qe, by asanti82
       template: `
