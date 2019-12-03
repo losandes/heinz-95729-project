@@ -9,7 +9,12 @@ module.exports.factory = function (repo) {
   }
 
   const register = (body) => (resolve, reject) => {
-    return repo.create(body)
+
+    var ncrypt = require('ncrypt')
+    var userObj = Object.assign({}, body)
+    userObj.password = ncrypt.encr(body.password)
+    
+    return repo.create(userObj)
       .then(resolve)
       .catch(reject)
   }
