@@ -8,7 +8,6 @@ module.exports.factory = function (repo, User, jwt, env) {
 
   const getUser = (email) => (resolve, reject) => {
     return repo.get(email)
-      .then((doc) => new User(doc))
       .then(resolve)
       .catch(reject)
   }
