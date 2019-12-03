@@ -1,11 +1,9 @@
 module.exports.name = 'addToExistingCart'
-module.exports.dependencies = ['cartsRepo', 'Cart']
-module.exports.factory = function (repo, Cart) {
+module.exports.dependencies = ['cartsRepo']
+module.exports.factory = function (repo) {
   'use strict'
 
-  const validateCartItem = (item) => (resolve, reject) => {
-    //TODO: validate cart item
-  }
+  
   /**
    * Adds a new item to an existing shopping cart
    * @param {Object} item - the new item to be added to an existing shopping cart

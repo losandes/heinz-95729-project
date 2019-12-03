@@ -3,9 +3,9 @@ module.exports.dependencies = ['router', 'addToCart', 'addToExistingCart', 'upda
 module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, logger) => {
   'use strict'
 
-  const { getCart, addToCart, validateCart, createCart } = _addToCart
+  const { getCart, addToCart, validateCart, createCart, validateCartItem } = _addToCart
   const { addToExistingCart, updateCartTotal } = _addToExistingCart
-  const { updateCartItemQuantity, deleteCartItem, deleteCart } = _updateCart
+  const { deleteCart, updateCartItemQuantity, deleteCartItem } = _updateCart
   
 
   router.get('/carts/:uid', function(req, res){
@@ -26,14 +26,19 @@ module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, l
       .then(body => new Promise(validateCart(body)))
       .then(body => new Promise(getCart(body.uid)))
       .then(cart => {
+        
+        var promise = Promise.resolve(createCart(body))
+          .then(cart => Promise.resolve(validateCartItem(cart)))
+
           if(cart == null){
             //create new cart and add item
-            return Promise.resolve(createCart(body))
-            .then(cart => new Promise(addToCart(cart)))
+            return promise
+              .then(cart => new Promise(addToCart(cart)))
           }
           else{
             //add item to an existing cart
-            return new Promise(addToExistingCart(body, cart))
+            return promise
+              .then(() => new Promise(addToExistingCart(body, cart)))
           }
       })
       .then(() =>  new Promise(updateCartTotal(body.uid)))

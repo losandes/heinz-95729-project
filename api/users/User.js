@@ -10,7 +10,8 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID, logger) {
       .from(({ value }) => value ? new ObjectID(value).toString() : null)
       .withDefault(new ObjectID().toString()),
     name: 'string',
-    email: 'string'
+    email: 'string',
+    password: 'string'
   }
 
   const User = immutable('User', userBp)

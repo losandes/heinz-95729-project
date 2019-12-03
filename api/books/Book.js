@@ -24,7 +24,8 @@ module.exports.factory = function (_blueprint, _immutable, Product, logger) {
         ...{
           authors: 'Author[]'
         }
-      }
+      },
+      downloadLink: 'string'
     }
   })
 
