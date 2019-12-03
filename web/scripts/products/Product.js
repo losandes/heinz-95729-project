@@ -42,12 +42,14 @@ module.exports = {
       }
 
       self.addToCart = (event) => {
+
+        const user = storage.get('user')
         const data = {
           name: self.title,
           quantity: ++quantity,
           price: self.price,
           item_uid: self.uid,
-          uid: self._id
+          uid: user._id
         }
 
         console.log("Adding... \n" + data);
@@ -61,10 +63,9 @@ module.exports = {
 
           console.log(res);
 
-          //not sure
           storage.set('cart', res.items)
 
-          return router.navigate(`/books/${self.uid}`)
+          return router.navigate(`/checkout`)
         })
       }
 

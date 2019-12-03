@@ -9,7 +9,7 @@ module.exports = {
       // shopping cart UI code from:https://bootsnipp.com/snippets/yP7qe, by asanti82
       template: `
       <div class="container" >
-      <table id="cart" class="table table-hover table-condensed">
+        <table id="cart" class="table table-hover table-condensed">
                 <thead>
                 <tr>
                   <th style="width:50%">Product</th>
