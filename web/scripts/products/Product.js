@@ -50,26 +50,21 @@ module.exports = {
           uid: self._id
         }
 
-        console.log("Adding... \n"+data);
+        console.log("Adding... \n" + data);
 
         productsRepo.addToCart(data, (err, res) => {
           if (err) {
             alert('Add to cart failed')
             return
-        }
+          }
 
-        console.log(res); 
-        
-          // TODO add storage
-          // storage.set('jwt', res.authToken)
-          // storage.set('user', res.user)
+          console.log(res);
+
+          //not sure
+          storage.set('cart', res.items)
+
           return router.navigate(`/books/${self.uid}`)
         })
-
-        
-
-
-        // console.log(`TODO: add ${self.title} to shopping cart`)
       }
 
       return self
