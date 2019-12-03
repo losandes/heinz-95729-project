@@ -10,7 +10,7 @@
   },
   "price": 8.77,
   "thumbnailLink": "/images/books/beforeIGo.jpg",
-  "downloadLink": "/books/beforeIGo.pdf",
+  "downloadLink": "/books-path/beforeIGo.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79df8",
@@ -24,7 +24,7 @@
   },
   "price": 12.99,
   "thumbnailLink": "/images/books/bendOfTheWorld.jpg",
-  "downloadLink": "/books/bendOfTheWorld.pdf",
+  "downloadLink": "/books-path/bendOfTheWorld.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79df9",
@@ -38,7 +38,7 @@
   },
   "price": 32.16,
   "thumbnailLink": "/images/books/dependencyInjection.jpg",
-  "downloadLink": "/books/dependencyInjection.pdf",
+  "downloadLink": "/books-path/dependencyInjection.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79dfa",
@@ -52,7 +52,7 @@
   },
   "price": 6.83,
   "thumbnailLink": "/images/books/dirkgently.jpeg",
-  "downloadLink": "/books/dirkgently.pdf",
+  "downloadLink": "/books-path/dirkgently.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79dfb",
@@ -66,7 +66,7 @@
   },
   "price": 2.99,
   "thumbnailLink": "/images/books/fourgifts.jpg",
-  "downloadLink": "/books/fourgifts.pdf",
+  "downloadLink": "/books-path/fourgifts.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79dfc",
@@ -83,7 +83,7 @@
   },
   "price": 4.59,
   "thumbnailLink": "/images/books/hitchiker.jpeg",
-  "downloadLink": "/books/hitchiker.pdf",
+  "downloadLink": "/books-path/hitchiker.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79dfd",
@@ -97,7 +97,7 @@
   },
   "price": 7.99,
   "thumbnailLink": "/images/books/whereILeaveYou.jpg",
-  "downloadLink": "/books/whereILeaveYou.pdf",
+  "downloadLink": "/books-path/whereILeaveYou.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79dfe",
@@ -111,7 +111,7 @@
   },
   "price": 11.04,
   "thumbnailLink": "/images/books/lostForWords.jpg",
-  "downloadLink": "/books/lostForWords.pdf",
+  "downloadLink": "/books-path/lostForWords.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79dff",
@@ -129,7 +129,7 @@
   },
   "price": 6.83,
   "thumbnailLink": "/images/books/restaurantuniverse.jpeg",
-  "downloadLink": "/books/restaurantuniverse.pdf",
+  "downloadLink": "/books-path/restaurantuniverse.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e00",
@@ -143,7 +143,7 @@
   },
   "price": 11.84,
   "thumbnailLink": "/images/books/riseAndFall.jpg",
-  "downloadLink": "/books/riseAndFall.pdf",
+  "downloadLink": "/books-path/riseAndFall.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e01",
@@ -161,7 +161,7 @@
   },
   "price": 0.99,
   "thumbnailLink": "/images/books/siddhartha.jpg",
-  "downloadLink": "/books/siddhartha.pdf",
+  "downloadLink": "/books-path/siddhartha.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e02",
@@ -175,7 +175,7 @@
   },
   "price": 9.99,
   "thumbnailLink": "/images/books/woodpecker.jpg",
-  "downloadLink": "/books/woodpecker.pdf",
+  "downloadLink": "/books-path/woodpecker.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e03",
@@ -192,7 +192,7 @@
   },
   "price": 9.99,
   "thumbnailLink": "/images/books/swamplandia.jpg",
-  "downloadLink": "/books/swamplandia.pdf",
+  "downloadLink": "/books-path/swamplandia.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e04",
@@ -206,7 +206,7 @@
   },
   "price": 12.74,
   "thumbnailLink": "/images/books/tibetanPeachPie.jpg",
-  "downloadLink": "/books/tibetanPeachPie.pdf",
+  "downloadLink": "/books-path/tibetanPeachPie.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e05",
@@ -224,7 +224,7 @@
   },
   "price": 5.99,
   "thumbnailLink": "/images/books/lifeandeverything.jpeg",
-  "downloadLink": "/books/lifeandeverything.pdf",
+  "downloadLink": "/books-path/lifeandeverything.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e06",
@@ -238,7 +238,7 @@
   },
   "price": 9.77,
   "thumbnailLink": "/images/books/goonSquad.jpg",
-  "downloadLink": "/books/goonSquad.pdf",
+  "downloadLink": "/books-path/goonSquad.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e07",
@@ -256,7 +256,7 @@
   },
   "price": 8.62,
   "thumbnailLink": "/images/books/whiteTiger.jpg",
-  "downloadLink": "/books/whiteTiger.pdf",
+  "downloadLink": "/books-path/whiteTiger.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e08",
@@ -270,7 +270,7 @@
   },
   "price": 6.99,
   "thumbnailLink": "/images/books/wild.jpg",
-  "downloadLink": "/books/wild.pdf",
+  "downloadLink": "/books-path/wild.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e09",
@@ -284,7 +284,7 @@
   },
   "price": 9.41,
   "thumbnailLink": "/images/books/flyingBackward.jpg",
-  "downloadLink": "/books/flyingBackward.pdf",
+  "downloadLink": "/books-path/flyingBackward.pdf",
   "type": "book"
 }, {
   "_id": "5623c1263b952eb796d79e0a",
@@ -298,6 +298,6 @@
   },
   "price": 8.99,
   "thumbnailLink": "/images/books/yellowSun.jpg",
-  "downloadLink": "/books/yellowSun.pdf",
+  "downloadLink": "/books-path/yellowSun.pdf",
   "type": "book"
 }]
