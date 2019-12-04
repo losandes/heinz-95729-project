@@ -57,11 +57,33 @@ module.exports = {
             app.currentView = 'product'
           } else {
             // TODO: route to a "none found" page
+            router.navigate('/error')
+          }
+        })
+      })
+
+      //All products view
+      router('/all', (context) => {
+        repo.getall('all', (err, products) => {
+          if (err) {
+            console.log(err)
+            // TODO: render error view
+          }
+
+          if (products && products.length) {
+            console.log(products)
+            productsComponent.setProducts(new ProductSearchResult(products))
+            app.currentView = 'products'
+          } else {
+            // TODO: route to a "none found" page
             router.navigate('/')
           }
         })
       })
+
     }
+
+
 
     return { registerRoutes }
   }
