@@ -22,7 +22,7 @@ module.exports = {
             app.currentView = 'book'
           } else {
             // TODO: route to a "none found" page
-            router.navigate('/')
+            router.navigate('/error')
           }
         })
       })
