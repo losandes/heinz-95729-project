@@ -1,14 +1,21 @@
 module.exports = {
   scope: 'heinz',
   name: 'cartComponent',
-  dependencies: ['Vue'],
-  factory: (Vue) => {
+  dependencies: ['Vue','Cart'],
+  factory: (Vue,Cart) => {
     'use strict'
 
+    // if (storage.get('user') !== undefined){
+    //   var state = new Cart()
+    // }
+    var state = new Cart()
+    console.log(state)
+    
     const component = Vue.component('checkout', {
       // shopping cart UI code from:https://bootsnipp.com/snippets/yP7qe, by asanti82
       template: `
       <div class="container" >
+      <div>{{total}}</div>
         <table id="cart" class="table table-hover table-condensed">
                 <thead>
                 <tr>
@@ -30,7 +37,7 @@ module.exports = {
                       </div>
                     </div>
                   </td>
-                  <td data-th="Price">$1.99</td>
+                  <td data-th="Price">$10</td>
                   <td data-th="Quantity">
                     <input type="number" class="form-control text-center" value="1">
                   </td>
@@ -43,7 +50,7 @@ module.exports = {
               </tbody>
               <tfoot>
                 <tr class="visible-xs">
-                  <td class="text-center"><strong>Total 1.99</strong></td>
+                  <td class="text-center"<strong>Total 1.99</strong></td>
                 </tr>
                 <tr>
                   <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
@@ -55,9 +62,9 @@ module.exports = {
             </table>
     </div>
       `,
-      // data: () => {
-      //   return null;
-      // }
+      data: () => {
+        return state;
+      }
     })
 
     return { component }

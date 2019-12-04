@@ -8,8 +8,6 @@ module.exports = {
     return function Product(product) {
       product = Object.assign({}, product)
 
-      let quantity = 0
-
       const self = {
         type: product.type || 'product',
         _id: product._id,
@@ -41,6 +39,7 @@ module.exports = {
         }
       }
 
+      let quantity = 0
       self.addToCart = (event) => {
 
         const user = storage.get('user')
