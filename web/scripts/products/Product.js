@@ -63,7 +63,6 @@ module.exports = {
           console.log(res);
 
           storage.set('cart', res.items)
-
           return router.navigate(`/checkout`)
         })
       }

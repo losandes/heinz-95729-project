@@ -11,6 +11,20 @@ module.exports = {
       repo.get({ path: `/carts/${user_id}` }, callback)
     }
 
-    return { getCart }
+    const updateQuantity = (body, callback) => {
+      repo.put({
+        path: `/carts/update-quantity`,
+        body
+      }, callback)
+    }
+
+    const deleteItem = (body, callback) => {
+      repo.post({
+        path: `/carts/delete-item`,
+        body
+      }, callback)
+    }
+
+    return { getCart, updateQuantity, deleteItem }
   }
 }

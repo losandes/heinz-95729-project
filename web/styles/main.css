@@ -960,6 +960,10 @@ body video {
   position: absolute;
   width: 100%;
 }
+.cart-component {
+  background: #272932;
+  opacity: 0.9;
+}
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
   vertical-align: middle;
