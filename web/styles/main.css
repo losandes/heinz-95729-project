@@ -188,6 +188,14 @@ header:after {
   text-align: center;
   width: 100%;
 }
+.error {
+  margin-top: 2em;
+  padding: 2em;
+  color: #FAEBD7;
+  font-size: 2em;
+  background: #272932;
+  opacity: 0.9;
+}
 .products-component {
   background: #272932;
   opacity: 0.9;
