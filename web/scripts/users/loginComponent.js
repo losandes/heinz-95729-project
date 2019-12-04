@@ -25,7 +25,7 @@ module.exports = {
           <div class="registration-link">
             <a href="/register">Don't have an account? Click here to register</a>
           </div>
-          <br />
+          <br/>
         </div>`,
       data: function () {
         return state

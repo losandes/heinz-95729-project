@@ -31,7 +31,7 @@ module.exports = {
         </div><!-- /component -->`,
       data: () => {
         return state
-      }
+      },
     })
 
     const setProducts = (searchResults) => {
