@@ -7,23 +7,39 @@ module.exports = {
 
     return function Cart(cart) {
       cart = Object.assign({}, cart)
-      const user = storage.get('user')
-      const uid = user._id
-      const self = {
+      var user = ''
+      var uid = ''
+      var self = {
         total: "0",
         items: [],
         uid: uid
       }
-      cartRepo.getCart(uid, (err, res) => {
-        if (err) {
-          console.log(err)
-          alert('Get cart failed')
-          return
-        }
-        self.total = res.total
-        self.items = res.items
-        return res
-      })
+      if(storage.exists('jwt')){
+         user = storage.get('user')
+         uid = user._id
+
+         self.uid = uid
+
+         cartRepo.getCart(uid, (err, res) => {
+          if (err) {
+            console.log(err)
+            alert('Get cart failed')
+            return
+          }
+          self.total = res.total
+          self.items = res.items
+          return res
+        })
+      }
+      else{
+        var localCart = storage.get('localCart')
+        var totalPrice = storage.get('totalPrice')
+        console.log(localCart)
+        self.items = localCart
+        self.total = totalPrice
+      }
+
+
       return self
     }
   }

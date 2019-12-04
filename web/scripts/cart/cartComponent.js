@@ -1,20 +1,21 @@
 module.exports = {
   scope: 'heinz',
   name: 'cartComponent',
-  dependencies: ['Vue', 'Cart', 'cartRepo'],
-  factory: (Vue, Cart, cartRepo) => {
+  dependencies: ['Vue', 'Cart', 'cartRepo','storage'],
+  factory: (Vue, Cart, cartRepo,storage) => {
     'use strict'
 
     // if (storage.get('user') !== undefined){
     //   var state = new Cart()
     // }
-    var state = new Cart()
-    console.log(state)
+    var state
+    // var state = new Cart()
+    // console.log(state)
 
     const component = Vue.component('checkout', {
       // shopping cart UI code from:https://bootsnipp.com/snippets/yP7qe, by asanti82
       template: `
-      <div class="container" >
+      <div class="container">
         <table id="cart" class="table table-hover table-condensed cart-component">
           <thead>
             <tr>
@@ -26,7 +27,7 @@ module.exports = {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in items">
+            <tr v-for="(item,index) in items" :key="index">
               <td data-th="Product">
                 <div class="row">
                   <div class="col-sm-10">
@@ -41,7 +42,7 @@ module.exports = {
               <td data-th="Subtotal" class="text-center">{{ (item.quantity * item.price)| numfliter}}</td>
               <td class="actions" data-th="">
                 <button v-on:click="updateCart(item.quantity,item.item_uid)" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                <button v-on:click="deleteItem(item.item_uid)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+                <button v-on:click="deleteItem(item.item_uid,index)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
               </td>
             </tr>
           </tbody>
@@ -52,17 +53,30 @@ module.exports = {
             <tr>
               <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="2" class="hidden-xs"></td>
-              <td class="hidden-xs text-center"><strong>Total $ {{total}}</strong></td>
+              <td class="hidden-xs text-center"><strong>Total $ {{total | numfliter}}</strong></td>
               <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
           </tfoot>
         </table>
       </div>
+  
       `,
       data: () => {
+        state = new Cart()
         return state;
       },
       methods: {
+        calTotal(items){
+          var total =0
+          console.log(items.length)
+          if(items.length !=0){
+            items.forEach(element => {
+              total += element.quantity * element.price
+            });
+          }
+          return total
+        },
+
         updateCart(qt, id) {
           var body = {
             quantity: qt,
@@ -70,34 +84,50 @@ module.exports = {
             item_uid: id
           }
           console.log(body);
-          cartRepo.updateQuantity(body,(err,res) => {
-            if(err){
-              console.log(err)
-              alert('Update cart failed')
-              return
-            }
-            state.total = res.total
-            state.items = res.items
-
-          })
+          if(storage.exists('jwt')){
+            cartRepo.updateQuantity(body,(err,res) => {
+              if(err){
+                console.log(err)
+                alert('Update cart failed')
+                return
+              }
+              state.total = res.total
+              state.items = res.items
+            })
+          }else{
+           var data = JSON.parse(JSON.stringify(state))
+           storage.set('localCart',data.items)
+           state.total = this.calTotal(state.items)
+           storage.set('totalPrice',state.total)
+          }
 
         },
-        deleteItem(id){
+        deleteItem(id,index){
           var body = {
             uid: state.uid,
             item_uid:id
           }
-          cartRepo.deleteItem(body,(err,res)=>{
-            if(err){
-              console.log(err)
-              alert('Update cart failed')
-              return
-            }
-            state.total = res.total
-            state.items = res.items
-          })
-        }
+          if(storage.exists('jwt')){
+            cartRepo.deleteItem(body,(err,res)=>{
+              if(err){
+                console.log(err)
+                alert('Update cart failed')
+                return
+              }
+              state.total = res.total
+              state.items = res.items
+            })
+          }else{
+            var items = storage.get('localCart')
+            items.splice(index,1)
+            state.items = items
+            state.total = this.calTotal(items)
+            storage.set('totalPrice',state.total)
+            storage.set('localCart',items)
+          }
+        },
       },
+
       filters:{
         numfliter: function(value){
           value= Number(value)
