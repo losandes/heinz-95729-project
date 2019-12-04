@@ -19,5 +19,5 @@ After cloning the repository open the CognitoBot.sln file with visual studio to 
 
 ## Aylien Sentiment API
 
-We are using a free tier for the Aylien Sentiment API. In case the API doesn't run using our key and if you want to use your own key you can goto https://aylien.com/ and signup to get your own free key. It should be issued immidiately after signup.
+We are using a free tier for the Aylien Sentiment API. In case the API doesn't run using our key and if you want to use your own key you can goto https://aylien.com/ and signup to get your own free key. It should be issued immidiately after signup and can be accessed in the [Dashboard](https://developer.aylien.com/admin/)
 You can put the required auth fields in [AylienSentimentFetch](https://github.com/Keshav-Pandey/heinz-95729-project/blob/master/CognitoBot/AylienSentimentFetch.cs)
