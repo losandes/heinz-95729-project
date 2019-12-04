@@ -32,14 +32,15 @@ module.exports = {
         repo.search(context.query.q, (err, products) => {
           if (err) {
             console.log(err)
-            // TODO: render error view
           }
 
           if (products && products.length) {
             productsComponent.setProducts(new ProductSearchResult(products))
             app.currentView = 'products'
-          } else {
-            // TODO: route to a "none found" page
+          } else if (context.query.q.length >0) {
+            router.navigate('/error')
+          }
+          else{
             router.navigate('/')
           }
         })
@@ -49,19 +50,40 @@ module.exports = {
         repo.get(context.params.uid, (err, product) => {
           if (err) {
             console.log(err)
-            // TODO: render error view
+            router.navigate('/error')
           }
 
           if (product) {
             productComponent.setProduct(new Product(product))
             app.currentView = 'product'
           } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
+
+            router.navigate('/error')
           }
         })
       })
+
+      //All products view
+      router('/all', (context) => {
+        repo.getall('all', (err, products) => {
+          if (err) {
+            console.log(err)
+            router.navigate('/error')
+          }
+
+          if (products && products.length) {
+            productsComponent.setProducts(new ProductSearchResult(products))
+            app.currentView = 'products'
+          } else {
+
+            router.navigate('/error')
+          }
+        })
+      })
+
     }
+
+
 
     return { registerRoutes }
   }

@@ -1,6 +1,6 @@
 module.exports = {
   scope: 'heinz',
-  name: 'homeController',
+  name: 'cartController',
   dependencies: ['router'],
   factory: (router) => {
     'use strict'
@@ -9,15 +9,10 @@ module.exports = {
      * Route binding (controller)
      */
     function registerRoutes (app) {
-      router('/', () => {
-        app.currentView = 'home'
-      })
-      //Route for error page
-      router('/error', () => {
-        app.currentView = 'error'
+      router('/checkout', () => {
+        app.currentView = 'checkout'
       })
     }
-
     return { registerRoutes }
   }
 }

@@ -188,6 +188,14 @@ header:after {
   text-align: center;
   width: 100%;
 }
+.error {
+  margin-top: 2em;
+  padding: 2em;
+  color: #FAEBD7;
+  font-size: 2em;
+  background: #272932;
+  opacity: 0.9;
+}
 .products-component {
   background: #272932;
   opacity: 0.9;
@@ -912,6 +920,8 @@ Table of Contents
 }
 #user-registration-form,
 #user-login {
+  background: #272932;
+  opacity: 0.9;
   width: 400px;
   margin: 30px auto;
   padding: 30px;
@@ -957,4 +967,52 @@ Table of Contents
 body video {
   position: absolute;
   width: 100%;
+}
+.cart-component {
+  background: #272932;
+  opacity: 0.9;
+}
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  vertical-align: middle;
+}
+@media screen and (max-width: 600px) {
+  table#cart tbody td .form-control {
+    width: 20%;
+    display: inline !important;
+  }
+  .actions .btn {
+    width: 36%;
+    margin: 1.5em 0;
+  }
+  .actions .btn-info {
+    float: left;
+  }
+  .actions .btn-danger {
+    float: right;
+  }
+  table#cart thead {
+    display: none;
+  }
+  table#cart tbody td {
+    display: block;
+    padding: 0.6rem;
+    min-width: 320px;
+  }
+  table#cart tbody tr td:first-child {
+    background: #333;
+    color: #fff;
+  }
+  table#cart tbody td:before {
+    content: attr(data-th);
+    font-weight: bold;
+    display: inline-block;
+    width: 8rem;
+  }
+  table#cart tfoot td {
+    display: block;
+  }
+  table#cart tfoot td .btn {
+    display: block;
+  }
 }
