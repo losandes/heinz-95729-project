@@ -23,6 +23,10 @@ module.exports = {
       }, callback)
     }
 
-    return { get, search, addToCart }
+    const getall = (uid, callback) => {
+      repo.get({ path: `/books/${uid}` }, callback)
+    }
+
+    return { get, search, getall, addToCart }
   }
 }
