@@ -39,7 +39,6 @@ module.exports = {
         }
       }
 
-      let quantity = 0
       let cart = storage.get('localCart') || []
       let total = storage.get('totalPrice')||0
   
@@ -47,7 +46,7 @@ module.exports = {
         var uid = ''
         const data = {
           name: self.title,
-          quantity: ++quantity,
+          quantity: 1,
           price: self.price,
           item_uid: self.uid,
           uid: uid
