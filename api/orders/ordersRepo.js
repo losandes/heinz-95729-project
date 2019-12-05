@@ -3,12 +3,12 @@
 */
 module.exports.name = 'ordersRepo'
 module.exports.singleton = true
-module.exports.dependencies = ['db', 'Order', '@polyn/blueprint']
-module.exports.factory = function (db, Order, _blueprint) {
+module.exports.dependencies = ['db', 'Order', '@polyn/blueprint', 'mongodb']
+module.exports.factory = function (db, Order, _blueprint, _mongodb) {
   'use strict'
 
   const { is, optional } = _blueprint
- 
+  const { ObjectID } = _mongodb
   const collection = db.collection(Order.db.collection)
 
   Order.db.indexes.forEach(index => {
@@ -63,5 +63,56 @@ module.exports.factory = function (db, Order, _blueprint) {
     })
   }
 
-  return { get, add }
+  /**
+   * Retrieve a singe order
+   * @param {string} id - The id of the order
+   */
+  const getOne = (id) => {
+    return new Promise((resolve, reject) => {
+      if (is.not.string(id)) {
+        return reject(new Error('A uid is required to get a Cart'))
+      }
+      
+      collection.find({ _id: ObjectID(id) })
+        .next((err, doc) => {
+          if (err) {
+            return reject(err)
+          }
+
+          if (doc) {
+            return resolve(doc)
+          } else {
+            return resolve()
+          }
+        })
+      })
+  }
+
+  /**
+   * Reduce the download quantity of an item in an order
+   * @param {string} id, the id of the order
+   * @param {string} uid, the id of the item
+   */
+  const reduceDownloadQuantity = (id, uid) => {
+    
+    return new Promise((resolve, reject) => {
+      if (is.not.string(uid)) {
+        return reject(new Error('A uid is required to get a Cart'))
+      }
+
+      collection.updateOne(
+        { _id: ObjectID(id), "items.item_uid": uid },
+        { $inc: { "items.$.downloads": -1 } },
+        (err, doc) => {
+          if(err){
+            return reject(err)
+          }else{
+            return resolve(doc)
+          }
+        }
+      )
+    })
+  }
+
+  return { get, add, getOne, reduceDownloadQuantity }
 }
