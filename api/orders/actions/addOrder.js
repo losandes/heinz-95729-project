@@ -8,7 +8,8 @@ module.exports.factory = function (repo, cartsRepo, Order) {
     var items = order.items
    
     for (var i=0; i < items.length; i++){
-      items[i].downloads = items[i].quantity
+      //user can download the quantity he/she orders plus one addition
+      items[i].downloads = items[i].quantity + 1
     }
     
     order.items = items
