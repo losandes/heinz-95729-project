@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'Cart',
-  dependencies: ['storage', 'cartRepo'],
-  factory: (storage, cartRepo) => {
+  dependencies: ['storage', 'cartRepo', 'JSON'],
+  factory: (storage, cartRepo, JSON) => {
     'use strict'
 
     return function Cart(cart) {
@@ -32,8 +32,8 @@ module.exports = {
         })
       }
       else{
-        var localCart = storage.get('localCart')
-        var totalPrice = storage.get('totalPrice')
+        var localCart = JSON.parse(localStorage.getItem('localCart')) || storage.get('localCart')
+        var totalPrice = JSON.parse(localStorage.getItem('totalPrice')) || storage.get('totalPrice')
         console.log(localCart)
         self.items = localCart
         self.total = totalPrice

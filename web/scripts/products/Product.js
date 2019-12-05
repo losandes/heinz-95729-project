@@ -39,8 +39,8 @@ module.exports = {
         }
       }
 
-      let cart = storage.get('localCart') || []
-      let total = storage.get('totalPrice')||0
+      let cart = storage.get('localCart') || JSON.parse(localStorage.getItem('localCart')) || []
+      let total = storage.get('totalPrice')|| JSON.parse(localStorage.getItem('totalPrice')) || 0
   
       self.addToCart = (event) => {
         var uid = ''
@@ -80,6 +80,9 @@ module.exports = {
             console.log(cart)
             storage.set('localCart',cart)
             storage.set('totalPrice',total)
+
+            localStorage.setItem('localCart',JSON.stringify(cart))
+            localStorage.setItem('totalPrice',total)
             router.navigate(`/checkout`)
           }else{
             alert('Item alreay in Cart')

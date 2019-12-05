@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'cartComponent',
-  dependencies: ['Vue', 'Cart', 'cartRepo','storage'],
-  factory: (Vue, Cart, cartRepo,storage) => {
+  dependencies: ['Vue', 'Cart', 'cartRepo','storage', 'JSON'],
+  factory: (Vue, Cart, cartRepo,storage, JSON) => {
     'use strict'
 
     // if (storage.get('user') !== undefined){
@@ -99,6 +99,9 @@ module.exports = {
            storage.set('localCart',data.items)
            state.total = this.calTotal(state.items)
            storage.set('totalPrice',state.total)
+
+           localStorage.setItem('localCart',JSON.stringify(data.items))
+           localStorage.setItem('totalPrice',JSON.stringify(state.total))
           }
 
         },
@@ -124,6 +127,9 @@ module.exports = {
             state.total = this.calTotal(items)
             storage.set('totalPrice',state.total)
             storage.set('localCart',items)
+
+            localStorage.setItem('localCart',JSON.stringify(items))
+            localStorage.setItem('totalPrice',JSON.stringify(state.total))
           }
         },
       },
