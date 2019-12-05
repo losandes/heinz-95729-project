@@ -41,6 +41,7 @@ function init () {
     // Look at the home folder for an example
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     scope.makeRegistrationTask(require('./shopping-cart')),
+    scope.makeRegistrationTask(require('./orders')),
 
 
 
