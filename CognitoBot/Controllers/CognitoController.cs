@@ -27,13 +27,12 @@ namespace CognitoBot.Controllers
         [HttpPost]
         public String Post([FromBody] JObject json)
         {
-            String username = json.SelectToken("event.username").ToString();
+            res = json;
             String bot_id = json.SelectToken("event.bot_id") != null ? json.SelectToken("event.bot_id").ToString() : "";
-            if (!username.Equals("CognitoBot") && !bot_id.Equals("BQJ4N67GU"))
+            if (bot_id == "")
             {
                 String text = json.SelectToken("event.text").ToString();
                 String channel = json.SelectToken("event.channel").ToString();
-                res = json;
                 AylienSentimentFetch getSentiment = new AylienSentimentFetch();
                 SentimentResponse sentimentResponse = getSentiment.getSentimentScore(text);
                 String sentiment = sentimentResponse.polarity;
@@ -48,15 +47,17 @@ namespace CognitoBot.Controllers
                     else
                     {
                         sentiment = "happy minion";
-                        msg = "You sound sad. He's something to cheer you up";
+                        msg = "You sound sad. Here's something to cheer you up";
                     }
                     String giphyUrl = getGiphy(sentiment);
                     String content = createResponse(channel, giphyUrl, msg);
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
+
                     return sendResponseToSlack(content);
                 }
             }
-            return null;
+            pres = "No response as polarity was too low";
+            return "No response as polarity was too low";
         }
 
         public String getGiphy(String searchText)
@@ -87,22 +88,30 @@ namespace CognitoBot.Controllers
 
         public String sendResponseToSlack(String content)
         {
-            var request = (HttpWebRequest)WebRequest.Create("https://slack.com/api/chat.postMessage");
-            request.Method = "POST";
-            var postData = System.Text.Encoding.ASCII.GetBytes(content);
-            request.ContentType = "application/json";
-            request.ContentLength = content.Length;
-            request.Headers.Add("Authorization", "Bearer " + "xoxb-798833029521-823150967955-bCboJFqhXYFDHwmd7ihvb2v9");
-
-            using (var stream = request.GetRequestStream())
+            try
             {
-                stream.Write(postData, 0, content.Length);
-            }
+                var request = (HttpWebRequest)WebRequest.Create("https://slack.com/api/chat.postMessage");
+                request.Method = "POST";
+                var postData = System.Text.Encoding.ASCII.GetBytes(content);
+                request.ContentType = "application/json";
+                request.ContentLength = content.Length;
+                request.Headers.Add("Authorization", "Bearer " + "xoxb-123123");
 
-            var response = (HttpWebResponse)request.GetResponse();
-            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            pres = responseString;
-            return responseString;
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(postData, 0, content.Length);
+                }
+
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                pres = responseString;
+                return responseString;
+            }
+            catch (Exception e) {
+                pres = "Exception Occurred";
+                return "";
+            }
+            
         }
     }
 }
