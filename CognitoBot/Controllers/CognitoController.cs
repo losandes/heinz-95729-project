@@ -95,7 +95,7 @@ namespace CognitoBot.Controllers
                 var postData = System.Text.Encoding.ASCII.GetBytes(content);
                 request.ContentType = "application/json";
                 request.ContentLength = content.Length;
-                request.Headers.Add("Authorization", "Bearer " + "xoxb-798833029521-823150967955-hJ1uMxnPoARtEMoTwqoGkYVq");
+                request.Headers.Add("Authorization", "Bearer " + "xoxb-123123");
 
                 using (var stream = request.GetRequestStream())
                 {
