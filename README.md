@@ -10,8 +10,12 @@ Our project is focused on utilizing ML algorithms to create value for users.
 
 We are using [feature branching](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops) for out git strategy.
 
+## Boards
 
-Navigate to http://localhost:3000 to see the documentation
+We are using Boards in Azure DevOps to track our user stories and progress.
+This can be accessed here: https://keshavpandey.visualstudio.com/CognitoBot/_boards/board/t/CognitoBot%20Team/Stories
+I have provided access to relevant stakeholders.
+
 
 ## Starting the Web app
 
