@@ -29,3 +29,15 @@ You can put the required auth fields in [AylienSentimentFetch](https://github.co
 ## CognitoTestProject
 
 This project contains the unit tests for our codebase.
+
+## Hosting
+
+We have utilized Azure App services to host our web service.
+The endpoint is: https://nlsql.azurewebsites.net/api/cognito
+
+GET : Returns a health check of hello world.
+It also has request and reponse from slack for debugging purposes.
+
+POST : This is the endpoint which is hit by slack and we process and return the response status.
+
+PS: If you run the project locally you can use localhost:port/api/coginito to test the application.
