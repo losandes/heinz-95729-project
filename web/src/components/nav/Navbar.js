@@ -1,7 +1,5 @@
 import React from 'react'
 import './Navbar.css'
-import Jumbotron from "react-bootstrap/Jumbotron";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const Navbar = (props) => {
