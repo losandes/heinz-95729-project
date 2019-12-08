@@ -1,18 +1,25 @@
 module.exports.name = 'sendEmail'
-module.exports.dependencies = ['nodemailer', 'ejs', 'getUser']
-module.exports.factory = function (nodemailer, ejs, getUser) {
+module.exports.dependencies = ['nodemailer', 'ejs', 'getUser', 'nconf']
+module.exports.factory = function (nodemailer, ejs, getUser, nconf) {
   'use strict'
   const { getUserByID } = getUser
 
   const sendEmail = (order, uid, baseURL) => {
-  
+    
+    //Retrieve mailtrap SMTP credentials
+    const env = nconf
+    .argv()
+    .env()
+    .file('environment', './common/environment/email_cred.json')
+
+    //create smtp transporter object
     let transporter = nodemailer.createTransport({
       host: "smtp.mailtrap.io",
       port: 2525,
       secure: false,
       auth: {
-        user: 'bb8518e226eaa8', 
-        pass: '44182d222ed015' 
+        user: env.get('user'), 
+        pass: env.get('pass')
       }
     });
 
@@ -33,10 +40,9 @@ module.exports.factory = function (nodemailer, ejs, getUser) {
               console.log(err);
             }
 
-            
             var mailOptions = {
-              from: '"BookStore" <bookstore-b2af49@inbox.mailtrap.io>', // sender address
-              to: "peteryef@andrew.cmu.edu", // list of receivers
+              from: '"BookStore" <bookstore-b2af49@inbox.mailtrap.io>',
+              to: user.email,
               subject: "BookStore - Your Order ",
               html: html
             };
