@@ -62,7 +62,6 @@
     //example.querySelector(".token").innerText = result.token.id;
     example.classList.add("submitted");
     result.complete("success");
-    alert('yahoo')
   });
 
   var paymentRequestElement = elements.create("paymentRequestButton", {
