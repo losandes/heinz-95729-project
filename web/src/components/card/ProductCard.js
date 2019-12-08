@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 const ProductCard = (props) => {
 
     return (
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: '90%' }}>
             <Card.Img variant="top" src={require("../../assets/images/boots.jpg")} />
 
             <Card.Body>
