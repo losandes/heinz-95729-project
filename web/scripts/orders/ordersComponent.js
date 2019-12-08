@@ -1,18 +1,21 @@
 module.exports = {
   scope: 'heinz',
-  name: 'userHistoryComponent',
+  name: 'ordersComponent',
   dependencies: ['Vue'],
   factory: (Vue) => {
     'use strict'
 
     var state = { products: [] }
 
-    const component = Vue.component('history', {
+    const component = Vue.component('orders', {
       template: `
-        <div class="history-component">
+        <div class="orders-component">
           <div class="row">
-          <!-- TODO: ADD USER DETAILS -->
-          <a href="/userproducts"> View History </a>
+          <div v-for="product in products">
+          <label>{{product.name}}</label>
+          <label>{{product.quantity}}</label>
+          <label>{{product.price}}</label>
+          </div>
           </div><!-- /row -->
         </div><!-- /component -->`,
       data: () => {
