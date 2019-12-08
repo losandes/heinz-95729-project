@@ -21,6 +21,10 @@ module.exports = {
       }, callback)
     }
 
-    return { login, register }
+    const history = (uid, callback) => {
+      repo.get({ path: `/orders/${uid}` }, callback)
+    }
+
+    return { login, register, history }
   }
 }
