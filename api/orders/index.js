@@ -5,5 +5,7 @@ module.exports = [
   require('../shopping-cart/actions/updateCart.js'),
   require('./actions/addOrder.js'),
   require('./actions/findOrders.js'),
-  require('./ordersController.js')
+  require('./actions/sendEMail'),
+  require('./ordersController.js'),
+  require('../users/actions/getUser')
 ]
