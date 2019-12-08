@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'usersController',
-  dependencies: ['router', 'storage'],
-  factory: (router, storage) => {
+  dependencies: ['router', 'storage', 'usersRepo'],
+  factory: (router, storage, repo) => {
     'use strict'
 
     /**
@@ -12,8 +12,7 @@ module.exports = {
     function registerRoutes (app) {
       router('/login', () => {
         if (storage.exists('jwt')) {
-          // TODO: the user is logged in, send them to a profile page
-          app.currentView = 'home'
+          app.currentView = 'history'
         }else{
           app.currentView = 'login'
         }
@@ -22,6 +21,7 @@ module.exports = {
       router('/register', () => {
         app.currentView = 'register'
       })
+
     }
 
     return { registerRoutes }
