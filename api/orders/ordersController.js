@@ -1,23 +1,27 @@
 module.exports.name = 'ordersController'
-module.exports.dependencies = ['router', 'addOrder', 'findOrders', 'addToCart', 'updateCart', 'logger']
-module.exports.factory = (router, _addOrder, _findOrders, _addToCart, _updateCart, logger) => {
+module.exports.dependencies = ['router', 'addOrder', 'findOrders', 'addToCart', 'updateCart', 'sendEmail', 'logger']
+module.exports.factory = (router, _addOrder, _findOrders, _addToCart, _updateCart, _sendEmail, logger) => {
   'use strict'
 
   const { addOrder } = _addOrder
   const { getCart } = _addToCart
   const { deleteCart } = _updateCart
   const { findOrders } = _findOrders
+  const { sendEmail } = _sendEmail
   
   router.post('/orders/add/:uid', function (req, res) {
     var uid = req.params.uid
-
+   
     Promise.resolve(req.params.uid)
       .then(uid => new Promise(getCart(uid)))
       .then(cart => new Promise(addOrder(cart)))
+      .then( order => Promise.resolve(sendEmail(order.ops[0], uid, req.headers.host)))
       //delete cart after successfully saving to orders
       .then(() => new Promise(deleteCart(uid)))
       .then(() => {
+        
         res.status(201).send({ messages: ['Order created successfully']})
+       
       })
       .catch(err => {
         logger.error(err)
