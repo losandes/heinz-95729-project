@@ -15,7 +15,7 @@ module.exports.factory = (router, _addOrder, _findOrders, _addToCart, _updateCar
     Promise.resolve(req.params.uid)
       .then(uid => new Promise(getCart(uid)))
       .then(cart => new Promise(addOrder(cart)))
-      .then( order => Promise.resolve(sendEmail(order.ops[0], uid, req.headers.host)))
+      .then( order => Promise.resolve(sendEmail(order.ops[0], uid)))
       //delete cart after successfully saving to orders
       .then(() => new Promise(deleteCart(uid)))
       .then(() => {
