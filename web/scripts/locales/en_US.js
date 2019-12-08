@@ -22,7 +22,8 @@ module.exports = {
       'e500': {
         'heading': 'Whoops!',
         'body': 'Something went terribly wrong.'
-      }
+      },
+      'generic': 'Sorry, we have nothing to show at this time.'
     }
   }
 }

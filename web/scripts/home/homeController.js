@@ -12,6 +12,10 @@ module.exports = {
       router('/', () => {
         app.currentView = 'home'
       })
+      //Route for error page
+      router('/error', () => {
+        app.currentView = 'error'
+      })
     }
 
     return { registerRoutes }

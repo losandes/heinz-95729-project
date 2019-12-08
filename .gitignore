@@ -61,3 +61,6 @@ typings/
 
 # SMTP configuration credentials
 api/common/environment/email_cred.json
+
+# Exclude .idea files from intellij
+.idea
