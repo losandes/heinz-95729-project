@@ -29,8 +29,6 @@ module.exports = {
       function get (options, callback) {
         options = options || {}
         options.method = 'GET'
-        console.log("Options ", options)
-
         execute(options, callback)
       }
 
@@ -104,7 +102,6 @@ module.exports = {
         headers.Authorization = makeAuthorizationHeader()
         headers.Accept = headers.Accept || 'application/json;version=' + env.get('defaultVersion')
         headers['Content-Type'] = headers['Content-Type'] || 'application/json'
-        console.log("headers ", headers)
         return headers
       }
 
