@@ -25,6 +25,10 @@ module.exports = {
       }, callback)
     }
 
-    return { getCart, updateQuantity, deleteItem }
+    const deleteCart = (user_id, callback) => {
+      repo.remove({ path: `/carts/delete/${user_id}` }, callback)
+    }
+
+    return { getCart, updateQuantity, deleteItem, deleteCart }
   }
 }
