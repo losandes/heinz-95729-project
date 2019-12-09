@@ -15,25 +15,6 @@ module.exports = {
         <div>
           <h2> Download successful. Thank you for your purchase. </h2>
         </div>`,
-      // data: () => {
-      //   return state
-      // },
-      // methods: {
-      //   download: function(event) {
-      //     const {uid, order_id} = this
-
-      //     console.log({uid, order_id})
-
-      //     downloadRepo.download({uid, order_id}, (err,res) => {
-      //       if (err){
-      //         alert("Download failed.")
-      //         return
-      //       }
-      //       console.log(res)
-
-      //     })
-      //   }
-      // }
     })
 
     return {
