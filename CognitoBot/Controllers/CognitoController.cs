@@ -16,14 +16,14 @@ namespace CognitoBot.Controllers
         static JObject res = new JObject();
         static String pres = "";
 
-        // GET: api/Default
+        // GET: api/Default for debugging
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "Hello", "World", res.ToString(), pres };
         }
 
-        // POST: api/Default
+        // POST: api for recieving messages from slack
         [HttpPost]
         public String Post([FromBody] JObject json)
         {
@@ -33,7 +33,7 @@ namespace CognitoBot.Controllers
             {
                 String text = json.SelectToken("event.text").ToString();
                 String channel = json.SelectToken("event.channel").ToString();
-                AylienSentimentFetch getSentiment = new AylienSentimentFetch();
+                ISentimentFetch getSentiment = new AylienSentimentFetch();
                 SentimentResponse sentimentResponse = getSentiment.getSentimentScore(text);
                 String sentiment = sentimentResponse.polarity;
                 if (sentimentResponse.polarity_confidence >= 0.7)

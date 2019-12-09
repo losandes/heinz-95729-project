@@ -10,14 +10,34 @@ Our project is focused on utilizing ML algorithms to create value for users.
 
 We are using [feature branching](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops) for out git strategy.
 
+## Boards
 
-Navigate to http://localhost:3000 to see the documentation
+We are using Boards in Azure DevOps to track our user stories and progress.
+This can be accessed here: https://keshavpandey.visualstudio.com/CognitoBot/_boards/board/t/CognitoBot%20Team/Stories
+I have provided access to relevant stakeholders.
+
 
 ## Starting the Web app
 
-After cloning the repository open the CognitoBot.sln file with visual studio to get started. Run the project and you should be good to go.
+After cloning the repository open the CognitoBot.sln file with visual studio to get started. Run the project and you should be good to go. PS: The slack OAuth keys are shared seperately.
 
 ## Aylien Sentiment API
 
 We are using a free tier for the Aylien Sentiment API. In case the API doesn't run using our key and if you want to use your own key you can goto https://aylien.com/ and signup to get your own free key. It should be issued immidiately after signup and can be accessed in the [Dashboard](https://developer.aylien.com/admin/)
 You can put the required auth fields in [AylienSentimentFetch](https://github.com/Keshav-Pandey/heinz-95729-project/blob/master/CognitoBot/AylienSentimentFetch.cs)
+
+## CognitoTestProject
+
+This project contains the unit tests for our codebase.
+
+## Hosting
+
+We have utilized Azure App services to host our web service.
+The endpoint is: https://nlsql.azurewebsites.net/api/cognito
+
+GET : Returns a health check of hello world.
+It also has request and reponse from slack for debugging purposes.
+
+POST : This is the endpoint which is hit by slack and we process and return the response status.
+
+PS: If you run the project locally you can use localhost:port/api/coginito to test the application.

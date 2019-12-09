@@ -6,12 +6,21 @@ namespace CognitoBot
     {
         public SentimentResponse getSentimentScore(string text)
         {
-            var client = new RestClient("https://api.aylien.com/api/v1/sentiment?mode=tweet&text=" + text);
-            var request = new RestRequest(Method.GET);
-            addHeaders(request);
-            IRestResponse response = client.Execute(request);
-            SentimentResponse reply = SimpleJson.DeserializeObject<SentimentResponse>(response.Content);
-            return reply;
+            try
+            {
+                var client = new RestClient("https://api.aylien.com/api/v1/sentiment?mode=tweet&text=" + text);
+                var request = new RestRequest(Method.GET);
+                addHeaders(request);
+                IRestResponse response = client.Execute(request);
+                SentimentResponse reply = SimpleJson.DeserializeObject<SentimentResponse>(response.Content);
+                return reply;
+            }
+            catch (System.Exception e) {
+                SentimentResponse reply = new SentimentResponse();
+                reply.polarity = "positive";
+                reply.polarity_confidence = (float) 0.5;
+                return reply;
+            }
         }
 
         public void addHeaders(RestRequest request) {
