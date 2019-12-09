@@ -127,14 +127,10 @@ module.exports = {
           }
         },
         deleteCart() {
-          if (storage.exists('jwt')) {
-            // Already deal with "delete cart" in backend
-          } else {
-            localStorage.removeItem('localCart')
-            localStorage.removeItem('totalPrice')
-            storage.remove('localCart')
-            storage.remove('totalPrice')
-          }
+          localStorage.removeItem('localCart')
+          localStorage.removeItem('totalPrice')
+          storage.remove('localCart')
+          storage.remove('totalPrice')
         }
       },
 
