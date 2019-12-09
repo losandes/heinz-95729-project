@@ -127,18 +127,8 @@ module.exports = {
           }
         },
         deleteCart() {
-          console.log(state.uid)
           if (storage.exists('jwt')) {
-            cartRepo.deleteCart(state.uid, (err, res) => {
-              if (err) {
-                console.log(err)
-                alert('Delete cart failed')
-                return
-              }
-              if (res) {
-                console.log('Delete cart.')
-              }
-            })
+            // Already deal with "delete cart" in backend
           } else {
             localStorage.removeItem('localCart')
             localStorage.removeItem('totalPrice')
