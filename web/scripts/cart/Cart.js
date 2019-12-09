@@ -26,7 +26,7 @@ module.exports = {
             alert('Get cart failed')
             return
           }
-          self.total = res.total
+          self.total = res.total || 0
           self.items = res.items
           return res
         })
