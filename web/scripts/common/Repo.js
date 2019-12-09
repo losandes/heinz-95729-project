@@ -29,6 +29,7 @@ module.exports = {
       function get (options, callback) {
         options = options || {}
         options.method = 'GET'
+        console.log("Options ", options)
 
         execute(options, callback)
       }
@@ -64,7 +65,7 @@ module.exports = {
       function execute (options, callback) {
         options.headers = ensureHeaders(options)
         url = makeUrl(options.path)
-
+        console.log("Executing ", options)
         if (typeof options.body === 'object') {
           options.body = JSON.stringify(options.body)
         }
@@ -72,6 +73,9 @@ module.exports = {
         fetch(url, options)
           .then(function (res) {
             if (res.status >= 200 && res.status < 300) {
+              if (options.responseType){
+                return res.blob()
+              }
               return res.json()
             } else {
               var error = new Error('The request failed. see data for more information: ' + url)
@@ -101,7 +105,7 @@ module.exports = {
         headers.Authorization = makeAuthorizationHeader()
         headers.Accept = headers.Accept || 'application/json;version=' + env.get('defaultVersion')
         headers['Content-Type'] = headers['Content-Type'] || 'application/json'
-
+        console.log("headers ", headers)
         return headers
       }
 
