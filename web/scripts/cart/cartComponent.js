@@ -42,7 +42,7 @@ module.exports = {
               <td data-th="Subtotal" class="text-center">{{ (item.quantity * item.price)| numfliter}}</td>
               <td class="actions" data-th="">
                 <button v-on:click="updateCart(item.quantity,item.item_uid)" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                <button v-on:click="deleteItem(item.item_uid,index)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+                <button v-on:click="deleteItem(item.item_uid,index)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
               </td>
             </tr>
           </tbody>
@@ -54,12 +54,12 @@ module.exports = {
               <td><a href="/all" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="2" class="hidden-xs"></td>
               <td class="hidden-xs text-center"><strong>Total $ {{total | numfliter}}</strong></td>
-              <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+              <td><a href="/stripe" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
           </tfoot>
         </table>
       </div>
-  
+
       `,
       data: () => {
         state = new Cart()

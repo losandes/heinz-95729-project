@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'stripeController',
-  dependencies: ['router'],
-  factory: (router) => {
+  dependencies: ['router','stripeRepo', 'storage'],
+  factory: (router, repo, storage) => {
     'use strict'
 
     /**
@@ -12,10 +12,25 @@ module.exports = {
       router('/stripe', () => {
         app.currentView = 'stripe'
       })
-      // //Route for error page
-      // router('/error', () => {
-      //   app.currentView = 'error'
-      // })
+
+      router('/success', () => {
+        repo.post(storage.get('user')._id, (err, product) => {
+          if (err) {
+            alert(err)
+            router.navigate('/error')
+          }
+
+          setTimeout(() => {
+            var video = document.getElementsByTagName("video")[0];
+            video.style.display = 'block';
+            var header = document.getElementsByTagName("header")[0];
+            header.style.display = 'block';
+            router.navigate('/')
+          },5000)
+
+        })
+
+      })
     }
 
     return { registerRoutes }

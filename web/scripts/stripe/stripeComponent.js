@@ -1,13 +1,14 @@
 module.exports = {
   scope: 'heinz',
   name: 'stripeComponent',
-  dependencies: ['Vue'],
-  factory: (Vue) => {
+  dependencies: ['router', 'Vue', 'stripeRepo', 'storage'],
+  factory: (router, Vue, repo, storage) => {
     'use strict'
-    
+
     const component = Vue.component('stripe', {
       // code from: code from: https://github.com/stripe/elements-examples/#example-1
       template: `
+      <div class="stripe">
       <div class="globalContent">
         <main>
         <div class="stripes">
@@ -87,32 +88,272 @@ module.exports = {
               <p class="message"><span data-tid="elements_examples.success.message">Thanks for Shopping! <br>We've emailed the download link to you!
               </span>
               <span class="token">tok_189gMN2eZvKYlo2CwTBv9KKh</span></p>
-    
+
               <a class="reset" href="#">
                 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <path fill="#000000" d="M15,7.05492878 C10.5000495,7.55237307 7,11.3674463 7,16 C7,20.9705627 11.0294373,25 16,25 C20.9705627,25 25,20.9705627 25,16 C25,15.3627484 24.4834055,14.8461538 23.8461538,14.8461538 C23.2089022,14.8461538 22.6923077,15.3627484 22.6923077,16 C22.6923077,19.6960595 19.6960595,22.6923077 16,22.6923077 C12.3039405,22.6923077 9.30769231,19.6960595 9.30769231,16 C9.30769231,12.3039405 12.3039405,9.30769231 16,9.30769231 L16,12.0841673 C16,12.1800431 16.0275652,12.2738974 16.0794108,12.354546 C16.2287368,12.5868311 16.5380938,12.6540826 16.7703788,12.5047565 L22.3457501,8.92058924 L22.3457501,8.92058924 C22.4060014,8.88185624 22.4572275,8.83063012 22.4959605,8.7703788 C22.6452866,8.53809377 22.5780351,8.22873685 22.3457501,8.07941076 L22.3457501,8.07941076 L16.7703788,4.49524351 C16.6897301,4.44339794 16.5958758,4.41583275 16.5,4.41583275 C16.2238576,4.41583275 16,4.63969037 16,4.91583275 L16,7 L15,7 L15,7.05492878 Z M16,32 C7.163444,32 0,24.836556 0,16 C0,7.163444 7.163444,0 16,0 C24.836556,0 32,7.163444 32,16 C32,24.836556 24.836556,32 16,32 Z"></path>
                 </svg>
               </a>
             </div>
-    
+
             <div class="caption">
               <span data-tid="elements_examples.caption.no_charge" class="no-charge">Your card won't be charged</span>
-              <a class="source" href="https://github.com/stripe/elements-examples/#example-5">
-                <svg width="16px" height="10px" viewBox="0 0 16 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M1,8 L12,8 C12.5522847,8 13,8.44771525 13,9 C13,9.55228475 12.5522847,10 12,10 L1,10 C0.44771525,10 6.76353751e-17,9.55228475 0,9 C-6.76353751e-17,8.44771525 0.44771525,8 1,8 L1,8 Z M1,4 L8,4 C8.55228475,4 9,4.44771525 9,5 C9,5.55228475 8.55228475,6 8,6 L1,6 C0.44771525,6 6.76353751e-17,5.55228475 0,5 C-6.76353751e-17,4.44771525 0.44771525,4 1,4 L1,4 Z M1,0 L15,0 C15.5522847,-1.01453063e-16 16,0.44771525 16,1 L16,1 C16,1.55228475 15.5522847,2 15,2 L1,2 C0.44771525,2 6.76353751e-17,1.55228475 0,1 L0,1 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 L1,0 Z" fill="#AAB7C4"></path>
-                </svg>
-              </a>
             </div>
           </div>
         </section>
-        <a href="https://github.com/stripe/elements-examples" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#6772e5; color:#f6f9fc; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
         </main>
+      </div>
       </div>`,
+
+      beforeMount() {
+        var video = document.getElementsByTagName("video")[0];
+        video.style.display = 'none';
+        var header = document.getElementsByTagName("header")[0];
+        header.style.display = 'none';
+      },
+
+      mounted(){
+        var stripe = Stripe('pk_test_CLNZH3bnJyymbzChJVSqAEHB00cmXPGbZS'); //strip publishable key
+        
+        function registerElements(elements, exampleName) {
+          var formClass = '.' + exampleName;
+          var example = document.querySelector(formClass);
+
+          var form = example.querySelector('form');
+          var resetButton = example.querySelector('a.reset');
+          var error = form.querySelector('.error');
+          var errorMessage = error.querySelector('.message');
+
+          function enableInputs() {
+            Array.prototype.forEach.call(
+              form.querySelectorAll(
+                "input[type='text'], input[type='email'], input[type='tel']"
+              ),
+              function(input) {
+                input.removeAttribute('disabled');
+              }
+            );
+          }
+
+          function disableInputs() {
+            Array.prototype.forEach.call(
+              form.querySelectorAll(
+                "input[type='text'], input[type='email'], input[type='tel']"
+              ),
+              function(input) {
+                input.setAttribute('disabled', 'true');
+              }
+            );
+          }
+
+          function triggerBrowserValidation() {
+            // The only way to trigger HTML5 form validation UI is to fake a user submit
+            // event.
+            var submit = document.createElement('input');
+            submit.type = 'submit';
+            submit.style.display = 'none';
+            form.appendChild(submit);
+            submit.click();
+            submit.remove();
+          }
+
+          // Listen for errors from each Element, and show error messages in the UI.
+          var savedErrors = {};
+          elements.forEach(function(element, idx) {
+            element.on('change', function(event) {
+              if (event.error) {
+                error.classList.add('visible');
+                savedErrors[idx] = event.error.message;
+                errorMessage.innerText = event.error.message;
+              } else {
+                savedErrors[idx] = null;
+
+                // Loop over the saved errors and find the first one, if any.
+                var nextError = Object.keys(savedErrors)
+                  .sort()
+                  .reduce(function(maybeFoundError, key) {
+                    return maybeFoundError || savedErrors[key];
+                  }, null);
+
+                if (nextError) {
+                  // Now that they've fixed the current error, show another one.
+                  errorMessage.innerText = nextError;
+                } else {
+                  // The user fixed the last error; no more errors.
+                  error.classList.remove('visible');
+                }
+              }
+            });
+          });
+
+          // Listen on the form's 'submit' handler...
+          form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Trigger HTML5 validation UI on the form if any of the inputs fail
+            // validation.
+            var plainInputsValid = true;
+            Array.prototype.forEach.call(form.querySelectorAll('input'), function(
+              input
+            ) {
+              if (input.checkValidity && !input.checkValidity()) {
+                plainInputsValid = false;
+                return;
+              }
+            });
+            if (!plainInputsValid) {
+              triggerBrowserValidation();
+              return;
+            }
+
+            // Show a loading screen...
+            example.classList.add('submitting');
+
+            // Disable all inputs.
+            disableInputs();
+
+            // Gather additional customer data we may have collected in our form.
+            var name = form.querySelector('#' + exampleName + '-name');
+            var address1 = form.querySelector('#' + exampleName + '-address');
+            var city = form.querySelector('#' + exampleName + '-city');
+            var state = form.querySelector('#' + exampleName + '-state');
+            var zip = form.querySelector('#' + exampleName + '-zip');
+            var additionalData = {
+              name: name ? name.value : undefined,
+              address_line1: address1 ? address1.value : undefined,
+              address_city: city ? city.value : undefined,
+              address_state: state ? state.value : undefined,
+              address_zip: zip ? zip.value : undefined,
+            };
+
+            // Use Stripe.js to create a token. We only need to pass in one Element
+            // from the Element group in order to create a token. We can also pass
+            // in the additional customer data we collected in our form.
+            stripe.createToken(elements[0], additionalData).then(function(result) {
+              // Stop loading!
+              example.classList.remove('submitting');
+
+              if (result.token) {
+                // If we received a token, show the token ID.
+                example.querySelector('.token').innerText = result.token.id;
+                example.classList.add('submitted');
+                router.navigate('/success')
+
+              } else {
+                // Otherwise, un-disable inputs.
+                enableInputs();
+              }
+            });
+          });
+
+          resetButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Resetting the form (instead of setting the value to `''` for each input)
+            // helps us clear webkit autofill styles.
+            form.reset();
+
+            // Clear each Element.
+            elements.forEach(function(element) {
+              element.clear();
+            });
+
+            // Reset error state as well.
+            error.classList.remove('visible');
+
+            // Resetting the form does not un-disable inputs, so we need to do it separately:
+            enableInputs();
+            example.classList.remove('submitted');
+          });
+        }
+
+        var elements = stripe.elements({
+          locale: window.__exampleLocale
+        });
+
+        /**
+         * Card Element
+         */
+        var card = elements.create("card", {
+          iconStyle: "solid",
+          style: {
+            base: {
+              iconColor: "#fff",
+              color: "#fff",
+              fontWeight: 400,
+              fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+              fontSize: "16px",
+              fontSmoothing: "antialiased",
+
+              "::placeholder": {
+                color: "#BFAEF6"
+              },
+              ":-webkit-autofill": {
+                color: "#fce883"
+              }
+            },
+            invalid: {
+              iconColor: "#FFC7EE",
+              color: "#FFC7EE"
+            }
+          }
+        });
+        card.mount("#example5-card");
+
+        /**
+         * Payment Request Element
+         */
+        var paymentRequest = stripe.paymentRequest({
+          country: "US",
+          currency: "usd",
+          total: {
+            amount: 2500,
+            label: "Total"
+          },
+          requestShipping: true,
+          shippingOptions: [
+            {
+              id: "free-shipping",
+              label: "Free shipping",
+              detail: "Arrives in 5 to 7 days",
+              amount: 0
+            }
+          ]
+        });
+        paymentRequest.on("token", function(result) {
+          var example = document.querySelector(".example5");
+          example.querySelector(".token").innerText = result.token.id;
+          example.classList.add("submitted");
+          result.complete("success");
+        });
+
+        var paymentRequestElement = elements.create("paymentRequestButton", {
+          paymentRequest: paymentRequest,
+          style: {
+            paymentRequestButton: {
+              theme: "light"
+            }
+          }
+        });
+
+        paymentRequest.canMakePayment().then(function(result) {
+          if (result) {
+            document.querySelector(".example5 .card-only").style.display = "none";
+            document.querySelector(
+              ".example5 .payment-request-available"
+            ).style.display =
+              "block";
+            paymentRequestElement.mount("#example5-paymentRequest");
+          }
+        });
+
+        registerElements([card], "example5");
+      }
       // data: () => {
       //   return state
       // }
     })
-    return { component }
+    return {
+      component
+    }
   }
 }
-

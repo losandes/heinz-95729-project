@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'productsController',
-  dependencies: ['router', 'productsComponent', 'productComponent', 'Product', 'productsRepo'],
-  factory: (router, productsComponent, productComponent, Product, repo) => {
+  dependencies: ['router', 'productsComponent', 'productComponent', 'Product', 'productsRepo', 'storage'],
+  factory: (router, productsComponent, productComponent, Product, repo, storage) => {
     'use strict'
 
     /**
