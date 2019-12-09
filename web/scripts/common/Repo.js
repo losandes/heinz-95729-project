@@ -65,7 +65,6 @@ module.exports = {
       function execute (options, callback) {
         options.headers = ensureHeaders(options)
         url = makeUrl(options.path)
-        console.log("Executing ", options)
         if (typeof options.body === 'object') {
           options.body = JSON.stringify(options.body)
         }
