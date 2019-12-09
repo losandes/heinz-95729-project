@@ -19,6 +19,26 @@ Navigate to http://localhost:3000 to see the documentation
 
 > NOTE: `npm run dev` uses nodemon, which monitors the filesystem, and restarts the app when you make changes. This is not a tool we would use in production. `npm start` runs the app without monitoring for changes, which is how we would start the app in production.
 
+### Running Tests
+This app has examples that use [supposed](https://github.com/losandes/supposed#readme) for tests, but you can swap it out for another test library if you want to. The examples provided are:
+
+* `api/test.js`: the test runner, which can also be used to inject dependencies, and reduce the number of packages that need to be required by each test, which is an optional optimization
+* `api/users/usersRepo.test.js`: a test example with partial coverage of the usersRepo. It only evaluates the `get` function, and is a good place to start practicing, because there are other tests in the same file from which to draw inspiration, and improve the test coverage (i.e. add coverage for `create`).
+
+To run the tests, you can either:
+
+```Shell
+> npm test
+```
+
+Or:
+
+```Shell
+> node test
+```
+
+> The benefit of the latter is that you can use the [arguments that supposed supports](https://github.com/losandes/supposed#arguments-and-envvars)
+
 ### Adding New APIs
 1. At the root-level of the app, add a new folder, describing the type of the new API (i.e. Users, Legos, etc.)
 
