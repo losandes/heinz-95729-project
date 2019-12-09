@@ -14,16 +14,18 @@ module.exports = {
         const uid = context.params.uid
         const order_id = context.params.order_id
 
-        console.log(uid, order_id)
-
-        downloadRepo.download({ uid, order_id }, (err, download) => {
+        downloadRepo.download({ uid, order_id }, (err, blob) => {
+         
           if (err) {
             console.log(err)
-            alert('Cannot download.')
             return
           }
-
-          if (download) {
+          if (blob) {
+            
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = uid + '.pdf'
+            link.click()
             app.currentView = 'download'
           }
         })
