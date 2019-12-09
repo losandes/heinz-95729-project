@@ -12,7 +12,7 @@ module.exports = {
         <div class="history-component">
           <div class="row">
           <!-- TODO: ADD USER DETAILS -->
-          <a href="/userproducts"> View History </a>
+          <a href="/userproducts"> View History </a><br>
           <button class="btn btn-success" v-on:click="logout">Log out</button>
           </div><!-- /row -->
         </div><!-- /component -->`,
