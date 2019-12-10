@@ -8,7 +8,7 @@
     "dev": "nodemon app.js -e js,hbs",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./**/*test.js",
     "seed": "node common/build-tasks/seed.js"
   },
   "repository": {
@@ -24,6 +24,7 @@
     "async": "~3.1.0",
     "body-parser": "~1.19.0",
     "bson-objectid": "~1.3.0",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "ejs": "^3.0.1",
     "express": "~4.17.1",
@@ -34,7 +35,9 @@
     "hpp": "~0.2.2",
     "jsonwebtoken": "~8.5.1",
     "marked": "~0.7.0",
+    "mocha": "^6.2.2",
     "mongodb": "~3.3.3",
+    "mongoose": "^5.8.0",
     "nconf": "~0.10.0",
     "ncrypt": "^1.0.7",
     "nodemailer": "^6.4.0",
