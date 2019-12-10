@@ -4,7 +4,7 @@ module.exports.factory = function (nodemailer, ejs, getUser, nconf) {
   'use strict'
   const { getUserByID } = getUser
 
-  const sendEmail = (order, uid, baseURL) => {
+  const sendEmail = (order, uid) => {
     
     //Retrieve mailtrap SMTP credentials
     const env = nconf
@@ -29,8 +29,8 @@ module.exports.factory = function (nodemailer, ejs, getUser, nconf) {
           'orders/email-templates/default.ejs', 
           {
             order: order,
-            baseURL: baseURL,
-            user: user
+            user: user,
+            clientPort: env.get('client_port'), 
           },
        
           function (err, html) {

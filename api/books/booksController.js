@@ -2,7 +2,7 @@ module.exports.name = 'booksController'
 module.exports.dependencies = ['router', 'searchBooks', 'getBook', 'getBooks', 'orderDownload']
 module.exports.factory = (router, _searchBooks, _getBook, _getBooks, _orderDownload) => {
   'use strict'
-
+  console.log('Search books', _searchBooks)
   const { searchBooks, bindToManyBooks } = _searchBooks
   const { getBook, bindToBook } = _getBook
   const { getBooks } = _getBooks

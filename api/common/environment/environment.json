@@ -7,6 +7,11 @@
         "port": 27017,
         "name": "heinz95729"
     },
+    "test_db": {
+        "host": "localhost",
+        "port": 27017,
+        "name": "heinz95729-test"
+    },
     "jwt": {
         "secret": "fdaoikn452kn543w8sddfy8sdfgwlkj54wl6jt3456khj",
         "expiresIn": "30d"

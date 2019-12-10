@@ -178,7 +178,7 @@
                             <td><%= item.name %></td>
                             <td><%= item.quantity %></td>
                             <td>USD <%= item.quantity * item.price %></td>
-                            <td><a href="http://<%= baseURL %>/books/download/<%= item.item_uid %>/<%= order._id %>">Download <%= item.name %></a></td>
+                            <td><a href="http://localhost:<%= clientPort %>/books/download/<%= item.item_uid %>/<%= order._id %>">Download <%= item.name %></a></td>
 
                         </tr>
              
