@@ -1,16 +1,11 @@
 module.exports = {
   scope: 'heinz',
   name: 'cartComponent',
-  dependencies: ['Vue', 'Cart', 'cartRepo','storage', 'JSON'],
-  factory: (Vue, Cart, cartRepo,storage, JSON) => {
+  dependencies: ['Vue', 'Cart', 'cartRepo', 'storage', 'JSON'],
+  factory: (Vue, Cart, cartRepo, storage, JSON) => {
     'use strict'
 
-    // if (storage.get('user') !== undefined){
-    //   var state = new Cart()
-    // }
     var state
-    // var state = new Cart()
-    // console.log(state)
 
     const component = Vue.component('checkout', {
       // shopping cart UI code from:https://bootsnipp.com/snippets/yP7qe, by asanti82
@@ -42,7 +37,7 @@ module.exports = {
               <td data-th="Subtotal" class="text-center">{{ (item.quantity * item.price)| numfliter}}</td>
               <td class="actions" data-th="">
                 <button v-on:click="updateCart(item.quantity,item.item_uid)" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                <button v-on:click="deleteItem(item.item_uid,index)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+                <button v-on:click="deleteItem(item.item_uid,index)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
               </td>
             </tr>
           </tbody>
@@ -54,39 +49,38 @@ module.exports = {
               <td><a href="/all" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="2" class="hidden-xs"></td>
               <td class="hidden-xs text-center"><strong>Total $ {{total | numfliter}}</strong></td>
-              <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+              <td><a href="/stripe" class="btn btn-success btn-block" v-on:click="deleteCart()">Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
           </tfoot>
         </table>
       </div>
-  
+
       `,
       data: () => {
         state = new Cart()
         return state;
       },
       methods: {
-        calTotal(items){
-          var total =0
+        calTotal(items) {
+          let total = 0
           console.log(items.length)
-          if(items.length !=0){
+          if (items.length != 0) {
             items.forEach(element => {
               total += element.quantity * element.price
             });
           }
           return total
         },
-
         updateCart(qt, id) {
-          var body = {
+          let body = {
             quantity: qt,
             uid: state.uid,
             item_uid: id
           }
           console.log(body);
-          if(storage.exists('jwt')){
-            cartRepo.updateQuantity(body,(err,res) => {
-              if(err){
+          if (storage.exists('jwt')) {
+            cartRepo.updateQuantity(body, (err, res) => {
+              if (err) {
                 console.log(err)
                 alert('Update cart failed')
                 return
@@ -94,25 +88,25 @@ module.exports = {
               state.total = res.total
               state.items = res.items
             })
-          }else{
-           var data = JSON.parse(JSON.stringify(state))
-           storage.set('localCart',data.items)
-           state.total = this.calTotal(state.items)
-           storage.set('totalPrice',state.total)
+          } else {
+            let data = JSON.parse(JSON.stringify(state))
+            storage.set('localCart', data.items)
+            state.total = this.calTotal(state.items)
+            storage.set('totalPrice', state.total)
 
-           localStorage.setItem('localCart',JSON.stringify(data.items))
-           localStorage.setItem('totalPrice',JSON.stringify(state.total))
+            localStorage.setItem('localCart', JSON.stringify(data.items))
+            localStorage.setItem('totalPrice', JSON.stringify(state.total))
           }
 
         },
-        deleteItem(id,index){
-          var body = {
+        deleteItem(id, index) {
+          let body = {
             uid: state.uid,
-            item_uid:id
+            item_uid: id
           }
-          if(storage.exists('jwt')){
-            cartRepo.deleteItem(body,(err,res)=>{
-              if(err){
+          if (storage.exists('jwt')) {
+            cartRepo.deleteItem(body, (err, res) => {
+              if (err) {
                 console.log(err)
                 alert('Update cart failed')
                 return
@@ -120,23 +114,29 @@ module.exports = {
               state.total = res.total
               state.items = res.items
             })
-          }else{
-            var items = storage.get('localCart')
-            items.splice(index,1)
+          } else {
+            let items = storage.get('localCart')
+            items.splice(index, 1)
             state.items = items
             state.total = this.calTotal(items)
-            storage.set('totalPrice',state.total)
-            storage.set('localCart',items)
+            storage.set('totalPrice', state.total)
+            storage.set('localCart', items)
 
-            localStorage.setItem('localCart',JSON.stringify(items))
-            localStorage.setItem('totalPrice',JSON.stringify(state.total))
+            localStorage.setItem('localCart', JSON.stringify(items))
+            localStorage.setItem('totalPrice', JSON.stringify(state.total))
           }
         },
+        deleteCart() {
+          localStorage.removeItem('localCart')
+          localStorage.removeItem('totalPrice')
+          storage.remove('localCart')
+          storage.remove('totalPrice')
+        }
       },
 
-      filters:{
-        numfliter: function(value){
-          value= Number(value)
+      filters: {
+        numfliter: function (value) {
+          value = Number(value)
           return value.toFixed(2)
         }
       }

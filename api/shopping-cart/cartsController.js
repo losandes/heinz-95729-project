@@ -12,6 +12,7 @@ module.exports.factory = (router, _addToCart, _addToExistingCart, _updateCart, l
     Promise.resolve(req.params.uid)
       .then(uid => new Promise(getCart(uid)))
       .then(cart => {
+        cart = cart || {}
         res.status(201).send(cart)
       })
       .catch(err => {

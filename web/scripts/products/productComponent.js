@@ -18,7 +18,8 @@ module.exports = {
             </figcaption>
           </figure>
           <div class="purchase">
-            <button class="btn btn-success btn-buy" v-on:click="addToCart">{{price}}</button>
+            <label>$ {{price}}</label>
+            <button class="btn btn-success btn-buy" v-on:click="addToCart">Add to cart</button>
           </div>
         </div>`,
       data: () => {

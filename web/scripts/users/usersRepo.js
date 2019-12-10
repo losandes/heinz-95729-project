@@ -21,6 +21,7 @@ module.exports = {
       }, callback)
     }
 
-    return { login, register }
+
+    return { login, register}
   }
 }

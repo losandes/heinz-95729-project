@@ -19,14 +19,14 @@ module.exports = {
          uid = user._id
 
          self.uid = uid
-
+        
          cartRepo.getCart(uid, (err, res) => {
           if (err) {
             console.log(err)
             alert('Get cart failed')
             return
           }
-          self.total = res.total
+          self.total = res.total || 0
           self.items = res.items
           return res
         })
