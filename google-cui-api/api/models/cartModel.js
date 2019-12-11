@@ -9,11 +9,13 @@ var CartSchema = new Schema({
     type: String,
     required: 'Kindly enter the name of the product',
   },
- 
-
   shopping_time: {
     type: Date,
     default: Date.now,
+  },
+  unit_number: {
+    type: Number,
+    default : 1,
   }
 });
 
