@@ -10,13 +10,20 @@
 
 ## User Story 
 <br>
-| USer Story                             | Story Points  |
-| --------------------------------------:| -------------:|
-| As a customer, I want to log in my google account, so that I can start to shop and related shopping records can store in my account |  8            :|
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-User   Stories   8 As a customer, I want to Browsing choices, so that I can check the price of different type of items 5 As a customer, I want to Select certain item and add to shopping cart 5 As a customer, I want to Delete items from shopping cart 3 As a customer, I want to Browse everything in the shopping cart 2 As a customer, I want to Check out, so that I can buy them 1 As a customer, I want to see what I bought previously 2 As a customer, I want to Check out with stripe, so that it is much easier 8 
-
+<table>
+    <tr>
+        <th>USer Story</th>
+        <th>Story Points</th>
+    </tr>
+    <tr>
+        <td>As a customer, I want to log in my google account, so that I can start to shop and related shopping records can store in my account</td>
+        <td>8</td>
+    </tr>        
+    <tr>
+        <td>As a customer, I want to Browsing choices, so that I can check the price of different type of items 5 As a customer, I want to Select certain item and add to shopping cart</td> 
+        <td>5</td>
+    </tr> As a customer, I want to Delete items from shopping cart 3 As a customer, I want to Browse everything in the shopping cart 2 As a customer, I want to Check out, so that I can buy them 1 As a customer, I want to see what I bought previously 2 As a customer, I want to Check out with stripe, so that it is much easier 8 
+</table>
 ## Deliverables and Design
  - whether we could implement Oauth or just simply use one user 
  - Browse and prepare shopping item dataset ●Set up database with MongoDB
