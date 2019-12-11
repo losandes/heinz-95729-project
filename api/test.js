@@ -9,10 +9,10 @@ const env = environment.factory(nconf)
 const mongoose = require('mongoose');
 
 const connect = () => {
-  mongoose.connect(`mongodb://${env.get('test_db:host')}:${env.get('test_db:port')}/${env.get('test_db:name')}`, 
-  { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(`mongodb://${env.get('test_db:host')}:${env.get('test_db:port')}/${env.get('test_db:name')}`,
+    { useNewUrlParser: true, useUnifiedTopology: true });
   return mongoose.connection;
-  
+
 }
 
 module.exports = {

@@ -8,7 +8,7 @@
     "dev": "nodemon app.js -e js,hbs",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
-    "test": "mocha ./**/*test.js",
+    "test": "mocha --file ./**/*test.js --file test-tear-down.js --exit",
     "seed": "node common/build-tasks/seed.js"
   },
   "repository": {
