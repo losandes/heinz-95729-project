@@ -62,9 +62,9 @@ describe('CartRepo Test Suite', function () {
   // Clean up so that each run of the test begins with the same state of db
   after(function () {
     // // Clean database here
-    // const collection = db.collection(Cart.db.collection)
+    // const collection = db.collection('cart')
     // // delete cart created
-    // collection.deleteOne({ name: testItem.name }, (err, res) => {
+    // collection.deleteOne({ uid: testItem.uid }, (err, res) => {
     //   if (err) {
     //     console.log(err)
     //   }
@@ -81,18 +81,15 @@ describe('CartRepo Test Suite', function () {
     // runs after each test in this block
   });
 
-  // happy path for creating a cart
   describe('Create cart', function () {
     it('should create a new cart', function () {
       Promise.resolve(repo.create(testItem))
         .then(item => {
-          console.log(item)
           item.ops[0].items[0].name.should.equal(testItem.name)
         })
     });
   });
 
-  // negative path for creating a cart
   describe('Create cart with no payload', function () {
     it('it should reject the promise', function () {
       return expect(repo.create())
@@ -100,19 +97,15 @@ describe('CartRepo Test Suite', function () {
     });
   });
 
-  // happy path for adding a cart
-  describe('Add cart', function () {
+  describe('Add a item to exsisting cart', function () {
     it('should add the item to the user\'s cart', function () {
       Promise.resolve(repo.add(testItem2))
         .then(item => {
-          console.log(item)
           item.ops[0].items[1].name.should.equal(testItem2.name)
-          // user.ops[0].email.should.equal(testUser.email)
         })
     });
   });
 
-  // negative path for adding a cart
   describe('Create cart with no payload', function () {
     it('it should reject the promise', function () {
       return expect(repo.add(testItem3))
@@ -120,6 +113,23 @@ describe('CartRepo Test Suite', function () {
     });
   });
 
+  describe('Update item quantity in the cart', function () {
+    it('should update the quantity in the cart', function () {
+      Promise.resolve(repo.updateItemQuantity(testItem))
+        .then(item => {
+          console.log(item)
+          item.ops[0].items[1].quantity.should.equal(testItem2.quantity * 2)
+          // user.ops[0].email.should.equal(testUser.email)
+        })
+    });
+  });
+
+  describe('Update item with no uid', function () {
+    it('it should reject the promise', function () {
+      return expect(repo.updateItemQuantity({}))
+        .to.be.rejectedWith('A uid is required to get a Cart');
+    });
+  });
 
 
 
