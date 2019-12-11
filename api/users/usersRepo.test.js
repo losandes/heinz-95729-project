@@ -26,7 +26,7 @@ describe('UserRepo Test Suite', function() {
       // compose the dependencies for usersRepo.js
      //User dependency required for userRepo
       User = require('./User.js').factory(dep.blueprint, dep.immutable, 
-        dep.ObjectID, dep.logger)
+        dep.mongodb.ObjectID, dep.logger)
       
       //User Repository (Object under test)
       usersRepoFactory = require('./usersRepo').factory
