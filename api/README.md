@@ -192,8 +192,5 @@ The orders inherit the products and the orders folder contains:
 - email-templates folder for pdf downloading
 
 
-<div class="text-white bg-blue mb-2">
-  .text-white on .bg-blue
-</div>
 
 
