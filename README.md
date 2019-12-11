@@ -11,7 +11,7 @@
 ## User Story 
 <br>
 | USer Story                             | Story Points  |
-| --------------:-----------------------:| -------------:|
+| --------------------------------------:| -------------:|
 | As a customer, I want to log in my google account, so that I can start to shop and related shopping records can store in my account |  8            :|
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
