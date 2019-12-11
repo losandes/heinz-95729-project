@@ -75,19 +75,20 @@ The root of the app includes:
 
 * **composition.js**: where we bootstrap hilary, and compose our dependency graph. It's the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) of the app.
 
-* **<span style='color:red'>test.js</span>**: where we bootstrap the required testing dependencies. Since we are using a `testdb` to implement all of our tests. 
+* **<span style='color:red'>test.js</span> **: where we bootstrap the required testing dependencies. Since we are using a `testdb` to implement all of our tests. 
 
   To run our tests:
 
   * please navigate to `/api/common/build-tasks/seed.js` 
   
-  * Modify the `testdb:host`, `testdb:port`,`testdb:name`
-    ```javascript
-  MongoClient(new Server(env.get('testdb:host'), parseInt(env.get('testdb:port'))))
-    ...
-  const db = client.db(env.get('testdb:name'))
+  * modify the `testdb:host`, `testdb:port`,`testdb:name`
+    ```JavaScript
+    // composition.js
+    MongoClient(new Server(env.get('testdb:host'), parseInt(env.get('testdb:port'))))
+        ...
+      const db = client.db(env.get('testdb:name'))
+    ], (err) => { /*...*/ })
     ```
-    
   * re-run the seed
 
     ```
@@ -160,7 +161,7 @@ The books inherit the product and the book folder contains:
 
 This folder contains pdfs for books.
 
-###shopping-cart
+### shopping-cart
 
 The shopping-cart folder contains:
 
@@ -189,5 +190,10 @@ The orders inherit the products and the orders folder contains:
   - orderDownload
   - sendEMail
 - email-templates folder for pdf downloading
+
+
+<div class="text-white bg-blue mb-2">
+  .text-white on .bg-blue
+</div>
 
 
