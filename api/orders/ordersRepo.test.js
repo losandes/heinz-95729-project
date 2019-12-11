@@ -68,6 +68,7 @@ describe('OrderRepo Test Suite', function () {
   after(function () {
     // Clean database here
     const collection = db.collection(Order.db.collection)
+    
     // delete order created
     collection.deleteOne({ uid: "some_complex_uid3" }, (err, res) => {
       if (err) {
@@ -90,9 +91,8 @@ describe('OrderRepo Test Suite', function () {
     it('should add an order to database', function () {
       Promise.resolve(repo.add(testOrder))
         .then(order => {
-          console.log(order)
-          // order.ops[0].uid.should.equal(testOrder.uid)
-          //user.ops[0].email.should.equal(testUser.email)
+          console.log(order.ops[0])
+          order.ops[0].uid.should.equal(testOrder.uid)
         })
     });
   });
