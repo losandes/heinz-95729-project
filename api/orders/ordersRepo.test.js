@@ -121,7 +121,6 @@ describe('OrderRepo Test Suite', function() {
 
     describe('Get Order Without ID', function() {
       it('should reject the promise', function() {
-        console.log(typeof orderID)
         return expect(repo.getOne())
         .to.be.rejectedWith('A uid is required to get an order');
       });
