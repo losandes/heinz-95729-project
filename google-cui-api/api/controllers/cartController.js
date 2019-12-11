@@ -17,45 +17,36 @@ exports.list_all_carts = function(req, res) {
 };
 
 exports.add_an_item = function(req, res) {
-  var productt = Product.findOne(req.body)
-    //how to get the current user, what is the syntax
-  var new_item = new Cart({product_name:productt["product_name"],product_price:productt["product_price"],user_name:"HI"})
-  // console.log("POST REQUEST: add an item");
-  new_item.save(function(err, task) {
+  console.log("POST REQUEST: add an item");
+  console.log(req.body);
+  Product.findOne({product_name:(req.body.product_name.toLowerCase())}, function(err, task) {
     if (err)
       res.send(err);
-    res.json(task);
+    // res.json(task.id);
+    var product_from_db = task.product_name;
+    console.log(product_from_db);
+
+    var new_item = new Cart({product_name:product_from_db})
+    // console.log("POST REQUEST: add an item");
+    new_item.save(function(err, task) {
+      if (err)
+        res.send(err);
+      res.json(task);
+    });
   });
+
+    //how to get the current user, what is the syntax
+  
 };
-// Product.findOne(req.body, function(err, task) {
-//   if (err)
-//     res.send(err);
-//   res.json(task);
-// });
-// };
-// var new_cart = new Cart(req.body);
-//   console.log("POST REQUEST: create a product");
-//   new_cart.save(function(err, task) {
-//     if (err)
-//       res.send(err);
-//     res.json(task);
-//   });
-// };
-//User has to give the id
+
 exports.delete_an_item = function(req, res) {
-  Cart.remove(req.body, function(err, cart) {
+  Cart.remove({product_name:(req.body.product_name.toLowerCase())}, function(err, cart) {
     if (err)
       res.send(err);
     res.json({ message: 'Task successfully deleted' });
   });
+
+
 };
 
-//TODO
-exports.list_user_carts = function(req, res) {
-  console.log("GET REQUEST: listing all products");
-  Cart.findOne({_name:req.body},function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
-};
+

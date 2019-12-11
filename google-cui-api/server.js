@@ -25,10 +25,10 @@ app_cart.use(bodyParser.json());
 var routes = require('./api/routes/productRoutes'); //importing route
 routes(app); //register the route
 var routes_cart = require('./api/routes/cartRoutes'); //importing route
-  routes_cart(app_cart); //register the route
+routes_cart(app); //register the route
 
  app.listen(port),
- app_cart.listen(8000);
+//  app_cart.listen(8000);
 
 
 console.log('product RESTful API server started on: ' + port);

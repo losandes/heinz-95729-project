@@ -29,10 +29,14 @@ exports.create_a_product = function(req, res) {
 
 exports.readTtemDetail = function(req, res) {
   //findById needs to be changed
-  Product.findOne({product_name:req.body}, function(err, task) {
+  console.log("GET REQUEST: readItemDetail");
+  console.log("request as follow");
+  console.log(req.params);
+  Product.findOne({product_name:(req.params.product_name.toLowerCase())}, function(err, task) {
     if (err)
       res.send(err);
-    res.json(task);
+    console.log(task);
+    res.json(task.product_price);
   });
 };
 
