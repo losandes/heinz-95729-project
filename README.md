@@ -6,7 +6,7 @@ Develop a Google Assistant Actions for Google Home Devices which integrates with
 At the end of this project, users will be able to 
 1. Log in with a google account (Oauth)
 2. Browsing shopping choices 
-* Users need to mention the exact item name in order to reach the correct items, no recommending list provided *
+> Users need to mention the exact item name in order to reach the correct items, no recommending list provided *
 3. Select a certain item and add to shopping cart 
 4. Delete certain items from shopping cart 
 5. Browse everything in the shopping cart 
@@ -50,8 +50,10 @@ At the end of this project, users will be able to
 
 ## Deliverables and Design
  - whether we could implement Oauth or just simply use one user 
- - Browse and prepare shopping item dataset ●Set up database with MongoDB
- - Store shopping history into database ●Create endpoints via node.js  
+ - Browse and prepare shopping item dataset 
+ - Set up database with MongoDB
+ - Store shopping history into database 
+ - Create endpoints via node.js  
  1. GET itemDetail 
  2. POST addToShoppingCart 
  3. DELETE fromShoppingCart 
@@ -62,8 +64,8 @@ At the end of this project, users will be able to
 
 ### Running Examples
 ### Dependencies
-Have NodeJS installed
-Have MongoDB installed and running
+- Have NodeJS installed
+- Have MongoDB installed and running
 ### List of Available Products
 - banana
 - apple
@@ -76,3 +78,4 @@ Have MongoDB installed and running
 - pear
 - berry
 ### Logic Flow
+![1.PNG]
