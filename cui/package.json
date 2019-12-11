@@ -17,12 +17,13 @@
   "homepage": "https://github.com/losandes/heinz-95729-project-2017",
   "license": "MIT",
   "dependencies": {
-    "terminal-adventure": "^1.0.2",
-    "dialogflow": "^0.10.3",
-    "dialogflow-fulfillment":"^0.6.1",
     "cors": "^2.8.5",
-    "firebase-admin": "^8.0.0",
-    "firebase-functions": "^3.1.0"
+    "dialogflow": "^0.10.3",
+    "dialogflow-fulfillment": "^0.6.1",
+    "firebase": "^7.5.2",
+    "firebase-admin": "^8.8.0",
+    "firebase-functions": "^3.3.0",
+    "terminal-adventure": "^1.0.2"
   },
   "devDependencies": {
     "eslint": "~6.6.0",
