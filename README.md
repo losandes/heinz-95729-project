@@ -1,7 +1,13 @@
 # Scope   and   User   Stories 
-<br>
-## Scope   statement 
-<br>Develop a Google Assistant Actions for Google Home Devices which integrates with Google DialogFlow. Using the dataset provided in course to simulate a shopping experience. Objectives At the end of this project, users will be able to ●Log in with a google account (Oauth) <to-be confirmed> ●Browsing shopping choices ○Users need to mention the exact item name in order to reach the correct items, no recommending list provided ●Select certain item and add to shopping cart ●Delete certain items from shopping cart ●Browse everything in the shopping cart ●Check out ○Clear everything in the shopping cart after the checkout action ●Stretch Goal #1 : Checkout with stripe ●Stretch Goal #2 : Create another channel of CUI (web/ slack) Deliverables ●Provide authentication via Google User Account ○Discussing on whether we could implement Oauth or just simply use one user ●Browse and prepare shopping item dataset ●Set up database with MongoDB, store shopping history into database ●Create endpoints via node.js (currently thinking of 5) ○GET itemDetail ○POST addToShoppingCart ○DELETE fromShoppingCart ○GET allShoppingCart ○DELETE/ POST/ PUT checkout shoppingCart) ●DialogFlow: Users complete the shopping process through interacting with chatbot 
+
+## Scope statement 
+<br>Develop a Google Assistant Actions for Google Home Devices which integrates with Google DialogFlow. Using the dataset provided in course to simulate a shopping experience. Objectives At the end of this project, users will be able to 
+1. Log in with a google account (Oauth)
+2. Browsing shopping choices 
+<br>Users need to mention the exact item name in order to reach the correct items, no recommending list provided 
+3. Select certain item and add to shopping cart 
+4. Delete certain items from shopping cart ●Browse everything in the shopping cart ●Check out ○Clear everything in the shopping cart after the checkout action 
+### Stretch Goal #1 : ○Discussing on whether we could implement Oauth or just simply use one user ●Browse and prepare shopping item dataset ●Set up database with MongoDB, store shopping history into database ●Create endpoints via node.js  ○GET itemDetail ○POST addToShoppingCart ○DELETE fromShoppingCart ○GET allShoppingCart ○DELETE/ POST/ PUT checkout shoppingCart) ●DialogFlow: Users complete the shopping process through interacting with chatbot 
 <br>
 ## User Story 
 <br>
