@@ -62,16 +62,16 @@ describe('CartRepo Test Suite', function () {
 
   // Clean up so that each run of the test begins with the same state of db
   after(function () {
-    // // Clean database here
-    // const collection = db.collection('cart')
-    // // delete cart created
-    // collection.deleteOne({ uid: testItem.uid }, (err, res) => {
-    //   if (err) {
-    //     console.log(err)
-    //   }
-    //   console.log(`Delete  ${res.result.n} records `)
-    // })
-    // db.close()
+    // Clean database here
+    const collection = db.collection('carts')
+    // delete cart created
+    collection.deleteOne({ uid: testItem.uid }, (err, res) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(`Delete  ${res.result.n} cart `)
+    })
+    db.close()
   });
 
   beforeEach(function () {
@@ -82,24 +82,32 @@ describe('CartRepo Test Suite', function () {
     // runs after each test in this block
   });
 
-  // describe('Create cart', function () {
-  //   it('should create a new cart', function () {
-  //     Promise.resolve(repo.create(testItem))
-  //       .then(item => {
-  //         item.ops[0].items[0].name.should.equal(testItem.name)
-  //       })
-  //   });
-  // });
+  describe('Create cart', function () {
+    it('should create a new cart', function () {
+      Promise.resolve(repo.create(testItem))
+        .then(item => {
+          item.ops[0].name.should.equal(testItem.name)
+        })
+    });
+  });
 
-  // describe('Add a item to exsisting cart', function() {
-  //   it('should satisfy the promise with a cart document', function() {
-  //     return repo.add(testItem2).should.eventually.deep.equal()
+  // describe('Add a item to an exsisting cart', function() {
+  //   it('should a item to an exsisting cart', function() {
+  //     Promise.resolve(repo.add(testItem2))
+  //     .then(doc => {
+  //       console.log(doc)
+  //       //doc.value.item_uid.should.equal(testItem2.item_uid)
+  //     })
   //   });
   // });
 
   // describe('Update item quantity in the cart', function () {
-  //   it('should satisfy the promise with a cart document', function () {
-  //     return repo.updateItemQuantity(testItem1).should.eventually.deep.equal()
+  //   it('should update the item quantity in the cart', function () {
+  //     Promise.resolve(repo.updateItemQuantity(testItem))
+  //     .then(doc => {
+  //       console.log(doc.ops)
+  //       //doc.value.item_uid.should.equal(testItem2.item_uid)
+  //     })
   //   });
   // });
 
@@ -109,49 +117,49 @@ describe('CartRepo Test Suite', function () {
   //   });
   // });
 
-  describe('Create cart with no payload', function () {
+  describe('Create cart with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.create())
         .to.be.rejectedWith('A payload is required to create a Cart');
     });
   });
 
-  describe('Add item to cart with no payload', function () {
+  describe('Add item to cart with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.add(testItem3))
         .to.be.rejectedWith('A uid is required to get a Cart');
     });
   });
 
-  describe('Update item with no payload', function () {
+  describe('Update item with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.updateItemQuantity({}))
         .to.be.rejectedWith('A uid is required to get a Cart');
     });
   });
 
-  describe('Delete item with no payload', function () {
+  describe('Delete item with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.deleteCartItem({}))
         .to.be.rejectedWith('A uid is required to get a Cart');
     });
   });
 
-  describe('Delete cart with no payload', function () {
+  describe('Delete cart with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.deleteCart({}))
         .to.be.rejectedWith('A uid is required to get a Cart');
     });
   });
 
-  describe('Update cart total with no payload', function () {
+  describe('Update cart total with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.updateCartTotal({}))
         .to.be.rejectedWith('A uid is required to get a Cart');
     });
   });
 
-  describe('Update cart total with no uid', function () {
+  describe('Update cart total with empty item', function () {
     it('it should reject the promise', function () {
       return expect(repo.get())
         .to.be.rejectedWith('A uid is required to get a Cart');
