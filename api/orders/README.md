@@ -104,7 +104,7 @@ This endpoint add the order for the user, by order_id `/books/download/:uid/:ord
 
 Document with mime type of application/pdf to the user's email.
 
-![exampleEmail](/Users/yaohanjiang/Desktop/heinz-95729-project/api/orders/exampleEmail.png)
+![exampleEmail](exampleEmail.png)
 
 # Orders.js Source
 
