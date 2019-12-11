@@ -1,6 +1,6 @@
 const blueprint = require('@polyn/blueprint')
 const immutable = require('@polyn/immutable')
-const { ObjectID } = require('mongodb')
+const mongodb = require('mongodb')
 const logger = require('./common/loggers/array-logger').factory()
 const { MongoClient, Server } = require('mongodb')
 const nconf = require('nconf')
@@ -18,7 +18,7 @@ const connect = () => {
 module.exports = {
     blueprint,
     immutable,
-    ObjectID,
+    mongodb,
     logger,
     MongoClient,
     Server,
