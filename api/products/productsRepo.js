@@ -28,6 +28,7 @@ module.exports.factory = function (db, Product, _blueprint, _immutable) {
    * @param {number} options.limit - the number of records to take
    */
   const find = (options) => {
+    // console.log("options ", options)
     return new Promise((resolve, reject) => {
       // validate the options, and set query defaults
       const _options = new FindOptions(options)
@@ -63,7 +64,6 @@ module.exports.factory = function (db, Product, _blueprint, _immutable) {
           if (err) {
             return reject(err)
           }
-
           return resolve(docs)
         })
     })

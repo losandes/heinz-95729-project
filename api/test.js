@@ -16,6 +16,7 @@ const connect = () => {
 }
 
 module.exports = {
+<<<<<<< HEAD
   blueprint,
   immutable,
   mongodb,
@@ -23,4 +24,14 @@ module.exports = {
   MongoClient,
   Server,
   connect
+=======
+    blueprint,
+    immutable,
+    mongodb,
+    logger,
+    MongoClient,
+    Server,
+    connect,
+
+>>>>>>> 6fad8fe8f4c4623a35e960d13f1886a5964c7d00
 }
