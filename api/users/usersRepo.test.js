@@ -48,30 +48,21 @@ describe('UserRepo Test Suite', function() {
 
     //Clean up so that each run of the test begins with the same state of db
     after(function() {
-      // Clean database here
-      const collection = db.collection(User.db.collection)
-      //delete user created
+      const collection = db.collection('users')
       collection.deleteOne({email: testUser.email}, (err, res) => {
         if (err) {
           console.log(err)
         }
-        console.log(`Delete  ${res.result.n} records `)
+        console.log(`Deleted  ${res.result.n} user record(s) `)
       })
-      db.close()
+      
     });
   
-    beforeEach(function() {
-      // runs before each test in this block
-    });
-  
-    afterEach(function() {
-      // runs after each test in this block
-    });
 
     describe('Register User', function() {
       it('should register a new user', function() {
-     
-      Promise.resolve(repo.create(testUser))
+      
+      return Promise.resolve(repo.create(testUser))
         .then( user => {
           user.ops[0].email.should.equal(testUser.email)
           
@@ -115,7 +106,6 @@ describe('UserRepo Test Suite', function() {
       it('should satisfy the promise with a user document', function() {
         return repo.get(testUser.email, testUser.password)
           .should.eventually.deep.equal(testUser)
-        
       });
     });
 
@@ -134,10 +124,10 @@ describe('UserRepo Test Suite', function() {
       });
     });
 
-    describe('Get unknown ID', function() {
+    describe('Get User unknown ID', function() {
       it('should satisfy the promise, returning undefined', function() {
         return repo.getUserById('unknowuserId')
-          .should.eventually.deep.equal(undefined)
+          .should.eventually.equal(undefined)
       });
     });
 
@@ -148,5 +138,7 @@ describe('UserRepo Test Suite', function() {
         
       });
     });
+
+    
   });
   
