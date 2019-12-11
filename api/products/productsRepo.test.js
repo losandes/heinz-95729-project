@@ -6,6 +6,7 @@ chai.use(chaiAsPromised);
 const should = chai.should();
 let Product;
 let productsRepoFactory;
+let testProduct;
 let repo;
 let db;
 let testOptions;
