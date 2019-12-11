@@ -6,8 +6,9 @@ chai.use(chaiAsPromised);
 const should = chai.should();
 let Cart;
 let cartsRepoFactory;
-let testCart;
-// let testUser2;
+let testItem;
+let testItem2;
+let testItem3;
 let repo;
 let db;
 
@@ -28,8 +29,8 @@ describe('CartRepo Test Suite', function () {
     Cart = require('./Cart.js').factory(dep.blueprint, dep.immutable, dep.mongodb.ObjectID)
 
     // Cart Repository (Object under test)
-    usersRepoFactory = require('./cartsRepo').factory
-    repo = usersRepoFactory(db, Cart, dep.blueprint)
+    cartsRepoFactory = require('./cartsRepo').factory
+    repo = cartsRepoFactory(db, Cart, dep.blueprint)
 
     // Sample carts to be used for testing
     testItem = {
@@ -107,7 +108,6 @@ describe('CartRepo Test Suite', function () {
   //     return repo.deleteCartItem(testItem).should.eventually.deep.equal()
   //   });
   // });
-  
 
   describe('Create cart with no payload', function () {
     it('it should reject the promise', function () {
@@ -158,79 +158,4 @@ describe('CartRepo Test Suite', function () {
     });
   });
 
-
-  
-
-
-
-
-  //   describe('Register User Without Email', function () {
-  //     it('should return a rejected promise', function () {
-  //       return expect(repo.create(testUser2))
-  //         .to.be.rejectedWith('An email is required to create a User');
-
-  //     });
-  //   });
-
-  //   describe('Register User With Empty Object', function () {
-  //     it('should reject the promise ', function () {
-  //       return expect(repo.create(null))
-  //         .to.be.rejectedWith('A payload is required to create a User');
-
-  //     });
-  //   });
-
-  //   describe('Get user with email only', function () {
-  //     it('it should reject the promise', function () {
-  //       return expect(repo.get(testUser.email))
-  //         .to.be.rejectedWith('A password is required to get a User');
-
-  //     });
-  //   });
-
-  //   describe('Get user with password only', function () {
-  //     it('should reject the promise', function () {
-  //       return expect(repo.get(null, testUser.password))
-  //         .to.be.rejectedWith('An email is required to get a User');
-
-  //     });
-  //   });
-
-  //   describe('Get User With Password and Email', function () {
-  //     it('should satisfy the promise with a user document', function () {
-  //       return repo.get(testUser.email, testUser.password)
-  //         .should.eventually.deep.equal(testUser)
-
-  //     });
-  //   });
-
-  //   describe('Get User With Unknown Email and Password', function () {
-  //     it('should satisfy the promise, returning undefined', function () {
-  //       return repo.get('unknown@gmail.com', '123456')
-  //         .should.eventually.deep.equal(undefined)
-
-  //     });
-  //   });
-
-  //   describe('Get User With UserID', function () {
-  //     it('should satisfy the promise with a user document', function () {
-  //       return repo.getUserById(testUser._id.toString())
-  //         .should.eventually.deep.equal(testUser)
-  //     });
-  //   });
-
-  //   describe('Get unknown ID', function () {
-  //     it('should satisfy the promise, returning undefined', function () {
-  //       return repo.getUserById('unknowuserId')
-  //         .should.eventually.deep.equal(undefined)
-  //     });
-  //   });
-
-  //   describe('Get user without an ID', function () {
-  //     it('should reject the promise', function () {
-  //       return expect(repo.getUserById())
-  //         .to.be.rejectedWith('An ID is required to get a User');
-
-  //     });
-  //   });
 });
