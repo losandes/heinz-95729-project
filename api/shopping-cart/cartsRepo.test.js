@@ -71,7 +71,7 @@ describe('CartRepo Test Suite', function () {
       }
       console.log(`Delete  ${res.result.n} cart `)
     })
-    db.close()
+    
   });
 
   beforeEach(function () {
