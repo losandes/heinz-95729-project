@@ -60,3 +60,13 @@ exports.list_user_carts = function(req, res) {
     res.json(task);
   });
 };
+
+//User has to give the id
+exports.delete_all_cart = function(req, res) {
+  console.log("DELETE REQUEST: delete everything in the cart");
+  Cart.deleteMany({}, function(err, cart) {
+    if (err)
+      res.send(err);
+    res.json({ message: 'Everything in the cart deleted' });
+  });
+};
