@@ -1,4 +1,4 @@
-# Scope   and   User   Stories 
+# Scope, User Stories and Design 
 
 ## Scope statement 
 <br>Develop a Google Assistant Actions for Google Home Devices which integrates with Google DialogFlow. Using the dataset provided in course to simulate a shopping experience. Objectives At the end of this project, users will be able to 
@@ -20,10 +20,24 @@
         <td>8</td>
     </tr>        
     <tr>
-        <td>As a customer, I want to Browsing choices, so that I can check the price of different type of items 5 As a customer, I want to Select certain item and add to shopping cart</td> 
+        <td>As a customer, I want to Browsing choices, so that I can check the price of different type of items</td>
         <td>5</td>
-    </tr> As a customer, I want to Delete items from shopping cart 3 As a customer, I want to Browse everything in the shopping cart 2 As a customer, I want to Check out, so that I can buy them 1 As a customer, I want to see what I bought previously 2 As a customer, I want to Check out with stripe, so that it is much easier 8 
+    </tr> 
+    <tr>
+        <td>As a customer, I want to Select certain item and add to shopping cart</td> 
+        <td>5</td>
+    </tr> 
+    <tr>
+        <td>As a customer, I want to Delete items from shopping cart 3 As a customer, I want to Browse everything in the shopping cart</td>
+        <td>2</td>
+    </tr>  
+    <tr>
+        <td>As a customer, I want to Check out, so that I can buy them 1 As a customer, I want to see what I bought previously
+        </td> 
+        <td>2</td>
+    </tr> 
 </table>
+
 ## Deliverables and Design
  - whether we could implement Oauth or just simply use one user 
  - Browse and prepare shopping item dataset ●Set up database with MongoDB
@@ -35,3 +49,8 @@
  5. DELETE/ POST/ PUT checkout shoppingCart) 
  - DialogFlow: Users complete the shopping process through interacting with chatbot 
 <br>
+
+### Running Examples
+### Dependencies
+### List of Available Products
+### Logic Flow
