@@ -39,14 +39,24 @@ exports.add_an_item = function(req, res) {
   
 };
 
+
+
+//User has to give the id
 exports.delete_an_item = function(req, res) {
-  Cart.remove({product_name:(req.body.product_name.toLowerCase())}, function(err, cart) {
+  console.log("DELETE REQUEST: delete one selected product");
+  Cart.deleteOne({product_name:(req.body.product_name.toLowerCase())}, function(err, cart) {
     if (err)
       res.send(err);
     res.json({ message: 'Task successfully deleted' });
   });
-
-
 };
 
-
+//TODO
+exports.list_user_carts = function(req, res) {
+  console.log("GET REQUEST: listing all products");
+  Cart.findOne({_name:req.body},function(err, task) {
+    if (err)
+      res.send(err);
+    res.json(task);
+  });
+};
