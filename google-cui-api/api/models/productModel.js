@@ -3,16 +3,20 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var ProductSchema = new Schema({
+
+var CartSchema = new Schema({
   product_name: {
     type: String,
     required: 'Kindly enter the name of the product',
   },
-  product_price: {
+  shopping_time: {
+    type: Date,
+    default: Date.now,
+  },
+  unit_number: {
     type: Number,
-    required: 'Everything needs a price',
+    default : 1,
   }
 });
 
-module.exports = mongoose.model('Product', ProductSchema);
-
+module.exports = mongoose.model('Cart', CartSchema);
