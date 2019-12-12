@@ -1,3 +1,19 @@
+![header](design_flowcharts/header.png)
+
+# CMU-heinz-95729-project
+
+- Team Member:
+
+  - [Peter Yefi](https://github.com/peteryefi)
+
+  - [Shomona Mukherjee](https://github.com/Shomona)
+
+  - [Yaohan Jiang](https://github.com/YaohanJA)
+
+  - [Mengyue Wu](https://github.com/menyw)
+
+    
+
 # Project Objective
 
 - Users can modify books to the shopping cart and review the shopping cart
@@ -9,6 +25,8 @@
 # Project Deliverable
 
 A book store website with shopping cart functionality, check out system and order history.
+
+
 
 # Out of Scope
 
