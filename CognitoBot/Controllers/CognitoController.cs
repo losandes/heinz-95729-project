@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -15,6 +13,17 @@ namespace CognitoBot.Controllers
     {
         static JObject res = new JObject();
         static String pres = "";
+
+        private readonly GiphyService _giphyService;
+        private readonly SlackService _slackService;
+        private readonly AylienSentimentFetch _aylienService;
+
+        public CognitoController(GiphyService giphyService, SlackService slackService, AylienSentimentFetch aylienSentimentFetch)
+        {
+            _giphyService = giphyService;
+            _slackService = slackService;
+            _aylienService = aylienSentimentFetch;
+        }
 
         // GET: api/Default for debugging
         [HttpGet]
@@ -33,85 +42,38 @@ namespace CognitoBot.Controllers
             {
                 String text = json.SelectToken("event.text").ToString();
                 String channel = json.SelectToken("event.channel").ToString();
-                ISentimentFetch getSentiment = new AylienSentimentFetch();
-                SentimentResponse sentimentResponse = getSentiment.getSentimentScore(text);
+                SentimentResponse sentimentResponse = _aylienService.getSentimentScore(text);
                 String sentiment = sentimentResponse.polarity;
                 if (sentimentResponse.polarity_confidence >= 0.7)
                 {
-                    String msg = "";
-                    if (sentiment.Equals("positive"))
-                    {
-                        sentiment = "cheers";
-                        msg = "You look happy!. Here's a fun gif for you";
-                    }
-                    else
-                    {
-                        sentiment = "happy minion";
-                        msg = "You sound sad. Here's something to cheer you up";
-                    }
-                    String giphyUrl = getGiphy(sentiment);
-                    String content = createResponse(channel, giphyUrl, msg);
+                    string msg = GetMessageString(ref sentiment);
+                    String giphyUrl = _giphyService.GetGiphyUrl(sentiment);
+                    String response = _slackService.SendResponseToSlack(channel, giphyUrl, msg);
                     Thread.Sleep(1000);
-
-                    return sendResponseToSlack(content);
+                    pres = response;
+                    return response;
                 }
             }
             pres = "No response as polarity was too low";
             return "No response as polarity was too low";
         }
 
-        public String getGiphy(String searchText)
+        private static string GetMessageString(ref string sentiment)
         {
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + searchText);
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            string msg;
+            if (sentiment.Equals("positive"))
             {
-                String responseText = reader.ReadToEnd();
-                JObject json = JObject.Parse(responseText);
-                Random rnd = new Random();
-                int randomNum = rnd.Next(0, 10);
-                String imageUrl = "data[" + randomNum + "].url";
-                String giphyUrl = json.SelectToken(imageUrl).ToString();
-                return giphyUrl;
+                sentiment = "cheers";
+                msg = "You look happy!. Here's a fun gif for you";
             }
-        }
-
-        public String createResponse(String channel, String giphyUrl, String msg)
-        {
-            JObject json = new JObject();
-            json["channel"] = channel;
-            json["text"] = msg + "\n" + giphyUrl;
-            return json.ToString();
-        }
-
-        public String sendResponseToSlack(String content)
-        {
-            try
+            else
             {
-                var request = (HttpWebRequest)WebRequest.Create("https://slack.com/api/chat.postMessage");
-                request.Method = "POST";
-                var postData = System.Text.Encoding.ASCII.GetBytes(content);
-                request.ContentType = "application/json";
-                request.ContentLength = content.Length;
-                request.Headers.Add("Authorization", "Bearer " + "xoxb-123123");
-
-                using (var stream = request.GetRequestStream())
-                {
-                    stream.Write(postData, 0, content.Length);
-                }
-
-                var response = (HttpWebResponse)request.GetResponse();
-                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                pres = responseString;
-                return responseString;
+                sentiment = "happy minion";
+                msg = "You sound sad. Here's something to cheer you up";
             }
-            catch (Exception e) {
-                pres = "Exception Occurred";
-                return "";
-            }
-            
+
+            return msg;
         }
+        
     }
 }
