@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @ComponentScan("com.ecom.backrow.api")
-@EntityScan(basePackages = {"com.cmu.ewd.jobportal"} )
+@EntityScan(basePackages = {"com.ecom.backrow.api"} )
 @EnableJpaRepositories(basePackages = {"com.ecom.backrow.api.repository"})
 public class ApiApplication {
 

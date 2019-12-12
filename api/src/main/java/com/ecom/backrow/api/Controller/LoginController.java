@@ -3,15 +3,15 @@ package com.ecom.backrow.api.Controller;
 import com.ecom.backrow.api.Entity.Customer;
 import com.ecom.backrow.api.Service.ILoginService;
 import com.ecom.backrow.api.Service.LoginService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping(value = "/")
+@Api(value = "Customer Login and Registration", description = "Initiates the login and register operation")
 public class LoginController {
 
     private ILoginService loginService;

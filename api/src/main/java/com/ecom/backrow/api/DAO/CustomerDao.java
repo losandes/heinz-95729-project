@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 public class CustomerDao implements IcustomerDao{
 
     @Autowired
-    CustomerRepository userRepo;
+    CustomerRepository customerRepo;
 
     @Override
     public Customer getUser(String username, String password) {
-        return userRepo.findByUsernameAndPassword(username,password);
+        return customerRepo.findByUsernameAndPassword(username,password);
     }
 
     @Override
     public Customer saveUser(Customer user) {
-        return userRepo.save(user);
+        return customerRepo.save(user);
     }
 
 
