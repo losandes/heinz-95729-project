@@ -1766,3 +1766,18 @@ body video {
   background-image: none;
   font-size: 1.3em;
 }
+.orders-component {
+  background: #272932;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding: 2em;
+}
+.orders-component .product-panel {
+  padding: 2em;
+}
+.orders-component .product-panel label h3 {
+  color: #FAEBD7;
+}
+.orders-component .product-panel label h3 .label-name {
+  color: #984B43;
+}
