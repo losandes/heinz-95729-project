@@ -14,14 +14,14 @@ let emptySearchOptions;
 let numOfResultOptions;
 
 
-describe('ProductRepo Test Suite', function() {
-    before(function(done) {
+describe('ProductRepo Test Suite', function () {
+    before(function (done) {
         // DB dependency required for userRepo
         db = dep.connect();
         db.on('error', (err) => {
             console.log(err)
-    });
-        db.once('open', function() {
+        });
+        db.once('open', function () {
             done()
         });
 
@@ -54,67 +54,43 @@ describe('ProductRepo Test Suite', function() {
         }
     });
 
-        // the test option to searh for the key work Jacod Bacharach
-        testOptions =
-            { query: { '$text': { '$search': 'Jacob%Bacharach' } } };
-        emptySearchOptions = { query: { '$text': { '$search': '' } } };
-        numOfResultOptions  = { query: { '$text': { '$search': 'Douglas Adams' } } }
+    // the test option to searh for the key work Jacod Bacharach
+    testOptions =
+        { query: { '$text': { '$search': 'Jacob%Bacharach' } } };
+    emptySearchOptions = { query: { '$text': { '$search': '' } } };
+    numOfResultOptions = { query: { '$text': { '$search': 'Douglas Adams' } } }
 
-
-    //Clean up so that each run of the test begins with the same state of db
-    after(function() {
-    //     // Clean database here
-    //     const collection = db.collection(Product.db.collection)
-    //     //delete user created
-    //     collection.deleteOne({email: testProduct.email}, (err, res) => {
-    //         if (err) {
-    //             console.log(err)
-    //         }
-    //         console.log(`Delete  ${res.result.n} records `)
-    // })
-    //     db.close()
-    });
-
-    beforeEach(function() {
-        // runs before each test in this block
-    });
-
-    afterEach(function() {
-        // runs after each test in this block
-    });
-
-
-    describe('Get product with unknown uid', function() {
-        it('it should reject the promise', function() {
+    describe('Get product with unknown uid', function () {
+        it('it should reject the promise', function () {
             return expect(repo.get(43924))
                 .to.be.rejectedWith('A uid is required to get a Product');
         });
     });
 
-    describe('Check the author for Product search for "Jacob Bacharach" skip 0 and limit 0', function() {
-        it('should search with the query which match with the author', function() {
-            Promise.resolve(repo.find(testOptions))
-                .then( result => {
-                result[0].metadata.authors[0].name.should.equal("Jacob Bacharach")
-        })
+    describe('Check the author for Product search for "Jacob Bacharach" skip 0 and limit 0', function () {
+        it('should search with the query which match with the author', function () {
+            return Promise.resolve(repo.find(testOptions))
+                .then(result => {
+                    result[0].metadata.authors[0].name.should.equal("Jacob Bacharach")
+                })
         });
     });
 
-    describe('Check empty search ', function() {
-        it('should return empty array', function() {
-            Promise.resolve(repo.find(emptySearchOptions))
-                .then( result => {
-            result.length.should.equal(0)
-            })
+    describe('Check empty search ', function () {
+        it('should return empty array', function () {
+            return Promise.resolve(repo.find(emptySearchOptions))
+                .then(result => {
+                    result.length.should.equal(0)
+                })
         });
     });
 
-    describe('Check num of result from the "Douglas Adams" search ', function() {
-        it('should return result number: 4 from search ', function() {
-            Promise.resolve(repo.find(numOfResultOptions))
-                .then( result => {
-            result.length.should.equal(4)
-        })
+    describe('Check num of result from the "Douglas Adams" search ', function () {
+        it('should return result number: 4 from search ', function () {
+            return Promise.resolve(repo.find(numOfResultOptions))
+                .then(result => {
+                    result.length.should.equal(4)
+                })
         });
     });
 
