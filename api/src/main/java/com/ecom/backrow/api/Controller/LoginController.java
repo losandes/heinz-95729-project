@@ -1,19 +1,40 @@
 package com.ecom.backrow.api.Controller;
 
-import com.ecom.backrow.api.Entity.User;
+import com.ecom.backrow.api.Entity.Customer;
+import com.ecom.backrow.api.Service.ILoginService;
+import com.ecom.backrow.api.Service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void doLogin(@Valid User user, BindingResult result) {
-        // login logic here
+    private ILoginService loginService;
+
+    @Autowired
+    public LoginController(LoginService loginService ) {
+        this.loginService = loginService;
+    }
+
+    @PostMapping(value = "/login")
+    @ResponseBody
+    public ResponseEntity<Customer> doLogin(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password){
+        Customer user = loginService.getUser(username,password);
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping(value = "/register")
+    @ResponseBody
+    public ResponseEntity<Customer> doRegister(@RequestBody Customer user){
+        user = loginService.saveUser(user);
+        return ResponseEntity.ok(user);
     }
 }
