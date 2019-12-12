@@ -14,6 +14,13 @@ from shutil import copy
 diff_categories = []
 pat = '^.*flat.*$' # Matching images with flat in their name
 
+# Changing directory to file location so that relative path works
+os.chdir('C:\\Users\\Kartik\\Desktop\\Study Material\\E-commerce Tech\\Project\\Neuro-pic\\Categorizing Project\\Iterations\\Denim_Sweaters Project')
+
+# Creating Train and Valid folders in the Model Data folder
+os.mkdir('./Data/Model Data/Train')
+os.mkdir('./Data/Model Data/Valid')
+
 # Looping thru each product category in Raw Data
 folders = glob.glob('./Data/Raw Data/*')
 for folder in folders:
