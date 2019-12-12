@@ -75,19 +75,6 @@ describe('CartRepo Test Suite', function () {
 
   });
 
-  // Clean up so that each run of the test begins with the same state of db
-  after(function () {
-    // // Clean database here
-    // const collection = db.collection('carts')
-    // // delete cart created
-    // collection.deleteOne({ uid: testCart.uid }, (err, res) => {
-    //   if (err) {
-    //     console.log(err)
-    //   }
-    //   console.log(`Delete  ${res.result.n} cart `)
-    // })
-  });
-
   describe('Create cart', function () {
     it('should create a new cart', function () {
       return Promise.resolve(repo.create(testCart))
