@@ -12,7 +12,7 @@ module.exports = {
       router('/books/download/:uid/:order_id', (context) => {
 
         const uid = context.params.uid
-        const order_id = context.params.order_ids
+        const order_id = context.params.order_id
         downloadRepo.download({ uid, order_id }, (err, blob) => {
          
           if (err) {

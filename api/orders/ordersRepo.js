@@ -94,7 +94,7 @@ module.exports.factory = function (db, Order, _blueprint, _mongodb) {
    * @param {string} uid, the id of the item
    */
   const reduceDownloadQuantity = (id, uid) => {
-    
+    console.log(id, uid)
     return new Promise((resolve, reject) => {
       if (is.not.string(uid)) {
         return reject(new Error('A uid is required to reduce download quantity'))
