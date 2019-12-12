@@ -1713,13 +1713,13 @@ body video {
   fill: #fff;
 }
 .stripe .example.example5 .error svg .glyph {
-  fill: #9169d8;
+  fill: #984B43;
 }
 .stripe .example.example5 .error .message {
   color: #fff;
 }
 .stripe .example.example5 .success .icon .border {
-  stroke: #bfaef6;
+  stroke: #a4a4a5;
 }
 .stripe .example.example5 .success .icon .checkmark {
   stroke: #fff;
