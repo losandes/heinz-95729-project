@@ -12,20 +12,23 @@ module.exports = {
       router('/books/download/:uid/:order_id', (context) => {
 
         const uid = context.params.uid
-        const order_id = context.params.order_ids
+        const order_id = context.params.order_id
         downloadRepo.download({ uid, order_id }, (err, blob) => {
          
           if (err) {
             console.log(err)
             return
           }
-          if (blob) {
-            
+          if (blob.type == "application/pdf") {
             let link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
             link.download = uid + '.pdf'
             link.click()
             app.currentView = 'download'
+          }else{
+            //doesn't download when user has exceed download limit
+            //TODO:: Whow appropriate message to user here
+           
           }
         })
       })

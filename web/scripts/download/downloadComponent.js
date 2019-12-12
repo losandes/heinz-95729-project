@@ -13,7 +13,7 @@ module.exports = {
     const component = Vue.component('download', {
       template: `
         <div>
-          <h2> Download successful. Thank you for your purchase. </h2>
+          <h2 id="download-message"> Download successful. Thank you for your purchase. </h2>
         </div>`,
     })
 
