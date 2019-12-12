@@ -13,6 +13,7 @@ exports.list_all_carts = function(req, res) {
     if (err)
       res.send(err);
     res.json(task);
+    // res.json({ message: 'Everything in the cart deleted' });
   });
 };
 
@@ -23,10 +24,14 @@ exports.add_an_item = function(req, res) {
     if (err)
       res.send(err);
     // res.json(task.id);
+    console.log(task);
+    console.log(req.body.unit_number);
     var product_from_db = task.product_name;
-    console.log(product_from_db);
-
-    var new_item = new Cart({product_name:product_from_db})
+    var unit = parseInt(req.body.unit_number);
+  
+    // console.log(product_from_db);
+// 
+    var new_item = new Cart({product_name:product_from_db,unit_number:unit})
     // console.log("POST REQUEST: add an item");
     new_item.save(function(err, task) {
       if (err)
@@ -51,7 +56,7 @@ exports.delete_an_item = function(req, res) {
   });
 };
 
-//TODO
+//TODO ？
 exports.list_user_carts = function(req, res) {
   console.log("GET REQUEST: listing all products");
   Cart.findOne({_name:req.body},function(err, task) {
