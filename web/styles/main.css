@@ -444,6 +444,11 @@ Table of Contents
   top: -40px;
   left: 300px;
   right: 40px;
+  background: #272932;
+  opacity: 0.9;
+  padding: 2em;
+  color: #FAEBD7;
+  font-weight: bold;
 }
 .book-component .purchase {
   margin-top: 30px;
@@ -971,6 +976,7 @@ body video {
 .cart-component {
   background: #272932;
   opacity: 0.9;
+  color: #FAEBD7;
 }
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
@@ -1726,4 +1732,37 @@ body video {
 }
 .stripe .example.example5 .success .reset path {
   fill: #fff;
+}
+.history-component {
+  background: #272932;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding: 2em;
+}
+.history-component .row .heading {
+  color: #984B43;
+}
+.history-component .row .details {
+  color: #FAEBD7;
+}
+.history-component .row .details .label {
+  color: #984B43;
+}
+.history-component .row .details h3 {
+  display: inline;
+}
+.history-component .row .btn-panel {
+  padding: 2em;
+}
+.history-component .row .btn-panel .view {
+  background-color: #272932;
+  border-color: #FAEBD7;
+  background-image: none;
+  font-size: 1.2em;
+}
+.history-component .row .btn-panel .logout {
+  background-color: #272932;
+  border-color: #984B43;
+  background-image: none;
+  font-size: 1.3em;
 }

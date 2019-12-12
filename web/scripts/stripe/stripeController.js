@@ -1,16 +1,27 @@
 module.exports = {
   scope: 'heinz',
   name: 'stripeController',
-  dependencies: ['router','stripeRepo', 'storage'],
-  factory: (router, repo, storage) => {
+  dependencies: ['router', 'stripeRepo', 'storage', 'stripeComponent'],
+  factory: (router, repo, storage, stripeComponent) => {
     'use strict'
 
     /**
      * Route binding (controller)
      */
-    function registerRoutes (app) {
-      router('/stripe', () => {
-        app.currentView = 'stripe'
+    function registerRoutes(app) {
+      router('/stripe/:amt', (context) => {
+
+        if (storage.exists('jwt')) {
+          var amt = {
+            amt: context.params.amt
+          }
+          stripeComponent.setAmt(amt)
+          app.currentView = 'stripe'
+        }
+        else{
+          app.currentView = 'login'
+        }
+
       })
 
       router('/success', () => {
@@ -26,13 +37,15 @@ module.exports = {
             var header = document.getElementsByTagName("header")[0];
             header.style.display = 'block';
             router.navigate('/')
-          },5000)
+          }, 5000)
 
         })
 
       })
     }
 
-    return { registerRoutes }
+    return {
+      registerRoutes
+    }
   }
 }
