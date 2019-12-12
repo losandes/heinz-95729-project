@@ -13,9 +13,7 @@ module.exports.factory = function (_blueprint, _immutable, ObjectID) {
       .from(({ value }) => value ? new ObjectID(value).toString() : null)
       .withDefault(new ObjectID().toString()),
     uid: 'string',
-    items: {
-      keywords: 'object[]?'
-    },
+    items:  'object[]?',
     total: optional('decimal').withDefault(0.00),
   }
 
