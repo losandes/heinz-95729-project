@@ -91,15 +91,15 @@ describe('CartRepo Test Suite', function () {
     });
   });
 
-  // describe('Add a item to an exsisting cart', function() {
-  //   it('should a item to an exsisting cart', function() {
-  //     Promise.resolve(repo.add(testItem2))
-  //     .then(doc => {
-  //       console.log(doc)
-  //       //doc.value.item_uid.should.equal(testItem2.item_uid)
-  //     })
-  //   });
-  // });
+  describe('Add a item to an exsisting cart', function() {
+    it('should a item to an exsisting cart', function() {
+      Promise.resolve(repo.add(testItem2))
+      .then(doc => {
+        console.log(doc)
+        //doc.value.item_uid.should.equal(testItem2.item_uid)
+      })
+    });
+  });
 
   // describe('Update item quantity in the cart', function () {
   //   it('should update the item quantity in the cart', function () {
