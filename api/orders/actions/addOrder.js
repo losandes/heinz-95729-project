@@ -9,10 +9,13 @@ module.exports.factory = function (repo, cartsRepo, Order) {
    
     for (var i=0; i < items.length; i++){
       //user can download the quantity he/she orders plus one addition
-      items[i].downloads = items[i].quantity + 1
+      items[i].downloads = parseInt(items[i].quantity) + 1
+      items[i].quantity = parseFloat(items[i].quantity)
     }
     
     order.items = items
+    order.total = parseFloat(order.total)
+   
     return repo.add(order)
       .then(resolve)
       .catch(reject)
