@@ -11,14 +11,14 @@ namespace CognitoTestProject
         public void TestHappySentiment()
         {
             AylienSentimentFetch sentimentFetch = new AylienSentimentFetch();
-            Assert.AreEqual("positive", sentimentFetch.getSentimentScore("I am Happy Today"));
+            Assert.AreEqual("positive", sentimentFetch.getSentimentScore("I am Happy Today").polarity);
         }
 
         [TestMethod]
         public void TestSadSentiment()
         {
             AylienSentimentFetch sentimentFetch = new AylienSentimentFetch();
-            Assert.AreEqual("negative", sentimentFetch.getSentimentScore("I am Sad Today"));
+            Assert.AreEqual("negative", sentimentFetch.getSentimentScore("I am Sad Today").polarity);
         }
 
         [TestMethod]
