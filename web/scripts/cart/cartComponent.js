@@ -49,7 +49,7 @@ module.exports = {
               <td><a href="/all" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="2" class="hidden-xs"></td>
               <td class="hidden-xs text-center"><strong>Total $ {{total | numfliter}}</strong></td>
-              <td><a v-bind:href="'/stripe/'+ total" class="btn btn-success btn-block" v-on:click="deleteCart()">Checkout <i class="fa fa-angle-right"></i></a></td>
+              <td><a v-bind:href="'/stripe/'+ total" class="btn btn-success btn-block" >Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
           </tfoot>
         </table>

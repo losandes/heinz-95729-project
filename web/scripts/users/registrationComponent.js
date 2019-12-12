@@ -44,6 +44,7 @@ module.exports = {
 
             storage.set('jwt', res.authToken)
             storage.set('user', res.user)
+            alert('You have been registered! Continue browsing books')
             return router.navigate('/')
           })
         }
