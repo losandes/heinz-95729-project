@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CognitoBot.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace CognitoBot
 {
@@ -27,6 +21,11 @@ namespace CognitoBot
         {
             services.AddControllers();
             services.AddMvc().AddNewtonsoftJson();
+            services.AddScoped<GiphyService>();
+            services.AddScoped<SlackService>();
+            services.AddScoped<AylienSentimentFetch>();
+            services.AddTransient(ctx =>
+                new CognitoController(new GiphyService(), new SlackService(), new AylienSentimentFetch()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
