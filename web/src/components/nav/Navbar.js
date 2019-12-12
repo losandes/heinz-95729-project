@@ -1,4 +1,5 @@
 import React from 'react'
+import { LinkContainer } from 'react-router-bootstrap'
 import './Navbar.css'
 
 
@@ -18,9 +19,17 @@ const Navbar = (props) => {
         <div className="menu-item">
             Personal
         </div>
-        <div className="menu-item last-item">
+        <div className="menu-item">
             Accessories
         </div>
+        <div className="menu-item">
+            About
+        </div>
+        <LinkContainer to="/login">
+            <div className="menu-item special-item last-item">
+                Log in
+            </div>
+        </LinkContainer>
     </div>
   );
 }
