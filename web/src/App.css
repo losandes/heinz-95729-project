@@ -3,8 +3,3 @@
     height: 100%;
     font-family:  'Montserrat', 'Helvetica Neue', sans-serif; /* For body */
 }
-
-.navbar-container {
-    text-align: center;
-    transform: translateY(-50%);
-}

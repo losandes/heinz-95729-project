@@ -1,7 +1,8 @@
 import React from 'react';
 import './ProductCard.css';
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 
 const ProductCard = (props) => {
@@ -16,7 +17,14 @@ const ProductCard = (props) => {
                     Some quick example text to build on the card title and make up the bulk of
                     the card's content.
                 </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
+                <Button variant="primary">
+                    <Link to={{
+                        pathname: '/view',
+                        search: '?product=this'
+                    }}>
+                        Go somewhere
+                    </Link>
+                </Button>
             </Card.Body>
         </Card>
     );
