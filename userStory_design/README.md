@@ -1,8 +1,6 @@
+![header](design_flowcharts/header.png)
+
 # CMU-heinz-95729-project
-
-- December 12,2019
-
-- Web Integration Team 
 
 - Team Member:
 
