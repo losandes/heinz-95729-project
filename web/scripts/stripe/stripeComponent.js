@@ -5,7 +5,7 @@ module.exports = {
   factory: (router, Vue, repo, storage) => {
     'use strict'
 
-    const state = {}
+    var state = { amt: ""}
 
     const component = Vue.component('stripe', {
       // code from: code from: https://github.com/stripe/elements-examples/#example-1
@@ -308,7 +308,7 @@ module.exports = {
           country: "US",
           currency: "usd",
           total: {
-            amount: 2500,
+            amount: parseInt(state.amt),
             label: "Total"
           },
           requestShipping: true,
@@ -354,8 +354,14 @@ module.exports = {
         return state
        }
     })
+
+    const setAmt = (amt) => {
+      state = amt
+    }
+
     return {
-      component
+      component,
+      setAmt
     }
   }
 }

@@ -56,6 +56,12 @@ module.exports = {
       </div>
 
       `,
+      beforeMount() {
+        var video = document.getElementsByTagName("video")[0];
+        video.style.display = 'block';
+        var header = document.getElementsByTagName("header")[0];
+        header.style.display = 'block';
+      },
       data: () => {
         state = new Cart()
         return state;
