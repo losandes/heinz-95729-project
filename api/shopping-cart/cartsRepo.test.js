@@ -12,7 +12,6 @@ let testItem3;
 let repo;
 let db;
 
-
 describe('CartRepo Test Suite', function () {
   before(function (done) {
     // DB dependency required for cartsRepo
@@ -33,21 +32,20 @@ describe('CartRepo Test Suite', function () {
     repo = cartsRepoFactory(db, Cart, dep.blueprint)
 
     // Sample carts to be used for testing
-    testItem = {
+    testCart = {
       "uid": "some_complex_uid3",
       "total": 40.46,
       "items": [
         {
           "name": "new book 11",
-        "quantity": 2,
-        "price": 20.23,
-      
-        "item_uid": "some_item_uid"
-        } 
+          "quantity": 2,
+          "price": 20.23,
+          "item_uid": "some_item_uid"
+        }
       ]
     }
 
-    testItem2 = {
+    testItem1 = {
       "name": "new book 12",
       "quantity": 1,
       "price": 10.27,
@@ -55,7 +53,7 @@ describe('CartRepo Test Suite', function () {
       "item_uid": "some_item_uid_12"
     }
 
-    testItem3 = {
+    testItem2 = {
       "name": "new book 13",
       "quantity": 1,
       "price": 10.27,
@@ -63,58 +61,86 @@ describe('CartRepo Test Suite', function () {
       "item_uid": "some_item_uid_12"
     }
 
+    testItem3 = {
+      "quantity": 5,
+      "uid": "some_complex_uid3",
+      "item_uid": "some_item_uid_12"
+    }
+
+    testCartInfo = {
+      "uid": "some_complex_uid3",
+      "total": "172.83"
+    }
+
 
   });
 
   // Clean up so that each run of the test begins with the same state of db
   after(function () {
-    // Clean database here
-    const collection = db.collection('carts')
-    // delete cart created
-    collection.deleteOne({ uid: testItem.uid }, (err, res) => {
-      if (err) {
-        console.log(err)
-      }
-      console.log(`Delete  ${res.result.n} cart `)
-    })
-    
+    // // Clean database here
+    // const collection = db.collection('carts')
+    // // delete cart created
+    // collection.deleteOne({ uid: testCart.uid }, (err, res) => {
+    //   if (err) {
+    //     console.log(err)
+    //   }
+    //   console.log(`Delete  ${res.result.n} cart `)
+    // })
   });
-
 
   describe('Create cart', function () {
     it('should create a new cart', function () {
-      return Promise.resolve(repo.create(testItem))
-        .then(item => {
-          item.ops[0].uid.should.equal(testItem.uid)
+      return Promise.resolve(repo.create(testCart))
+        .then(cart => {
+          cart.ops[0].uid.should.equal(testCart.uid)
         })
     });
   });
 
-  describe('Add a item to an exsisting cart', function() {
-    it('should a item to an exsisting cart', function() {
-      return Promise.resolve(repo.add(testItem2))
-      .then(doc => {
-        //console.log(doc)
-        //doc.value.item_uid.should.equal(testItem2.item_uid)
-      })
+  describe('Add a item to an exsisting cart', function () {
+    it('should a item to an exsisting cart', function () {
+      return Promise.resolve(repo.add(testItem1))
+        .then(doc => {
+          doc.lastErrorObject.updatedExisting.should.equal(true)
+        })
     });
   });
 
-  // describe('Update item quantity in the cart', function () {
-  //   it('should update the item quantity in the cart', function () {
-  //     Promise.resolve(repo.updateItemQuantity(testItem))
-  //     .then(doc => {
-  //       console.log(doc.ops)
-  //       //doc.value.item_uid.should.equal(testItem2.item_uid)
-  //     })
-  //   });
-  // });
+  describe('Update item quantity in the cart', function () {
+    it('should update the item quantity in the cart', function () {
+      return Promise.resolve(repo.updateItemQuantity(testItem3))
+        .then(doc => {
+          doc.modifiedCount.should.equal(1)
+        })
+    });
+  });
 
-  // describe('Delete item in the cart', function () {
-  //   it('should satisfy the promise with a cart document', function () {
-  //     return repo.deleteCartItem(testItem).should.eventually.deep.equal()
-  //   });
-  // });
+  describe('Delete item in the cart', function () {
+    it('should delete the item in the cart', function () {
+      return Promise.resolve(repo.deleteCartItem(testItem1))
+        .then(doc => {
+          doc.modifiedCount.should.equal(1)
+        })
+    });
+  });
+
+  describe('Update the total in the cart', function () {
+    it('should update the total in the cart', function () {
+      return Promise.resolve(repo.updateCartTotal(testCartInfo.uid,testCartInfo.total))
+        .then(doc => {
+          doc.lastErrorObject.updatedExisting.should.equal(true)
+        })
+    });
+  });
+
+  describe('Get the cart', function () {
+    it('should get the cart', function () {
+      return Promise.resolve(repo.get(testCart.uid))
+        .then(cart => {
+          cart.uid.should.equal(testCart.uid)
+        })
+    });
+  });
 
   describe('Create cart with empty item', function () {
     it('it should reject the promise', function () {
@@ -125,7 +151,7 @@ describe('CartRepo Test Suite', function () {
 
   describe('Add item to cart with empty item', function () {
     it('it should reject the promise', function () {
-      return expect(repo.add(testItem3))
+      return expect(repo.add(testItem2))
         .to.be.rejectedWith('A uid is required to get a Cart');
     });
   });
@@ -162,6 +188,16 @@ describe('CartRepo Test Suite', function () {
     it('it should reject the promise', function () {
       return expect(repo.get())
         .to.be.rejectedWith('A uid is required to get a Cart');
+    });
+  });
+
+  // Test delete the whole cart at the end of the test
+  describe('Delete cart', function () {
+    it('should delete the cart', function () {
+      return Promise.resolve(repo.deleteCart(testCart.uid))
+        .then(doc => {
+          doc.deletedCount.should.equal(1)
+        })
     });
   });
 
