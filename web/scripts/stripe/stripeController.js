@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'stripeController',
-  dependencies: ['router', 'stripeRepo', 'storage', 'stripeComponent'],
-  factory: (router, repo, storage, stripeComponent) => {
+  dependencies: ['router', 'stripeRepo', 'storage', 'stripeComponent', 'localStorage'],
+  factory: (router, repo, storage, stripeComponent, localStorage) => {
     'use strict'
 
     /**
@@ -19,6 +19,7 @@ module.exports = {
           app.currentView = 'stripe'
         }
         else{
+          alert('You must be logged in to checkout!')
           app.currentView = 'login'
         }
 
@@ -38,6 +39,11 @@ module.exports = {
             header.style.display = 'block';
             router.navigate('/')
           }, 5000)
+
+          localStorage.removeItem('localCart')
+          localStorage.removeItem('totalPrice')
+          storage.remove('localCart')
+          storage.remove('totalPrice')
 
         })
 

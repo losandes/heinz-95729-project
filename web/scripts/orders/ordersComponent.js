@@ -10,11 +10,11 @@ module.exports = {
     const component = Vue.component('orders', {
       template: `
         <div class="orders-component">
-          <div class="row">
-          <div v-for="product in products">
-          <label>{{product.name}}</label>
-          <label>{{product.quantity}}</label>
-          <label>{{product.price}}</label>
+          <div class="row text-center">
+          <div v-for="product in products" class="product-panel">
+          <label><h3>{{product.name}}&nbsp;</h3></label>
+          <label><h3><span class="label-name">Qty:</span> {{product.quantity}}&nbsp;</h3></label>
+          <label><h3><span class="label-name">Price:</span> {{product.price}}</h3></label>
           </div>
           </div><!-- /row -->
         </div><!-- /component -->`,

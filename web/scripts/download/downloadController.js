@@ -9,11 +9,10 @@ module.exports = {
      * Route binding (controller)
      */
     function registerRoutes(app) {
-      router('/download/:uid/:order_id', (context) => {
+      router('/books/download/:uid/:order_id', (context) => {
 
         const uid = context.params.uid
-        const order_id = context.params.order_id
-
+        const order_id = context.params.order_ids
         downloadRepo.download({ uid, order_id }, (err, blob) => {
          
           if (err) {
