@@ -81,12 +81,12 @@ The root of the app includes:
 
   * please navigate to `/api/common/build-tasks/seed.js` 
   
-  * modify the `testdb:host`, `testdb:port`,`testdb:name`
+  * modify the `test_db:host`, `test_db:port`,`test_db:name`
     ```JavaScript
     // composition.js
-    MongoClient(new Server(env.get('testdb:host'), parseInt(env.get('testdb:port'))))
+    MongoClient(new Server(env.get('test_db:host'), parseInt(env.get('test_db:port'))))
         ...
-      const db = client.db(env.get('testdb:name'))
+      const db = client.db(env.get('test_db:name'))
     ], (err) => { /*...*/ })
     ```
   * re-run the seed
