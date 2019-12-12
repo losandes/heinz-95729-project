@@ -34,11 +34,17 @@ describe('CartRepo Test Suite', function () {
 
     // Sample carts to be used for testing
     testItem = {
-      "name": "new book 11",
-      "quantity": 2,
-      "price": 20.23,
       "uid": "some_complex_uid3",
-      "item_uid": "some_item_uid"
+      "total": 40.46,
+      "items": [
+        {
+          "name": "new book 11",
+        "quantity": 2,
+        "price": 20.23,
+      
+        "item_uid": "some_item_uid"
+        } 
+      ]
     }
 
     testItem2 = {
@@ -74,28 +80,21 @@ describe('CartRepo Test Suite', function () {
     
   });
 
-  beforeEach(function () {
-    // runs before each test in this block
-  });
-
-  afterEach(function () {
-    // runs after each test in this block
-  });
 
   describe('Create cart', function () {
     it('should create a new cart', function () {
-      Promise.resolve(repo.create(testItem))
+      return Promise.resolve(repo.create(testItem))
         .then(item => {
-          item.ops[0].name.should.equal(testItem.name)
+          item.ops[0].uid.should.equal(testItem.uid)
         })
     });
   });
 
   describe('Add a item to an exsisting cart', function() {
     it('should a item to an exsisting cart', function() {
-      Promise.resolve(repo.add(testItem2))
+      return Promise.resolve(repo.add(testItem2))
       .then(doc => {
-        console.log(doc)
+        //console.log(doc)
         //doc.value.item_uid.should.equal(testItem2.item_uid)
       })
     });
