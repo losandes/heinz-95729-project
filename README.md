@@ -10,6 +10,8 @@ Our project is focused on utilizing ML algorithms to create value for users.
 
 We are using [feature branching](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops) for out git strategy.
 
+We have a Azure pipeline which runs a Build and Test check pipeline for every pull request raised to make sure that the new changes doesn't break the system.
+
 ## Boards
 
 We are using Boards in Azure DevOps to track our user stories and progress.
