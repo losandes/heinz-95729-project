@@ -43,9 +43,7 @@ const Login = (props) => {
                                         </Row>
                                     </Container>
                                 </Card.Title>
-                                <Card.Text>
-                                    {body}
-                                </Card.Text>
+                                {body}
                             </Card.Body>
                         </Card>
                     </Col>
