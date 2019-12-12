@@ -1781,3 +1781,9 @@ body video {
 .orders-component .product-panel label h3 .label-name {
   color: #984B43;
 }
+.download-component {
+  background: #272932;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding: 2em;
+}
