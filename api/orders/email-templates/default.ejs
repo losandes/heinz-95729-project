@@ -167,13 +167,14 @@
   
     <div style="margin-top:2rem">
             <table width="100%" cellpadding="10" cellspacing="10" border=".2" style="background-color:#f3f2f0;" bgcolor="#f3f2f0;">
+                <tr style="background:#ccc">
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Download Link</th>
+                </tr>
                 <% order.items.forEach(function(item){ %>
-                        <tr style="background:#ccc">
-                            <th>Item</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Download Link</th>
-                        </tr>
+                       
                         <tr>
                             <td><%= item.name %></td>
                             <td><%= item.quantity %></td>

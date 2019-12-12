@@ -44,7 +44,7 @@ module.exports.factory = function (repo, Cart) {
     var total = body.price * body.quantity
     cart.total = parseFloat(total.toFixed(2))
     cart.items = [{"name": body.name, "quantity": body.quantity, "price": body.price, "item_uid": body.item_uid}]
-  
+   
     return cart
   }
 

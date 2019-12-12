@@ -9,12 +9,12 @@ module.exports.factory = function (repo) {
       .then(order => {
        
         for (var i = 0; i < order.items.length; i++){
-          
+         
           if (order.items[i].item_uid == uid){
             return order.items[i].downloads
           }
-          return 0
         }
+        return 0
       })
       
   }
