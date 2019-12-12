@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../components/header/Header';
 import Navbar from '../../components/nav/Navbar';
 import ProductRow from '../../components/product-row/ProductRow';
+import CategoryGrid from '../../components/category-grid/CategoryGrid';
 import './Home.css';
 
 
@@ -17,6 +18,8 @@ const Home = () => {
 
             {/* Display top prooducts in a carousel */}
             <ProductRow title="Deals of the day" />
+
+            <CategoryGrid />
         </div>
     );
 }
