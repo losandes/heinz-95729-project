@@ -1585,7 +1585,7 @@ body video {
   color: #6772e5;
 }
 .stripe .example.example5 {
-  background-color: #9169d8;
+  background-color: #984B43;
 }
 .stripe .example.example5 * {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -1598,7 +1598,7 @@ body video {
   margin-bottom: 10px;
 }
 .stripe .example.example5 fieldset {
-  border: 1px solid #b5a4ed;
+  border: 1px solid #fff;
   padding: 15px;
   border-radius: 6px;
 }
@@ -1608,8 +1608,8 @@ body video {
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  color: #cdd0f8;
-  background-color: #9169d8;
+  color: #fff;
+  background-color: #984B43;
 }
 .stripe .example.example5 fieldset legend + * {
   clear: both;
@@ -1634,7 +1634,7 @@ body video {
 }
 .stripe .example.example5 label {
   width: 100%;
-  color: #cdd0f8;
+  color: #fff;
   font-size: 13px;
   font-weight: 500;
   overflow: hidden;
@@ -1646,17 +1646,17 @@ body video {
   color: #fff;
   background: transparent;
   padding: 5px 0 6px 0;
-  border-bottom: 1px solid #a988ec;
+  border-bottom: 1px solid #fff;
   transition: border-color 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .stripe .example.example5 .input::-webkit-input-placeholder {
-  color: #bfaef6;
+  color: #a4a4a5;
 }
 .stripe .example.example5 .input::-moz-placeholder {
-  color: #bfaef6;
+  color: #a4a4a5;
 }
 .stripe .example.example5 .input:-ms-input-placeholder {
-  color: #bfaef6;
+  color: #a4a4a5;
 }
 .stripe .example.example5 .input.StripeElement--focus,
 .stripe .example.example5 .input:focus {
@@ -1702,12 +1702,12 @@ body video {
   margin: 20px 0 0;
   background-color: #fff;
   border-radius: 6px;
-  color: #9169d8;
+  color: #984B43;
   font-weight: 500;
   cursor: pointer;
 }
 .stripe .example.example5 button:active {
-  background-color: #cdd0f8;
+  background-color: #fff;
 }
 .stripe .example.example5 .error svg .base {
   fill: #fff;
@@ -1728,7 +1728,7 @@ body video {
   color: #fff;
 }
 .stripe .example.example5 .success .message {
-  color: #cdd0f8;
+  color: #fff;
 }
 .stripe .example.example5 .success .reset path {
   fill: #fff;
