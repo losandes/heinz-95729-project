@@ -1,14 +1,9 @@
 module.exports = {
   scope: 'heinz',
   name: 'downloadComponent',
-  dependencies: ['Vue', 'downloadRepo'],
-  factory: (Vue, downloadRepo) => {
+  dependencies: ['Vue'],
+  factory: (Vue) => {
     'use strict'
-
-    const state = {
-      uid: null,
-      order_id: null
-    }
 
     const component = Vue.component('download', {
       template: `

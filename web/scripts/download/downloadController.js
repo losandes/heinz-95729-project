@@ -26,13 +26,13 @@ module.exports = {
             link.click()
             app.currentView = 'download'
           }else{
-            //doesn't download when user has exceed download limit
-            //TODO:: Whow appropriate message to user here
-           
+            // doesn't download when user has exceed download limit
+            // show appropriate message to user here
+            app.currentView = 'limit'
           }
         })
       })
-      //Route for error page
+      // Route for error page
       router('/error', () => {
         app.currentView = 'error'
       })
