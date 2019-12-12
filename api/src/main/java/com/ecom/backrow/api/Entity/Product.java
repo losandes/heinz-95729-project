@@ -1,18 +1,38 @@
 package com.ecom.backrow.api.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "product")
 public class Product {
 
+    @Id
+    @Column(name = "product_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "price")
     private Double price;
+
+    @Column(name = "manufacturer")
     private String manufacturer;
+
+    @Column(name = "average_review_rating")
     private Double averageReviewRating;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "category1")
     private String category1;
+
+    @Column(name = "category2")
     private String category2;
+
+    @Column(name = "category3")
     private String category3;
 
     public Long getProductId() {
