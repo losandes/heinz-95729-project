@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/")
+@CrossOrigin(origins = "*")
 @Api(value = "Customer Login and Registration", description = "Initiates the login and register operation")
 public class LoginController {
 
