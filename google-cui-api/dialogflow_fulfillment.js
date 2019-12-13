@@ -8,27 +8,33 @@ const {WebhookClient} = require('dialogflow-fulfillment');
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
 
     const agent = new WebhookClient({ request, response });
-	console.log('Request Headers: ' + JSON.stringify(request.headers));
-	console.log('Request Body: ' + JSON.stringify(request.body));
-  	console.log(request.body.queryResult);
-  	console.log(request.body.queryResult.intent);
-  	let intent = request.body.queryResult.intent.displayName;
-  	let action = request.body.queryResult.action;
+    console.log('Request Headers: ' + JSON.stringify(request.headers));
+    console.log('Request Body: ' + JSON.stringify(request.body));
+    console.log(request.body.queryResult);
+    console.log(request.body.queryResult.intent);
+    let intent = request.body.queryResult.intent.displayName;
+    let action = request.body.queryResult.action;
 
-  	response.setHeader('Content-Type','application/json');
+    response.setHeader('Content-Type','application/json');
 
-	const parameters = request.body.queryResult.parameters;
+    const parameters = request.body.queryResult.parameters;
 
-	var product_name = parameters['product'];
-	console.log("I can retrieve product name: " + product_name);
-	
-	switch(intent) {
-		case ("check-product-price"):
-			get_product_price(product_name, response);
-			break;
-		case ("add-to-shopping-cart - yes"):
+    var product_name = parameters['product'];
+    var unit_number = parameters['number-integer'];
+    console.log("I can retrieve product name: " + product_name);
+    console.log("I can retrieve unit-number");
+    
+    switch(intent) {
+        case ("check-product-price"):
+            if (unit_number <= 0) {
+                parameters['number-integer'] = None;
+                zero_product_wanted(response);
+            } 
+            get_product_price(product_name, response);
+            break;
+        case ("add-to-shopping-cart - yes"):
             console.log(agent.context.get('check-product-price-followup').parameters);
-            add_product_cart(agent.context.get('check-product-price-followup').parameters['product'], response);
+            add_product_cart(agent.context.get('check-product-price-followup').parameters['product'],agent.context.get('check-product-price-followup').parameters['number-integer'] , response);
             break;
         case("check-shopping-cart"):
             get_cart_list(response);
@@ -39,22 +45,28 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         case("delete no - checkout - yes"):
             remove_all_from_cart(response);
             break;
-		default:
+        default:
             console.log(intent);
-			console.log("in the default methode");
-	}
-	
-	// get_product_price(product_name, response);
+            console.log("in the default methode");
+    }
+    
+    // get_product_price(product_name, response);
 });
 
+function zero_product_wanted(CloudFnResponse) {
+    console.log("want zero product");
 
+    var chat = "Zero unit wanted, please try again. What do you want to buy today?" ;
+    CloudFnResponse.send(buildChatResponse(chat));
+}
 
-function add_product_cart(product_name_param, CloudFnResponse) {
+function add_product_cart(product_name_param, unit_number, CloudFnResponse) {
     console.log("add product to cart function");
 
 
     var post_data = JSON.stringify({
       "product_name": product_name_param,
+      "unit_number": unit_number
   });
 
     const options = {
@@ -80,7 +92,7 @@ function add_product_cart(product_name_param, CloudFnResponse) {
         res.on('end', () => {
             console.log('Body: ', JSON.parse(data));
 
-            var chat = "The " + product_name_param + "you want to buy is added to the shopping cart. Is there anything you want to buy today?";
+            var chat = "The " + product_name_param + " you want to buy is added to the shopping cart. Is there anything you want to buy today?";
             CloudFnResponse.send(buildChatResponse(chat));
         });
 
@@ -154,14 +166,23 @@ function get_cart_list(CloudFnResponse) {
         response.on('end', function(){
           console.log("Inside end function");
             var jsonList = JSON.parse(json);
-            var chat = "Here is the current list of your shopping cart: You have " ;
-            for (let i = 0; i < jsonList.length; i++) {
-                chat += jsonList[i].unit_number;
-                chat += " unit of "
-                chat += jsonList[i].product_name;
-                chat += ","
+            var chat = "";
+            var sum_price = 0;
+            if (jsonList.length == 0) {
+                chat = "There is nothing in your shopping cart right now. Do you want to buy anything? Please say out the thing you want to buy";
+            } else {
+                chat += "Here is the current list of your shopping cart: You have " ;
+                for (let i = 0; i < jsonList.length; i++) {
+                    chat += jsonList[i].unit_number;
+                    chat += " unit of "
+                    chat += jsonList[i].product_name;
+                    chat += ", costing ";
+                    chat += jsonList[i].sub_total +" , ";
+                    sum_price += parseFloat(jsonList[i].sub_total);
+                }
+                chat += " , The final total will be "+ sum_price.toFixed(2)+ " do you want to remove anything before checkout, please answer yes or no.";
             }
-            chat += " , do you want to remove anything before checkout, please answer yes or no.";
+            
             
             console.log(chat);
 
@@ -174,31 +195,31 @@ function get_cart_list(CloudFnResponse) {
 
 
 function get_product_price(product_name, CloudFnResponse) {
-	
-	let pathString = "/product/"+product_name;
-	var request = https.get({
-		host: "test-api-google-heroku.herokuapp.com",
-		path: pathString,
-		//headers: {}
-	}, function (response) {
-		var json = "";
-		response.on('data', function(chunk) {
-			console.log("received JSON response: " + chunk);
-			json += chunk;
-		});
+    
+    let pathString = "/product/"+product_name;
+    var request = https.get({
+        host: "test-api-google-heroku.herokuapp.com",
+        path: pathString,
+        //headers: {}
+    }, function (response) {
+        var json = "";
+        response.on('data', function(chunk) {
+            console.log("received JSON response: " + chunk);
+            json += chunk;
+        });
 
-		response.on('end', function(){
+        response.on('end', function(){
           console.log("Inside end function");
-			var jsonData = JSON.parse(json);
-          	console.log(jsonData);
-			var tryData = jsonData;
-			console.log(tryData);
+            var jsonData = JSON.parse(json);
+            console.log(jsonData);
+            var tryData = jsonData;
+            console.log(tryData);
 
-			var chat = "The " + product_name + " you want to buy is "+ tryData + " dollars. Do you want to add it to your shopping cart? Please answer yes or no" ;
-			CloudFnResponse.send(buildChatResponse(chat));
-		});
+            var chat = "One unit of" + product_name + " is "+ tryData + " dollars. Do you want to add it to your shopping cart? Please answer yes or no" ;
+            CloudFnResponse.send(buildChatResponse(chat));
+        });
 
-	});
+    });
 }
 
 function remove_all_from_cart(CloudFnResponse) {
@@ -240,5 +261,5 @@ function remove_all_from_cart(CloudFnResponse) {
 }
 
 function buildChatResponse(chat) {
-	return JSON.stringify({"fulfillmentText": chat});
+    return JSON.stringify({"fulfillmentText": chat});
 }
