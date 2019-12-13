@@ -77,7 +77,7 @@ The root of the app includes:
 
 * **composition.js**: where we bootstrap hilary, and compose our dependency graph. It's the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) of the app.
 
-* <span style='color:red'>test.js</span> : where we bootstrap the required testing dependencies. Since we are using a `testdb` to implement all of our tests. 
+* <span style='color:red'>test.js</span> : where we bootstrap the required testing dependencies. Since we are using a `test_db` to implement all of our tests. 
 
   ### To run our tests:
 
