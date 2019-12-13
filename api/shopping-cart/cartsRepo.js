@@ -28,7 +28,7 @@ module.exports.factory = function (db, Cart, _blueprint) {
       if (is.not.object(payload)) {
         return reject(new Error('A payload is required to create a Cart'))
       }
-
+    
       collection.insertOne(payload, (err, res) => {
         if (err) {
           return reject(err)

@@ -19,17 +19,20 @@ module.exports = {
             console.log(err)
             return
           }
-          if (blob) {
-            
+          if (blob.type == "application/pdf") {
             let link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
             link.download = uid + '.pdf'
             link.click()
             app.currentView = 'download'
+          }else{
+            // doesn't download when user has exceed download limit
+            // show appropriate message to user here
+            app.currentView = 'limit'
           }
         })
       })
-      //Route for error page
+      // Route for error page
       router('/error', () => {
         app.currentView = 'error'
       })

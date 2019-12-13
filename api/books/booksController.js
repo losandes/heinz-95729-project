@@ -2,7 +2,7 @@ module.exports.name = 'booksController'
 module.exports.dependencies = ['router', 'searchBooks', 'getBook', 'getBooks', 'orderDownload']
 module.exports.factory = (router, _searchBooks, _getBook, _getBooks, _orderDownload) => {
   'use strict'
-  
+ 
   const { searchBooks, bindToManyBooks } = _searchBooks
   const { getBook, bindToBook } = _getBook
   const { getBooks } = _getBooks
@@ -47,7 +47,7 @@ module.exports.factory = (router, _searchBooks, _getBook, _getBooks, _orderDownl
   router.get('/books/download/:uid/:order_id', function (req, res) {
     var order_id = req.params.order_id
     var uid = req.params.uid
-    console.log(req.params)
+  
     Promise.resolve(req.params.uid)
       .then(query => new Promise(getBook(query)))
       .then(doc => new Promise(bindToBook(doc)))
@@ -55,7 +55,8 @@ module.exports.factory = (router, _searchBooks, _getBook, _getBooks, _orderDownl
         
         return Promise.resolve(getDownloadQuantity(order_id, uid))
           .then(remainingDownload => {
-            
+            console.log("Remaining ", remainingDownload)
+            console.log(remainingDownload > 0)
               if (remainingDownload > 0){
                 
                 return new Promise(reduceBookDownloadQuantity(order_id, uid))
