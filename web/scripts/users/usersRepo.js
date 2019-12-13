@@ -7,10 +7,10 @@ module.exports = {
 
     const repo = new Repo()
 
-    const login = (email, callback) => {
+    const login = (body, callback) => {
       repo.post({
         path: '/users/login',
-        body: { email }
+        body
       }, callback)
     }
 
@@ -21,6 +21,7 @@ module.exports = {
       }, callback)
     }
 
-    return { login, register }
+
+    return { login, register}
   }
 }

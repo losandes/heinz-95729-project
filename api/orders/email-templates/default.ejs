@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--<![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <style type="text/css">
+        * {
+            -webkit-font-smoothing: antialiased;
+        }
+        body {
+            Margin: 0;
+            padding: 0;
+            min-width: 100%;
+            font-family: Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            mso-line-height-rule: exactly;
+        }
+        table {
+            border-spacing: 0;
+            color: #333333;
+            font-family: Arial, sans-serif;
+        }
+        tr th{
+            padding:1rem;
+            font-weight: bold;
+            font:#c3c
+        }
+        img {
+            border: 0;
+        }
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        .webkit {
+            max-width: 800px;
+        }
+        .outer {
+            Margin: 0 auto;
+            width: 100%;
+            max-width: 800px;
+        }
+        .full-width-image img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+        }
+        .inner {
+            padding: 10px;
+        }
+        p {
+            Margin: 0;
+            padding-bottom: 10px;
+        }
+        .h1 {
+            font-size: 21px;
+            font-weight: bold;
+            Margin-top: 15px;
+            Margin-bottom: 5px;
+            font-family: Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .h2 {
+            font-size: 18px;
+            font-weight: bold;
+            Margin-top: 10px;
+            Margin-bottom: 5px;
+            font-family: Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .one-column .contents {
+            text-align: left;
+            font-family: Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .one-column p {
+            font-size: 14px;
+            Margin-bottom: 10px;
+            font-family: Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .two-column {
+            text-align: center;
+            font-size: 0;
+        }
+        .two-column .column {
+            width: 100%;
+            max-width: 300px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .contents {
+            width: 100%;
+        }
+        .two-column .contents {
+            font-size: 14px;
+            text-align: left;
+        }
+        .two-column img {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+        }
+        .two-column .text {
+            padding-top: 10px;
+        }
+        .three-column {
+            text-align: center;
+            font-size: 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .three-column .column {
+            width: 100%;
+            max-width: 200px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .three-column .contents {
+            font-size: 14px;
+            text-align: center;
+        }
+        .three-column img {
+            width: 100%;
+            max-width: 180px;
+            height: auto;
+        }
+        .three-column .text {
+            padding-top: 10px;
+        }
+        .img-align-vertical img {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        @media only screen and (max-device-width: 480px) {
+            table[class=hide], img[class=hide], td[class=hide] {
+                display: none !important;
+            }
+            .contents1 {
+                width: 100%;
+            }
+            .contents1 {
+                width: 100%;
+            }
+        }
+    </style>
+    <!--[if (gte mso 9)|(IE)]>
+    <style type="text/css">
+        table {border-collapse: collapse !important;}
+    </style>
+    <![endif]-->
+</head>
+<body style="Margin:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;min-width:100%;background-color:#f3f2f0;">
+    <div style="margin-top:2rem">
+        <h2>Your Order</h2>
+        <p>Hello <%= user.name %>,</p>
+        <p>Thank you very much for shopping with us. </p>
+        <p>Please find below your order details</p>
+    </div>
+<center class="wrapper" style="width:100%;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#f3f2f0;">
+  
+    <div style="margin-top:2rem">
+            <table width="100%" cellpadding="10" cellspacing="10" border=".2" style="background-color:#f3f2f0;" bgcolor="#f3f2f0;">
+                <tr style="background:#ccc">
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Download Link</th>
+                </tr>
+                <% order.items.forEach(function(item){ %>
+                       
+                        <tr>
+                            <td><%= item.name %></td>
+                            <td><%= item.quantity %></td>
+                            <td>USD <%= item.quantity * item.price %></td>
+                            <td><a href="http://localhost:<%= clientPort %>/books/download/<%= item.item_uid %>/<%= order._id %>">Download <%= item.name %></a></td>
+
+                        </tr>
+             
+                <% }) %>
+                <tr>
+                    <td colspan="3" align="right">Total: <b>USD<%= order.total %></b></td>
+                </tr>
+            </table>
+    </div>
+</center>
+</body>
+</html>

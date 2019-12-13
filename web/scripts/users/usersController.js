@@ -1,8 +1,8 @@
 module.exports = {
   scope: 'heinz',
   name: 'usersController',
-  dependencies: ['router', 'storage'],
-  factory: (router, storage) => {
+  dependencies: ['router', 'storage', 'usersRepo', 'userHistoryComponent'],
+  factory: (router, storage, repo, userHistoryComponent) => {
     'use strict'
 
     /**
@@ -11,16 +11,19 @@ module.exports = {
      */
     function registerRoutes (app) {
       router('/login', () => {
-        if (storage.get('jwt')) {
-          // TODO: the user is logged in, send them to a profile page
+        if (storage.exists('jwt')) {
+          var user = { name: storage.get('user').name, email: storage.get('user').email }
+          userHistoryComponent.setUser(user)
+          app.currentView = 'history'
+        }else{
+          app.currentView = 'login'
         }
-
-        app.currentView = 'login'
       })
 
       router('/register', () => {
         app.currentView = 'register'
       })
+
     }
 
     return { registerRoutes }

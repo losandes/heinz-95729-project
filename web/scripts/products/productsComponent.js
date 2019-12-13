@@ -22,7 +22,8 @@ module.exports = {
                     <h3><a href="javascript:void(0);" v-on:click="product.viewDetails">{{product.title}}</a></h3>
                     <div class="description">{{product.description}}</div>
                     <div class="overlay"></div>
-                    <a class="buy-now" href="javascript:void(0);" v-on:click="product.addToCart">{{product.price}}</a>
+                    <label>$ {{product.price}}</label>
+                    <a class="buy-now fa fa-shopping-cart" href="javascript:void(0);" v-on:click="product.addToCart"></a>
                   </div>
                 </div>
               </div>
@@ -31,7 +32,7 @@ module.exports = {
         </div><!-- /component -->`,
       data: () => {
         return state
-      }
+      },
     })
 
     const setProducts = (searchResults) => {

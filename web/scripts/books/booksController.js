@@ -14,7 +14,8 @@ module.exports = {
         repo.get(context.params.uid, (err, book) => {
           if (err) {
             console.log(err)
-            // TODO: render error view
+            alert ('Cannot find any book.')
+            return
           }
 
           if (book) {
@@ -22,7 +23,7 @@ module.exports = {
             app.currentView = 'book'
           } else {
             // TODO: route to a "none found" page
-            router.navigate('/')
+            router.navigate('/error')
           }
         })
       })

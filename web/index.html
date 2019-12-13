@@ -6,34 +6,52 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+  <script src="https://js.stripe.com/v3/"></script>
+
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Custom styles for this template -->
   <link rel="stylesheet" href="/styles/main.css">
+
+
+  <!-- code from: https://github.com/stripe/elements-examples/#example-1 -->
+
+  <!--<script src="/scripts/stripe/index.js" data-rel-js></script>-->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="css/base.css" data-rel-css="" />
+  <link rel="stylesheet" type="text/css" href="css/example5.css" data-rel-css="" /> -->
+
 </head>
 
 <body>
-  <video muted="muted" loop="loop" autoplay="autoplay" src="/images/magazine.mp4"id="vid"></video>
+  <video muted="muted" loop="loop" autoplay="autoplay" src="/images/magazine.mp4" id="vid"></video>
   <header id="header">
     <h1><a href="/">Papyr</a></h1>
     <div class="search-form">
       <div class="input-group input-group-lg">
         <input type="text" class="form-control" v-model="query" placeholder="search" v-on:keyup.enter="search">
         <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" v-on:click="search">Go!</button>
-                </span>
+          <button class="btn btn-default" type="button" v-on:click="search">Go!</button>
+        </span>
       </div>
       <!-- /input-group -->
     </div>
     <nav>
+      <a href="/all">
+                <i class="fa fa-book" aria-hidden="true"></i>
+            </a>
       <a href="/login">
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-            </a>
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+      </a>
       <a href="/checkout">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </a>
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      </a>
     </nav>
   </header>
   <div class="container">
@@ -72,6 +90,7 @@
   <script src="/scripts/locales/en_US.js"></script>
 
   <script src="/scripts/home/homeComponent.js"></script>
+  <script src="/scripts/home/errorComponent.js"></script>
   <script src="/scripts/home/homeController.js"></script>
 
   <script src="/scripts/books/Book.js"></script>
@@ -79,18 +98,46 @@
   <script src="/scripts/books/booksController.js"></script>
   <script src="/scripts/books/booksRepo.js"></script>
 
+
+  <script src="/scripts/cart/cartComponent.js"></script>
+  <script src="/scripts/cart/cartController.js"></script>
+  <script src="/scripts/cart/cartRepo.js"></script>
+  <script src="/scripts/cart/Cart.js"></script>
+
   <script src="/scripts/products/Product.js"></script>
   <script src="/scripts/products/productComponent.js"></script>
   <script src="/scripts/products/productsComponent.js"></script>
   <script src="/scripts/products/productsController.js"></script>
   <script src="/scripts/products/productsRepo.js"></script>
 
+  <script src="/scripts/download/downloadComponent.js"></script>
+  <script src="/scripts/download/downloadController.js"></script>
+  <script src="/scripts/download/downloadRepo.js"></script>
+  <script src="/scripts/download/limitComponent.js"></script>
+
   <script src="/scripts/users/loginComponent.js"></script>
   <script src="/scripts/users/registrationComponent.js"></script>
+  <script src="/scripts/users/userHistoryComponent.js"></script>
   <script src="/scripts/users/usersController.js"></script>
   <script src="/scripts/users/usersRepo.js"></script>
 
+  <script src="/scripts/stripe/l10n.js" data-rel-js></script>
+  <script src="/scripts/stripe/stripeComponent.js"></script>
+  <script src="/scripts/stripe/stripeController.js"></script>
+  <script src="/scripts/stripe/stripeRepo.js"></script>
+
+  <script src="/scripts/orders/Orders.js"></script>
+  <script src="/scripts/orders/ordersComponent.js"></script>
+  <script src="/scripts/orders/ordersController.js"></script>
+  <script src="/scripts/orders/ordersRepo.js"></script>
+
+
   <script src="/scripts/index.js"></script>
+  <!-- code from: https://github.com/stripe/elements-examples/#example-1 -->
+  <!-- Simple localization script for Stripe's examples page. -->
+  <!--<script src="/scripts/stripe/l10n.js" data-rel-js></script>-->
+  <!-- Scripts for each example: -->
+  <!--<script src="/scripts/stripe/example5.js" data-rel-js></script>-->
 </body>
 
 </html>

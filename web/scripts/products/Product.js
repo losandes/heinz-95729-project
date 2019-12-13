@@ -1,11 +1,11 @@
 module.exports = {
   scope: 'heinz',
   name: 'Product',
-  dependencies: ['router'],
-  factory: (router) => {
+  dependencies: ['router', 'productsRepo', 'storage'],
+  factory: (router, productsRepo, storage) => {
     'use strict'
 
-    return function Product (product) {
+    return function Product(product) {
       product = Object.assign({}, product)
 
       const self = {
@@ -39,8 +39,56 @@ module.exports = {
         }
       }
 
+      let cart = storage.get('localCart') || JSON.parse(localStorage.getItem('localCart')) || []
+      let total = storage.get('totalPrice')|| JSON.parse(localStorage.getItem('totalPrice')) || 0
+  
       self.addToCart = (event) => {
-        console.log(`TODO: add ${self.title} to shopping cart`)
+        var uid = ''
+        const data = {
+          name: self.title,
+          quantity: 1,
+          price: self.price,
+          item_uid: self.uid,
+          uid: uid
+        }
+        if(storage.exists('jwt')){
+          const user = storage.get('user')
+          uid = user._id
+          data.uid = uid
+
+          console.log("Adding... \n" + data);
+
+          productsRepo.addToCart(data, (err, res) => {
+            if (err) {
+              console.log(err)
+              alert('Add to cart failed')
+              return
+            }
+  
+            console.log(res);
+            if(res){
+              storage.set('cart', res.items)
+              router.navigate(`/checkout`)
+            }
+          })
+        }
+        else{
+          const repeat = cart.some(el => el.item_uid === data.item_uid)
+          if(!repeat){
+            cart.push(data)
+            total += data.price
+            console.log(cart)
+            storage.set('localCart',cart)
+            storage.set('totalPrice',total)
+
+            localStorage.setItem('localCart',JSON.stringify(cart))
+            localStorage.setItem('totalPrice',total)
+            router.navigate(`/checkout`)
+          }else{
+            alert('Item alreay in Cart')
+          }
+
+        }
       }
 
       return self

@@ -8,7 +8,8 @@ module.exports = {
 
     const state = {
       email: null,
-      name: null
+      name: null,
+      password: null
     }
     const component = Vue.component('register', {
       template: `
@@ -21,6 +22,10 @@ module.exports = {
               <label for="user-registration-name">Name</label>
               <input v-model="name" type="text" name="name" class="form-control" placeholder="Happy Shaawa"/>
           </div>
+          <div class="form-group">
+              <label for="user-registration-password">Password</label>
+              <input v-model="password" type="password" name="password" class="form-control" placeholder="Your password"/>
+          </div>
           <button class="btn btn-success" v-on:click="register">Register</button>
           <br />
         </div>`,
@@ -29,16 +34,17 @@ module.exports = {
       },
       methods: {
         register: function (event) {
-          const { email, name } = this
+          const { email, name, password } = this
 
-          usersRepo.register({ name, email }, (err, res) => {
+          usersRepo.register({ name, email, password }, (err, res) => {
             if (err) {
-              alert('Login failed')
+              alert('Register failed')
               return
             }
 
             storage.set('jwt', res.authToken)
             storage.set('user', res.user)
+            alert('You have been registered! Continue browsing books')
             return router.navigate('/')
           })
         }

@@ -15,6 +15,15 @@ app.use(function (req, res, next) {
   fs.createReadStream('./index.html').pipe(res)
 })
 
+
+app.get('/checkout', function(req,res) {
+    data= fs.readFile('~/stripe/index.html',   function (err, data) {
+        res.setHeader('Content-Type', 'text/html');
+        res.send(data);
+      });
+});
+
 // response to port 3001
 app.listen(3001)
 console.log('The app is running at http://localhost:3001')
+
