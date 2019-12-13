@@ -13,16 +13,16 @@ class LoginForm extends Component {
     }
 
     handleSubmit = (event) => {
-        const form = event.currentTarget;
-        // if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        // }
+        // const form = event.currentTarget;
+        // // if (form.checkValidity() === false) {
+        //     event.preventDefault();
+        //     event.stopPropagation();
+        // // }
     
-        // setValidated(true);
-        // console.log(form);
+        // // setValidated(true);
+        // // console.log(form);
 
-        const SERVER_URL = "http://10.0.0.127:8080/";
+        const SERVER_URL = "http://127.0.0.1:8080/";
 
         var bodyFormData = new FormData();
         bodyFormData.set('username', 'salil');

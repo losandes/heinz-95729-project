@@ -30,9 +30,10 @@ class Product extends Component {
         var params = {
             q: this.state.title,
         }
-          
+        
+        // TODO add API KEY
         var headers = {
-            "Ocp-Apim-Subscription-Key": "bd427484b1da4006863f152fe9cfff35",
+            "Ocp-Apim-Subscription-Key": "",
         }
 
         axios.get(SERVER_URL, {params, headers})
@@ -48,7 +49,7 @@ class Product extends Component {
     }
 
     fetchProduct = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/product?productId=" + this.state.productId;
+        const SERVER_URL = "http://127.0.0.1:8080/product?productId=" + this.state.productId;
 
         axios.get(SERVER_URL)
             .then((response) => {
@@ -65,7 +66,7 @@ class Product extends Component {
     }
 
     fetchReviews = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/review?productId=" + this.state.productId;
+        const SERVER_URL = "http://127.0.0.1:8080/review?productId=" + this.state.productId;
 
         axios.get(SERVER_URL)
             .then((response) => {
@@ -82,7 +83,7 @@ class Product extends Component {
     }
 
     fetchRelated = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/related?productId=" + this.state.productId;
+        const SERVER_URL = "http://127.0.0.1:8080/related?productId=" + this.state.productId;
 
         axios.get(SERVER_URL)
             .then((response) => {
@@ -99,7 +100,7 @@ class Product extends Component {
     }
 
     fetchViewed = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/view?productId=" + this.state.productId;
+        const SERVER_URL = "http://127.0.0.1:8080/view?productId=" + this.state.productId;
 
         axios.get(SERVER_URL)
             .then((response) => {

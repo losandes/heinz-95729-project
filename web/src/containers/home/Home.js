@@ -20,7 +20,7 @@ class Home extends Component {
     }
 
     fetchDealsOfTheDay = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/product/dealoftheday";
+        const SERVER_URL = "http://127.0.0.1:8080/product/dealoftheday";
 
         axios.get(SERVER_URL)
             .then((response) => {

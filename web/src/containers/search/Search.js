@@ -22,7 +22,7 @@ class Search extends Component {
     }
 
     fetchProducts = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/product/keyword?keyword=" + this.state.query;
+        const SERVER_URL = "http://127.0.0.1:8080/product/keyword?keyword=" + this.state.query;
 
         axios.get(SERVER_URL)
             .then((response) => {

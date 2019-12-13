@@ -22,7 +22,7 @@ class Category extends Component {
     }
 
     fetchProducts = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/product/category?category=" + this.state.category;
+        const SERVER_URL = "http://127.0.0.1:8080/product/category?category=" + this.state.category;
 
         axios.get(SERVER_URL)
             .then((response) => {

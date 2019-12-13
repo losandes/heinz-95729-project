@@ -29,9 +29,10 @@ class ProductCard extends Component {
         var params = {
             q: this.state.title,
         }
-          
+        
+        // TODO add API Key
         var headers = {
-            "Ocp-Apim-Subscription-Key": "bd427484b1da4006863f152fe9cfff35",
+            "Ocp-Apim-Subscription-Key": "",
         }
 
         axios.get(SERVER_URL, {params, headers})
