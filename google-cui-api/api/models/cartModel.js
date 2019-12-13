@@ -16,6 +16,9 @@ var CartSchema = new Schema({
   unit_number: {
     type: Number,
     default : 1,
+  },
+  sub_total: {
+    type: Number
   }
 });
 
