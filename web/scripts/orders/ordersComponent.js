@@ -30,7 +30,7 @@ module.exports = {
               <td> {{ order_item.name }} </td>
               <td> {{ order_item.quantity }} </td>
               <td> USD {{ order_item.price }} </td>
-              <td> USD {{ order_item.price * order_item.quantity}} </td>
+              <td> USD {{ (order_item.price * order_item.quantity).toFixed(2) }} </td>
             </tr>
             <tr><td colspan='6' align='right'><b>Total: USD {{product.total}}</b></td></tr>
            
