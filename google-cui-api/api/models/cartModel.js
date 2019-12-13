@@ -9,17 +9,16 @@ var CartSchema = new Schema({
     type: String,
     required: 'Kindly enter the name of the product',
   },
-  product_price: {
-    type: Number,
-    required: 'Everything needs a price',
-  },
-  user_name: {
-    type: String,
-    required: 'Kindly enter the name of the product',
-  },
   shopping_time: {
     type: Date,
     default: Date.now,
+  },
+  unit_number: {
+    type: Number,
+    default : 1,
+  },
+  sub_total: {
+    type: Number
   }
 });
 
