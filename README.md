@@ -63,6 +63,8 @@ At the end of this project, users will be able to
 <br>
 
 ### Running Examples
+1. Enter "I want to buy two apples". Follow the instructions, you shall end up with checking out.
+2. Enter "Check the cart". You shall be able to see what's in current cart, and remove items.
 ### Dependencies
 - Have NodeJS installed
 - Have MongoDB installed and running
