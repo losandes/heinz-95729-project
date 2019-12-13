@@ -49,8 +49,10 @@ class Category extends Component {
     render() {
         let gridData = [];
         let arr = this.state.products;
-        while(arr.length) {
+        let count = 0;
+        while(arr.length && count < 20) {
             gridData.push(arr.splice(0, 4));
+            count++;
         }
 
         let gridCols = gridData.map((value, index) => {

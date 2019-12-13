@@ -16,12 +16,35 @@ class Product extends Component {
         this.props = props;
 
         this.state = {
+            imageUrl: "https://via.placeholder.com/600",
             productId: props.match.params.productId,
             product: {},
             reviews: [],
             related: [],
             viewed: []
         }
+    }
+
+    fetchImage = () => {
+        const SERVER_URL = "https://api.cognitive.microsoft.com/bing/v7.0/images/search";
+        var params = {
+            q: this.state.title,
+        }
+          
+        var headers = {
+            "Ocp-Apim-Subscription-Key": "bd427484b1da4006863f152fe9cfff35",
+        }
+
+        axios.get(SERVER_URL, {params, headers})
+            .then((response) => {
+                this.setState({
+                    imageUrl: response.data.value[0].thumbnailUrl
+                });
+            })
+            .catch(function (response) {
+                // Handle error
+                console.log(response);
+            });
     }
 
     fetchProduct = () => {
@@ -96,7 +119,7 @@ class Product extends Component {
 
     render() {
         let productDetails = null;
-        if (Object.keys(this.state.product).length != 0) {
+        if (Object.keys(this.state.product).length !== 0) {
             productDetails = (
                 <div>
                     <h3>{this.state.product.name}</h3>
@@ -171,7 +194,7 @@ class Product extends Component {
                     <Row>
                         <Col md={4}>
                             <div className="product-img-container">
-                                <img src="https://via.placeholder.com/200x600" className="product-img" alt="Product" />
+                                <img src={this.state.imageUrl} className="product-img" alt="Product" />
                             </div>
                         </Col>
                         <Col md={8}>
@@ -181,17 +204,17 @@ class Product extends Component {
 
                     <Row className="reviews-row">
                         <Col md={12}>
-                            {reviews != null ? <h5>Reviews</h5> : null}
+                            {reviews !== null ? <h5>Reviews</h5> : null}
                             <ul>{reviews}</ul>
                         </Col>
                     </Row>
 
-                    {alsoBought != null ? <h5>Products similar to this bought by other customers</h5> : null}
+                    {alsoBought !== null ? <h5>Products similar to this bought by other customers</h5> : null}
                     <Row className="also-bought-row">
                         {alsoBought}
                     </Row>
 
-                    {alsoViewed != null ? <h5>Other customers who bought this also viewed</h5> : null}
+                    {alsoViewed !== null ? <h5>Other customers who bought this also viewed</h5> : null}
                     <Row className="also-bought-row">
                         {alsoViewed}
                     </Row>

@@ -17,7 +17,6 @@ function App() {
     const [isLoggedIn, setLogInStatus] = useState(false);
 
     let setAppStatus = (value) => {
-        console.log(value);
         setLogInStatus(value);
     }
 

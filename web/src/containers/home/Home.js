@@ -5,6 +5,7 @@ import ProductRow from '../../components/product-row/ProductRow';
 import CategoryGrid from '../../components/category-grid/CategoryGrid';
 import axios from 'axios';
 import './Home.css';
+import Container from 'react-bootstrap/Container';
 
 
 class Home extends Component {
@@ -12,10 +13,6 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.props = props;
-
-        console.log("In home");
-        console.log(props);
-        console.log(props.isLoggedIn);
 
         this.state = {
             products: []
@@ -54,6 +51,17 @@ class Home extends Component {
                 <ProductRow title="Deals of the day" products={this.state.products} />
 
                 <CategoryGrid />
+
+                <Container className="cui-section">
+                    <h4>Interact with out chatbot to find out if we have exactly what you need!</h4>
+                    <iframe
+                        allow="microphone;"
+                        width="350"
+                        height="430"
+                        className="chat-frame"
+                        src="https://console.dialogflow.com/api-client/demo/embedded/320f00f9-6d53-4627-a154-1f81181c5699">
+                    </iframe>
+                </Container>
             </div>
         );
     }

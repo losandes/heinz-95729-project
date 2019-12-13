@@ -5,9 +5,6 @@ import './Navbar.css'
 
 const Navbar = (props) => {
 
-    console.log("In nav");
-    console.log(props.isLoggedIn);
-
     return (
         <div className="menu">
             <LinkContainer to="/">
@@ -50,19 +47,11 @@ const Navbar = (props) => {
                     Science
                 </div>
             </LinkContainer>
-            {props.isLoggedIn === true ? 
-                <LinkContainer to="/login">
-                    <div className="menu-item special-item last-item">
-                        Log in
-                    </div>
-                </LinkContainer>
-                :
-                <LinkContainer to="/login">
-                    <div className="menu-item special-item last-item">
-                        Log out
-                    </div>
-                </LinkContainer>
-            }
+            <LinkContainer to="/login">
+                <div className="menu-item special-item last-item">
+                    Log in
+                </div>
+            </LinkContainer>
         </div>
     );
 }
