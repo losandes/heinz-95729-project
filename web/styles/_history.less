@@ -1,0 +1,39 @@
+.history-component {
+  background: @bg-color;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding:2em;
+
+  .row {
+    .heading {
+      color: @primary-color;
+    }
+
+    .details {
+      color: @secondary-color;
+      .label{
+        color: @primary-color;
+      }
+      h3{
+        display: inline;
+      }
+    }
+
+    .btn-panel {
+      padding: 2em;
+      .view {
+        background-color: @bg-color;
+        border-color: @secondary-color;
+        background-image: none;
+        font-size: 1.2em;
+      }
+
+      .logout {
+        background-color: @bg-color;
+        border-color: @primary-color;
+        background-image: none;
+        font-size: 1.3em;
+      }
+    }
+  }
+}

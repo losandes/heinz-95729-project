@@ -5,6 +5,8 @@ module.exports = {
   factory: (router, Vue, repo, storage) => {
     'use strict'
 
+    var state = { amt: ""}
+
     const component = Vue.component('stripe', {
       // code from: code from: https://github.com/stripe/elements-examples/#example-1
       template: `
@@ -69,7 +71,7 @@ module.exports = {
                     <div id="example5-card" class="input"></div>
                   </div>
                 </div>
-                <button type="submit" data-tid="elements_examples.form.pay_button">Pay $25</button>
+                <button type="submit" data-tid="elements_examples.form.pay_button">Pay {{amt}}</button>
               </fieldset>
               <div class="error" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
                   <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
@@ -114,7 +116,7 @@ module.exports = {
 
       mounted(){
         var stripe = Stripe('pk_test_CLNZH3bnJyymbzChJVSqAEHB00cmXPGbZS'); //strip publishable key
-        
+
         function registerElements(elements, exampleName) {
           var formClass = '.' + exampleName;
           var example = document.querySelector(formClass);
@@ -306,7 +308,7 @@ module.exports = {
           country: "US",
           currency: "usd",
           total: {
-            amount: 2500,
+            amount: parseInt(state.amt),
             label: "Total"
           },
           requestShipping: true,
@@ -347,13 +349,19 @@ module.exports = {
         });
 
         registerElements([card], "example5");
-      }
-      // data: () => {
-      //   return state
-      // }
+      },
+      data: () => {
+        return state
+       }
     })
+
+    const setAmt = (amt) => {
+      state = amt
+    }
+
     return {
-      component
+      component,
+      setAmt
     }
   }
 }

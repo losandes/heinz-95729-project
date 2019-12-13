@@ -14,7 +14,7 @@ module.exports.factory = function (db, Order, _blueprint, _mongodb) {
   Order.db.indexes.forEach(index => {
     collection.createIndex(index.keys, index.options)
   })
-
+  
   /**
    * Adds shopping cart items to order after successful checkout
    * @param {Object} payload - the shopping cart to be added
@@ -49,7 +49,7 @@ module.exports.factory = function (db, Order, _blueprint, _mongodb) {
   const get = (uid) => {
     return new Promise((resolve, reject) => {
       if (is.not.string(uid)) {
-        return reject(new Error('A uid is required to get a Cart'))
+        return reject(new Error('A uid is required to get orders'))
       }
       
       collection.find({ uid:uid })
@@ -70,7 +70,7 @@ module.exports.factory = function (db, Order, _blueprint, _mongodb) {
   const getOne = (id) => {
     return new Promise((resolve, reject) => {
       if (is.not.string(id)) {
-        return reject(new Error('A uid is required to get a Cart'))
+        return reject(new Error('A uid is required to get an order'))
       }
       
       collection.find({ _id: ObjectID(id) })
@@ -97,7 +97,7 @@ module.exports.factory = function (db, Order, _blueprint, _mongodb) {
     
     return new Promise((resolve, reject) => {
       if (is.not.string(uid)) {
-        return reject(new Error('A uid is required to get a Cart'))
+        return reject(new Error('A uid is required to reduce download quantity'))
       }
 
       collection.updateOne(

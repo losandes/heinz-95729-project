@@ -84,6 +84,7 @@ The root of the app includes:
   * please navigate to `/api/common/build-tasks/seed.js` 
   
   * modify the testdb: `test_db:host`, `test_db:port`,`test_db:name`
+
     ```JavaScript
     // composition.js
     MongoClient(new Server(env.get('test_db:host'), parseInt(env.get('test_db:port'))))

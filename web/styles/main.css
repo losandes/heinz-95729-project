@@ -444,6 +444,11 @@ Table of Contents
   top: -40px;
   left: 300px;
   right: 40px;
+  background: #272932;
+  opacity: 0.9;
+  padding: 2em;
+  color: #FAEBD7;
+  font-weight: bold;
 }
 .book-component .purchase {
   margin-top: 30px;
@@ -971,6 +976,7 @@ body video {
 .cart-component {
   background: #272932;
   opacity: 0.9;
+  color: #FAEBD7;
 }
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
@@ -1579,7 +1585,7 @@ body video {
   color: #6772e5;
 }
 .stripe .example.example5 {
-  background-color: #9169d8;
+  background-color: #984B43;
 }
 .stripe .example.example5 * {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -1592,7 +1598,7 @@ body video {
   margin-bottom: 10px;
 }
 .stripe .example.example5 fieldset {
-  border: 1px solid #b5a4ed;
+  border: 1px solid #fff;
   padding: 15px;
   border-radius: 6px;
 }
@@ -1602,8 +1608,8 @@ body video {
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  color: #cdd0f8;
-  background-color: #9169d8;
+  color: #fff;
+  background-color: #984B43;
 }
 .stripe .example.example5 fieldset legend + * {
   clear: both;
@@ -1628,7 +1634,7 @@ body video {
 }
 .stripe .example.example5 label {
   width: 100%;
-  color: #cdd0f8;
+  color: #fff;
   font-size: 13px;
   font-weight: 500;
   overflow: hidden;
@@ -1640,17 +1646,17 @@ body video {
   color: #fff;
   background: transparent;
   padding: 5px 0 6px 0;
-  border-bottom: 1px solid #a988ec;
+  border-bottom: 1px solid #fff;
   transition: border-color 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .stripe .example.example5 .input::-webkit-input-placeholder {
-  color: #bfaef6;
+  color: #a4a4a5;
 }
 .stripe .example.example5 .input::-moz-placeholder {
-  color: #bfaef6;
+  color: #a4a4a5;
 }
 .stripe .example.example5 .input:-ms-input-placeholder {
-  color: #bfaef6;
+  color: #a4a4a5;
 }
 .stripe .example.example5 .input.StripeElement--focus,
 .stripe .example.example5 .input:focus {
@@ -1696,24 +1702,24 @@ body video {
   margin: 20px 0 0;
   background-color: #fff;
   border-radius: 6px;
-  color: #9169d8;
+  color: #984B43;
   font-weight: 500;
   cursor: pointer;
 }
 .stripe .example.example5 button:active {
-  background-color: #cdd0f8;
+  background-color: #fff;
 }
 .stripe .example.example5 .error svg .base {
   fill: #fff;
 }
 .stripe .example.example5 .error svg .glyph {
-  fill: #9169d8;
+  fill: #984B43;
 }
 .stripe .example.example5 .error .message {
   color: #fff;
 }
 .stripe .example.example5 .success .icon .border {
-  stroke: #bfaef6;
+  stroke: #a4a4a5;
 }
 .stripe .example.example5 .success .icon .checkmark {
   stroke: #fff;
@@ -1722,8 +1728,62 @@ body video {
   color: #fff;
 }
 .stripe .example.example5 .success .message {
-  color: #cdd0f8;
+  color: #fff;
 }
 .stripe .example.example5 .success .reset path {
   fill: #fff;
+}
+.history-component {
+  background: #272932;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding: 2em;
+}
+.history-component .row .heading {
+  color: #984B43;
+}
+.history-component .row .details {
+  color: #FAEBD7;
+}
+.history-component .row .details .label {
+  color: #984B43;
+}
+.history-component .row .details h3 {
+  display: inline;
+}
+.history-component .row .btn-panel {
+  padding: 2em;
+}
+.history-component .row .btn-panel .view {
+  background-color: #272932;
+  border-color: #FAEBD7;
+  background-image: none;
+  font-size: 1.2em;
+}
+.history-component .row .btn-panel .logout {
+  background-color: #272932;
+  border-color: #984B43;
+  background-image: none;
+  font-size: 1.3em;
+}
+.orders-component {
+  background: #272932;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding: 2em;
+}
+.orders-component .product-panel {
+  padding: 2em;
+}
+.orders-component .product-panel label h3 {
+  color: #FAEBD7;
+}
+.orders-component .product-panel label h3 .label-name {
+  color: #984B43;
+}
+.download-component {
+  background: #272932;
+  opacity: 0.9;
+  margin-top: 2em;
+  padding: 2em;
 }

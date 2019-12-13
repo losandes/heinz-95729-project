@@ -8,10 +8,10 @@ module.exports.factory = (router, _addOrder, _findOrders, _addToCart, _updateCar
   const { deleteCart } = _updateCart
   const { findOrders } = _findOrders
   const { sendEmail } = _sendEmail
-  
+
   router.post('/orders/add/:uid', function (req, res) {
     var uid = req.params.uid
-   
+
     Promise.resolve(req.params.uid)
       .then(uid => new Promise(getCart(uid)))
       .then(cart => new Promise(addOrder(cart)))
@@ -19,9 +19,9 @@ module.exports.factory = (router, _addOrder, _findOrders, _addToCart, _updateCar
       //delete cart after successfully saving to orders
       .then(() => new Promise(deleteCart(uid)))
       .then(() => {
-        
+
         res.status(201).send({ messages: ['Order created successfully']})
-       
+
       })
       .catch(err => {
         logger.error(err)
@@ -40,7 +40,7 @@ module.exports.factory = (router, _addOrder, _findOrders, _addToCart, _updateCar
         res.status(400).send({ messages: [err.message] })
       })
   })
-  
+
 
   return router
 }
