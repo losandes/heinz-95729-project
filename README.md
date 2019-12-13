@@ -83,7 +83,6 @@ Note -
 * **Kartik Bansal**
 * **Syed Danish Ahmed**
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## Acknowledgments
 
