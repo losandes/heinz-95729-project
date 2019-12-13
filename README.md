@@ -1,6 +1,6 @@
-# Project Title
+# Neuro-Pic
 
-Neuro-Pic: Making E-commerce Immersive and Swifter through Neural Networks
+Making E-commerce Immersive and Swifter through Neural Networks
 
 
 ## Getting Started
