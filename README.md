@@ -54,7 +54,7 @@ To verify whether the packages have installed properly, try import packagename c
 7. Now we can run the Categorizing_Apparel.py code to predict the categories for the images in the Test folder
 8. The above code creates a 'Predict' folder in the working directory with Test images categorized in folders according to their predictions
 
-Note - Change the current working directory in Data_Train_Valid_Split.py and Categorizing_Apparel.py codes to the directory they are stored in
+Note - Change the current working directory in Data_Train_Valid_Split.py and Categorizing_Apparel.py codes (in the beginning) to the directory they are stored in
 
 
 ### Brief description of how the clustering algorithm works
@@ -65,7 +65,7 @@ Note - Change the current working directory in Data_Train_Valid_Split.py and Cat
 4. To improve readability a folder is created for each cluster and the images are transfered to each of those cluster folders.
 5. Finally some images are transfered to the folder from which the UI picks it up for display.
 
-Note - In the import section of the code (in the begining) the directory must be changed to neuropic i.e.(inside the folder neuropic)
+Note - In the import section of the code (in the beginning) the directory must be changed to neuropic i.e.(inside the folder neuropic)
 
 ### Steps for traversing the User Interface
 
