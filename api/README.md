@@ -1,4 +1,6 @@
-# Heinz-95729 API - APIs, Web UX, and Integration Group(2019)
+# Heinz-95729 API 
+
+##### - APIs, Web UX, and Integration Group(2019)
 
 ## Getting Started
 This app is composed with [hilary](https://github.com/losandes/hilaryjs), uses [@polyn/blueprint](https://github.com/losandes/polyn-blueprint), and [@polyn/immutable](https://github.com/losandes/polyn-immutable) for models, and runs on [express](http://expressjs.com).
