@@ -6,7 +6,10 @@ import com.ecom.backrow.api.Entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("productService")
 public class ProductService implements IproductService {
@@ -51,5 +54,19 @@ public class ProductService implements IproductService {
             return null;
         }
         return productDao.getByProductId(productId);
+    }
+
+    @Override
+    public List<Product> getDealOfTheDay() {
+        List<Product> products = getAllProducts();
+        Set<Product> dealOfTheDaySet = new HashSet<>();
+        List<Product> dealOfTheDay = new ArrayList<>();
+        int index;
+        while (dealOfTheDaySet.size()<=5){
+            index = (int)(Math.random()*products.size());
+            dealOfTheDaySet.add(products.get(index));
+        }
+        dealOfTheDay.addAll(dealOfTheDaySet);
+        return dealOfTheDay;
     }
 }

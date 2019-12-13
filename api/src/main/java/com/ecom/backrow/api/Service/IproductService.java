@@ -10,4 +10,5 @@ public interface IproductService {
     List<Product> getProductsByKeyword(String keyword);
     List<Product> getProductsByCategory(String category);
     Product getProductsByProductId(String productId);
+    List<Product> getDealOfTheDay();
 }

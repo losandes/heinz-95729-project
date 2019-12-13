@@ -32,6 +32,16 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping(value = "/dealoftheday")
+    @ResponseBody
+    public ResponseEntity<List<Product>> productDealOfTheDay(){
+        List<Product> products = productService.getDealOfTheDay();
+        if (products == null || products.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(products);
+    }
+
     @GetMapping(value = "/keyword")
     @ResponseBody
     public ResponseEntity<List<Product>> productByKeyword(@RequestParam(name = "keyword") String keyword){
