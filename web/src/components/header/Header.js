@@ -14,6 +14,12 @@ const Header = (props) => {
         setQuery(event.target.value);
     }
 
+    let onEnter = (event) => {
+        if (event.key === 'Enter') {
+            history.push("/search/" + query);
+        }
+    }
+
     let onButtonClick = () => {
         history.push("/search/" + query);
     }
@@ -26,7 +32,7 @@ const Header = (props) => {
                 <h3 className="welcome-subtitle">Find the best products from the comfort of your home</h3>
 
                 <div className="search-container">
-                    <input id="search-bar" type="text" onChange={onInputChange} value={query} />
+                    <input id="search-bar" type="text" onChange={onInputChange} onKeyDown={onEnter} value={query} />
                     <button onClick={onButtonClick}><FontAwesomeIcon icon="search" /></button>
                 </div>
                 

@@ -1,42 +1,23 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from "react-router-dom";
 import './ProductCard.css';
 import bootsLogo from '../../assets/images/boots.jpg';
 
 
-class ProductCard extends Component {
+const ProductCard = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: props.title,
-            productId: props.productId,
-            toSearch: false
-        };
+    const history = useHistory();
+
+    let onCardClick = () => {
+        history.push("/product/" + props.productId);
     }
 
-    onCardClick = () => {
-        this.setState({
-            title: this.state.title,
-            productId: this.state.productId,
-            toSearch: true
-        })
-    }
-
-    render() {
-        if (this.state.toSearch) {
-            return (
-                <Redirect to={'/product/' + this.state.productId} />
-            );
-        }
-
-        return (
-            <div className="ProductCard" onClick={this.onCardClick}>
-                <div className="product-card-img" style={{backgroundImage: `url(${bootsLogo})`}} />
-                <p className="product-card-text">{this.state.title}</p>
-            </div>
-        );
-    }
+    return (
+        <div className="ProductCard" onClick={onCardClick}>
+            <div className="product-card-img" style={{backgroundImage: `url(${bootsLogo})`}} />
+            <p className="product-card-text">{props.title}</p>
+        </div>
+    );
 }
 
 export default ProductCard;
