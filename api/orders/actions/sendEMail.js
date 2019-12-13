@@ -22,9 +22,10 @@ module.exports.factory = function (nodemailer, ejs, getUser, nconf) {
         pass: env.get('pass')
       }
     });
-
+    
     new Promise(getUserByID(uid))
       .then(user => {
+        
         ejs.renderFile(
           'orders/email-templates/default.ejs', 
           {

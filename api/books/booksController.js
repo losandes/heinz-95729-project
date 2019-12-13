@@ -61,6 +61,7 @@ module.exports.factory = (router, _searchBooks, _getBook, _getBooks, _orderDownl
                 
                 return new Promise(reduceBookDownloadQuantity(order_id, uid))
                   .then(() => {
+                    console.log(book.downloadLink)
                     return res.download(book.downloadLink)
                   })
               }

@@ -25,13 +25,14 @@ module.exports = {
 
           router('/userproducts', (context) => {
             repo.history(storage.get('user')._id, (err, products) => {
+             
               if (err) {
                 console.log(err)
                 router.navigate('/error')
               }
 
               if (products && products.length) {
-                ordersComponent.setProducts(new OrdersSearchResult(products))
+                ordersComponent.setProducts(products)
                 app.currentView = 'orders'
               } else {
 
