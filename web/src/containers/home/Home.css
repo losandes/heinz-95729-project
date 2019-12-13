@@ -1,0 +1,18 @@
+.Home {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-container {
+    text-align: center;
+    transform: translateY(-50%);
+}
+
+.cui-section {
+    padding-top: 40px;
+    text-align: center;
+}
+
+.chat-frame {
+    margin-top: 20px;
+}

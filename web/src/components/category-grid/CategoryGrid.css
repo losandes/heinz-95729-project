@@ -1,0 +1,15 @@
+.CategoryGrid {
+    background-color: #fff293;
+    background-image: linear-gradient(315deg, #fff293 0%, #ffe884 74%);
+    padding: 40px 0px;
+}
+
+.category-header {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.top-row {
+    margin-bottom: 40px;
+}

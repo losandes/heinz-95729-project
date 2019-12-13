@@ -1,5 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+@author: Salil Deshpande
+Team Backrow
+
+## About
+
+This is a React based frontend portion of our team project
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -66,3 +73,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+## NOTES
+
+You will need to get an Azure account for the product picture lookup feature to work. As we did not have images in our dataset, 
+we have made use of the Bing Image Search API (available at https://azure.microsoft.com/en-us/services/cognitive-services/bing-image-search-api/). 2 TODOs have been marked in this project where the API key needs to updated.
+
+Also, this project is created with the assumption that the API part of this project will be run on the same local machine. All the URLs have thus been set up to point to 127.0.0.1:8080
+

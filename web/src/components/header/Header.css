@@ -1,0 +1,61 @@
+.home-banner {
+  background-image: url('../../assets/images/banner.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  color: white;
+  height: 60%;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.filter {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.banner-content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.welcome-title {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.welcome-subtitle {
+  margin-bottom: 20px;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-container > button {
+  position: absolute;
+  top: 50%;
+  right: 35.4%;
+  transform: translateY(-50%);
+  border-radius: 20px;
+  border: none;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: white;
+}
+
+#search-bar {
+  padding: 8px 18px;
+  border-radius: 18px;
+  border: none;
+  width: 30%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
