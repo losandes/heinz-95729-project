@@ -65,7 +65,7 @@ Note - Change the current working directory in Data_Train_Valid_Split.py and Cat
 4. To improve readability a folder is created for each cluster and the images are transfered to each of those cluster folders.
 5. Finally some images are transfered to the folder from which the UI picks it up for display.
 
-Note - 
+Note - In the import section of the code the directory must be changed to neuropic i.e.(inside the folder neuropic)
 
 ### Steps for traversing the User Interface
 
