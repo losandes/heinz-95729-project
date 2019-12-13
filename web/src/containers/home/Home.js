@@ -13,12 +13,12 @@ class Home extends Component {
     }
 
     fetchDealsOfTheDay = () => {
-        const SERVER_URL = "http://10.0.0.127:8080/product/all";
+        const SERVER_URL = "http://10.0.0.127:8080/product/dealoftheday";
 
         axios.get(SERVER_URL)
             .then((response) => {
                 this.setState({
-                    products: response.data.slice(0, 5)
+                    products: response.data
                 });
             })
             .catch(function (response) {
