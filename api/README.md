@@ -1,4 +1,6 @@
-# Heinz-95729 API - APIs, Web UX, and Integration Group(2019)
+# Heinz-95729 API 
+
+##### - APIs, Web UX, and Integration Group(2019)
 
 ## Getting Started
 This app is composed with [hilary](https://github.com/losandes/hilaryjs), uses [@polyn/blueprint](https://github.com/losandes/polyn-blueprint), and [@polyn/immutable](https://github.com/losandes/polyn-immutable) for models, and runs on [express](http://expressjs.com).
@@ -75,13 +77,14 @@ The root of the app includes:
 
 * **composition.js**: where we bootstrap hilary, and compose our dependency graph. It's the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) of the app.
 
-* **<span style='color:red'>test.js</span> **: where we bootstrap the required testing dependencies. Since we are using a `testdb` to implement all of our tests. 
+* <span style='color:red'>test.js</span> : where we bootstrap the required testing dependencies. Since we are using a `test_db` to implement all of our tests. 
 
-  To run our tests:
+  ### To run our tests:
 
   * please navigate to `/api/common/build-tasks/seed.js` 
   
-  * modify the `test_db:host`, `test_db:port`,`test_db:name`
+  * modify the testdb: `test_db:host`, `test_db:port`,`test_db:name`
+
     ```JavaScript
     // composition.js
     MongoClient(new Server(env.get('test_db:host'), parseInt(env.get('test_db:port'))))
@@ -89,10 +92,14 @@ The root of the app includes:
       const db = client.db(env.get('test_db:name'))
     ], (err) => { /*...*/ })
     ```
-  * re-run the seed
+  * re-run the seed under the `/api` directory
 
     ```
     npm run seed
+    ```
+  * then run the test under the `/api` directory
+     ```
+    npm test
     ```
 
 
@@ -131,7 +138,7 @@ This folder contains the HBS files, for rendering web pages.
 The user folder contains:
 
 - Index module: re-export the product subsets.
-- Three modules: user, controller, repository, <span style='color:blue'>userRepo test </span>.
+- Four modules: user, controller, repository, <span style='color:blue'>userRepo test </span>.
 - Actions: serve as the intermedia for the controller and repository. 
   - getUser
   - login
@@ -141,7 +148,7 @@ The user folder contains:
 
 The products folder contains:
 - Index module: re-export the product subsets.
-- Three modules: product, controller, repository, and <span style='color:blue'>productRepo test </span>.
+- Four modules: product, controller, repository, and <span style='color:blue'>productRepo test </span>.
 - Actions: serve as the intermedia for the controller and repository. 
   - getProduct
   - searchProducts
@@ -151,7 +158,7 @@ The products folder contains:
 The books inherit the product and the book folder contains:
 
 - Index module: re-export the product subsets.
-- Three modules: book, controller. 
+- Two modules: book, controller. 
 - Actions: serve as the intermedia for the controller and repository. 
   - getBook
   - getBooks
@@ -167,7 +174,7 @@ The shopping-cart folder contains:
 
 - Index module: re-export the product subsets.
 
-- Three modules: cart, controller, repository, and <span style='color:blue'>cartRepo test</span>.
+- Four modules: cart, controller, repository, and <span style='color:blue'>cartRepo test</span>.
 
 - Actions: serve as the intermedia for the controller and repository. 
 
@@ -183,13 +190,13 @@ The shopping-cart folder contains:
 The orders inherit the products and the orders folder contains:
 
 - Index module: re-export the product subsets.
-- Three modules: product, controller, repository, and  <span style='color:blue'>ordersRepo test</span>.
+- Four modules: product, controller, repository, and  <span style='color:blue'>ordersRepo test</span>.
 - Actions: serve as the intermedia for the controller and repository. 
   - addOrder
   - findOrders
   - orderDownload
   - sendEMail
-- email-templates folder for pdf downloading
+- email-templates folder for pdf downloading through email
 
 
 
