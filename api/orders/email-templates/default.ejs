@@ -178,14 +178,14 @@
                         <tr>
                             <td><%= item.name %></td>
                             <td><%= item.quantity %></td>
-                            <td>USD <%= item.quantity * item.price %></td>
+                            <td>USD <%= (item.quantity * item.price).toFixed(2) %></td>
                             <td><a href="http://localhost:<%= clientPort %>/books/download/<%= item.item_uid %>/<%= order._id %>">Download <%= item.name %></a></td>
 
                         </tr>
              
                 <% }) %>
                 <tr>
-                    <td colspan="3" align="right">Total: <b>USD<%= order.total %></b></td>
+                    <td colspan="3" align="right">Total: <b>USD<%= order.total.toFixed(2) %></b></td>
                 </tr>
             </table>
     </div>
