@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route }  from 'react-router-dom';
 import Home from './containers/home/Home';
 import Login from './containers/login/Login';
@@ -14,14 +14,21 @@ function App() {
     // Add fontAwesome icons to the library
     library.add(faSearch)
 
+    const [isLoggedIn, setLogInStatus] = useState(false);
+
+    let setAppStatus = (value) => {
+        console.log(value);
+        setLogInStatus(value);
+    }
+
     return (
         <BrowserRouter>
             <div className="App">
                 <Route path="/" exact component={Home} />
-                <Route path="/login" exact render={(props) => <Login {...props} login={true} />} />
-                <Route path="/product/:productId" render={(props) => <Product {...props} />} />
-                <Route path="/search/:query" exact component={Search} />
-                <Route path="/category/:category" exact component={Category} />
+                <Route path="/login" exact render={(props) => <Login {...props} login={true} isLoggedIn={isLoggedIn} setStatus={setAppStatus} />} />
+                <Route path="/product/:productId" exact render={(props) => <Product {...props} isLoggedIn={isLoggedIn} />} />
+                <Route path="/search/:query" exact render={(props) => <Search {...props} isLoggedIn={isLoggedIn}/>} />
+                <Route path="/category/:category" exact render={(props) => <Category {...props} isLoggedIn={isLoggedIn}/>} />
             </div>
         </BrowserRouter>
     );

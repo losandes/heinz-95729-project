@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import GradientHeader from '../../components/header/GradientHeader';
 import Navbar from '../../components/nav/Navbar';
-import ProductRow from '../../components/product-row/ProductRow';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -165,7 +164,7 @@ class Product extends Component {
                 {/* Header and Navbar at the top of the page */}
                 <GradientHeader />
                 <div className="navbar-container">
-                    <Navbar />
+                    <Navbar isLoggedIn={this.props.isLoggedIn} />
                 </div>
 
                 <Container>

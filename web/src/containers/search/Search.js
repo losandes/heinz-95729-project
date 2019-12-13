@@ -70,7 +70,7 @@ class Search extends Component {
                 {/* Header and Navbar at the top of the page */}
                 <GradientHeader />
                 <div className="navbar-container">
-                    <Navbar />
+                    <Navbar isLoggedIn={this.props.isLoggedIn} />
                 </div>
 
                 <Container>

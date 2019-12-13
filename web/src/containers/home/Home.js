@@ -8,8 +8,18 @@ import './Home.css';
 
 
 class Home extends Component {
-    state = {
-        products: []
+
+    constructor(props) {
+        super(props);
+        this.props = props;
+
+        console.log("In home");
+        console.log(props);
+        console.log(props.isLoggedIn);
+
+        this.state = {
+            products: []
+        }
     }
 
     fetchDealsOfTheDay = () => {
@@ -23,7 +33,6 @@ class Home extends Component {
             })
             .catch(function (response) {
                 // Handle error
-                console.log("FAILURE");
                 console.log(response);
             });
     }
@@ -38,7 +47,7 @@ class Home extends Component {
                 {/* Header and Navbar at the top of the page */}
                 <Header />
                 <div className="navbar-container">
-                    <Navbar />
+                    <Navbar isLoggedIn={this.props.isLoggedIn} />
                 </div>
 
                 {/* Display top prooducts in a carousel */}

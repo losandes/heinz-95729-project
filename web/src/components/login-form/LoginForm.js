@@ -7,6 +7,11 @@ import './LoginForm.css';
 
 class LoginForm extends Component {
 
+    constructor(props) {
+        super(props);
+        this.props = props;
+    }
+
     handleSubmit = (event) => {
         const form = event.currentTarget;
         // if (form.checkValidity() === false) {
@@ -21,7 +26,7 @@ class LoginForm extends Component {
 
         var bodyFormData = new FormData();
         bodyFormData.set('username', 'salil');
-        bodyFormData.set('password', 'password');
+        bodyFormData.set('password', 'password1');
 
         axios({
                 method: 'post',
@@ -29,32 +34,23 @@ class LoginForm extends Component {
                 data: bodyFormData,
                 headers: {'Content-Type': 'multipart/form-data' }
             })
-            .then(function (response) {
+            .then((response) => {
                 //handle success
-                console.log("SUCCESS");
-                console.log(response);
+                this.props.setStatus(true);
             })
-            .catch(function (response) {
+            .catch((response) => {
                 //handle error
-                console.log("FAILURE");
+                this.props.setStatus(false);
                 console.log(response);
             });
-
-        // axios.post(SERVER_URL + 'login', {
-        //         username: 'salil',
-        //         password: 'password'
-        //     })
-        //     .then(function (response) {
-        //         console.log("SUCCESS");
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log("FAILURE");
-        //         console.log(error);
-        //     });
     }
 
     render() {
+        if (this.props.isLoggedIn === true) {
+            console.log("Log is true");
+            this.props.setStatus(false);
+        }
+        
         return (
             <div className="LoginForm" onSubmit={this.handleSubmit}>
                 <Form>

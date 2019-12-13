@@ -15,13 +15,11 @@ const Login = (props) => {
 
     let body = null;
     if (login) {
-        body = (<LoginForm />);
+        body = (<LoginForm setStatus={props.setStatus} />);
     }
     else {
-        body = (<SignupForm />);
+        body = (<SignupForm setStatus={props.setStatus} />);
     }
-
-    console.log(body);
 
     return (
         <div className="Login">

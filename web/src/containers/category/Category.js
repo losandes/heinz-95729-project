@@ -19,8 +19,6 @@ class Category extends Component {
             category: props.match.params.category,
             products: []
         }
-
-        console.log(props.match.params.category);
     }
 
     fetchProducts = () => {
@@ -31,8 +29,6 @@ class Category extends Component {
                 this.setState({
                     products: response.data
                 });
-
-                console.log(this.state);
             })
             .catch(function (response) {
                 // Handle error
@@ -46,9 +42,6 @@ class Category extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.location.key !== this.state.category) {
-            // this.setState({
-            //     category: nextProps.match.params.category
-            // });
             window.location.reload();
         }
     }
@@ -81,7 +74,7 @@ class Category extends Component {
                 {/* Header and Navbar at the top of the page */}
                 <GradientHeader />
                 <div className="navbar-container">
-                    <Navbar />
+                    <Navbar isLoggedIn={this.props.isLoggedIn} />
                 </div>
 
                 <Container>
