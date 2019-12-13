@@ -2,8 +2,8 @@
 
 
 var mongoose = require('mongoose'),
-  Product = mongoose.model('Product');
- 
+    Product = mongoose.model('Product');
+
 
 exports.list_all_products = function(req, res) {
   console.log("GET REQUEST: listing all products");
@@ -29,12 +29,22 @@ exports.create_a_product = function(req, res) {
 
 exports.readTtemDetail = function(req, res) {
   //findById needs to be changed
-  Product.findOne({product_name:req.body}, function(err, task) {
+  console.log("GET REQUEST: readItemDetail");
+  console.log("request as follow");
+  console.log(req.params);
+  Product.findOne({product_name:(req.params.product_name.toLowerCase())}, function(err, task) {
     if (err)
       res.send(err);
-    res.json(task);
+    if (task == null) {
+      res.json({error: "product not in database", message: "We are not selling this, please start from beginning, saying what do you want to buy"});
+      // res.send("We are not selling this, please start from beginning, saying what do you want to buy");
+      return;
+    }
+    console.log(task);
+    res.json(task.product_price);
   });
 };
+
 
 
 
