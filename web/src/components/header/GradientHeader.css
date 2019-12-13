@@ -1,0 +1,5 @@
+.gradient-banner {
+    height: 10%;
+    background-color: #fff293;
+    background-image: linear-gradient(315deg, #fff293 0%, #ffe884 74%);
+}

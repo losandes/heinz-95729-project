@@ -1,9 +1,0 @@
-[
-  { "id": 1, "items": ["Apples", "Berries", "DragonFruit", "Endive"] },
-  { "id": 2, "items": ["Berries", "Chocolate", "Endive"] },
-  { "id": 3, "items": ["Apples", "Berries", "DragonFruit", "Endive"] },
-  { "id": 4, "items": ["Apples", "Berries", "Chocolate", "Endive"] },
-  { "id": 5, "items": ["Apples", "Berries", "Chocolate", "DragonFruit", "Endive"] },
-  { "id": 6, "items": ["Berries", "Chocolate", "DragonFruit"] },
-  { "id": 7, "items": ["Apples"] }
-]

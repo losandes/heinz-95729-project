@@ -1,0 +1,18 @@
+.Login {
+    width: 100%;
+    height: 100%;
+    background-color: #fff293;
+    background-image: linear-gradient(315deg, #fff293 0%, #ffe884 74%);
+}
+
+.card-holder {
+    margin-top: 20%;
+    margin-bottom: 20%;
+    box-shadow: 0px 4px 8px 0px rgba(46, 61, 73, 0.2);
+}
+
+.title-text {
+    color: #3b3b3b;
+    font-size: 14px;
+    text-align: center;
+}

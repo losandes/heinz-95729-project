@@ -1,251 +1,84 @@
-# Heinz-95729 Web App
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Getting Started
-If you don't already have it, install [node.js](https://nodejs.org/en/).
+@author: Salil Deshpande
+Team Backrow
 
-Install the package dependencies:
+## About
 
-```Shell
-(/web) $ npm install
-```
+This is a React based frontend portion of our team project
 
-## Starting the App
+## Available Scripts
 
-Before starting this app, [start the API](../api)
+In the project directory, you can run:
 
-```Shell
-(/web) $ npm run dev
-```
+### `npm start`
 
-Then navigate to the app in your browser: http://localhost:3001
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-> NOTE: `npm run dev` uses nodemon, which monitors the filesystem, and restarts the app when you make changes. This is not a tool we would use in production. `npm start` runs the app without monitoring for changes, which is how we would start the app in production.
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-## Signing in
+### `npm test`
 
-If you ran `npm run seed` in the [api directory](../api), the following users should exist: `shopper1@95729.com`, `shopper2@95729.com`, `shopper3@95729.com`, `shopper4@95729.com`. All you need is the email address to sign in.
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### `npm run build`
 
-## Folder structure
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- node_modules (third party js libs)
-- images (book covers, product images, etc.)
-- scripts (javascript)
-    - common
-        - environment.js (mock nconf style configuration accessor)
-        - module-shim (shim that adds support for authoring modules using `module.exports`)
-        - Repo.js (fetch abstraction to simplify / proxy server requests)
-        - router.js (page.js abstraction to enhance req.context)
-        - storage.js (session/local storage abstraction)
-    - home (the home component)
-    - products (the products component)
-    - books (the books component)
-    - users (the users component)
-    - index.js (composition root / app startup)
-- styles (CSS)
-- index.html (SPA markup / HTML)
-- server.js (The HTTP host to make this available on port 3001)
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-## The Module Pattern
-This application uses a specific module pattern that works with [hilary](https://github.com/losandes/hilaryjs/tree/master/docs) to meet the Dependency Inversion Principle. The `module-shim` allows us to define new modules so other modules can begin to depend on them in two steps:
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-First, define a new module:
+### `npm run eject`
 
-```JavaScript
-// greeter.js
-module.exports = {
-  scope: 'heinz',               // usually the same for all of your modules
-                                // (hilary supports multiple scopes)
-  name: 'greeter',              // The name other modules will depend on
-  dependencies: ['router'],     // The names of the modules this depends on
-  factory: (router) => {        // The factory that returns this module,
-    'use strict'                // after it's dependencies are resolved
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-    return {
-        sayHello: () => { console.log('hello world!') }
-    }
-  }
-}
-```
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Second, add the new file in a script tag in index.html:
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-```HTML
-<script src="/scripts/greeter.js"></script>
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-And that's it - your modules can now depend on 'greeter', and call `greeter.sayHello()`.
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 
-## Adding Components
-Each component is made up of:
+## NOTES
 
-* Component (the HTML, and the state)
-* Model (the data, also referred to as a ViewModel)
-* Controller (the route bindings, and behaviors)
-* Repository (communications with services/APIs)
+You will need to get an Azure account for the product picture lookup feature to work. As we did not have images in our dataset, 
+we have made use of the Bing Image Search API (available at https://azure.microsoft.com/en-us/services/cognitive-services/bing-image-search-api/). 2 TODOs have been marked in this project where the API key needs to updated.
 
-### Defining a Model
-We use models to enforce a schema for the data we represent in our components, and to add behaviors/event handlers. Since the component depends on a model, it's a good place to start. If you're more comfortable starting with the HTML, that's fine too - skip to [Defining a Component](#defining-a-component). Our app presents products, and we have a specific component model for _books_. Let's add _movies_.
+Also, this project is created with the assumption that the API part of this project will be run on the same local machine. All the URLs have thus been set up to point to 127.0.0.1:8080
 
-```JavaScript
-module.exports = {
-  scope: 'heinz',
-  name: 'Movie',
-  dependencies: ['router', 'Product'],
-  factory: (router, Product) => {
-    'use strict'
-
-    return function Movie (movie) {
-      const self = new Product(movie)
-      movie = Object.assign({}, movie)
-
-      // Add actors to the product model
-      self.actors = movie.metadata && Array.isArray(movie.metadata.actors)
-        ? movie.metadata.actors
-        : []
-
-      // override product's `viewDetails` function to redirect to movies
-      self.viewDetails = (event) => {
-        if (self.uid) {
-          router.navigate(`/movies/${self.uid}`)
-        }
-      }
-
-      return self
-    }
-  }
-}
-```
-
-### Defining a Component
-The component is where we define our HTML, and where we keep/mutate the state of our component.
-
-The following conventions are required for our components to work:
-
-1. The name of the module MUST have the word, "component" in it.
-1. The module's factory must return an object with the an instance of `Vue.component` set to the `component` property
-
-> The composition root finds all modules with "component" in their name (case insensitive), and registers them in Vue.
-
-```JavaScript
-module.exports = {
-  scope: 'heinz',
-  name: 'movieComponent',
-  dependencies: ['Vue', 'Movie'],
-  factory: (Vue, Movie) => {
-    'use strict'
-
-    var state = new Movie()
-
-    const component = Vue.component('movie', {
-      template: `
-        <div class="movie-component details">
-          <h1>{{title}}</h1>
-          <div v-for="actor in actors">
-            <span>{{actor.name}}</span>
-          </div>
-          <div>{{description}}</div>
-          <img v-if="showThumbnail" :src="thumbnailLink" :alt="thumbnailAlt">
-          <a class="btn" :href="detailsLink">READ MORE</a>
-          <div class="purchase">
-            <button class="btn btn-success btn-buy" v-on:click="addToCart">{{price}}</button>
-          </div>
-        </div>`,
-      data: () => {
-        return state
-      }
-    })
-
-    const setMovie = (movie) => {
-      state = movie
-    }
-
-    return { component, setMovie }
-  }
-}
-```
-
-> NOTE if you are using Visual Studio Code, you can install an extension that adds syntax highlighting to HTML in string literals in JavaScript files: `code --install-extension natewallace.angular2-inline`
-
-### Defining a Repository
-We're using the repository pattern to perform data interactions with our API. This is a fractal pattern: the API uses the repository pattern to read/write data from/to the database, and the web app uses the repository pattern to read/write data from/to the API.
-
-You can write your repository from scratch if you need to (i.e. using fetch). This example leverages the base repository in our common directory.
-
-> NOTE that some teams refer to repositories such as these, as "clients", or "consumers".
-
-```JavaScript
-module.exports = {
-  scope: 'heinz',
-  name: 'moviesRepo',
-  dependencies: ['Repo'],
-  factory: (Repo) => {
-    'use strict'
-
-    const repo = new Repo()
-
-    const get = (uid, callback) => {
-      repo.get({ path: `/movies/${uid}` }, callback)
-    }
-
-    return { get }
-  }
-}
-```
-
-### Defining a Controller
-We also use a fractal pattern to bind activities to routes: the API uses controllers to bind activities to a given route, and the web app uses controllers, as well.
-
-The following conventions are required for our controllers to work:
-
-1. The name of the module MUST have the word, "controller" in it.
-2. The module's factory must return an object with the function, `registerRoutes` on it.
-
-> The composition root finds all modules with "controller" in their name (case insensitive), and executes `registerRoutes`. The instance of Vue will be passed as the first argument to `registerRoutes`. Given that you name this argument, `app`, you can tell Vue which component to display by calling: `app.currentView('[COMPONENT_NAME]')`
-
-```JavaScript
-module.exports = {
-  scope: 'heinz',
-  name: 'moviesController',
-  dependencies: ['router', 'movieComponent', 'Movie', 'moviesRepo'],
-  factory: (router, movieComponent, Movie, repo) => {
-    'use strict'
-
-    /**
-     * Route binding (controller)
-     * @param {Vue} app - the main Vue instance (not the header)
-     */
-    function registerRoutes (app) {
-      router('/movies/:uid', (context) => {
-        repo.get(context.params.uid, (err, movie) => {
-          if (err) {
-            console.log(err)
-            // TODO: render error view
-          }
-
-          if (movie) {
-            movieComponent.setMovie(new Movie(movie))
-            app.currentView = 'movie'
-          } else {
-            // TODO: route to a "none found" page
-            router.navigate('/')
-          }
-        })
-      })
-    }
-
-    return { registerRoutes }
-  }
-}
-```
-
-### Registering The Component
-All we need to do to add the component we just built to our app, is add it to index.html:
-
-```HTML
-    <script src="/scripts/movies/Movie.js"></script>
-    <script src="/scripts/movies/movieComponent.js"></script>
-    <script src="/scripts/movies/moviesController.js"></script>
-    <script src="/scripts/movies/moviesRepo.js"></script>
-```
