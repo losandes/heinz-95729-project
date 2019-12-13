@@ -97,7 +97,7 @@ The root of the app includes:
     ```
     npm run seed
     ```
-  * then run the test 
+  * then run the test under the `/api` directory
      ```
     npm test
     ```
