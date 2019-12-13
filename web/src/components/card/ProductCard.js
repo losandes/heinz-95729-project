@@ -1,33 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './ProductCard.css';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import bootsLogo from '../../assets/images/boots.jpg';
 
 
-const ProductCard = (props) => {
+class ProductCard extends Component {
 
-    return (
-        <Card style={{ width: '90%' }}>
-            <Card.Img variant="top" src={require("../../assets/images/boots.jpg")} />
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: props.title,
+            productId: props.productId,
+            toSearch: false
+        };
+    }
 
-            <Card.Body>
-                <Card.Title>{props.title}</Card.Title>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                </Card.Text>
-                <Button variant="primary">
-                    <Link to={{
-                        pathname: '/view',
-                        search: '?product=this'
-                    }}>
-                        Go somewhere
-                    </Link>
-                </Button>
-            </Card.Body>
-        </Card>
-    );
+    onCardClick = () => {
+        this.setState({
+            title: this.state.title,
+            productId: this.state.productId,
+            toSearch: true
+        })
+    }
+
+    render() {
+        if (this.state.toSearch) {
+            return (
+                <Redirect to={'/product/' + this.state.productId} />
+            );
+        }
+
+        return (
+            <div className="ProductCard" onClick={this.onCardClick}>
+                <div className="product-card-img" style={{backgroundImage: `url(${bootsLogo})`}} />
+                <p className="product-card-text">{this.state.title}</p>
+            </div>
+        );
+    }
 }
 
 export default ProductCard;

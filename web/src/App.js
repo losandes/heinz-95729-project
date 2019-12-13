@@ -18,8 +18,8 @@ function App() {
             <div className="App">
                 <Route path="/" exact component={Home} />
                 <Route path="/login" exact render={(props) => <Login {...props} login={true} />} />
-                <Route path="/search" render={(props) => <Search {...props} />} />
-                <Route path="/product" render={(props) => <Product {...props} />} />
+                <Route path="/product/:productId" render={(props) => <Product {...props} />} />
+                <Route path="/search/:productId" exact component={Search} />
             </div>
         </BrowserRouter>
     );

@@ -26,11 +26,11 @@ const ProductRow = (props) => {
         },
     };
 
-    const productNames = [1, 2, 3, 4, 5];
+
     const products = (
-        productNames.map(value => {
+        props.products.map(value => {
             return (
-                <ProductCard title={"Product " + value} />
+                <ProductCard key={value['productId']} title={value['name']} productId={value['productId']} />
             );
         })
     );

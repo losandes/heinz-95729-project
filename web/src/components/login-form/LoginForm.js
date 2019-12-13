@@ -10,30 +10,48 @@ class LoginForm extends Component {
     handleSubmit = (event) => {
         const form = event.currentTarget;
         // if (form.checkValidity() === false) {
-        //     event.preventDefault();
-        //     event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
         // }
     
         // setValidated(true);
-        console.log(form);
+        // console.log(form);
 
         const SERVER_URL = "http://10.0.0.127:8080/";
-        var config = {
-            headers: {'Access-Control-Allow-Origin': '*'}
-        };
 
-        axios.post(SERVER_URL + 'login', {
-                username: 'salil',
-                password: 'password'
-            }, config)
+        var bodyFormData = new FormData();
+        bodyFormData.set('username', 'salil');
+        bodyFormData.set('password', 'password');
+
+        axios({
+                method: 'post',
+                url: SERVER_URL + 'login',
+                data: bodyFormData,
+                headers: {'Content-Type': 'multipart/form-data' }
+            })
             .then(function (response) {
+                //handle success
                 console.log("SUCCESS");
                 console.log(response);
             })
-            .catch(function (error) {
+            .catch(function (response) {
+                //handle error
                 console.log("FAILURE");
-                console.log(error);
+                console.log(response);
             });
+
+        // axios.post(SERVER_URL + 'login', {
+        //         username: 'salil',
+        //         password: 'password'
+        //     })
+        //     .then(function (response) {
+        //         console.log("SUCCESS");
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log("FAILURE");
+        //         console.log(error);
+        //     });
     }
 
     render() {
