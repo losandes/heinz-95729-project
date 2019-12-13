@@ -19,7 +19,7 @@ function App() {
                 <Route path="/" exact component={Home} />
                 <Route path="/login" exact render={(props) => <Login {...props} login={true} />} />
                 <Route path="/product/:productId" render={(props) => <Product {...props} />} />
-                <Route path="/search/:productId" exact component={Search} />
+                <Route path="/search/:query" exact component={Search} />
             </div>
         </BrowserRouter>
     );
