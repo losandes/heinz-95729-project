@@ -54,6 +54,6 @@
     "eslint-plugin-standard": "~4.0.1",
     "nodemon": "~1.19.4",
     "pretty-tree": "~1.0.0",
-    "supposed": "~1.0.6-beta.1"
+    "supposed": "~1.0.7-beta.1"
   }
 }

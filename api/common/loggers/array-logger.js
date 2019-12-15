@@ -17,3 +17,4 @@ module.exports.factory = () => {
     getLogs: () => logs
   }
 }
+

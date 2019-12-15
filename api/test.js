@@ -22,6 +22,5 @@ module.exports = {
     logger,
     MongoClient,
     Server,
-    connect,
-
+    connects
 }

@@ -138,7 +138,6 @@ describe('UserRepo Test Suite', function() {
         
       });
     });
-
     
   });
   
