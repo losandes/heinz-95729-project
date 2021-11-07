@@ -1,0 +1,61 @@
+{
+  "name": "@heinz-95729-api/api",
+  "version": "0.1.0",
+  "description": "a sample API to support an ecommerce experience",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js",
+    "test:coverage": "nyc node test.js",
+    "test:coverage:ci": "mkdir -p ./coverage && touch ./coverage/lcov.info && nyc npm run test:ci && nyc report --reporter=text-lcov > ./coverage/lcov.info",
+    "test:coveralls": "nyc npm run test:ci && nyc report --reporter=text-lcov | coveralls",
+    "test:ci": "node test.js -r tap,summary",
+    "watch": "nodemon index.js",
+    "migrate:up": "node migrate.js up",
+    "migrate:down": "node migrate.js down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobotsAndPencils/sample-node-api.git"
+  },
+  "author": "robotsandpencils.com",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/RobotsAndPencils/sample-node-api/issues"
+  },
+  "homepage": "https://github.com/RobotsAndPencils/sample-node-api#readme",
+  "dependencies": {
+    "@heinz-95729-api/books": "link:../lib/books",
+    "@heinz-95729-api/products": "link:../lib/products",
+    "@heinz-95729-api/users": "link:../lib/users",
+    "@koa/cors": "~3.1.0",
+    "@polyn/blueprint": "~2.5.4",
+    "@polyn/immutable": "~1.0.11",
+    "@polyn/logger": "~0.5.2",
+    "@robotsandpencils/koa-errors": "~0.1.1",
+    "dotenv": "~8.2.0",
+    "knex": "~0.95.13",
+    "koa": "~2.13.4",
+    "koa-bodyparser": "~4.3.0",
+    "koa-helmet": "~6.0.0",
+    "koa-router": "~10.0.0",
+    "pg": "~8.5.1"
+  },
+  "devDependencies": {
+    "coveralls": "~3.1.1",
+    "eslint": "~7.13.0",
+    "eslint-config-standard": "~16.0.3",
+    "eslint-plugin-import": "~2.22.1",
+    "eslint-plugin-node": "~11.1.0",
+    "eslint-plugin-promise": "~4.2.1",
+    "eslint-plugin-standard": "~4.1.0",
+    "nodemon": "~2.0.14",
+    "nyc": "~15.0.1",
+    "supposed": "~1.1.1",
+    "unexpected": "~11.14.0"
+  }
+}

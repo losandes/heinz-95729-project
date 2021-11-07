@@ -4,38 +4,25 @@ This repository provides a foundation for Heinz 95729 E-Commerce Tech course pro
 
 ## Getting Started
 
-1. Make sure you have NodeJS installed
-1. Make sure you have MongoDB installed and running
+1. Follow the [instructions to get the API running](api)
+1. Follow the [instructions to get the web app running](web)
 
 ## Starting the API
 
 Also see the [API README](api/README.md)
 
 ```Shell
-$ cd api
-$ npm install
-$ npm run seed # first time, or any time you change the seed data
-$ npm run dev
+cd api
+pnpm run watch
 ```
-
-Navigate to http://localhost:3000 to see the documentation
 
 ## Starting the Web app
 
 Also see the [web README](web/README.md)
 
 ```Shell
-$ cd web
-$ npm install
-$ npm run dev
+cd web
+pnpm run watch
 ```
 
 Navigate to http://localhost:3001 to see the app
-
-## Starting the CUI app
-
-```Shell
-$ cd cui
-$ npm install
-$ npm start
-```

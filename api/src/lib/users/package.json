@@ -1,0 +1,26 @@
+{
+  "name": "@heinz-95729-api/users",
+  "version": "0.1.0",
+  "description": "The core definitions / features for users",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "test:coverage": "nyc node test.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "nyc": "~15.0.1",
+    "supposed": "~1.1.1",
+    "unexpected": "~11.14.0"
+  },
+  "dependencies": {
+    "@polyn/blueprint": "~2.5.4",
+    "@polyn/immutable": "~1.0.11",
+    "jsonwebtoken": "~8.5.1",
+    "knex": "~0.95.13",
+    "pg": "~8.7.1",
+    "uuid": "~8.3.2"
+  }
+}

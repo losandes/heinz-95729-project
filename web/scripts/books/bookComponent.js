@@ -5,7 +5,7 @@ module.exports = {
   factory: (Vue, Book) => {
     'use strict'
 
-    var state = new Book()
+    let state = new Book()
 
     const component = Vue.component('book', {
       template: `
@@ -14,7 +14,7 @@ module.exports = {
           <!-- Front -->
             <ul class='hardcover_front'>
               <li>
-                <img v-if="showThumbnail" :src="thumbnailLink" :alt="thumbnailAlt">
+                <img v-if="showThumbnail" :src="thumbnailHref" :alt="thumbnailAlt">
                 <div v-else class="coverDesign yellow"></div>
               </li>
               <li></li>
@@ -61,7 +61,7 @@ module.exports = {
         </div>`,
       data: () => {
         return state
-      }
+      },
     })
 
     const setBook = (book) => {
@@ -69,6 +69,5 @@ module.exports = {
     }
 
     return { component, setBook }
-  }
+  },
 }
-

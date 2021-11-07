@@ -12,12 +12,12 @@ module.exports = {
     function ProductSearchResult (products) {
       if (!Array.isArray(products)) {
         return {
-          products: []
+          products: [],
         }
       }
 
       return {
-        products: products.map(product => new Product(product))
+        products: products.map(product => new Product(product)),
       }
     }
 
@@ -64,5 +64,5 @@ module.exports = {
     }
 
     return { registerRoutes }
-  }
+  },
 }

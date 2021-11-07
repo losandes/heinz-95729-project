@@ -2,7 +2,7 @@ const fs = require('fs')
 const express = require('express')
 const serveStatic = require('serve-static')
 
-var app = express()
+const app = express()
 
 // serve this directory as a static web server
 app.use(serveStatic(__dirname))

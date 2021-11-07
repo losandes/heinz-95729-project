@@ -5,12 +5,12 @@ module.exports = {
   factory: function (env, storage, fetch) {
     'use strict'
 
-    var baseUrl = env.get('apiOrigin')
+    const baseUrl = env.get('apiOrigin')
 
     return Repo
 
     function Repo (config) {
-      var url = baseUrl
+      let url = baseUrl
       config = Object.assign({}, config)
 
       return {
@@ -19,7 +19,7 @@ module.exports = {
         post: post,
         put: put,
         patch: patch,
-        remove: remove
+        remove: remove,
       }
 
       function list (options, callback) {
@@ -62,6 +62,7 @@ module.exports = {
       }
 
       function execute (options, callback) {
+        options.credentials = 'include'
         options.headers = ensureHeaders(options)
         url = makeUrl(options.path)
 
@@ -74,11 +75,11 @@ module.exports = {
             if (res.status >= 200 && res.status < 300) {
               return res.json()
             } else {
-              var error = new Error('The request failed. see data for more information: ' + url)
+              const error = new Error('The request failed. see data for more information: ' + url)
               error.data = {
                 url: url,
                 options: options,
-                res: res
+                res: res,
               }
               throw error
             }
@@ -97,20 +98,11 @@ module.exports = {
       }
 
       function ensureHeaders (options) {
-        var headers = options.headers || {}
-        headers.Authorization = makeAuthorizationHeader()
+        const headers = options.headers || {}
         headers.Accept = headers.Accept || 'application/json;version=' + env.get('defaultVersion')
         headers['Content-Type'] = headers['Content-Type'] || 'application/json'
 
         return headers
-      }
-
-      function makeAuthorizationHeader () {
-        var jwt = storage.get('jwt')
-
-        if (jwt) {
-          return `Bearer ${jwt}`
-        }
       }
 
       function makeUrl (path) {
@@ -118,5 +110,5 @@ module.exports = {
         return baseUrl + path
       }
     }
-  }
+  },
 }

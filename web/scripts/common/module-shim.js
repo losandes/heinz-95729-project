@@ -25,7 +25,7 @@
       hilary.scope(val.scope).register(val)
     },
     enumerable: true,
-    configurable: false
+    configurable: false,
   })
 
   Object.defineProperty(window, 'module', {
@@ -33,11 +33,11 @@
       return newModule
     },
     set: function () {
-      var err = new Error('module (as in module.exports) is read only. You probably have two libraries that are trying to set module, on window.')
+      const err = new Error('module (as in module.exports) is read only. You probably have two libraries that are trying to set module, on window.')
       warn(err)
       return err
     },
     enumerable: true,
-    configurable: false
+    configurable: false,
   })
 }(window, hilary))

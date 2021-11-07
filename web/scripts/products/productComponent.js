@@ -5,13 +5,13 @@ module.exports = {
   factory: (Vue, Product) => {
     'use strict'
 
-    var state = new Product()
+    let state = new Product()
 
     const component = Vue.component('product', {
       template: `
         <div class="product-component details">
           <figure class='product'>
-            <img :src="thumbnailLink" :alt="thumbnailAlt">
+            <img :src="thumbnailHref" :alt="thumbnailAlt">
             <figcaption>
               <h1>{{title}}</h1>
               <div>{{description}}</div>
@@ -23,7 +23,7 @@ module.exports = {
         </div>`,
       data: () => {
         return state
-      }
+      },
     })
 
     const setProduct = (product) => {
@@ -31,6 +31,5 @@ module.exports = {
     }
 
     return { component, setProduct }
-  }
+  },
 }
-

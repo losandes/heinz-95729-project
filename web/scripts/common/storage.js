@@ -5,12 +5,12 @@ module.exports = {
   factory: function (JSON, storage) {
     'use strict'
 
-    var self = {
+    const self = {
       exists: exists,
       get: get,
       set: set,
       remove: remove,
-      clear: clear
+      clear: clear,
     }
 
     function makeKey (key) {
@@ -22,7 +22,7 @@ module.exports = {
     }
 
     function get (key) {
-      var item = storage.getItem(makeKey(key))
+      const item = storage.getItem(makeKey(key))
 
       if (typeof item === 'string') {
         try {
@@ -48,5 +48,5 @@ module.exports = {
     }
 
     return self
-  }
+  },
 }

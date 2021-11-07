@@ -14,11 +14,11 @@ module.exports = {
       data: () => {
         return {
           heading: locale.pages.home.heading,
-          body: locale.pages.home.body
+          body: locale.pages.home.body,
         }
-      }
+      },
     })
 
     return { component }
-  }
+  },
 }
