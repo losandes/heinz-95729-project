@@ -10,17 +10,17 @@ module.exports = {
 
       const self = {
         type: product.type || 'product',
-        _id: product._id,
+        id: product.id,
         uid: product.uid,
         title: product.title,
         description: product.description,
         metadata: product.metadata,
         price: product.price,
         images: [],
-        thumbnailLink: product.thumbnailLink || '/images/products/default.png',
+        thumbnailHref: product.thumbnailHref || '/images/products/default.png',
         thumbnailAlt: `thumbnail for ${product.title}`,
-        showThumbnail: product.thumbnailLink != null,
-        detailsLink: `/${product.type}/${product.uid}`
+        showThumbnail: product.thumbnailHref != null,
+        detailsLink: `/${product.type}/${product.uid}`,
       }
 
       self.viewDetails = (event) => {
@@ -45,5 +45,5 @@ module.exports = {
 
       return self
     }
-  }
+  },
 }

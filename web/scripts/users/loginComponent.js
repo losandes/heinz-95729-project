@@ -1,20 +1,22 @@
-/* global alert */
 module.exports = {
   scope: 'heinz',
   name: 'loginComponent',
-  dependencies: ['router', 'Vue', 'usersRepo', 'storage'],
-  factory: (router, Vue, usersRepo, storage) => {
+  dependencies: ['environment', 'Vue'],
+  factory: (env, Vue) => {
     'use strict'
 
     const state = { email: '' }
+    const apiRoute = `${env.get('apiOrigin')}/users/login`
     const component = Vue.component('login', {
       template: `
         <div id="user-login">
-          <div class="form-group">
-            <label for="user-login-email">Email address</label>
-            <input v-model="email" type="email" name="email" class="form-control" id="user-login-email" placeholder="happy@andrew.cmu.edu" />
-          </div>
-          <button class="btn btn-success" v-on:click="login">Sign in</button>
+          <form action="${apiRoute}" method='POST'>
+            <div class="form-group">
+              <label for="user-login-email">Email address</label>
+              <input v-model="email" type="email" name="email" class="form-control" id="user-login-email" placeholder="happy@andrew.cmu.edu" />
+            </div>
+            <button class="btn btn-success">Sign in</button>
+          </form>
           <div class="registration-link">
             <a href="/register">Don't have an account? Click here to register</a>
           </div>
@@ -23,24 +25,8 @@ module.exports = {
       data: function () {
         return state
       },
-      methods: {
-        login: function (event) {
-          const { email } = this
-
-          usersRepo.login(email, (err, res) => {
-            if (err) {
-              alert('Login failed')
-              return
-            }
-
-            storage.set('jwt', res.authToken)
-            storage.set('user', res.user)
-            return router.navigate('/')
-          })
-        }
-      }
     })
 
     return { component }
-  }
+  },
 }

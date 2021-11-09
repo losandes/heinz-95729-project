@@ -1,29 +1,32 @@
 # Heinz-95729 Web App
 
 ## Getting Started
-If you don't already have it, install [node.js](https://nodejs.org/en/).
+
+**Before following the instructions in this README, follow the instructions in [api directory](../api)**
 
 Install the package dependencies:
 
 ```Shell
-(/web) $ npm install
+(/web) $ pnpm install
 ```
+
+> NOTICE all the commands are using `pnpm`, not `npm`. See [../api/adr/20210207-choose-package-manager.md](../api/adr/20210207-choose-package-manager.md) for more information.
 
 ## Starting the App
 
 Before starting this app, [start the API](../api)
 
 ```Shell
-(/web) $ npm run dev
+(/web) $ pnpm run watch
 ```
 
 Then navigate to the app in your browser: http://localhost:3001
 
-> NOTE: `npm run dev` uses nodemon, which monitors the filesystem, and restarts the app when you make changes. This is not a tool we would use in production. `npm start` runs the app without monitoring for changes, which is how we would start the app in production.
+> NOTE: `pnpm run watch` uses nodemon, which monitors the filesystem, and restarts the app when you make changes. This is not a tool we would use in production. `pnpm start` runs the app without monitoring for changes, which is how we would start the app in production.
 
 ## Signing in
 
-If you ran `npm run seed` in the [api directory](../api), the following users should exist: `shopper1@95729.com`, `shopper2@95729.com`, `shopper3@95729.com`, `shopper4@95729.com`. All you need is the email address to sign in.
+If you started the API or ran `pnpm run migrate:up` in the [api directory](../api), the following users should exist: `shopper1@95729.com`, `shopper2@95729.com`, `shopper3@95729.com`, `shopper4@95729.com`. All you need is the email address to sign in.
 
 
 ## Folder structure

@@ -5,7 +5,7 @@ module.exports = {
   factory: (Vue) => {
     'use strict'
 
-    var state = { products: [] }
+    let state = { products: [] }
 
     const component = Vue.component('products', {
       template: `
@@ -15,7 +15,7 @@ module.exports = {
               <div class="col-sm-6 col-md-4 product-col">
                 <div class="thumbnail">
                   <a class="thumbnail-img" href="javascript:void(0);" v-on:click="product.viewDetails">
-                    <img :src="product.thumbnailLink" :alt="product.thumbnailAlt">
+                    <img :src="product.thumbnailHref" :alt="product.thumbnailAlt">
                   </a>
 
                   <div class="caption">
@@ -31,7 +31,7 @@ module.exports = {
         </div><!-- /component -->`,
       data: () => {
         return state
-      }
+      },
     })
 
     const setProducts = (searchResults) => {
@@ -39,6 +39,5 @@ module.exports = {
     }
 
     return { component, setProducts }
-  }
+  },
 }
-

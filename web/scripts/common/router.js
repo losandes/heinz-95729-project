@@ -23,12 +23,12 @@ module.exports = {
           pathName: context.pathname,
           params: context.params,
           title: context.title,
-          state: context.state
+          state: context.state,
         }, next)
       })
 
       function makeQuery (queryString) {
-        var query = {}
+        const query = {}
 
         if (!queryString) {
           return query
@@ -37,7 +37,7 @@ module.exports = {
         // TODO: this is crude and not standards compliant
 
         queryString.split('&').forEach(function (kvp) {
-          var split = kvp.split('=')
+          const split = kvp.split('=')
           query[split[0]] = split[1]
         })
 
@@ -50,5 +50,5 @@ module.exports = {
     }
 
     return router
-  }
+  },
 }

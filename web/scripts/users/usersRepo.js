@@ -10,17 +10,17 @@ module.exports = {
     const login = (email, callback) => {
       repo.post({
         path: '/users/login',
-        body: { email }
+        body: { email },
       }, callback)
     }
 
     const register = (body, callback) => {
       repo.post({
         path: '/users',
-        body
+        body,
       }, callback)
     }
 
     return { login, register }
-  }
+  },
 }

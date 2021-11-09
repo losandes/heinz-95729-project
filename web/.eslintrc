@@ -1,7 +1,8 @@
 {
     "extends": ["standard"],
     "rules": {
-        "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
-        "no-multiple-empty-lines": ["error", { "max": 4 }]
+        "no-unused-expressions": "off",
+        "comma-dangle": ["error", "always-multiline"],
+        "no-multi-spaces": ["error", { "ignoreEOLComments": true }]
     }
 }

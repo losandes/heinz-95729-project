@@ -1,52 +1,51 @@
 {
-  "name": "heinz95729api",
-  "version": "1.0.0",
-  "description": "The API for the Heinz 95729 Course Project",
-  "main": "app.js",
+  "name": "@heinz-95729-api/root",
+  "version": "0.1.0",
+  "description": "a sample API to support an ecommerce experience",
+  "main": "src/api/index.js",
+  "private": true,
+  "engines": {
+    "node": ">=16.13.0"
+  },
   "scripts": {
-    "start": "node app.js -e js,hbs",
-    "dev": "nodemon app.js -e js,hbs",
-    "lint": "eslint ./",
-    "lint:fix": "eslint ./ --fix",
-    "test": "node test -r nyan",
-    "seed": "node common/build-tasks/seed.js"
+    "// db": "json comment -----------------------------------------------------",
+    "migrate": "node ./src/api/migrate.js up",
+    "migrate:up": "node ./src/api/migrate.js up",
+    "migrate:down": "node ./src/api/migrate.js down",
+    "// docker": "json comment -------------------------------------------------",
+    "docker:build-and-test": "docker build -t heinz-95729-api-ci --target builder . && docker rmi heinz-95729-api-ci",
+    "// start": "json comment --------------------------------------------------",
+    "start": "node src/api/index.js",
+    "watch": "nodemon src/api/index.js",
+    "// test": "json comment ---------------------------------------------------",
+    "lint": "eslint .",
+    "test": "node test.js",
+    "test:coverage": "nyc node test.js",
+    "test:coverage:ci": "mkdir -p ./coverage && touch ./coverage/lcov.info && nyc npm run test:ci && nyc report --reporter=text-lcov > ./coverage/lcov.info",
+    "test:coveralls": "nyc npm run test:ci && nyc report --reporter=text-lcov | coveralls",
+    "test:ci": "node test.js -r tap,summary"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/losandes/heinz-95729-project.git"
+    "url": "git+https://github.com/losandes/heinz-95729-project.git"
   },
-  "author": "&y <andes.collab@gmail.com> (https://github.com/losandes)",
-  "homepage": "https://github.com/losandes/heinz-95729-project",
-  "license": "MIT",
-  "dependencies": {
-    "@polyn/blueprint": "~2.5.1",
-    "@polyn/immutable": "~1.0.7",
-    "async": "~3.1.0",
-    "body-parser": "~1.19.0",
-    "bson-objectid": "~1.3.0",
-    "express": "~4.17.1",
-    "hbs": "~4.0.6",
-    "helmet": "~3.21.2",
-    "highlight.js": "~9.16.2",
-    "hilary": "~5.2.0",
-    "hpp": "~0.2.2",
-    "jsonwebtoken": "~8.5.1",
-    "marked": "~0.7.0",
-    "mongodb": "~3.3.3",
-    "nconf": "~0.10.0",
-    "serve-favicon": "~2.5.0",
-    "serve-static": "~1.14.1"
+  "author": "robotsandpencils.com",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/losandes/heinz-95729-project/issues"
   },
+  "homepage": "https://github.com/losandes/heinz-95729-project#readme",
   "devDependencies": {
-    "chalk": "~2.4.2",
-    "eslint": "~6.6.0",
-    "eslint-config-standard": "~14.1.0",
-    "eslint-plugin-import": "~2.18.2",
-    "eslint-plugin-node": "~10.0.0",
+    "coveralls": "~3.1.1",
+    "eslint": "~7.13.0",
+    "eslint-config-standard": "~16.0.3",
+    "eslint-plugin-import": "~2.22.1",
+    "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-promise": "~4.2.1",
-    "eslint-plugin-standard": "~4.0.1",
-    "nodemon": "~1.19.4",
-    "pretty-tree": "~1.0.0",
-    "supposed": "~1.0.7-beta.1"
+    "eslint-plugin-standard": "~4.1.0",
+    "nodemon": "~2.0.14",
+    "nyc": "~15.0.1",
+    "supposed": "~1.1.1",
+    "unexpected": "~11.14.0"
   }
 }

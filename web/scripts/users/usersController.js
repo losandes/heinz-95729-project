@@ -11,10 +11,6 @@ module.exports = {
      */
     function registerRoutes (app) {
       router('/login', () => {
-        if (storage.get('jwt')) {
-          // TODO: the user is logged in, send them to a profile page
-        }
-
         app.currentView = 'login'
       })
 
@@ -24,5 +20,5 @@ module.exports = {
     }
 
     return { registerRoutes }
-  }
+  },
 }

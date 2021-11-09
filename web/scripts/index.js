@@ -4,11 +4,11 @@
 
   const scope = hilary.scope('heinz', {
     logging: {
-      level: 'info' // trace|debug|info|warn|error|fatal|off
+      level: 'info', // trace|debug|info|warn|error|fatal|off
       // printer: function (entry) {
       //
       // }
-    }
+    },
   })
   const locale = scope.resolve('locale::en_US')
   const log = (message) => {
@@ -47,7 +47,7 @@
         .filter(byComponents())
         .map(toComponent(scope))
         .reduce(toObject(), {
-          loading: { template: '#t-loading' }
+          loading: { template: '#t-loading' },
         })
 
       next(null, components, scope)
@@ -59,9 +59,9 @@
         el: '#app',
         data: {
           currentView: 'loading',
-          vm: null
+          vm: null,
         },
-        components
+        components,
       })
 
       scope.register({ name: 'app', factory: app, dependencies: false })
@@ -75,14 +75,14 @@
         el: '#header',
         data: {
           title: locale.title,
-          query: ''
+          query: '',
         },
         methods: {
           search: () => {
             scope.resolve('router')
               .navigate(`/products?q=${headerComponent.query}`)
-          }
-        }
+          },
+        },
       })
 
       scope.register({ name: 'header', factory: headerComponent, dependencies: false })
@@ -117,12 +117,12 @@
       log('listening')  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       page('*', function (context) {   // 404 catch-all
-        console.log(`404`, context)
+        console.log('404', context)
         app.currentView = 'home'
       })
 
       page()                    // start listening
-    }
+    },
   ], function (err) {
     if (err) {
       log(err)

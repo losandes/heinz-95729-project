@@ -7,16 +7,16 @@ module.exports = {
 
     const env = {
       apiOrigin: 'http://localhost:3000',
-      defaultVersion: '20171101'
+      defaultVersion: '20171101',
     }
 
     return {
       get: get,
-      log: log
+      log: log,
     }
 
     function get (name) {
-      var result = env[name]
+      const result = env[name]
 
       if (typeof result === 'undefined') {
         return null
@@ -28,5 +28,5 @@ module.exports = {
     function log () {
       console.log(env)
     }
-  }
+  },
 }
