@@ -14,15 +14,16 @@ slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/ev
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 
 #AN EXAMPLE CODE TO POST MESSAGES THROUGH SLACK BOT
-client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
+#client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
 
 #AN EXAMPLE CODE TO HANDLE END POINTS FOR SLASH COMMANDS THROUGH SLACK BOT
 @app.route('/start', methods=['POST'])
 def start_bot():
     data = request.form
-    user_id = data.get('user_name')
+    user_id = data.get('user_id')
     channel_id = data.get('channel_id')
-    client.chat_postMessage(channel=channel_id, text=f"Hello {user_id}!")
+    client.chat_postEphemeral(channel=channel_id, text=f"Hello!", user=user_id)
+    #client.chat_postMessage(channel=channel_id, text=f"Hello {user_id}!")
     return Response(), 200
 
 if __name__ == "__main__":
