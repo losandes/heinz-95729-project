@@ -34,18 +34,21 @@ def read_jokes(path_jokes='./data/jokes'):
     jokes = []
     jokes_clean = []
     jokes_len = []
-
+    joke_ids = []
 
     for file in os.listdir(path_jokes):
         text = extract_joke(path_jokes+'/'+file)
         clean = clean_text(text) 
+        id_ = re.findall('\d+', file)[0]
         jokes.append(text)
         jokes_clean.append(clean)
         jokes_len.append(len(text.split()))
+        joke_ids.append(id_)
 
     return pd.DataFrame({'text': jokes, 
                          'clean_text': jokes_clean, 
-                         'len': jokes_len})
+                         'len': jokes_len,
+                         'joke_id': pd.Series(joke_ids, dtype=int)})
 
 # Read ratings
 def read_ratings(path_ratings='./data/ratings'):
