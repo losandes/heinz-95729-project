@@ -48,7 +48,7 @@ def read_jokes(path_jokes='./data/jokes'):
     return pd.DataFrame({'text': jokes, 
                          'clean_text': jokes_clean, 
                          'len': jokes_len,
-                         'joke_id': joke_ids})
+                         'joke_id': pd.Series(joke_ids, dtype=int)})
 
 # Read ratings
 def read_ratings(path_ratings='./data/ratings'):
