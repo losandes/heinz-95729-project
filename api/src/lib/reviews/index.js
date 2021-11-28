@@ -11,7 +11,7 @@ const MigrateReviewsFactory = require('./migrate.js')
 /**
  * @param {knex} knex - A configured/initialized instance of knex
  */
-function ReviewsFactory (input) {
+function ReviewsFactory (input) { 
   const reviewRepo = new ReviewPgRepo({ knex: input.knex })
   const { getReviews } = new GetReviewsFactory({ reviewRepo })
   const { createReview } = new CreateReviewFactory({ Review, reviewRepo })
