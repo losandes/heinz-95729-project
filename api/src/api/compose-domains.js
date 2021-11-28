@@ -1,4 +1,5 @@
 const ProductsDomain = require('@heinz-95729-api/products')
+const ReviewsDomain = require('@heinz-95729-api/reviews')
 const BooksDomain = require('@heinz-95729-api/books')
 const UsersDomain = require('@heinz-95729-api/users')
 const StartupError = require('./StartupError.js')
@@ -20,6 +21,15 @@ const compose = async (context) => {
     context.migrations.push({ domain: 'products', migrate: context.domains.products.migrate })
     context.routes.push((router) => router.get('/products', context.domains.products.findProduct))     // 2. http http://localhost:3000/products?q=tropper
     context.routes.push((router) => router.get('/products/:uid', context.domains.products.getProduct)) // 3. http http://localhost:3000/products/where_i_leave_you
+
+    // REVIEWS
+    // =========================================================================
+    context.domains.reviews = new ReviewsDomain({
+      knex: context.knex,
+    })
+    context.migrations.push({ domain: 'reviews', migrate: context.domains.reviews.migrate })
+    context.routes.push((router) => router.post('/reviews', context.domains.reviews.createReview))
+    context.routes.push((router) => router.get('/reviews/:book_id', context.domains.reviews.getReviews))
 
     // BOOKS
     // =========================================================================
