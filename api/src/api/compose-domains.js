@@ -39,8 +39,7 @@ const compose = async (context) => {
 
       context.migrations.push({ domain: 'orders', migrate: context.domains.orders.migrate })
       context.routes.push((router) => router.get('/orders', context.domains.orders.getOrders))
-      context.routes.push((router) => router.get('/orders-upsert
-          /: pid /: price', context.domains.orders.upsertOrders))
+      context.routes.push((router) => router.get('/orders-upsert/:pid/:price', context.domains.orders.upsertOrders))
 
     // BOOKS
     // =========================================================================
