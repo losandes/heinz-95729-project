@@ -14,6 +14,8 @@ module.exports = {
         ? book.metadata.authors
         : []
 
+      self.reviews = []
+
       // override product's `viewDetails` function to redirect to books
       self.viewDetails = (event) => {
         if (self.uid) {

@@ -25,6 +25,20 @@ module.exports = {
             router.navigate('/')
           }
         })
+        repo.getReviews(context.params.uid, (err, reviews) => {
+          if (err) {
+            console.log(err)
+            // TODO: render error view
+          }
+
+          if (reviews) {
+            bookComponent.setReviews(reviews)
+            app.currentView = 'book'
+          } else {
+            // TODO: route to a "none found" page
+            router.navigate('/')
+          }
+        })
       })
     }
 

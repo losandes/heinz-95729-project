@@ -1,12 +1,12 @@
 module.exports = {
   scope: 'heinz',
   name: 'bookComponent',
-  dependencies: ['Vue', 'Book'],
-  factory: (Vue, Book) => {
+  dependencies: ['Vue', 'Book', 'environment'],
+  factory: (Vue, Book, env) => {
     'use strict'
 
     let state = new Book()
-
+    const apiRoute = `${env.get('apiOrigin')}/reviews/${state.uid}`
     const component = Vue.component('book', {
       template: `
         <div class="book-component details">
@@ -58,9 +58,35 @@ module.exports = {
               <button class="btn btn-success btn-buy" v-on:click="addToCart">{{price}}</button>
             </div>
           </div>
+
+          <div v-if="reviews.length">
+            <h4>Reviews</h4>
+            <div v-for="review in reviews">
+              <div>{{review.description}}</div>
+              <div>{{review.rating}}</div>
+            </div>
+            <div>Average Rating: {{avgRating}}</div>
+          </div>
+
+
         </div>`,
       data: () => {
         return state
+      },
+      computed: {
+        avgRating: function () {
+          let sum = 0
+          let count = 0
+          if (this.reviews.length) {
+            this.reviews.forEach(element => {
+              sum += parseInt(element.rating)
+              count++
+            })
+            return (sum / count)
+          } else {
+            return 0
+          }
+        },
       },
     })
 
@@ -68,6 +94,10 @@ module.exports = {
       state = book
     }
 
-    return { component, setBook }
+    const setReviews = (reviews) => {
+      state.reviews = reviews
+    }
+
+    return { component, setBook, setReviews }
   },
 }

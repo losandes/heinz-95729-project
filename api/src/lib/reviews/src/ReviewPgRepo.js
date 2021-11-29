@@ -15,7 +15,7 @@ function ReviewPgRepoFactory (deps) {
     const { knex } = input
 
     /**
-     * Inserts or updates a product in the database
+     * Inserts or updates a review in the database
      * @param {IReview} input - an instance of Product to upsert
      */
     const upsert = async (input) => {
@@ -63,7 +63,7 @@ function ReviewPgRepoFactory (deps) {
     const getReviews = async (bookId) => {
       const results = mapResults(await knex('reviews').where('book_id', bookId))
 
-      return results.length ? results : null
+      return results.length ? results : []
     }
 
     /**
