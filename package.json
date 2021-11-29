@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@polyn/blueprint": "^2.6.0",
+    "cors": "^2.8.5"
+  }
+}

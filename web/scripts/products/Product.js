@@ -39,7 +39,7 @@ module.exports = {
         }
       }
 
-      self.addToCart = (event) => {
+        self.addToCart = (event) => {
         console.log(`TODO: add ${self.title} to shopping cart`)
       }
 

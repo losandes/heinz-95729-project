@@ -12,10 +12,11 @@ function FindProductFactory (deps) {
    * Usage with httpie:
    *     http http://localhost:3000/products?q=Tropper
    */
-  const findProduct = async (ctx) => {
+    const findProduct = async (ctx) => {
     const logger = ctx.request.state.logger
 
-    try {
+        try {
+
       const products = await productRepo.find(ctx.query.q)
 
       logger.emit('product_find_success', 'debug', { count: products.length, products })
