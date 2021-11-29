@@ -154,6 +154,11 @@ docker exec -it $DB_IMAGE_NAME \
 
 #### Install NVM
 
+Before you install NVM, you have to have a sh profile (~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc). Macos uses zsh by default now, and it does not include a profile by default. If you're using zsh, you can create a profile with `touch ~/.zshrc`.
+
+If you forget to do this, or for some reason you see an error like "nvm: command not found", checkout the [troubleshooting guides](https://github.com/nvm-sh/nvm#troubleshooting-on-macos).
+
+
 ##### With HomeBrew
 
 ```Shell
