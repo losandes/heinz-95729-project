@@ -222,6 +222,8 @@ http http://localhost:3000/books?q=tropper
 
 > NOTICE all the commands are using `pnpm`, not `npm`. See [adr/20210207-choose-package-manager.md](adr/20210207-choose-package-manager.md) for more information.
 
+_If you experience an EACCESS error when trying to use pnpm, follow [npm's guide to troubleshooting globally installed packages](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally)_
+
 ## Running Tests
 
 ```Shell
