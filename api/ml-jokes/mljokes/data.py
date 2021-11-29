@@ -1,5 +1,6 @@
 # imports
 import os
+import pickle
 import pandas as pd
 from bs4 import BeautifulSoup
 import re
@@ -60,3 +61,9 @@ def read_ratings(path_ratings='./data/ratings'):
     ratings.rename(columns= {0: 'count_rated'}, inplace=True)
     
     return ratings
+
+
+def load_test_idx():
+    with open('./data/test_idx.pkl', 'rb') as f:
+        test_idx = pickle.load(f)
+    return test_idx
