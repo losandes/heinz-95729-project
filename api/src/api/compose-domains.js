@@ -2,6 +2,7 @@ const ProductsDomain = require('@heinz-95729-api/products')
 const BooksDomain = require('@heinz-95729-api/books')
 const UsersDomain = require('@heinz-95729-api/users')
 const cartDomain = require('@heinz-95729-api/cart')
+const ordersDomain = require('@heinz-95729-api/orders')
 const StartupError = require('./StartupError.js')
 
 /**
@@ -28,8 +29,18 @@ const compose = async (context) => {
    
       context.migrations.push({ domain: 'cart', migrate: context.domains.cart.migrate })
       context.routes.push((router) => router.get('/cart', context.domains.cart.getCart))
-      context.routes.push((router) => router.get('/cart-upsert/:id/:pid', context.domains.cart.upsertCart))
+      context.routes.push((router) => router.get('/cart-upsert/:pid', context.domains.cart.upsertCart))
       context.routes.push((router) => router.get('/cart-delete/:id', context.domains.cart.deleteCart))
+
+      // ORDERS
+      context.domains.orders = new ordersDomain({
+          knex: context.knex,
+      })
+
+      context.migrations.push({ domain: 'orders', migrate: context.domains.orders.migrate })
+      context.routes.push((router) => router.get('/orders', context.domains.orders.getOrders))
+      context.routes.push((router) => router.get('/orders-upsert
+          /: pid /: price', context.domains.orders.upsertOrders))
 
     // BOOKS
     // =========================================================================

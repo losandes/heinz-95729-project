@@ -1,8 +1,9 @@
 exports.up = async function (knex) {
-  const sql = `CREATE TABLE cart (
+  const sql = `CREATE TABLE orders (
       id Text PRIMARY KEY NOT NULL,
       userid Text NOT NULL,
-      productid Text NOT NULL
+      productids Text NOT NULL,
+      totalprice int NOT NULL
   );
 `
 
@@ -14,6 +15,6 @@ exports.up = async function (knex) {
 
 exports.down = async function (knex) {
   await knex.transaction(async (trx) => {
-    return await trx.raw('DROP TABLE cart;')
+      return await trx.raw('DROP TABLE orders;')
   })
 }

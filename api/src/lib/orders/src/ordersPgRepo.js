@@ -1,19 +1,19 @@
 /**
  * @param {@polyn/blueprint} blueprint
- * @param {cart} cart
+ * @param {orders} orders
  */
 var moment = require('moment');
 
-function cartPgRepoFactory (deps) {
+function ordersPgRepoFactory (deps) {
   'use strict'
 
-    const { cart } = deps
+    const { orders } = deps
   const { is } = deps.blueprint
 
   /**
    * @param {pg/Pool} db - The Pool function from pg
    */
-    function cartPgRepo (input) {
+    function ordersPgRepo (input) {
     const { knex } = input
 
     /**
@@ -22,16 +22,18 @@ function cartPgRepoFactory (deps) {
      */
         const upsert = async (input) => {
       const res = await knex.transaction(async (trx) => {
-          const res1 = await trx('cart')
+          const res1 = await trx('orders')
               .insert({
               id: moment().format('yyyy-mm-dd:hh:mm:ss'),
               userid: input.userid,
-              productid: input.productid
+              productids: input.productids,
+              totalprice: input.totalprice
           })
           .onConflict('id')
           .merge([
             'userid',
-            'productid'
+              'productids',
+              'totalprice'
           ])
 
 
@@ -44,27 +46,19 @@ function cartPgRepoFactory (deps) {
         return { res: res.res1 }
     }
 
-        const cartById = async (userid) => {
-            const results = await knex('cart').where('userid', userid)
+        const ordersById = async (userid) => {
+            const results = await knex('orders').where('userid', userid)
             return results
-        }
-        const deleteById = async (id) => {
-            const count = await knex('cart').where('id', id).del()
-
-            return count > 0
         }
     return {
         upsert,
         get: {
-            byId: cartById,
-        },
-        delete: {
-            byId: deleteById,
-        },
+            byId: ordersById,
+        }
     }
   }
 
-    return { cartPgRepo }
+    return { ordersPgRepo }
 }
 
-module.exports = cartPgRepoFactory
+module.exports = ordersPgRepoFactory

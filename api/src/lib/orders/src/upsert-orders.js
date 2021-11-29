@@ -1,20 +1,20 @@
 /**
- * @param {cartPgRepo} cartRepo
+ * @param {ordersPgRepo} ordersRepo
  */
-function UpsertcartFactory(deps) {
+function UpsertordersFactory(deps) {
     'use strict'
 
-    const { cartRepo } = deps
+    const { ordersRepo } = deps
 
-    const upsertCart = async (ctx) => {
+    const upsertOrders = async (ctx) => {
 
         const logger = ctx.request.state.logger
 
         try {
-            var input = {  userid: ctx.state.session.id, productid: ctx.params.pid}
-            const cart = await cartRepo.upsert(input)
+            var input = { userid: ctx.state.session.id, productids: ctx.params.pid, totalprice:ctx.params.price}
+            const orders = await ordersRepo.upsert(input)
 
-            if (cart) {
+            if (orders) {
 
                 ctx.response.status = 200
                 ctx.response.body = 'done'
@@ -27,7 +27,7 @@ function UpsertcartFactory(deps) {
         }
     }
 
-    return { upsertCart }
+    return { upsertOrders }
 }
 
-module.exports = UpsertcartFactory
+module.exports = UpsertordersFactory
