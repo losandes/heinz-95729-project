@@ -3,10 +3,10 @@ Collaborative Filtering utils
 Authors: Alejandro Alvarez, Brenda Palma
 '''
 import numpy as np
-from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from sklearn.manifold import TSNE
+import pandas as pd
 
 
 def get_rating(model, user_id, joke_id):
@@ -14,6 +14,8 @@ def get_rating(model, user_id, joke_id):
     Get the rating that ´user_id´ would assign to ´joke_id´
     '''
     pred = model.predict(uid=user_id, iid=joke_id)
+    if pred.details['was_impossible']:
+        return np.nan
     return pred.est
 
 def get_predicted_ratings(model, user_id, joke_list):
@@ -28,10 +30,16 @@ def get_all_ratings(model):
     Get predictions for all jokes by all users (for later use in ensemble model)
     '''
     all_preds = np.empty((0,3))
-    for user_id in tqdm(np.arange(1,model.trainset.n_users+1)):
+    user_list = []
+    joke_list = []
+    ratings = []
+    for user_id in tqdm(model.trainset.all_users()):
         preds = list(map(lambda x: [user_id, x, get_rating(model, user_id, x)], np.arange(1,model.trainset.n_items+1)))
         all_preds = np.vstack((all_preds, preds))
-    return all_preds
+    pred_df = pd.DataFrame({'user_id': pd.Series(all_preds[:,0]).astype(int), \
+        'joke_id': pd.Series(all_preds[:,1]).astype(int), \
+            'pred_cf': all_preds[:,2]})
+    return pred_df
 
 
 
