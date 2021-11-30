@@ -17,12 +17,13 @@ module.exports = {
                   <a class="thumbnail-img" href="javascript:void(0);" v-on:click="product.viewDetails">
                     <img :src="product.thumbnailHref" :alt="product.thumbnailAlt">
                   </a>
-
+                  
                   <div class="caption">
                     <h3><a href="javascript:void(0);" v-on:click="product.viewDetails">{{product.title}}</a></h3>
                     <div class="description">{{product.description}}</div>
                     <div class="overlay"></div>
-                    <a class="buy-now" href="javascript:void(0);" v-on:click="product.addToCart">{{product.price}}</a>
+                    {{product.price}}
+                    <a class="add-cart buy-now" href="javascript:void(0);" v-on:click="product.addToCart">Add to cart</a>
                   </div>
                 </div>
               </div>

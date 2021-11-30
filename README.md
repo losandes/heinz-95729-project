@@ -1,4 +1,4 @@
-# CMU Heinz 95729 Course Project (2017)
+# CMU Heinz 95729 Course Project
 
 This repository provides a foundation for Heinz 95729 E-Commerce Tech course projects that include APIs, and/or web apps.
 

@@ -6,12 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/cart.css">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -29,9 +33,11 @@
             <a href="/login">
                 <i class="fa fa-user-circle-o" aria-hidden="true"></i>
             </a>
-            <a href="/checkout">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </a>
+            <span class="cart-number-tracking">
+                <a href="/checkout">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>0</span>
+                </a>
+            </span>
         </nav>
     </header>
     <div class="container">
@@ -42,6 +48,7 @@
         </div>
     </div><!-- /container -->
 
+
     <script id="t-loading" type="text/x-template">
         <div class="component">Loading...</div>
     </script>
@@ -49,7 +56,9 @@
 
     <script src="https://unpkg.com/vue"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
     <!-- uncomment these if you are supporting old browsers, like IE 11 -->
     <!-- <script src="/node_modules/promise-polyfill/dist/polyfill.min.js"></script> -->
@@ -76,6 +85,11 @@
     <script src="/scripts/books/bookComponent.js"></script>
     <script src="/scripts/books/booksController.js"></script>
     <script src="/scripts/books/booksRepo.js"></script>
+
+    <script src="/scripts/cart/cart.js"></script>
+    <script src="/scripts/cart/cartComponent.js"></script>
+    <script src="/scripts/cart/cartController.js"></script>
+    <script src="/scripts/cart/cartRepo.js"></script>
 
     <script src="/scripts/products/Product.js"></script>
     <script src="/scripts/products/productComponent.js"></script>

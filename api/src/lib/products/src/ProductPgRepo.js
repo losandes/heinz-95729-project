@@ -108,7 +108,7 @@ function ProductPgRepoFactory (deps) {
      * @param {string} search - the word or phrase to search for
      * @returns {IProduct[]} - an array of Products
      */
-      const find = async (query) => {
+    const find = async (query) => {
       if (is.not.string(query)) {
         return []
       }

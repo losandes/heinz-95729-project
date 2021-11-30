@@ -55,7 +55,9 @@ module.exports = {
             </div>
             <div>{{description}}</div>
             <div class="purchase">
-              <button class="btn btn-success btn-buy" v-on:click="addToCart">{{price}}</button>
+              \${{price}}
+              <a class="add-cart btn btn-success btn-buy" href="javascript:void(0);" v-on:click="addToCart">Add to cart</a>
+            
             </div>
           </div>
         </div>`,
@@ -71,3 +73,6 @@ module.exports = {
     return { component, setBook }
   },
 }
+
+
+{/* <button class="add-cart btn btn-success btn-buy" v-on:click="addToCart">Add to cart</button> */}
