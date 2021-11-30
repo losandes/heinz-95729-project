@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV != 'production'){
-  require('dotenv').config({ path: '../api/.env' });
-}
-
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
 
