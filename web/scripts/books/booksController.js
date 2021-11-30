@@ -10,8 +10,7 @@ module.exports = {
      * @param {Vue} app - the main Vue instance (not the header)
      */
     function registerRoutes (app) {
-        router('/books/:uid', (context) => {
-          console.log("context",context)
+      router('/books/:uid', (context) => {
         repo.get(context.params.uid, (err, book) => {
           if (err) {
             console.log(err)

@@ -5,7 +5,7 @@ module.exports = {
   factory: (router) => {
     'use strict'
 
-    return function Product (product) {
+    return function Product(product) {
       product = Object.assign({}, product)
 
       const self = {
@@ -39,8 +39,14 @@ module.exports = {
         }
       }
 
-        self.addToCart = (event) => {
-        console.log(`TODO: add ${self.title} to shopping cart`)
+      self.addToCart = (event) => {
+        let currentBook = {title: self.title,
+          price: self.price,
+          id: self.id,
+          inCart: 0
+        };
+
+        setItems(currentBook);
       }
 
       return self
