@@ -15,10 +15,10 @@ module.exports = {
       repo.get({ path: `/reviews/${uid}` }, callback)
     }
 
-    const addReview = (addDescription, addRating, uid, callback) => {
+    const addReview = (description, rating, book_id, callback) => {
       repo.post({
-        path: `/reviews/${uid}`,
-        body: { addDescription, addRating },
+        path: '/reviews',
+        body: { description, rating, book_id },
       }, callback)
     }
 

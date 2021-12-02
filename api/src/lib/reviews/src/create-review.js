@@ -19,7 +19,7 @@ function CreateReviewFactory (deps) {
         // don't let the client set the id
         delete ctx.request.body.id
       }
-
+      ctx.request.body.user_id = ctx.state.session.id
       review = new Review(ctx.request.body)
     } catch (err) {
       logger.emit('review_upsert_invalid', 'warn', { err })
