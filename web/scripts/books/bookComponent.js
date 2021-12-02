@@ -55,7 +55,9 @@ module.exports = {
             <div>{{description}}</div>
             <h4 v-if="reviews.length">Average Rating: {{avgRating}}</h4>
             <div class="purchase">
-              <button class="btn btn-success btn-buy" v-on:click="addToCart">{{price}}</button>
+              \${{price}}
+              <a class="add-cart btn btn-success btn-buy" href="javascript:void(0);" v-on:click="addToCart">Add to cart</a>
+            
             </div>
           </div>
           <div :style="{display: 'flex', 'flex-direction': 'row', 'justify-content': 'space-around', 'margin-top': '75px'}">
@@ -124,3 +126,6 @@ module.exports = {
     return { component, setBook, setReviews }
   },
 }
+
+
+{/* <button class="add-cart btn btn-success btn-buy" v-on:click="addToCart">Add to cart</button> */}
