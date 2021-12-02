@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\api",
+    "\\api\\src",
+    "\\api\\src\\api",
+    "\\api\\src\\lib",
+    "\\api\\src\\lib\\reviews",
+    "\\web\\scripts"
   ],
-  "SelectedNode": "\\web",
+  "SelectedNode": "\\api\\src\\api\\compose-domains.js",
   "PreviewInSolutionExplorer": false
 }

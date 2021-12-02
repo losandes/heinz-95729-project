@@ -47,5 +47,9 @@
     "nyc": "~15.0.1",
     "supposed": "~1.1.1",
     "unexpected": "~11.14.0"
+  },
+  "dependencies": {
+    "dotenv": "~10.0.0",
+    "knex": "~0.95.14"
   }
 }
