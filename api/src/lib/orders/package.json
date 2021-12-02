@@ -1,0 +1,21 @@
+{
+  "name": "@heinz-95729-api/orders",
+  "version": "0.1.0",
+  "description": "The core definitions / features for orders",
+  "private": true,
+  "main": "index.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "nyc": "~15.0.1",
+    "supposed": "~1.1.1",
+    "unexpected": "~11.14.0"
+  },
+  "dependencies": {
+    "@polyn/blueprint": "~2.6.0",
+    "@polyn/immutable": "~1.0.11",
+    "orders": "link:..\\lib\\orders",
+    "knex": "~0.95.13",
+    "pg": "~8.7.1"
+  }
+}

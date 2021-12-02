@@ -1,15 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\api\\src",
-    "\\api\\src\\api",
-    "\\api\\src\\lib",
-    "\\api\\src\\lib\\cart",
-    "\\api\\src\\lib\\cart\\migrations",
-    "\\api\\src\\lib\\cart\\src",
-    "\\api\\src\\lib\\products",
-    "\\api\\src\\lib\\products\\migrations",
-    "\\api\\src\\lib\\products\\src"
+    ""
   ],
   "SelectedNode": "\\web",
   "PreviewInSolutionExplorer": false
