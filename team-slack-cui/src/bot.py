@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
 from modelCart import modelCart
+from user import user
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -25,7 +26,7 @@ slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/ev
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 
-userCart = modelCart()
+userDict = {}
 
 #AN EXAMPLE CODE TO POST MESSAGES THROUGH SLACK BOT
 #client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
@@ -34,15 +35,26 @@ userCart = modelCart()
 @app.route('/start', methods=['POST'])
 def start_bot():
     data = request.form
+    
     user_id = data.get('user_id')
     channel_id = data.get('channel_id')
+
     client.chat_postEphemeral(channel=channel_id, text=f"Hello!", user=user_id)
     #client.chat_postMessage(channel=channel_id, text=f"Hello {user_id}!")
+
+    if user_id not in userDict:
+        newUser = user()
+        userDict[user_id] = newUser
     return Response(), 200
 
 
 @app.route('/add' , methods=['POST'])
 def add():
+    user_id = request.data.get('user_id')
+    if user_id not in userDict:
+        newUser = user()
+        userDict[user_id] = newUser
+
     command_text = request.data.get('text')
     command_text = command_text.split(' ')
 
@@ -81,24 +93,42 @@ def categorize(text_arr):
 def webhook():
     req = request.get_json(force=True)
 
-    #print(req)
+    user_id = req['originalDetectIntentRequest']['payload']['data']['event']['user']
+
+    if user_id not in userDict:
+        print("New User: "+user_id)
+        newUser = user()
+        userDict[user_id] = newUser
+
+    else:
+        print("User: "+user_id)
+
     parameters = req['queryResult']['parameters']
     reply = req['queryResult']['fulfillmentText']
 
-    if parameters['action'] == 'add':
-         item = parameters['itemType']
-         pricePerUnit = 2.0 
-         stock = 20.0
-         unit = parameters['unit']
-         type = 'milk' 
-         quantity = parameters['number']
-         print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity))
+    if parameters['action'].casefold() == 'add'.casefold() or parameters['action'].casefold() == 'remove'.casefold():
+        item = parameters['itemType']
+        pricePerUnit = 2.0 
+        stock = 20.0
+        unit = parameters['unit']
+        type = 'milk' 
+        quantity = parameters['number']
+        print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity)+"\n\n")
 
+        if parameters['action'].casefold() == 'add'.casefold():
+            userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
 
-         userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
-         print( "Added: "+ userCart.cart['{item}'].item+"\t"+ str(userCart.cart['{item}'].pricePerUnit)+"\t"+
-          str(userCart.cart['{item}'].stock)+"\t"+ userCart.cart['{item}'].unit+"\t"+ userCart.cart['{item}'].type
-          +"\t"+ str(userCart.cart['{item}'].quantity))
+            print( "Added: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+            str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+            +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+
+        elif parameters['action'].casefold() == 'remove'.casefold():
+            userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
+
+            print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+            str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+            +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+
 
     return {
         'fulfillmentText': reply + "\n" + json.dumps(parameters)
