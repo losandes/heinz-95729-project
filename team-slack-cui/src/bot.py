@@ -11,8 +11,9 @@ from slackeventsapi import SlackEventAdapter
 from pathlib import Path
 
 sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
-from modelCart import modelCart
+from modelCart import modelCart, ValueRequestedIsInvalid, OutOfStock
 from user import user
+
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -106,46 +107,53 @@ def webhook():
     parameters = req['queryResult']['parameters']
     reply = ""
     
+    try:
 
-    if parameters['action'].casefold() == 'add'.casefold() or parameters['action'].casefold() == 'remove'.casefold():
-        reply = req['queryResult']['fulfillmentText']
+        if parameters['action'].casefold() == 'add'.casefold() or parameters['action'].casefold() == 'remove'.casefold():
+            reply = req['queryResult']['fulfillmentText']
 
-        item = parameters['itemType']
-        pricePerUnit = 2.0 
-        stock = 20.0
-        unit = parameters['unit']
-        type = 'milk' 
-        quantity = parameters['number']
-        print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity)+"\n\n")
+            item = parameters['itemType']
+            pricePerUnit = 2.0 
+            stock = 2.0
+            unit = parameters['unit']
+            type = 'milk' 
+            quantity = parameters['number']
+            print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity)+"\n\n")
 
-        if parameters['action'].casefold() == 'add'.casefold():
-            userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
+            if parameters['action'].casefold() == 'add'.casefold():
+                userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
 
-            print( "Added: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
-            str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
-            +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+                print( "Added: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+                str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+                +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
 
-        elif parameters['action'].casefold() == 'remove'.casefold():
-            userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
+            elif parameters['action'].casefold() == 'remove'.casefold():
+                userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
 
-            print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
-            str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
-            +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+                print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+                str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+                +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
 
-    elif parameters['action'].casefold() == 'view'.casefold() or parameters['action'].casefold() == 'show'.casefold() or parameters['action'].casefold() == 'list'.casefold() or parameters['action'].casefold() == 'display'.casefold():
+        elif parameters['action'].casefold() == 'view'.casefold() or parameters['action'].casefold() == 'show'.casefold() or parameters['action'].casefold() == 'list'.casefold() or parameters['action'].casefold() == 'display'.casefold():
 
-        if not parameters['itemType']:
-            reply = "Items you have added to your cart:\n"
+            if not parameters['itemType']:
+                reply = "Items you have added to your cart:\n"
 
-            for key, value in userDict[user_id].userCart.cart.items():
-                reply += value.item
-                reply += "\t" + str(value.quantity)
-                reply += "\t" + value.unit
-                reply += "\n"
-        
-        else:
-            reply = "Types of" + parameters['itemType'] + ":\n"
+                for key, value in userDict[user_id].userCart.cart.items():
+                    reply += value.item
+                    reply += "\t" + str(value.quantity)
+                    reply += "\t" + value.unit
+                    reply += "\n"
+            
+            else:
+                reply = "Types of" + parameters['itemType'] + ":\n"
 
+
+    except ValueRequestedIsInvalid:
+        reply = "Please enter a valid input."
+    
+    except OutOfStock:
+        reply = "Sorry, but the requested item is currently out of stock. Please try again later!"
 
     return {
         'fulfillmentText': reply + "\n" + json.dumps(parameters)

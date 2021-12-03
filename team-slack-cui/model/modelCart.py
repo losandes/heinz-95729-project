@@ -1,5 +1,14 @@
 from modelItem import modelItem
 
+class OutOfStock(Exception):
+    """Raised when the item requested is out of stock"""
+    pass
+
+class ValueRequestedIsInvalid(Exception):
+    """Raised when the quantity of item requested is more than the 
+    amount present in stock"""
+    pass
+
 class modelCart:
     cart = {}
 
@@ -9,9 +18,9 @@ class modelCart:
     def addItem(self, item, pricePerUnit, stock, unit, type, quantity):
 
         if quantity <= 0.0:
-            return None
+            raise ValueRequestedIsInvalid
         if quantity > stock:
-            return None
+            raise OutOfStock
 
         stock -= quantity
         #UPDATE STOCK IN DB
@@ -31,7 +40,7 @@ class modelCart:
 
     def removeItem(self, item, pricePerUnit, stock, unit, type, quantity):
         if quantity <= 0:
-            return None
+            raise ValueRequestedIsInvalid
 
         if '{item}' in self.cart.keys():
             stock += quantity
@@ -39,13 +48,13 @@ class modelCart:
 
             existingPurchase = self.cart['{item}']
             if existingPurchase.quantity < quantity:
-                return None
+                return ValueRequestedIsInvalid
             existingPurchase.quantity -= quantity
             purchase = modelItem(item, pricePerUnit, stock, unit, type, existingPurchase.quantity)
             self.cart['{item}'] = purchase
             return self.cart
 
-        return None
+        return ValueRequestedIsInvalid
 
         
 
