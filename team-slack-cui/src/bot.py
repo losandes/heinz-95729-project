@@ -1,24 +1,34 @@
 import slack
 import os
+import sys
+import json
+import psycopg2
+
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, request, Response
 from slackeventsapi import SlackEventAdapter
-import psycopg2
+from pathlib import Path
+
+sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
+from modelCart import modelCart
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/events', app)
-conn = psycopg2.connect(dbname="testdb", user="johnkim", port="5433")
-cur = conn.cursor()
+
+#conn = psycopg2.connect(dbname="testdb", user="johnkim", port="5433")
+#cur = conn.cursor()
 
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 
+userCart = modelCart()
+
 #AN EXAMPLE CODE TO POST MESSAGES THROUGH SLACK BOT
-client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
+#client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
 
 #AN EXAMPLE CODE TO HANDLE END POINTS FOR SLASH COMMANDS THROUGH SLACK BOT
 @app.route('/start', methods=['POST'])
@@ -65,6 +75,35 @@ def categorize(text_arr):
         else:
             item += specific
     return [item, quantity]
+
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    req = request.get_json(force=True)
+
+    #print(req)
+    parameters = req['queryResult']['parameters']
+    reply = req['queryResult']['fulfillmentText']
+
+    if parameters['action'] == 'add':
+         item = parameters['itemType']
+         pricePerUnit = 2.0 
+         stock = 20.0
+         unit = parameters['unit']
+         type = 'milk' 
+         quantity = parameters['number']
+         print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity))
+
+
+         userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
+         print( "Added: "+ userCart.cart['{item}'].item+"\t"+ str(userCart.cart['{item}'].pricePerUnit)+"\t"+
+          str(userCart.cart['{item}'].stock)+"\t"+ userCart.cart['{item}'].unit+"\t"+ userCart.cart['{item}'].type
+          +"\t"+ str(userCart.cart['{item}'].quantity))
+
+    return {
+        'fulfillmentText': reply + "\n" + json.dumps(parameters)
+    }
+
 
 # Execute a query
 # cur.execute("SELECT * FROM my_data")

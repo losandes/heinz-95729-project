@@ -1,4 +1,10 @@
 class modelItem:
+    item = ""
+    pricePerUnit = 0
+    stock = 0
+    unit = ""
+    type = ""
+    quantity = ""
 
     def __init__(self, item, pricePerUnit, stock, unit, type, quantity):
         self.item = item
