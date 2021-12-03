@@ -9,7 +9,6 @@ function GetcartFactory(deps) {
     const getCart = async (ctx) => {
         const logger = ctx.request.state.logger
         var productids = []
-        var totalPrice = 0
 
         try {
 
