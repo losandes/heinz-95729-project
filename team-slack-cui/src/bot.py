@@ -8,12 +8,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, request, Response
 from slackeventsapi import SlackEventAdapter
-from pathlib import Path
 
 sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
-from modelCart import modelCart, ValueRequestedIsInvalid, OutOfStock
+from modelCart import modelCart
 from user import user
-
+from Exceptions import ItemNotInCart, ValueRequestedIsInvalid, OutOfStock, ValueRequestedIsMoreThanAvailableInCart, ValueRequestedIsMoreThanAvailableInStock
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -21,7 +20,7 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/events', app)
 
-#conn = psycopg2.connect(dbname="testdb", user="johnkim", port="5433")
+#conn = psycopg2.connect(dbname="testdb", user="johnkim", host="4.tcp.ngrok.io", port="18502")
 #cur = conn.cursor()
 
 
@@ -36,7 +35,7 @@ userDict = {}
 @app.route('/start', methods=['POST'])
 def start_bot():
     data = request.form
-
+    
     user_id = data.get('user_id')
     channel_id = data.get('channel_id')
 
@@ -106,18 +105,25 @@ def webhook():
 
     parameters = req['queryResult']['parameters']
     reply = ""
-
+    
     try:
 
         if parameters['action'].casefold() == 'add'.casefold() or parameters['action'].casefold() == 'remove'.casefold():
             reply = req['queryResult']['fulfillmentText']
 
             item = parameters['itemType']
-            pricePerUnit = 2.0
-            stock = 2.0
             unit = parameters['unit']
-            type = 'milk'
             quantity = parameters['number']
+            
+            value = item.lower()
+            cur.execute("SELECT stock, price, type FROM grocery_inventory WHERE item like '{0}'".format(str(value)))
+            stockResult = cur.fetchall()
+            
+            print(stockResult)
+            stock = stockResult[0][0]
+            pricePerUnit = stockResult[0][1]
+            type = stockResult[0][2]
+
             print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity)+"\n\n")
 
             if parameters['action'].casefold() == 'add'.casefold():
@@ -136,7 +142,7 @@ def webhook():
 
         elif parameters['action'].casefold() == 'view'.casefold() or parameters['action'].casefold() == 'show'.casefold() or parameters['action'].casefold() == 'list'.casefold() or parameters['action'].casefold() == 'display'.casefold():
 
-            if not parameters['itemType']:
+            if not parameters['itemType'] or parameters['target'].casefold() == 'cart'.casefold():
                 reply = "Items you have added to your cart:\n"
 
                 for key, value in userDict[user_id].userCart.cart.items():
@@ -144,27 +150,63 @@ def webhook():
                     reply += "\t" + str(value.quantity)
                     reply += "\t" + value.unit
                     reply += "\n"
-
+            
             else:
-                reply = "Types of" + parameters['itemType'] + ":\n"
+                reply = "Types of " + parameters['itemType'] + " available:\n"
 
+                value = parameters['itemType'].lower()
+                cur.execute("SELECT item FROM grocery_inventory WHERE type like '{0}' AND stock <> 0".format(str(value)))
+                stockResult = cur.fetchall()
+
+                for x in stockResult:
+                    reply += x[0] + "\n"
 
     except ValueRequestedIsInvalid:
         reply = "Please enter a valid input."
-
+    
     except OutOfStock:
         reply = "Sorry, but the requested item is currently out of stock. Please try again later!"
+
+    except ItemNotInCart:
+        reply = "Sorry, but the requested item is not in your cart. Please view your cart again!"
+
+    except ValueRequestedIsMoreThanAvailableInStock:
+        reply = "Sorry, but the value requested item is more than the items present in stock. Please enter a smaller value!"
+
+    except ValueRequestedIsMoreThanAvailableInCart:
+        reply = "Sorry, but the value requested item is more than the value present in your cart. Please view your cart again!"
 
     return {
         'fulfillmentText': reply + "\n" + json.dumps(parameters)
     }
 
+# cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 16")
+# cur.execute("UPDATE grocery_inventory SET stock = 100 WHERE id = 17")
+# cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 18")
+# cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 19")
+# cur.execute("UPDATE grocery_inventory SET stock = 80 WHERE id = 20")
+# cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 21")
+# cur.execute("UPDATE grocery_inventory SET stock = 70 WHERE id = 22")
+# cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 23")
+# cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 24")
+# cur.execute("UPDATE grocery_inventory SET stock = 130 WHERE id = 25")
+# cur.execute("UPDATE grocery_inventory SET stock = 150 WHERE id = 26")
+# cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 27")
+# cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 28")
+# cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 29")
+# cur.execute("COMMIT")
 
 # Execute a query
-# cur.execute("SELECT * FROM my_data")
+#cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'grocery_inventory'")
+#records = cur.fetchall()
 
+#print(records)
+
+#cur.execute("SELECT * FROM grocery_inventory")
 # Retrieve query results
-# records = cur.fetchall()
+#records = cur.fetchall()
+
+#print(records)
 
 
 if __name__ == "__main__":
