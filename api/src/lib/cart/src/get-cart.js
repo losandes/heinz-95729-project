@@ -25,6 +25,7 @@ function GetcartFactory(deps) {
                 ctx.response.body = products
             } else {
                 ctx.response.status = 404
+
             }
         } catch (err) {
             logger.emit('product_read_error', 'error', { err })
