@@ -11,8 +11,16 @@ load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/events', app)
+
+
 conn = psycopg2.connect(dbname="testdb", user="johnkim", port="5433")
 cur = conn.cursor()
+
+# Execute a query
+# cur.execute("SELECT * FROM grocery_inventory")
+
+# Retrieve query results
+# records = cur.fetchall()
 
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
@@ -66,11 +74,6 @@ def categorize(text_arr):
             item += specific
     return [item, quantity]
 
-# Execute a query
-# cur.execute("SELECT * FROM my_data")
-
-# Retrieve query results
-# records = cur.fetchall()
 
 
 if __name__ == "__main__":
