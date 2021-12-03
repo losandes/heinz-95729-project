@@ -104,9 +104,12 @@ def webhook():
         print("User: "+user_id)
 
     parameters = req['queryResult']['parameters']
-    reply = req['queryResult']['fulfillmentText']
+    reply = ""
+    
 
     if parameters['action'].casefold() == 'add'.casefold() or parameters['action'].casefold() == 'remove'.casefold():
+        reply = req['queryResult']['fulfillmentText']
+
         item = parameters['itemType']
         pricePerUnit = 2.0 
         stock = 20.0
@@ -128,6 +131,20 @@ def webhook():
             print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
             str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
             +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+
+    elif parameters['action'].casefold() == 'view'.casefold() or parameters['action'].casefold() == 'show'.casefold() or parameters['action'].casefold() == 'list'.casefold() or parameters['action'].casefold() == 'display'.casefold():
+
+        if not parameters['itemType']:
+            reply = "Items you have added to your cart:\n"
+
+            for key, value in userDict[user_id].userCart.cart.items():
+                reply += value.item
+                reply += "\t" + str(value.quantity)
+                reply += "\t" + value.unit
+                reply += "\n"
+        
+        else:
+            reply = "Types of" + parameters['itemType'] + ":\n"
 
 
     return {
