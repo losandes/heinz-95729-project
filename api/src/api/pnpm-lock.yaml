@@ -2,7 +2,9 @@ lockfileVersion: 5.3
 
 specifiers:
   '@heinz-95729-api/books': link:../lib/books
-  '@heinz-95729-api/products': link:../lib/products
+  '@heinz-95729-api/cart': link:..\lib\cart
+  '@heinz-95729-api/orders': link:..\lib\orders
+  '@heinz-95729-api/products': link:..\lib\products
   '@heinz-95729-api/reviews': link:../lib/reviews
   '@heinz-95729-api/users': link:../lib/users
   '@koa/cors': ~3.1.0
@@ -31,6 +33,8 @@ specifiers:
 
 dependencies:
   '@heinz-95729-api/books': link:../lib/books
+  '@heinz-95729-api/cart': link:../lib/cart
+  '@heinz-95729-api/orders': link:../lib/orders
   '@heinz-95729-api/products': link:../lib/products
   '@heinz-95729-api/reviews': link:../lib/reviews
   '@heinz-95729-api/users': link:../lib/users

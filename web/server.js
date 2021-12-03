@@ -1,5 +1,4 @@
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY
-const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
+
 
 
 const fs = require('fs')
