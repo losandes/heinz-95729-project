@@ -1,16 +1,16 @@
 module.exports = {
-  scope: 'heinz',
-  name: 'cartRepo',
-  dependencies: ['Repo'],
-  factory: (Repo) => {
-    'use strict'
+    scope: 'heinz',
+    name: 'cartRepo',
+    dependencies: ['Repo'],
+    factory: (Repo) => {
+        'use strict'
 
-    const repo = new Repo()
+        const repo = new Repo()
 
-    const get = (callback) => {
-      repo.get({ path: `/checkout` }, callback)
-    }
+        const get = (callback) => {
+            repo.get({ path: `/cart` }, callback)
+        }
 
-    return { get }
-  },
+        return { get }
+    },
 }

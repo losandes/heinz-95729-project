@@ -1,30 +1,34 @@
 module.exports = {
-  scope: 'heinz',
-  name: 'cartComponent',
-  dependencies: ['environment', 'Vue'],
-  factory: (environment, Vue) => {
-    'use strict'
+    scope: 'heinz',
+    name: 'cartComponent',
+    dependencies: ['Vue', 'cart'],
+    factory: (Vue, cart) => {
+        'use strict'
 
-    let state = { products: [] }
-    
-    const component = Vue.component('checkout', {
-      template: `<div class = "products-container">
-        <div class="product-header">
-            <h5 class="product-title">PRODUCT</h5>
-            <h5 class="product-price">PRICE</h5>
-            <h5 class="product-quantity">QUANTITY</h5>
-            <h5 class="product-total">TOTAL</h5>
-        </div>
-        <div class = "products">
-            TEST
-        </div>
-    </div>`
-      ,
-      data: function () {
-        return state
-      },
-    })
+        let state = { cart: [] }
 
-    return { component }
-  },
+        const component = Vue.component('cart', {
+            template: `
+      <div class= "cart-component">
+       <div class="row">
+        <b><h3>Total Price :{{cart[cart.length-1]}} $</h3></b>
+
+        <div v-for="ct in cart">
+          <h3><b>{{ct.title}}</b></h3>
+          <h3><img :src="ct.thumbnail_href"/></h3>
+          <h3><b>Price:  {{ct.price}} $</b></h3>
+        </div>
+       </div>
+      </div>`,
+            data: () => {
+                return state
+            },
+        })
+
+        const setcart = (searchResults) => {
+            state = searchResults
+        }
+
+        return { component, setcart }
+    },
 }

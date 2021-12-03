@@ -8,16 +8,21 @@ function GetcartFactory(deps) {
 
     const getCart = async (ctx) => {
         const logger = ctx.request.state.logger
-  
+        var productids = []
+        var totalPrice = 0
 
         try {
 
             const cart = await cartRepo.get.byId(ctx.state.session.id)
+            for (var i = 0; i < cart.length; i++) {
+                productids.push(cart[i].productid)
+            }
+            const products = await cartRepo.get.prod(productids)
 
-            if (cart) {
+            if (products) {
 
                 ctx.response.status = 200
-                ctx.response.body = cart
+                ctx.response.body = products
             } else {
                 ctx.response.status = 404
             }
