@@ -1,8 +1,8 @@
 module.exports = {
     scope: 'heinz',
     name: 'cartComponent',
-    dependencies: ['Vue', 'cart'],
-    factory: (Vue, cart) => {
+    dependencies: ['Vue', 'cart','router'],
+    factory: (Vue, cart,router) => {
         'use strict'
 
         let state = { cart: [] }
@@ -16,13 +16,27 @@ module.exports = {
         <div v-for="ct in cart">
           <h3><b>{{ct.title}}</b></h3>
           <h3><img :src="ct.thumbnail_href"/></h3>
-          <h3><b>Price:  {{ct.price}} $</b></h3>
+          <h3 v-if="ct.price"><b>Price:  {{ct.price}} $</b></h3>
+
         </div>
+        <button class="buy btn btn-success btn-buy" v-on:click="buyNow">Buy Now</button>
+
        </div>
+
       </div>`,
             data: () => {
                 return state
             },
+
+            methods: {
+                buyNow: function () {
+                    var productids = state.cart[0].id;
+                    for (var i = 1; i < state.cart.length-1; i++) {
+                        productids = productids+','+state.cart[i].id ;
+                    }
+                    router.navigate('/orders-upsert/' + productids + '/' + state.cart[state.cart.length-1])
+                }
+            }
         })
 
         const setcart = (searchResults) => {

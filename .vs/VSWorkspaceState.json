@@ -1,13 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\api",
     "\\api\\src",
-    "\\api\\src\\api",
     "\\api\\src\\lib",
-    "\\api\\src\\lib\\reviews",
-    "\\web\\scripts"
+    "\\api\\src\\lib\\cart\\src",
+    "\\api\\src\\lib\\users",
+    "\\api\\src\\lib\\users\\migrations",
+    "\\web",
+    "\\web\\scripts",
+    "\\web\\scripts\\cart"
   ],
-  "SelectedNode": "\\api\\src\\api\\compose-domains.js",
+  "SelectedNode": "\\web\\scripts\\cart\\cartController.js",
   "PreviewInSolutionExplorer": false
 }

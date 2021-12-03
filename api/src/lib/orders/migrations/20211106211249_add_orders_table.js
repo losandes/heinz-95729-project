@@ -3,7 +3,7 @@ exports.up = async function (knex) {
       id UUID PRIMARY KEY NOT NULL,
       userid Text NOT NULL,
       productids Text NOT NULL,
-      totalprice int NOT NULL,
+      totalprice DECIMAL NOT NULL,
       purchasedate TEXT NOT NULL
   );
 `

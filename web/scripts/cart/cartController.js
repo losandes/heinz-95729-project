@@ -48,7 +48,10 @@ module.exports = {
                     }
                 })
             })
-
+            router('/orders-upsert/:pid/:price', (context) => {
+                repo.buyNow(context.params.pid, context.params.price, (err, response) => {
+                })
+            })
 
         }
 

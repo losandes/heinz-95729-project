@@ -10,7 +10,9 @@ module.exports = {
         const get = (callback) => {
             repo.get({ path: `/cart` }, callback)
         }
-
-        return { get }
+        const buyNow = (pid,price,callback) => {
+            repo.get({ path: `/orders-upsert/${pid}/${price}` }, callback)
+        }
+        return { get, buyNow }
     },
 }

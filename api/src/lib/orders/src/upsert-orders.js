@@ -12,7 +12,7 @@ function UpsertordersFactory(deps) {
 
         try {
             var input = { userid: ctx.state.session.id, productids: ctx.params.pid, totalprice: ctx.params.price,purchasedate:'test' }
-            orders1=new orders(input)
+            orders1 = new orders(input)
             const response = await ordersRepo.upsert(orders1)
 
             if (response) {

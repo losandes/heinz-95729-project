@@ -42,7 +42,6 @@ module.exports = {
             self.addToCart = (event) => {
                 router.navigate(`/cart-upsert/${self.id}`)
             }
-
             return self
         }
     },

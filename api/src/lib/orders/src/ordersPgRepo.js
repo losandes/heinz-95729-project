@@ -28,7 +28,7 @@ function ordersPgRepoFactory (deps) {
                   id: input.id,
               userid: input.userid,
               productids: input.productids,
-                  totalprice: input.totalprice,
+                  totalprice: parseFloat(input.totalprice),
                   purchasedate: time
           })
           .onConflict('id')
