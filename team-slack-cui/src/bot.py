@@ -1,10 +1,19 @@
 import slack
 import os
+import sys
+import json
+import psycopg2
+
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, request, Response
 from slackeventsapi import SlackEventAdapter
-import psycopg2
+from pathlib import Path
+
+sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
+from modelCart import modelCart, ValueRequestedIsInvalid, OutOfStock
+from user import user
+
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -12,35 +21,41 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/events', app)
 
-
-conn = psycopg2.connect(dbname="testdb", user="johnkim", port="5433")
-cur = conn.cursor()
-
-# Execute a query
-# cur.execute("SELECT * FROM grocery_inventory")
-
-# Retrieve query results
-# records = cur.fetchall()
+#conn = psycopg2.connect(dbname="testdb", user="johnkim", port="5433")
+#cur = conn.cursor()
 
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 
+userDict = {}
+
 #AN EXAMPLE CODE TO POST MESSAGES THROUGH SLACK BOT
-client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
+#client.chat_postMessage(channel = '#slack-cui', text = "Hello World!")
 
 #AN EXAMPLE CODE TO HANDLE END POINTS FOR SLASH COMMANDS THROUGH SLACK BOT
 @app.route('/start', methods=['POST'])
 def start_bot():
     data = request.form
+
     user_id = data.get('user_id')
     channel_id = data.get('channel_id')
+
     client.chat_postEphemeral(channel=channel_id, text=f"Hello!", user=user_id)
     #client.chat_postMessage(channel=channel_id, text=f"Hello {user_id}!")
+
+    if user_id not in userDict:
+        newUser = user()
+        userDict[user_id] = newUser
     return Response(), 200
 
 
 @app.route('/add' , methods=['POST'])
 def add():
+    user_id = request.data.get('user_id')
+    if user_id not in userDict:
+        newUser = user()
+        userDict[user_id] = newUser
+
     command_text = request.data.get('text')
     command_text = command_text.split(' ')
 
@@ -74,6 +89,82 @@ def categorize(text_arr):
             item += specific
     return [item, quantity]
 
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    req = request.get_json(force=True)
+
+    user_id = req['originalDetectIntentRequest']['payload']['data']['event']['user']
+
+    if user_id not in userDict:
+        print("New User: "+user_id)
+        newUser = user()
+        userDict[user_id] = newUser
+
+    else:
+        print("User: "+user_id)
+
+    parameters = req['queryResult']['parameters']
+    reply = ""
+
+    try:
+
+        if parameters['action'].casefold() == 'add'.casefold() or parameters['action'].casefold() == 'remove'.casefold():
+            reply = req['queryResult']['fulfillmentText']
+
+            item = parameters['itemType']
+            pricePerUnit = 2.0
+            stock = 2.0
+            unit = parameters['unit']
+            type = 'milk'
+            quantity = parameters['number']
+            print("Request: " + item+"\t"+ str(pricePerUnit)+"\t"+ str(stock)+"\t"+ unit+"\t"+ type+"\t"+ str(quantity)+"\n\n")
+
+            if parameters['action'].casefold() == 'add'.casefold():
+                userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
+
+                print( "Added: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+                str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+                +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+
+            elif parameters['action'].casefold() == 'remove'.casefold():
+                userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
+
+                print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+                str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+                +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+
+        elif parameters['action'].casefold() == 'view'.casefold() or parameters['action'].casefold() == 'show'.casefold() or parameters['action'].casefold() == 'list'.casefold() or parameters['action'].casefold() == 'display'.casefold():
+
+            if not parameters['itemType']:
+                reply = "Items you have added to your cart:\n"
+
+                for key, value in userDict[user_id].userCart.cart.items():
+                    reply += value.item
+                    reply += "\t" + str(value.quantity)
+                    reply += "\t" + value.unit
+                    reply += "\n"
+
+            else:
+                reply = "Types of" + parameters['itemType'] + ":\n"
+
+
+    except ValueRequestedIsInvalid:
+        reply = "Please enter a valid input."
+
+    except OutOfStock:
+        reply = "Sorry, but the requested item is currently out of stock. Please try again later!"
+
+    return {
+        'fulfillmentText': reply + "\n" + json.dumps(parameters)
+    }
+
+
+# Execute a query
+# cur.execute("SELECT * FROM my_data")
+
+# Retrieve query results
+# records = cur.fetchall()
 
 
 if __name__ == "__main__":
