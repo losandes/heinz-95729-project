@@ -20,8 +20,8 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/events', app)
 
-#conn = psycopg2.connect(dbname="testdb", user="johnkim", host="4.tcp.ngrok.io", port="18502")
-#cur = conn.cursor()
+conn = psycopg2.connect(dbname="testdb", user="johnkim", host="4.tcp.ngrok.io", port="18502")
+cur = conn.cursor()
 
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
@@ -134,11 +134,15 @@ def webhook():
                 +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
 
             elif parameters['action'].casefold() == 'remove'.casefold():
-                userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
+                if parameters['target'].casefold() == 'cart'.casefold():
+                    userDict[user_id].userCart.cancelOrder()
 
-                print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
-                str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
-                +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
+                else:
+                    userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
+
+                    print( "Removed: "+ userDict[user_id].userCart.cart[item].item+"\t"+ str(userDict[user_id].userCart.cart[item].pricePerUnit)+"\t"+
+                    str(userDict[user_id].userCart.cart[item].stock)+"\t"+ userDict[user_id].userCart.cart[item].unit+"\t"+ userDict[user_id].userCart.cart[item].type
+                    +"\t"+ str(userDict[user_id].userCart.cart[item].quantity)+"\n\n")
 
         elif parameters['action'].casefold() == 'view'.casefold() or parameters['action'].casefold() == 'show'.casefold() or parameters['action'].casefold() == 'list'.casefold() or parameters['action'].casefold() == 'display'.casefold():
 
@@ -161,6 +165,10 @@ def webhook():
                 for x in stockResult:
                     reply += x[0] + "\n"
 
+        elif parameters['action'].casefold() == 'cancel'.casefold() or parameters['action'].casefold() == 'delete'.casefold():
+            if parameters['target'].casefold() == 'cart'.casefold():
+                userDict[user_id].userCart.cancelOrder()
+
     except ValueRequestedIsInvalid:
         reply = "Please enter a valid input."
     
@@ -180,34 +188,33 @@ def webhook():
         'fulfillmentText': reply + "\n" + json.dumps(parameters)
     }
 
-# cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 16")
-# cur.execute("UPDATE grocery_inventory SET stock = 100 WHERE id = 17")
-# cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 18")
-# cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 19")
-# cur.execute("UPDATE grocery_inventory SET stock = 80 WHERE id = 20")
-# cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 21")
-# cur.execute("UPDATE grocery_inventory SET stock = 70 WHERE id = 22")
-# cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 23")
-# cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 24")
-# cur.execute("UPDATE grocery_inventory SET stock = 130 WHERE id = 25")
-# cur.execute("UPDATE grocery_inventory SET stock = 150 WHERE id = 26")
-# cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 27")
-# cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 28")
-# cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 29")
-# cur.execute("COMMIT")
+cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 16")
+cur.execute("UPDATE grocery_inventory SET stock = 100 WHERE id = 17")
+cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 18")
+cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 19")
+cur.execute("UPDATE grocery_inventory SET stock = 80 WHERE id = 20")
+cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 21")
+cur.execute("UPDATE grocery_inventory SET stock = 70 WHERE id = 22")
+cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 23")
+cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 24")
+cur.execute("UPDATE grocery_inventory SET stock = 130 WHERE id = 25")
+cur.execute("UPDATE grocery_inventory SET stock = 150 WHERE id = 26")
+cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 27")
+cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 28")
+cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 29")
+cur.execute("COMMIT")
 
-# Execute a query
-#cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'grocery_inventory'")
-#records = cur.fetchall()
+#Execute a query
+cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'grocery_inventory'")
+records = cur.fetchall()
 
-#print(records)
+print(records)
 
-#cur.execute("SELECT * FROM grocery_inventory")
-# Retrieve query results
-#records = cur.fetchall()
+cur.execute("SELECT * FROM grocery_inventory")
+#Retrieve query results
+records = cur.fetchall()
 
-#print(records)
-
+print(records)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -51,8 +51,6 @@ class modelCart:
         return self.cart
 
     def removeItem(self, item, pricePerUnit, stock, unit, type, quantity):
-        if stock == 0.0:
-            raise OutOfStock
         if quantity <= 0:
             raise ValueRequestedIsInvalid
 
@@ -60,8 +58,9 @@ class modelCart:
             stock += quantity
 
             existingPurchase = self.cart[item]
+
             if existingPurchase.quantity < quantity:
-                return ValueRequestedIsMoreThanAvailableInCart
+                raise ValueRequestedIsMoreThanAvailableInCart
 
             #UPDATE STOCK IN DB
             cur.execute("UPDATE grocery_inventory SET stock = {0} WHERE item like '{1}'".format(stock, item.lower()))
@@ -76,7 +75,7 @@ class modelCart:
             self.cart[item] = purchase
             return self.cart
 
-        return ItemNotInCart
+        raise ItemNotInCart
 
         
 
