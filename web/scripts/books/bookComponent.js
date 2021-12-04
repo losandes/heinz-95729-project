@@ -94,7 +94,8 @@ module.exports = {
               sum += parseInt(element.rating)
               count++
             })
-            return (sum / count)
+            let avg = sum / count
+            return avg.toFixed(2)
           } else {
             return 0
           }
@@ -107,6 +108,7 @@ module.exports = {
             else {
               console.log(response)
               alert("Review has been added")
+              window.location.reload()
             }
           })
         },

@@ -48,11 +48,14 @@ function cartPgRepoFactory(deps) {
             const results = await knex('cart').where('userid', userid)
             return results
         }
-        const deleteById = async (id) => {
-            const count = await knex('cart').where('id', id).del()
+        const deleteById = async (userid, id) => {
+            console.log(userid)
+            console.log(id)
+            const count = await knex('cart').where('userid', userid).andWhere('productid', id).del()
 
             return count > 0
         }
+
         const products = async (id) => {
             const results = await knex('products').whereIn('id', id)
             return results
@@ -61,7 +64,7 @@ function cartPgRepoFactory(deps) {
             upsert,
             get: {
                 byId: cartById,
-                prod: products
+                prod: products,
             },
             delete: {
                 byId: deleteById,

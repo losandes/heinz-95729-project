@@ -13,6 +13,12 @@ module.exports = {
         const buyNow = (pid,price,callback) => {
             repo.get({ path: `/orders-upsert/${pid}/${price}` }, callback)
         }
-        return { get, buyNow }
+        const removeFromCart = (productid, callback) => {
+            console.log(productid)
+            repo.remove({
+                path: '/cart-delete/' + productid,
+        }, callback)
+          }
+        return { get, buyNow, removeFromCart }
     },
 }
