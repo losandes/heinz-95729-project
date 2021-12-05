@@ -13,10 +13,13 @@ class ValueRequestedIsMoreThanAvailableInStock(Exception):
 
 class ValueRequestedIsMoreThanAvailableInCart(Exception):
     """Raised when the quantity of item requested is more than the 
-    amount present in stock"""
+    amount present in cart"""
     pass
 
 class ItemNotInCart(Exception):
-    """Raised when the quantity of item requested is more than the 
-    amount present in stock"""
+    """Raised when the item is not present in cart"""
+    pass
+
+class ItemNotInPantry(Exception):
+    """Raised when the item is not present in pantry"""
     pass
