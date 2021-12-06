@@ -23,3 +23,9 @@ class ItemNotInCart(Exception):
 class ItemNotInPantry(Exception):
     """Raised when the item is not present in pantry"""
     pass
+class UnitNotFound(Exception):
+    """Raised when the unit mentioned is not correct"""
+    pass
+class InvalidUnit(Exception):
+    """Raised when the unit mentioned is invalid"""
+    pass

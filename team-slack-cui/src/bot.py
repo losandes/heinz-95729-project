@@ -12,8 +12,8 @@ from slackeventsapi import SlackEventAdapter
 sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
 from modelCart import modelCart
 from user import user
-from Exceptions import ItemNotInCart, ValueRequestedIsInvalid, OutOfStock, ValueRequestedIsMoreThanAvailableInCart, ValueRequestedIsMoreThanAvailableInStock,ItemNotInPantry
-from blocks import additemProvideadetailsBlock, startBlock, additemBlock, itemExceptionBlock, removeitemBlock, cancelOrderBlock, viewCartBlock, viewTypesItemBlock, removeitemProvideadetailsBlock
+from Exceptions import ItemNotInCart, ValueRequestedIsInvalid, OutOfStock, ValueRequestedIsMoreThanAvailableInCart, ValueRequestedIsMoreThanAvailableInStock,ItemNotInPantry, UnitNotFound, InvalidUnit
+from blocks import additemProvideadetailsBlock, startBlock, additemBlock, itemExceptionBlock, removeitemBlock, cancelOrderBlock, viewCartBlock, viewTypesItemBlock, removeitemProvideadetailsBlock, checkoutSuccessfulBlock, checkoutEmptyCartBlock, checkoutNoDebitcardBlock
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -43,12 +43,12 @@ def getUserData(data):
 def fetchItemDetails(item):
     """Fetch details of the item from pantry"""
     value = item.lower()
-    cur.execute("SELECT stock, price, type FROM grocery_inventory WHERE item like '{0}'".format(str(value)))
+    cur.execute("SELECT stock, price, type, item FROM grocery_inventory WHERE item like '{0}%'".format(str(value)))
     stockResult = cur.fetchall()
     if(len(stockResult) == 0):
         raise ItemNotInPantry
 
-    return (stockResult[0][0], stockResult[0][1], stockResult[0][2])
+    return (stockResult[0][0], stockResult[0][1], stockResult[0][2], stockResult[0][3])
 
 
 def viewCartItems(user_id):
@@ -90,6 +90,22 @@ def categorize(text_arr):
     return item
 
 
+def checkUnit(unit, item):
+    """Check if the unit mentioned exists"""
+    cur.execute("SELECT unit FROM grocery_inventory WHERE item like '{0}%'".format(item.lower()))
+    unitResult1 = cur.fetchall()
+
+    if len(unitResult1) != 0 and unit in unitResult1[0][0]:
+        return
+
+    cur.execute("SELECT unit FROM grocery_inventory WHERE unit like '{0}%'".format(unit.lower()))
+    unitResult2 = cur.fetchall()
+
+    if len(unitResult2) == 0 and len(unitResult1) == 0:
+        raise InvalidUnit
+    
+    raise UnitNotFound
+
 @app.route('/start', methods=['POST'])
 def start_bot():
     """To test if bot is working or not"""
@@ -127,7 +143,8 @@ def add():
             quantity = command_text[0]
             unit = command_text[1]
             item = categorize(command_text)
-            stock, pricePerUnit, type = fetchItemDetails(item)
+            checkUnit(unit, item)
+            stock, pricePerUnit, type, item = fetchItemDetails(item)
 
             userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, int(quantity))
 
@@ -150,6 +167,13 @@ def add():
         
         except ItemNotInPantry:
             reply = "Sorry "+user_name+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+
+        except UnitNotFound:
+            cur.execute("SELECT unit FROM grocery_inventory WHERE item like '{0}%'".format(item.lower()))
+            reply = "Sorry "+user_name+"! But please mention "+item+" in "+cur.fetchall()[0][0]
+
+        except InvalidUnit:
+            reply = "Sorry "+user_name+"! But please mention a valid unit."
 
     client.chat_postMessage(channel=channel_id, blocks=itemExceptionBlock(reply))
     return Response(), 200
@@ -178,7 +202,8 @@ def remove():
             quantity = command_text[0]
             unit = command_text[1]
             item = categorize(command_text)
-            stock, pricePerUnit, type = fetchItemDetails(item)
+            checkUnit(unit, item)
+            stock, pricePerUnit, type, item = fetchItemDetails(item)
 
             userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, int(quantity))
 
@@ -196,6 +221,13 @@ def remove():
         
         except ItemNotInPantry:
             reply = "Sorry "+user_name+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+
+        except UnitNotFound:
+            cur.execute("SELECT unit FROM grocery_inventory WHERE item like '{0}%'".format(item.lower()))
+            reply = "Sorry "+user_name+"! But please mention "+item+" in "+cur.fetchall()[0][0]
+        
+        except InvalidUnit:
+            reply = "Sorry "+user_name+"! But please mention a valid unit."
 
 
     client.chat_postMessage(channel=channel_id, blocks=itemExceptionBlock(reply))
@@ -239,6 +271,19 @@ def viewTypes():
     return Response(), 200
 
 
+@app.route('/checkout' , methods=['POST'])
+def checkout():
+    """checkout items when sent through slash command"""
+    user_id, user_name, channel_id = getUserData(request.form)
+    checkUser(user_id)
+    if len(userDict[user_id].userCart.cart) == 0:
+        client.chat_postMessage(channel=channel_id, blocks=checkoutEmptyCartBlock())
+        return Response(), 200
+
+    client.chat_postMessage(channel=channel_id, blocks=checkoutSuccessfulBlock())
+    userDict[user_id].userCart = modelCart()
+    return Response(), 200
+
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -247,7 +292,8 @@ def webhook():
     user_id = req['originalDetectIntentRequest']['payload']['data']['event']['user']
     channel_id = req['originalDetectIntentRequest']['payload']['data']['event']['channel']
     parameters = req['queryResult']['parameters']
-    item = parameters['itemType']
+    if 'itemType' in parameters.keys():
+        item = parameters['itemType']
     
     checkUser(user_id)
 
@@ -268,24 +314,34 @@ def webhook():
                 userDict[user_id].userCart.cancelOrder()
                 client.chat_postMessage(channel=channel_id, blocks=cancelOrderBlock())
                 return Response(), 200
+        elif parameters['action'].casefold() == 'checkout'.casefold():
+            webhookCheckout(user_id, channel_id)
+            return Response(), 200
 
     except ValueRequestedIsInvalid:
         reply = "Please enter a valid input."
     
     except OutOfStock:
-        reply = "Sorry "+user_id+"! We are out of "+item
+        reply = "Sorry! We are out of "+item
 
     except ItemNotInCart:
-        reply = "Sorry "+user_id+"! But the requested item is not in your cart. Please view your cart again!"
+        reply = "Sorry! But the requested item is not in your cart. Please view your cart again!"
 
     except ValueRequestedIsMoreThanAvailableInStock:
-        reply = "Sorry "+user_id+"! But the value requested item is more than the items present in stock. Please enter a smaller value!"
+        reply = "Sorry! But the value requested item is more than the items present in stock. Please enter a smaller value!"
         
     except ItemNotInPantry:
-        reply = "Sorry "+user_id+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+        reply = "Sorry! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
 
     except ValueRequestedIsMoreThanAvailableInCart:
-        reply = "Sorry "+user_id+"! But the value requested is more than the value present in your cart. Please view your cart again!"
+        reply = "Sorry! But the value requested is more than the value present in your cart. Please view your cart again!"
+    
+    except UnitNotFound:
+        cur.execute("SELECT unit FROM grocery_inventory WHERE item like '{0}%'".format(item.lower()))
+        reply = "Sorry! But please mention "+item+" in "+cur.fetchall()[0][0]
+
+    except InvalidUnit:
+        reply = "Sorry! But please mention a valid unit."
         
     client.chat_postMessage(channel=channel_id, blocks=itemExceptionBlock(reply))
     return Response(), 200
@@ -295,8 +351,10 @@ def webhookAddRemove(parameters, user_id, channel_id):
     if 'target' not in parameters.keys():
         item = parameters['itemType']
         unit = parameters['unit']
+        
+        checkUnit(unit, item)
         quantity = parameters['number']
-        stock, pricePerUnit, type = fetchItemDetails(item)
+        stock, pricePerUnit, type, item = fetchItemDetails(item)
 
     if parameters['action'].casefold() == 'add'.casefold():
         userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
@@ -326,6 +384,17 @@ def webhookView(parameters, user_id, channel_id):
     
     client.chat_postMessage(channel=channel_id, blocks = block)
     
+
+def webhookCheckout(user_id, channel_id):
+    """checkout items when sent through slash command"""
+    checkUser(user_id)
+    if len(userDict[user_id].userCart.cart) == 0:
+        client.chat_postMessage(channel=channel_id, blocks=checkoutEmptyCartBlock())
+        return Response(), 200
+
+    client.chat_postMessage(channel=channel_id, blocks=checkoutSuccessfulBlock())
+    userDict[user_id].userCart = modelCart()
+    return Response(), 200
 
 
 cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 16")

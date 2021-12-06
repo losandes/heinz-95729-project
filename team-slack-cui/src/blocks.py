@@ -169,3 +169,64 @@ def viewTypesItemBlock(text):
     }
   ]
 )
+
+def checkoutSuccessfulBlock():
+    return([
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Congratulations!*\nYour order has been processed."
+      },
+      "accessory": {
+        "type": "image",
+        "image_url": "https://media.giphy.com/media/dkGhBWE3SyzXW/giphy.gif",
+        "alt_text": "Success!"
+      }
+    },
+    {
+      "type": "divider"
+    }
+  ]
+
+)
+
+def checkoutEmptyCartBlock():
+    return([
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Sorry, transaction failed!*\nYour cart is empty."
+      },
+      "accessory": {
+        "type": "image",
+        "image_url": "https://media.giphy.com/media/3oEjHGrVGrqgFFknfO/giphy.gif",
+        "alt_text": "Empty Cart"
+      }
+    },
+    {
+      "type": "divider"
+    }
+  ]
+)
+
+def checkoutNoDebitcardBlock():
+    return([
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Sorry, transaction failed!*\nPlease add your debit card."
+      },
+      "accessory": {
+        "type": "image",
+        "image_url": "https://media.giphy.com/media/WWdlcBfDE29diFdQvR/giphy.gif",
+        "alt_text": "Debit card details not found"
+      }
+    },
+    {
+      "type": "divider"
+    }
+  ]
+)
