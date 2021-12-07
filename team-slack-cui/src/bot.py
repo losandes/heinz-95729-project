@@ -12,7 +12,7 @@ from slackeventsapi import SlackEventAdapter
 sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
 from modelCart import modelCart
 from user import user
-from Exceptions import ItemNotInCart, ValueRequestedIsInvalid, OutOfStock, ValueRequestedIsMoreThanAvailableInCart, ValueRequestedIsMoreThanAvailableInStock,ItemNotInPantry, UnitNotFound, InvalidUnit
+from Exceptions import ItemNotInCart, ValueRequestedIsInvalid, OutOfStock, ValueRequestedIsMoreThanAvailableInCart, ValueRequestedIsMoreThanAvailableInStock,ItemNotInPantry, UnitNotFound, InvalidUnit, CardNotFound
 from blocks import additemProvideadetailsBlock, startBlock, additemBlock, itemExceptionBlock, removeitemBlock, cancelOrderBlock, viewCartBlock, viewTypesItemBlock, removeitemProvideadetailsBlock, checkoutSuccessfulBlock, checkoutEmptyCartBlock, checkoutNoDebitcardBlock
 
 env_path = Path('.') / '.env'
@@ -69,7 +69,7 @@ def viewTypesItems(itemType):
     reply = "Types of " + itemType + " available:\n"
 
     value = itemType.lower()
-    cur.execute("SELECT item FROM grocery_inventory WHERE type like '{0}' AND stock <> 0".format(str(value)))
+    cur.execute("SELECT item FROM grocery_inventory WHERE type like '{0}%' AND stock <> 0".format(str(value)))
     stockResult = cur.fetchall()
     if(len(stockResult) == 0):
         raise ItemNotInPantry
@@ -103,8 +103,41 @@ def checkUnit(unit, item):
 
     if len(unitResult2) == 0 and len(unitResult1) == 0:
         raise InvalidUnit
-    
+
+    if len(unitResult1) == 0:
+        raise ItemNotInPantry
+
+    print(item)
     raise UnitNotFound
+
+
+def checkCard(user_id):
+    """Check if user has a card or not"""
+    cur.execute("SELECT * FROM users WHERE username like '{0}'".format(user_id))
+    userResult = cur.fetchall()
+
+    if len(userResult) != 1:
+        raise CardNotFound
+
+
+def DBcardupdate(user_id, cardNumber):
+    """Updates existing user card details"""
+    cur.execute("UPDATE users SET card_num = '"+cardNumber+"' WHERE username = '"+user_id+"'")
+    cur.execute("COMMIT")
+
+
+def DBcardcreate(user_id, cardNumber):
+    """Creates card details for a new user"""
+    cur.execute("INSERT INTO users (username, card_num) VALUES ('"+user_id+"',  '"+cardNumber+"')")
+    cur.execute("COMMIT")
+
+
+def fetchurl(item):
+    cur.execute("SELECT url FROM grocery_inventory WHERE item like '{0}%'".format(item))
+    urlResult = cur.fetchall()
+
+    return urlResult[0][0]
+
 
 @app.route('/start', methods=['POST'])
 def start_bot():
@@ -147,8 +180,8 @@ def add():
             stock, pricePerUnit, type, item = fetchItemDetails(item)
 
             userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, int(quantity))
-
-            reply = additemBlock(quantity, unit, item)
+            url = fetchurl(item)
+            reply = additemBlock(quantity, unit, item, url)
 
             client.chat_postMessage(channel=channel_id, blocks = reply)
             return Response(), 200
@@ -166,7 +199,7 @@ def add():
             reply = "Sorry "+user_name+"! But the value requested item is more than the items present in stock. Please enter a smaller value!"
         
         except ItemNotInPantry:
-            reply = "Sorry "+user_name+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+            reply = "Sorry "+user_name+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view types of items you want to check."
 
         except UnitNotFound:
             cur.execute("SELECT unit FROM grocery_inventory WHERE item like '{0}%'".format(item.lower()))
@@ -206,8 +239,8 @@ def remove():
             stock, pricePerUnit, type, item = fetchItemDetails(item)
 
             userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, int(quantity))
-
-            client.chat_postMessage(channel=channel_id, blocks = removeitemBlock(quantity, unit, item))
+            url = fetchurl(item)
+            client.chat_postMessage(channel=channel_id, blocks = removeitemBlock(quantity, unit, item, url))
             return Response(), 200
         
         except ValueRequestedIsInvalid:
@@ -220,7 +253,7 @@ def remove():
             reply = "Sorry "+user_name+"! But the value requested is more than the value present in your cart. Please view your cart again!"
         
         except ItemNotInPantry:
-            reply = "Sorry "+user_name+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+            reply = "Sorry "+user_name+"! But either the spelling is wrong or the item is currently unavailable.\nPlease view types of items you want to check."
 
         except UnitNotFound:
             cur.execute("SELECT unit FROM grocery_inventory WHERE item like '{0}%'".format(item.lower()))
@@ -265,7 +298,14 @@ def viewTypes():
     checkUser(user_id)
 
     itemType = request.form.get('text')
-    text = viewTypesItems(itemType)
+
+    try:
+        text = viewTypesItems(itemType)
+
+    except ItemNotInPantry:
+        reply = "Sorry! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+        client.chat_postMessage(channel=channel_id, blocks=itemExceptionBlock(reply))
+        return Response(), 200
 
     client.chat_postMessage(channel=channel_id, blocks=viewTypesItemBlock(text))
     return Response(), 200
@@ -280,13 +320,41 @@ def checkout():
         client.chat_postMessage(channel=channel_id, blocks=checkoutEmptyCartBlock())
         return Response(), 200
 
+    try:
+        checkCard(user_id)
+    
+    except CardNotFound:
+        client.chat_postMessage(channel=channel_id, blocks=checkoutNoDebitcardBlock())
+        return Response(), 200
+
     client.chat_postMessage(channel=channel_id, blocks=checkoutSuccessfulBlock())
     userDict[user_id].userCart = modelCart()
     return Response(), 200
 
 
+@app.route('/addcarddetails' , methods=['POST'])
+def addCardDetails():
+    """Adds card details to Database"""
+    user_id, user_name, channel_id = getUserData(request.form)
+    checkUser(user_id)
+
+    cardNumber = request.form.get('text')
+    try:
+        checkCard(user_id)
+    
+    except CardNotFound:
+        DBcardcreate(user_id, cardNumber)
+        client.chat_postMessage(channel=channel_id, text="Card updated successfully!\nPlease proceed to checkout.")
+        return Response(), 200
+
+    DBcardupdate(user_id, cardNumber)
+    client.chat_postMessage(channel=channel_id, text="Card updated successfully!\nPlease proceed to checkout.")
+    return Response(), 200
+
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
+    """Handles requests from dialogFlow"""
     req = request.get_json(force=True)
 
     user_id = req['originalDetectIntentRequest']['payload']['data']['event']['user']
@@ -331,7 +399,7 @@ def webhook():
         reply = "Sorry! But the value requested item is more than the items present in stock. Please enter a smaller value!"
         
     except ItemNotInPantry:
-        reply = "Sorry! But either the spelling is wrong or the item is currently unavailable.\nPlease view items in the pantry to check."
+        reply = "Sorry! But either the spelling is wrong or the item is currently unavailable.\nPlease view types of items you want to check."
 
     except ValueRequestedIsMoreThanAvailableInCart:
         reply = "Sorry! But the value requested is more than the value present in your cart. Please view your cart again!"
@@ -348,17 +416,19 @@ def webhook():
 
 
 def webhookAddRemove(parameters, user_id, channel_id):
+    """Add and remove commands through dialogFlow"""
     if 'target' not in parameters.keys():
         item = parameters['itemType']
         unit = parameters['unit']
-        
+
         checkUnit(unit, item)
         quantity = parameters['number']
         stock, pricePerUnit, type, item = fetchItemDetails(item)
 
     if parameters['action'].casefold() == 'add'.casefold():
         userDict[user_id].userCart.addItem(item, pricePerUnit, stock, unit, type, quantity)
-        block = additemBlock(str(int(quantity)), unit, item)
+        url = fetchurl(item)
+        block = additemBlock(str(int(quantity)), unit, item, url)
 
     elif parameters['action'].casefold() == 'remove'.casefold():
         if 'target' in parameters.keys() and parameters['target'].casefold() == 'cart'.casefold():
@@ -367,13 +437,15 @@ def webhookAddRemove(parameters, user_id, channel_id):
 
         else:
             userDict[user_id].userCart.removeItem(item, pricePerUnit, stock, unit, type, quantity)
-            block = removeitemBlock(str(int(quantity)), unit, item)
+            url = fetchurl(item)
+            block = removeitemBlock(str(int(quantity)), unit, item, url)
 
     client.chat_postMessage(channel=channel_id, blocks = block)
     
 
 
 def webhookView(parameters, user_id, channel_id):
+    """View commands through dialogFlow"""
     if not parameters['itemType'] or parameters['target'].casefold() == 'cart'.casefold():
         text = viewCartItems(user_id)
         block = viewCartBlock(text)
@@ -413,6 +485,7 @@ cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 28")
 cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 29")
 cur.execute("COMMIT")
 
+
 #Execute a query
 cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'grocery_inventory'")
 records = cur.fetchall()
@@ -420,6 +493,18 @@ records = cur.fetchall()
 print(records)
 
 cur.execute("SELECT * FROM grocery_inventory")
+#Retrieve query results
+records = cur.fetchall()
+
+print(records)
+
+#Execute a query
+cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'users'")
+records = cur.fetchall()
+
+print(records)
+
+cur.execute("SELECT * FROM users")
 #Retrieve query results
 records = cur.fetchall()
 

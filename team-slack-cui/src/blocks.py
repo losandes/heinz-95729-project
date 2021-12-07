@@ -13,7 +13,7 @@ def startBlock(user_name):
             
         ])
 
-def additemBlock(quantity, unit, item):
+def additemBlock(quantity, unit, item, url):
     return ([
                         {
                         "type": "section",
@@ -23,7 +23,7 @@ def additemBlock(quantity, unit, item):
                         },
                         "accessory": {
                             "type": "image",
-                            "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Green_apple.jpg",
+                            "image_url": url,
                             "alt_text": item
                         }
                         },
@@ -71,7 +71,7 @@ def itemExceptionBlock(reply):
   ]
 )
 
-def removeitemBlock(quantity, unit, item):
+def removeitemBlock(quantity, unit, item, url):
     return([
     {
       "type": "section",
@@ -81,7 +81,7 @@ def removeitemBlock(quantity, unit, item):
       },
       "accessory": {
         "type": "image",
-        "image_url": "https://media.giphy.com/media/l0Iy6sR1U7qVJVJ9S/giphy.gif",
+        "image_url": url,
         "alt_text": "removed"
       }
     },
@@ -217,7 +217,7 @@ def checkoutNoDebitcardBlock():
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Sorry, transaction failed!*\nPlease add your debit card."
+        "text": "*Sorry, transaction failed!*\nPlease use '/addcarddetails' to add your debit card."
       },
       "accessory": {
         "type": "image",

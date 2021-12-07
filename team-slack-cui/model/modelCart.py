@@ -71,8 +71,11 @@ class modelCart:
             print(records)
 
             existingPurchase.quantity -= quantity
-            purchase = modelItem(item, pricePerUnit, stock, unit, type, existingPurchase.quantity)
-            self.cart[item] = purchase
+            if existingPurchase.quantity != 0:
+                purchase = modelItem(item, pricePerUnit, stock, unit, type, existingPurchase.quantity)
+                self.cart[item] = purchase
+            else:
+                del self.cart[item]
             return self.cart
 
         raise ItemNotInCart
