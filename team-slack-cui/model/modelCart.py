@@ -1,13 +1,17 @@
+import psycopg2
+import sys
+
+from pathlib import Path
 from modelItem import modelItem
 
-class OutOfStock(Exception):
-    """Raised when the item requested is out of stock"""
-    pass
+sys.path.append(str(Path(sys.path[0]).parent)+'\\model')
 
-class ValueRequestedIsInvalid(Exception):
-    """Raised when the quantity of item requested is more than the 
-    amount present in stock"""
-    pass
+from Exceptions import ItemNotInCart, ValueRequestedIsInvalid, OutOfStock, ValueRequestedIsMoreThanAvailableInCart, ValueRequestedIsMoreThanAvailableInStock
+
+conn = psycopg2.connect(dbname="testdb", user="johnkim", host="4.tcp.ngrok.io", port="18502")
+cur = conn.cursor()
+
+
 
 class modelCart:
     cart = {}
@@ -17,13 +21,21 @@ class modelCart:
     
     def addItem(self, item, pricePerUnit, stock, unit, type, quantity):
 
+        if stock == 0.0:
+            raise OutOfStock
         if quantity <= 0.0:
             raise ValueRequestedIsInvalid
         if quantity > stock:
-            raise OutOfStock
+            raise ValueRequestedIsMoreThanAvailableInStock
 
         stock -= quantity
         #UPDATE STOCK IN DB
+        cur.execute("UPDATE grocery_inventory SET stock = {0} WHERE item like '{1}'".format(stock, item.lower()))
+        cur.execute("COMMIT")
+        cur.execute("SELECT * FROM grocery_inventory")
+        records = cur.fetchall()
+        print("Post reduction:\n")
+        print(records)
 
         if item in self.cart.keys():
             print("Item exists")
@@ -42,19 +54,28 @@ class modelCart:
         if quantity <= 0:
             raise ValueRequestedIsInvalid
 
-        if '{item}' in self.cart.keys():
+        if item in self.cart.keys():
             stock += quantity
-            #UPDATE STOCK IN DB
 
-            existingPurchase = self.cart['{item}']
+            existingPurchase = self.cart[item]
+
             if existingPurchase.quantity < quantity:
-                return ValueRequestedIsInvalid
+                raise ValueRequestedIsMoreThanAvailableInCart
+
+            #UPDATE STOCK IN DB
+            cur.execute("UPDATE grocery_inventory SET stock = {0} WHERE item like '{1}'".format(stock, item.lower()))
+            cur.execute("COMMIT")
+            cur.execute("SELECT * FROM grocery_inventory")
+            records = cur.fetchall()
+            print("Post increase:\n")
+            print(records)
+
             existingPurchase.quantity -= quantity
             purchase = modelItem(item, pricePerUnit, stock, unit, type, existingPurchase.quantity)
-            self.cart['{item}'] = purchase
+            self.cart[item] = purchase
             return self.cart
 
-        return ValueRequestedIsInvalid
+        raise ItemNotInCart
 
         
 
