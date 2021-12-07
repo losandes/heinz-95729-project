@@ -1,15 +1,15 @@
-﻿item,price/unit,stock,unit,type
-green apple,1,50,pound,apple
-red apple,1,100,pound,apple
-Cheerios,2,30,box,cereal
-2% reduced fat milk,3,40,carton,milk
-whole milk,3,80,carton ,milk
-Vanilla Yogurt,2,20,cup,Dairy
-banana,2,70,pound,banana
-olive oil,4,30,bottle,cooking oil
-peanut butter ,3,20,jar,peanut butter
-chicken breast,3,130,pound,chicken
-chicken thigh,4,150,pound,chicken
-vinegar,2,20,bottle,vinegar
-butter,1,40,pound,dairy
-green peppers,2,50,pound,pepper
+﻿item,price/unit,stock,unit,type,url
+green apples,1,50,pounds,apples,https://upload.wikimedia.org/wikipedia/commons/2/27/Green_apple.jpg
+red apples,1,100,pounds,apples,https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg
+cheerios,2,30,boxes,cereals,https://upload.wikimedia.org/wikipedia/commons/2/25/Yogurt_Burst_Cheerios.PNG
+2% reduced fat milk,3,40,cartons,milk,https://upload.wikimedia.org/wikipedia/commons/c/c8/Oat_milk_glass_and_bottles.jpg
+whole milk,3,80,cartons,milk,https://upload.wikimedia.org/wikipedia/commons/c/c0/Whole_milk_UHT.jpg
+vanilla yogurt,2,20,cups,dairy,https://upload.wikimedia.org/wikipedia/commons/c/c7/Vegan_yogurt%2C_March_2012.jpg
+bananas,2,70,pounds,bananas,https://upload.wikimedia.org/wikipedia/commons/7/77/Banana_d%C3%A1gua.jpg
+olive oil,4,30,bottles,cooking oil,https://upload.wikimedia.org/wikipedia/commons/9/9e/Olive_Oil_%28Unsplash%29.jpg
+peanut butter,3,20,jars,peanut butter,https://upload.wikimedia.org/wikipedia/commons/b/b0/Peanut_butter_glass_3.jpg
+chicken breasts,3,130,pounds,chicken,https://upload.wikimedia.org/wikipedia/commons/d/db/Pan_Roasted_Chicken_Breasts%2C_Garlic_Mashed_Potatoes%2C_Fiddlehead_Ferns_and_Sauce_Supreme.jpg
+chicken thighs,4,150,pounds,chicken,https://upload.wikimedia.org/wikipedia/commons/e/ef/Man-Pleasing-Chicken-Thighs-Meal_%2849483632886%29.jpg
+vinegar,2,20,bottles,vinegar,https://upload.wikimedia.org/wikipedia/commons/1/1e/9896Barnes_Naturals_Apple_Cider_Vinegar_04.jpg
+butter,1,40,pounds,dairy,https://upload.wikimedia.org/wikipedia/commons/0/08/Melting_butter.jpg
+green peppers,2,50,pounds,peppers,https://upload.wikimedia.org/wikipedia/commons/b/bc/Green_Bell_Peppers_%2822226099930%29.jpg
