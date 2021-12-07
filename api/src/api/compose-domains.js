@@ -31,6 +31,7 @@ const compose = async (context) => {
       context.routes.push((router) => router.get('/cart', context.domains.cart.getCart))
       context.routes.push((router) => router.get('/cart-upsert/:pid', context.domains.cart.upsertCart))
       context.routes.push((router) => router.delete('/cart-delete/:productid', context.domains.cart.deleteCart))
+      context.routes.push((router) => router.get('/cart-deleteAll', context.domains.cart.deleteAllCart))
 
       // ORDERS
       context.domains.orders = new ordersDomain({

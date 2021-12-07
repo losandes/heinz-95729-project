@@ -52,6 +52,10 @@ module.exports = {
                 repo.buyNow(context.params.pid, context.params.price, (err, response) => {
                 })
             })
+            router('/cart-deleteAll/', (context) => {
+                repo.removeAll( (err, response) => {
+                })
+            })
 
         }
 

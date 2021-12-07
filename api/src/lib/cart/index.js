@@ -8,6 +8,7 @@ const { cartPgRepo } = require('./src/cartPgRepo.js')({ blueprint, CreateCartFac
 const GetcartFactory = require('./src/get-cart.js')
 const UpsertcartFactory = require('./src/upsert-cart.js')
 const DeletecartFactory = require('./src/delete-cart.js')
+const DeleteAllcartFactory = require('./src/deleteAll-cart.js')
 const MigrateCartFactory = require('./migrate.js')
 
 module.exports = function (input) {
@@ -17,12 +18,14 @@ module.exports = function (input) {
     const { getCart } = new GetcartFactory({ cartRepo })
     const { upsertCart } = new UpsertcartFactory({ cart,cartRepo })
     const { deleteCart } = new DeletecartFactory({ cartRepo })
+    const { deleteAllCart } = new DeleteAllcartFactory({ cartRepo })
   return {
       CreateCartFactory,
       getCart,
       cartRepo,
       migrate,
       upsertCart,
-      deleteCart
+      deleteCart,
+      deleteAllCart
   }
 }

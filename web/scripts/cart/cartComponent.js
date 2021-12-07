@@ -34,11 +34,12 @@ module.exports = {
                     for (var i = 1; i < state.cart.length-1; i++) {
                         productids = productids+','+state.cart[i].id ;
                     }
-                    router.navigate('/orders-upsert/' + productids + '/' + state.cart[state.cart.length-1])
+                    router.navigate('/orders-upsert/' + productids + '/' + state.cart[state.cart.length - 1])
+                    router.navigate('/cart-deleteAll/')
+
                 },
                 removeFromCart: (id) => {
                     repo.removeFromCart(id, (err, response) => {
-                        console.log(response)
                         window.location.reload()
                     })
                   }

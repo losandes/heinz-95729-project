@@ -49,9 +49,12 @@ function cartPgRepoFactory(deps) {
             return results
         }
         const deleteById = async (userid, id) => {
-            console.log(userid)
-            console.log(id)
             const count = await knex('cart').where('userid', userid).andWhere('productid', id).del()
+
+            return count > 0
+        }
+        const deleteByAll = async (userid) => {
+            const count = await knex('cart').where('userid', userid).del()
 
             return count > 0
         }
@@ -68,6 +71,7 @@ function cartPgRepoFactory(deps) {
             },
             delete: {
                 byId: deleteById,
+                deleteAll: deleteByAll,
             },
         }
     }

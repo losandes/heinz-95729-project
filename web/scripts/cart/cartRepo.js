@@ -18,7 +18,10 @@ module.exports = {
             repo.remove({
                 path: '/cart-delete/' + productid,
         }, callback)
-          }
-        return { get, buyNow, removeFromCart }
+        }
+        const removeAll = (callback) => {
+            repo.get({ path: `/cart-deleteAll/` }, callback)
+        }
+        return { get, buyNow, removeFromCart, removeAll }
     },
 }

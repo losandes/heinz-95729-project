@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\api",
     "\\api\\src",
     "\\api\\src\\lib",
+    "\\api\\src\\lib\\cart",
     "\\api\\src\\lib\\cart\\src",
-    "\\api\\src\\lib\\users",
-    "\\api\\src\\lib\\users\\migrations",
+    "\\api\\src\\lib\\orders\\src",
     "\\web",
     "\\web\\scripts",
     "\\web\\scripts\\cart"
   ],
-  "SelectedNode": "\\web\\scripts\\cart\\cartController.js",
+  "SelectedNode": "\\api\\src\\lib\\cart\\src\\delete-cart.js",
   "PreviewInSolutionExplorer": false
 }
