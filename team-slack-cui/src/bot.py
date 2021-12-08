@@ -378,7 +378,7 @@ def webhook():
             return Response(), 200
 
         elif parameters['action'].casefold() == 'cancel'.casefold() or parameters['action'].casefold() == 'delete'.casefold():
-            if parameters['target'].casefold() == 'cart'.casefold():
+            if parameters['target'].casefold() == 'cart'.casefold() or parameters['target'].casefold() == 'order'.casefold():
                 userDict[user_id].userCart.cancelOrder()
                 client.chat_postMessage(channel=channel_id, blocks=cancelOrderBlock())
                 return Response(), 200
@@ -473,18 +473,24 @@ cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 16")
 cur.execute("UPDATE grocery_inventory SET stock = 100 WHERE id = 17")
 cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 18")
 cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 19")
-cur.execute("UPDATE grocery_inventory SET stock = 80 WHERE id = 20")
-cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 21")
-cur.execute("UPDATE grocery_inventory SET stock = 70 WHERE id = 22")
-cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 23")
-cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 24")
-cur.execute("UPDATE grocery_inventory SET stock = 130 WHERE id = 25")
-cur.execute("UPDATE grocery_inventory SET stock = 150 WHERE id = 26")
-cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 27")
-cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 28")
-cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 29")
+cur.execute("UPDATE grocery_inventory SET stock = 80 WHERE id = 115")
+cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 116")
+cur.execute("UPDATE grocery_inventory SET stock = 70 WHERE id = 117")
+cur.execute("UPDATE grocery_inventory SET stock = 30 WHERE id = 118")
+cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 119")
+cur.execute("UPDATE grocery_inventory SET stock = 130 WHERE id = 120")
+cur.execute("UPDATE grocery_inventory SET stock = 150 WHERE id = 121")
+cur.execute("UPDATE grocery_inventory SET stock = 20 WHERE id = 122")
+cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 123")
+cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 124")
+cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 125")
+cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 126")
+cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 127")
 cur.execute("COMMIT")
 
+cur.execute("SELECT * FROM grocery_inventory ")
+result = cur.fetchall()
+print(result)
 
 if __name__ == "__main__":
     app.run(debug=True)
