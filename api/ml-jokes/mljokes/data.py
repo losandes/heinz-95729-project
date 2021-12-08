@@ -1,5 +1,7 @@
 # imports
 import os
+import pickle
+import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 import re
@@ -82,3 +84,8 @@ def read_ratings(path_ratings='./data/ratings'):
     ratings.insert(3, 'test_user', ratings.user_id.isin(test_users).astype(int))
     
     return ratings
+
+def load_test_idx():
+    with open('./data/test_idx.pkl', 'rb') as f:
+        test_idx = pickle.load(f)
+    return test_idx
