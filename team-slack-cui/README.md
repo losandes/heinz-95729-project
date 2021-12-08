@@ -28,6 +28,4 @@ visit slash commands in  https://api.slack.com/
 
 **Add env file as shown below**
 Make sure to add it to the correct path
-```
 ![Screenshot](envFile.png)
-```
