@@ -21,7 +21,7 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'] ,'/slack/events', app)
 
-conn = psycopg2.connect(dbname="testdb", user="johnkim", host="4.tcp.ngrok.io", port="18502")
+conn = psycopg2.connect(dbname=os.environ['DB_NAME'], user=os.environ['DB_USER'], host=os.environ['DB_HOST'], port=os.environ['DB_PORT'])
 cur = conn.cursor()
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
@@ -148,7 +148,7 @@ def start_bot():
     #client.chat_postEphemeral(channel=channel_id, text=f"Hello!", user=user_id)
 
     reply =  startBlock(user_name)
-        
+
     client.chat_postMessage(channel=channel_id, blocks = reply)
     return Response(), 200
 
@@ -485,30 +485,6 @@ cur.execute("UPDATE grocery_inventory SET stock = 40 WHERE id = 28")
 cur.execute("UPDATE grocery_inventory SET stock = 50 WHERE id = 29")
 cur.execute("COMMIT")
 
-
-#Execute a query
-cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'grocery_inventory'")
-records = cur.fetchall()
-
-print(records)
-
-cur.execute("SELECT * FROM grocery_inventory")
-#Retrieve query results
-records = cur.fetchall()
-
-print(records)
-
-#Execute a query
-cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'users'")
-records = cur.fetchall()
-
-print(records)
-
-cur.execute("SELECT * FROM users")
-#Retrieve query results
-records = cur.fetchall()
-
-print(records)
 
 if __name__ == "__main__":
     app.run(debug=True)

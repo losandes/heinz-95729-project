@@ -25,3 +25,9 @@ Make sure to activate the virtual environment and run ngrok
 ```
 visit slash commands in  https://api.slack.com/
 ```
+
+**Add env file as shown below**
+Make sure to add it to the correct path
+```
+![Screenshot](envFile.png)
+```
