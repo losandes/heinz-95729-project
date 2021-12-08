@@ -130,4 +130,3 @@ dependencies:
   - zipp=3.6.0
   - zlib=1.2.11
   - zstd=1.4.9
-prefix: /home/alejandroxag/miniconda3/envs/ecommerce_jokes
