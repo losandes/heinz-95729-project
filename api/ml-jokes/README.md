@@ -51,32 +51,32 @@ Three different approaches were used to build the joke recommender systems.
 
 ### Content-based filtering (CBF)
 
-This content-based filtering approach consists in predicting each user <img src="https://render.githubusercontent.com/render/math?math=i"> gave to each joke $j$, using two types of features:
+This content-based filtering approach consists in predicting each user <img src="https://render.githubusercontent.com/render/math?math=i"> gave to each joke <img src="https://render.githubusercontent.com/render/math?math=j">, using two types of features:
 
-1. Joke $j$ topic distribution (topics extracted using LDA).
-2. User preferences per topic, built as the average score given by each user to each topic. In particular, the preference of user $i$ for topic $k$ was calculated as 
-   $$\frac{1}{10\times \left|J_i\right|}\sum_{j\in J_i} r_{ji}\times t_{jk}$$
+1. Joke <img src="https://render.githubusercontent.com/render/math?math=j"> topic distribution (topics extracted using LDA).
+2. User preferences per topic, built as the average score given by each user to each topic. In particular, the preference of user <img src="https://render.githubusercontent.com/render/math?math=i"> for topic <img src="https://render.githubusercontent.com/render/math?math=k"> was calculated as 
+   <p><img src="https://render.githubusercontent.com/render/math?math=\frac{1}{10\times \left|J_i\right|}\sum_{j\in J_i} r_{ji}\times t_{jk}"></p>
 
-   where $J_i$ is the set of jokes that user $i$ rated, and that was used for the training stage; $r_{ji}$ is the rating user $i$ gave to joke $j$ within $J_i$; and, $t_{jk}$ is the LDA-score of joke $j$ corresponding to topic $k$.
+   where <img src="https://render.githubusercontent.com/render/math?math=i"> is the set of jokes that user <img src="https://render.githubusercontent.com/render/math?math=J_i"> rated, and that was used for the training stage; <img src="https://render.githubusercontent.com/render/math?math=i"> is the rating user <img src="https://render.githubusercontent.com/render/math?math=r_{ji}"> gave to joke <img src="https://render.githubusercontent.com/render/math?math=j"> within <img src="https://render.githubusercontent.com/render/math?math=J_i">; and, <img src="https://render.githubusercontent.com/render/math?math=t_{jk}"> is the LDA-score of joke <img src="https://render.githubusercontent.com/render/math?math=j"> corresponding to topic <img src="https://render.githubusercontent.com/render/math?math=k">.
 
-With such inputs, the problem solved was predicting raitings $r_{ij}$ given by each user $i$ to each joke $j$. The algorithm used to address this problem was a [Histogram Gradient Boosting ensemble](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html); the hyperparameter tuning stage was carried out using [Optuna](https://optuna.org/).
+With such inputs, the problem solved was predicting raitings <img src="https://render.githubusercontent.com/render/math?math=r_{ij}"> given by each user <img src="https://render.githubusercontent.com/render/math?math=i"> to each joke <img src="https://render.githubusercontent.com/render/math?math=j">. The algorithm used to address this problem was a [Histogram Gradient Boosting ensemble](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html); the hyperparameter tuning stage was carried out using [Optuna](https://optuna.org/).
 
 ### Collaborative filtering (CF)
 
-The collaborative filtering approach in this case was the Matrix Factorization algorithm known as [Singluar Value Decomposition](https://en.wikipedia.org/wiki/Singular_value_decomposition). This algorithm consists in the decomposition of the matrix $A_{n_i\times n_j}$, which maps the space of users to the space of jokes (in this case $n_i$ is the number of users [70K+] and $n_j$ is the number of jokes [100]) in three factors:
+The collaborative filtering approach in this case was the Matrix Factorization algorithm known as [Singluar Value Decomposition](https://en.wikipedia.org/wiki/Singular_value_decomposition). This algorithm consists in the decomposition of the matrix <img src="https://render.githubusercontent.com/render/math?math=A_{n_i\times n_j}">, which maps the space of users to the space of jokes (in this case <img src="https://render.githubusercontent.com/render/math?math=n_i"> is the number of users [70K+] and <img src="https://render.githubusercontent.com/render/math?math=n_j"> is the number of jokes [100]) in three factors:
 
-* $U$: singular matrix that maps users to the space of abstract 'concepts';
-* $S$  diagonal matrix containing the singular values (eigenvalues) of the matrix $A$ (each one representing a different 'concept'); and,
-* $V$: singular matrix that abstract 'concepts' to the space of jokes.
+* <img src="https://render.githubusercontent.com/render/math?math=U">: singular matrix that maps users to the space of abstract 'concepts';
+* <img src="https://render.githubusercontent.com/render/math?math=S">:  diagonal matrix containing the singular values (eigenvalues) of the matrix <img src="https://render.githubusercontent.com/render/math?math=A"> (each one representing a different 'concept'); and,
+* <img src="https://render.githubusercontent.com/render/math?math=V">: singular matrix that abstract 'concepts' to the space of jokes.
 
-In summary, the SVD model generates the singular value decomposition of $A$ as follows 
-    $$A=USV^T$$
+In summary, the SVD model generates the singular value decomposition of <img src="https://render.githubusercontent.com/render/math?math=A"> as follows 
+    <p><img src="https://render.githubusercontent.com/render/math?math=A=USV^T"></p>
 
 ### CBF-CF Ensemble
 
 The predictions yielded by both content-based and collaborative filtering models were ensembled using an L2-regularized Linear model ([Ridge Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html)) without an intercept. The basic idea behind this choice was to build a weighted average of both approaches (using a single weight for each approach), regularizing with the euclidean norm of the weights to improve the model's generalization. Ensemble predictions were built as
-    $$r^{ensemble}_{ji} = w^{cb}r^{cb}_{ij} + w^{cf}r^{cf}_{ij}$$
-    where $w^{cb}, w^{cb}$ were estimated with the Ridge linear model.
+    <p><img src="https://render.githubusercontent.com/render/math?math=r^{ensemble}_{ji} = w^{cb}r^{cb}_{ij} + w^{cf}r^{cf}_{ij}"></p>
+    where <img src="https://render.githubusercontent.com/render/math?math=w^{cb}, w^{cb}"> were estimated with the Ridge linear model.
 
 ## (Informal) References
 
@@ -95,6 +95,3 @@ The predictions yielded by both content-based and collaborative filtering models
 * [Surprise](http://surpriselib.com/)
 * [Surprise > Matrix Factorization-based algorithms > SVD](https://surprise.readthedocs.io/en/stable/matrix_factorization.html#surprise.prediction_algorithms.matrix_factorization.SVD)
 * [Tuning Hyperparameters with Optuna](https://towardsdatascience.com/tuning-hyperparameters-with-optuna-af342facc549)
-
-
-<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
