@@ -1,4 +1,4 @@
-<p align=center>**Joke Recommender System**</p>
+*<p align=center>Joke Recommender System</p>*
 
 ## Intro
 
