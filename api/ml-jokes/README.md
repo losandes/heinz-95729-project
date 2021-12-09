@@ -1,4 +1,4 @@
-<p align="center"><font size="+30"><b>Joke Recommender System</b></font></p>
+<p style="align: center;font-size: 20px;"><b>Joke Recommender System</b></p>
 
 ## Intro
 
