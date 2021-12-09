@@ -76,7 +76,8 @@ In summary, the SVD model generates the singular value decomposition of <img src
 
 The predictions yielded by both content-based and collaborative filtering models were ensembled using an L2-regularized Linear model ([Ridge Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html)) without an intercept. The basic idea behind this choice was to build a weighted average of both approaches (using a single weight for each approach), regularizing with the euclidean norm of the weights to improve the model's generalization. Ensemble predictions were built as
     <p align="center"><img src="https://render.githubusercontent.com/render/math?math=r^{ensemble}_{ji} = w^{cb}r^{cb}_{ij} + w^{cf}r^{cf}_{ij}"></p>
-    where <img src="https://render.githubusercontent.com/render/math?math=w^{cb}, w^{cb}"> were estimated with the Ridge linear model.
+    
+where <img src="https://render.githubusercontent.com/render/math?math=w^{cb}, w^{cb}"> were estimated with the Ridge linear model.
 
 ## (Informal) References
 
