@@ -55,7 +55,7 @@ This content-based filtering approach consists in predicting each user <img src=
 
 1. Joke <img src="https://render.githubusercontent.com/render/math?math=j"> topic distribution (topics extracted using LDA).
 2. User preferences per topic, built as the average score given by each user to each topic. In particular, the preference of user <img src="https://render.githubusercontent.com/render/math?math=i"> for topic <img src="https://render.githubusercontent.com/render/math?math=k"> was calculated as 
-   <p><img src="https://render.githubusercontent.com/render/math?math=\frac{1}{10\times \left|J_i\right|}\sum_{j\in J_i} r_{ji}\times t_{jk}"></p>
+   <p align="center"><img src="https://render.githubusercontent.com/render/math?math=\frac{1}{10\times \left|J_i\right|}\sum_{j\in J_i} r_{ji}\times t_{jk}"></p>
 
    where <img src="https://render.githubusercontent.com/render/math?math=i"> is the set of jokes that user <img src="https://render.githubusercontent.com/render/math?math=J_i"> rated, and that was used for the training stage; <img src="https://render.githubusercontent.com/render/math?math=i"> is the rating user <img src="https://render.githubusercontent.com/render/math?math=r_{ji}"> gave to joke <img src="https://render.githubusercontent.com/render/math?math=j"> within <img src="https://render.githubusercontent.com/render/math?math=J_i">; and, <img src="https://render.githubusercontent.com/render/math?math=t_{jk}"> is the LDA-score of joke <img src="https://render.githubusercontent.com/render/math?math=j"> corresponding to topic <img src="https://render.githubusercontent.com/render/math?math=k">.
 
