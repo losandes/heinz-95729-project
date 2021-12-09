@@ -97,3 +97,4 @@ The predictions yielded by both content-based and collaborative filtering models
 * [Tuning Hyperparameters with Optuna](https://towardsdatascience.com/tuning-hyperparameters-with-optuna-af342facc549)
 
 
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
