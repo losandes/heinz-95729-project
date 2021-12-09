@@ -51,7 +51,7 @@ Three different approaches were used to build the joke recommender systems.
 
 ### Content-based filtering (CBF)
 
-This content-based filtering approach consists in predicting each user $i$ gave to each joke $j$, using two types of features:
+This content-based filtering approach consists in predicting each user <a href="https://www.codecogs.com/eqnedit.php?latex=$i$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$i$" title="$i$" /></a> gave to each joke $j$, using two types of features:
 
 1. Joke $j$ topic distribution (topics extracted using LDA).
 2. User preferences per topic, built as the average score given by each user to each topic. In particular, the preference of user $i$ for topic $k$ was calculated as 
