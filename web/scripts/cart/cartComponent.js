@@ -9,21 +9,56 @@ module.exports = {
 
         const component = Vue.component('cart', {
             template: `
-      <div class= "cart-component">
-       <div class="row">
-        <b><h3>Total Price :{{cart[cart.length-1]}} $</h3></b>
+            
+            <div id="cart-details">
+            <h2>Your Cart</h2>
+      <div class="container">
+        <table id="cart" class="table table-hover table-condensed">
+                  <thead>
+                  <tr>
+                    <th style="width:50%">Product</th>
 
-        <div v-for="ct in cart">
-          <h3><b>{{ct.title}}</b></h3>
-          <h3><img :src="ct.thumbnail_href"/></h3>
-          <h3 v-if="ct.price"><b>Price:  {{ct.price}} $</b></h3>
-          <button v-if="ct.id" class="buy btn btn-success btn-buy" v-on:click="removeFromCart(ct.id)">Remove from cart</button>
-        </div>
-        <button class="buy btn btn-success btn-buy" v-on:click="buyNow">Buy Now</button>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-th="Product">
+                      <div v-for="ct in cart">
+                      <div class="row">
+                        <div class="col-sm-2 "><img :src="ct.thumbnail_href"  class="img-responsive"/></div>
+                        <div class="col-sm-10">
+                        <h3><b>{{ct.title}}</b></h3>
+                        <td data-th="Subtotal" class="text-center" v-if="ct.price"> Price :{{ct.price}} </td>
+                        </div> 
+                        </div>
+                      </div>
+                    </td>
+                    <td data-th="Price">
+                    <div v-for="ct in cart">
+                    <td class="actions" data-th=""></td>
+                   </div>
+                   </td>
+                   <td>
+                    </td>					
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr class="visible-xs">
+                    <td class="text-left"><strong>Total {{cart[cart.length-1]}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="hidden-xs"></td>
+                    <td class="hidden-xs text-center"><strong>Total {{cart[cart.length-1]}}</strong></td>
+                    <td><a href="#" class="btn btn-success btn-block" v-on:click="buyNow">Checkout <i class="fa fa-angle-right"></i></a></td>
+                  </tr>
+                </tfoot>
+              </table>
+      </div>
+    </div>
 
-       </div>
-
-      </div>`,
+   
+    `,
             data: () => {
                 return state
             },

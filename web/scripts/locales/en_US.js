@@ -7,7 +7,7 @@ module.exports = {
     pages: {
       home: {
         heading: 'Welcome to Papyr!',
-        body: 'To get started, you can search for books. Try "adams", "wild", "robbins", "swamp", "india", "tropper", "di", "world", or "novel". If nothing returns, make sure you ran `npm run seed`.',
+        body: 'To get started, you can search for books. Try "adams", "wild", "robbins", "swamp", "india", "tropper", "di", "world", or "novel".',
       },
     },
     errors: {
