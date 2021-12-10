@@ -65,6 +65,7 @@ module.exports = {
                 repo.addToCart(context.params.pid, (err, response) => {
                 })
             })
+
         }
 
         return { registerRoutes }

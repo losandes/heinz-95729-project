@@ -52,6 +52,7 @@
     "dotenv": "~10.0.0",
     "jsonwebtoken": "~8.5.1",
     "knex": "~0.95.14",
+    "orders": "link:../lib/orders",
     "products": "~3.0.3"
   }
 }

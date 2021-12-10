@@ -1,9 +1,13 @@
+
 module.exports = {
     scope: 'heinz',
     name: 'cartController',
     dependencies: ['router', 'cartComponent', 'cart', 'cartRepo'],
     factory: (router, cartComponent, cart, repo) => {
         'use strict'
+
+        const price = 0
+        const productIds = ""
 
         /**
          * A view model for the search results (an array of products)
@@ -40,7 +44,6 @@ module.exports = {
                             price = price + parseFloat(cart[i].price)
                         cart.push(price)
                         cartComponent.setcart(new cartSearchResult(cart))
-                       
                         app.currentView = 'cart'
                     } else {
                         // TODO: route to a "none found" page
@@ -55,6 +58,18 @@ module.exports = {
             router('/cart-deleteAll/', (context) => {
                 repo.removeAll( (err, response) => {
                 })
+            })
+
+            router('/success/:pid/:price', (context) => {
+                // cartComponent.checkoutSuccess()
+                console.log(context.params)
+                router.navigate('/orders-upsert/' + context.params.pid + '/' + context.params.price)
+                router.navigate('/cart-deleteAll/')
+                router.navigate('/orders')
+                // repo.buyNow(context.params.pid, context.params.price, (err, response) => {
+                // })
+                // repo.removeAll( (err, response) => {
+                // })
             })
 
         }
