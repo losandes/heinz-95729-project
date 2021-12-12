@@ -1,7 +1,7 @@
 <html lang="en">
 
 <head>
-    <title>Papyr</title>
+    <title>Foodie</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,35 +12,82 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="styles/cart.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/templatemo-style.css">
+
+    
 </head>
 
 <body>
     <header id="header">
-        <h1><a href="/">Papyr</a></h1>
-        <div class="search-form">
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" v-model="query" placeholder="search" v-on:keyup.enter="search">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" v-on:click="search">Go!</button>
-                </span>
-            </div><!-- /input-group -->
-        </div>
+        <h1><a href="/">Foodie</a></h1>
         <nav>
-            <a href="/login">
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-            </a>
-            <a href="/checkout">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </a>
+            <div class="row">
+                <div class="col-md-5" ></div>
+                <div class="col-md-8" >
+                    <div class="col-md-3">
+                        <a href="/login"><h6>Pick Restaurants</h6></a>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
+                        <a href="/userCart"><h6>Reservation Checkout</h6></a>
+                    </div>
+                    
+                </div>
+            </div>
+            
         </nav>
     </header>
+    
     <div class="container">
         <div id="app" class="main" role="main">
             <component v-bind:is="currentView">
                 <!-- component changes when vm.currentView changes! -->
             </component>
+<<<<<<< HEAD
+            <div class="form-group">
+                <label for="usr">Name:</label>
+                <input type="text" class="form-control" id="features">
+                <button type="button" onclick="getVals()">Submit</button>
+                <button action= "http:localhost:8080\example" method="POST" type="submit"></button> 
+              </div>
+              <h1>lalalalalalalala</h1>
+              <p>Just  type it over hereeeeeeeee</p>
+              <!-- <select class="dropdown-content" id="Cuisine" onSelect="getVals()" value="Type of cuisine" style="left:0;"> 
+                <option id="SouthAmerican" value="South American">South American</option>
+                <option id="SoutheastAsian" value="Southeast Asian">Southeast Asian</option>
+                <option id="Southern" value="Southern">Southern</option>
+                <option id="Southwestern" value="Southwestern">Southwestern</option>
+              </select> -->
+              <h1>lalalalalalalala</h1>
+              <p>Just  type it over hereeeeeeeee</p>
+              <button type="button" onclick="alert('Hello world!')">Click Me!</button>
+              <form action="http://localhost:3003/example" method="POST">
+                First name: <input type="text" name="fname"><br>
+                Last name: <input type="text" name="lname"><br>
+               <button type="submit">Send to backend</button>
+              </form>
+              
+
+=======
+		 <form action="/test" method="post" target="_blank">
+                    First feature: <input type="text" name="one"><br>
+                    Second feature: <input type="text" name="two"><br>
+                    <!-- Third feature: <input type="text" name="fname"><br>
+                    First feature: <input type="text" name="lname"><br>
+                    First feature: <input type="text" name="fname"><br>
+                    First feature: <input type="text" name="lname"><br> -->
+                    <input type="submit" value="Submit">
+             	</form>
+>>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
         </div>
+        <form action ="http:localhost:30001/example" method="POST">
+            
+        </form>
     </div><!-- /container -->
+    
 
     <script id="t-loading" type="text/x-template">
         <div class="component">Loading...</div>
@@ -54,6 +101,9 @@
     <!-- uncomment these if you are supporting old browsers, like IE 11 -->
     <!-- <script src="/node_modules/promise-polyfill/dist/polyfill.min.js"></script> -->
     <!-- <script src="/node_modules/whatwg-fetch/fetch.js"></script> -->
+
+    <script type="text/javascript" src="jquery-1.11.2.min.js"></script> 
+   <script type="text/javascript" src="templatemo-script.js"></script> 
 
     <script src="/node_modules/async/dist/async.min.js"></script>
     <script src="/node_modules/page/page.js"></script>
@@ -69,13 +119,18 @@
     <script src="/scripts/common/router.js"></script>
     <script src="/scripts/locales/en_US.js"></script>
 
-    <script src="/scripts/home/homeComponent.js"></script>
-    <script src="/scripts/home/homeController.js"></script>
+    <!-- <script src="/scripts/home/homeComponent.js"></script> -->
+    <!-- <script src="/scripts/home/homeController.js"></script> -->
 
     <script src="/scripts/books/Book.js"></script>
     <script src="/scripts/books/bookComponent.js"></script>
     <script src="/scripts/books/booksController.js"></script>
     <script src="/scripts/books/booksRepo.js"></script>
+
+    <script src="/scripts/user_cart/userCart.js"></script>
+    <script src="/scripts/user_cart/userCartComponent.js"></script>
+    <script src="/scripts/user_cart/userCartController.js"></script>
+    <script src="/scripts/user_cart/userCartRepo.js"></script>
 
     <script src="/scripts/products/Product.js"></script>
     <script src="/scripts/products/productComponent.js"></script>
@@ -89,6 +144,15 @@
     <script src="/scripts/users/usersRepo.js"></script>
 
     <script src="/scripts/index.js"></script>
+    <script>
+        const holder = [];
+        function getVals()
+        {
+            features = document.getElementById("features").value;
+            holder.push(features);
+            console.log(features);
+        }
+    </script>
 </body>
 
 </html>

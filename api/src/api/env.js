@@ -29,7 +29,6 @@ function EnvvarsFactory (deps) {
     })),
     APP_VERSION: 'string',
     PORT: optional('string').withDefault('3000'),
-    CORS_ORIGIN: optional('strintg').withDefault('http://localhost:3001'),
     WEB_APP_ORIGIN: required('string').from(({ value, output }) => {
       if (is.string(value)) {
         return value

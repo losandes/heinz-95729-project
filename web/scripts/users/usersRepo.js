@@ -7,7 +7,7 @@ module.exports = {
 
     const repo = new Repo()
 
-    const login = (email, callback) => {
+    const selection = (email, callback) => {
       repo.post({
         path: '/users/login',
         body: { email },

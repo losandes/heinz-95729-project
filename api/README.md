@@ -154,11 +154,6 @@ docker exec -it $DB_IMAGE_NAME \
 
 #### Install NVM
 
-Before you install NVM, you have to have a sh profile (~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc). Macos uses zsh by default now, and it does not include a profile by default. If you're using zsh, you can create a profile with `touch ~/.zshrc`.
-
-If you forget to do this, or for some reason you see an error like "nvm: command not found", checkout the [troubleshooting guides](https://github.com/nvm-sh/nvm#troubleshooting-on-macos).
-
-
 ##### With HomeBrew
 
 ```Shell
@@ -221,8 +216,6 @@ http http://localhost:3000/books?q=tropper
 ```
 
 > NOTICE all the commands are using `pnpm`, not `npm`. See [adr/20210207-choose-package-manager.md](adr/20210207-choose-package-manager.md) for more information.
-
-_If you experience an EACCESS error when trying to use pnpm, follow [npm's guide to troubleshooting globally installed packages](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally)_
 
 ## Running Tests
 

@@ -39,7 +39,6 @@ const app = async (context) => {
         affinityId: randomBytes(4).toString('hex'),
         method: ctx.request.method,
         url: ctx.request.url.split('?')[0],
-        origin: ctx.get('Origin'), // i.e. http://localhost:3001
       }
       ctx.request.state = { ...ctx.request.state, ...reqContext }
       ctx.request.state.logger = context.logger.child({ context: reqContext })
@@ -66,32 +65,7 @@ const app = async (context) => {
       })(next)
     })
 
-    /**
-     * CORS middleware
-     *
-     * DEFAULT (no options passed):
-     *   origin: request Origin header
-     *   allowMethods: GET,HEAD,PUT,POST,DELETE,PATCH
-     *
-     * @param {Object} [options]
-     *  - {String|Function(ctx)} origin `Access-Control-Allow-Origin`, default is request Origin header
-     *  - {String|Array} allowMethods `Access-Control-Allow-Methods`, default is 'GET,HEAD,PUT,POST,DELETE,PATCH'
-     *  - {String|Array} exposeHeaders `Access-Control-Expose-Headers`
-     *  - {String|Array} allowHeaders `Access-Control-Allow-Headers`
-     *  - {String|Number} maxAge `Access-Control-Max-Age` in seconds
-     *  - {Boolean|Function(ctx)} credentials `Access-Control-Allow-Credentials`, default is false.
-     *  - {Boolean} keepHeadersOnError Add set headers to `err.header` if an error is thrown
-     * @return {Function} cors middleware
-     * @api public
-     */
-    app.use(cors({
-      origin: context.env.CORS_ORIGIN,
-      allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
-      allowHeaders: ['Authorization', 'Accepts', 'Content-Type', 'If-Match', 'If-Modified-Since', 'If-None-Match', 'If-Unmodified-Since', 'Range', 'X-Requested-With', 'X-Request-ID'],
-      exposeHeaders: ['Content-Length', 'Date', 'ETag', 'Expires', 'Last-Modified', 'X-Powered-By', 'X-Request-ID', 'X-heinz-95729-Media-Type'],
-      maxAge: 120,
-      credentials: true,
-    }))
+    app.use(cors())
     app.use(helmet.hsts({
       maxAge: 31536000,           // Must be at least 1 year to be approved by Google
       includeSubDomains: true,    // Must be enabled to be approved by Google
