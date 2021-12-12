@@ -137,10 +137,10 @@ if __name__ == "__main__":
         # print("===========Here is the Intersection recommendation List of above two methods ==============")
         # print(merge_res_lst)
         ### Map the dict values to keys
-        user_lst.append('user')
-        content_res_lst.append('content')
+        user_lst.append('This is user based reccomendations that you might like: \n')
+        content_res_lst.append('\nThis is content based recommendations that you might like: \n')
         combine = user_lst + content_res_lst 
-        combine.insert(0,"search")
+        combine.insert(0,"\nThis is the best recommendation that for you:\n")
         combine.insert(1,res_id_key)
         output ="".join(str(x)+" " for x in combine)
         print(output)

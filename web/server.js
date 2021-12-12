@@ -5,23 +5,13 @@ const { spawn } = require('child_process')  // Child process to integrate python
 const app = express()
 const { once } = require('events')
 const path = require('path');
-<<<<<<< HEAD
-
-
-=======
 const bodyParser = require('body-parser') /// Need to get post from from
 
 //npm install alert
->>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
 
 // serve this directory as a static web server
 app.use(serveStatic(__dirname))
 
-<<<<<<< HEAD
-const pypath = './ml/src/knn.py'
-var vars = ['Cab','Creative','Cafe/Espresso Bars','Carry in Wine and Beer','$15-$30','Quiet for Conversation']
-vars.splice(0, 0, pypath)
-=======
 
 
 const pypath = './ml/src/knn.py'
@@ -29,7 +19,6 @@ const pypath = './ml/src/knn.py'
 //var vars = ['Cab','Authentic']
 
 //vars.splice(0, 0, pypath)
->>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
 
 //Python Integration Portion
 
@@ -47,11 +36,8 @@ const pypath = './ml/src/knn.py'
 //const childPython = spawn('python', vars)
 
 async function ml_alg(features){
-<<<<<<< HEAD
-      const childPython = spawn('python', vars)
-=======
+
       const childPython = spawn('python', features)
->>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
       var result = '';
 
       childPython.stdout.on('data', (data) => 
@@ -87,23 +73,15 @@ async function ml_alg(features){
   }
 
 async function grabvals(features) {
-<<<<<<< HEAD
 
-=======
   features.splice(0, 0, pypath)
->>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
   try
   {
     const output = await ml_alg(features);
     console.log("I am the output",output);
-<<<<<<< HEAD
-    //     app.post('/example', (req, res) => {
-    //   res.send(`Full name is:${req.body.fname} ${req.body.lname}.`);
-    // });
-=======
+
     return(output);
     //console.log(typeof(output));
->>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
   }
 
   catch(err) 
@@ -112,27 +90,6 @@ async function grabvals(features) {
     throw(err);
   }
 }
-
-<<<<<<< HEAD
-//var feats = grabvals(vars)
-//console.log("The end result",feats);
-
-
-// 404 - return the SPA index for any files that aren't found
-app.use(function (req, res, next) {
- 
-  'use strict'
-
-  res.writeHead(200, { 'Content-Type': 'text/html' })
-  fs.createReadStream('./index.html').pipe(res)
-  
-  
-  if (req.method == 'POST' && req.url == '/example')
-  res.send(`Full name is:${req.body.fname} ${req.body.lname}.`);
-})
-// response to port 3001
-app.listen(3003)
-=======
 //
 //console.log("The end result",feats);
 
@@ -171,7 +128,7 @@ app.post('/test',async (req, res) =>{
   ////
 
   //Somehow getting  code: 'ERR_STREAM_WRITE_AFTER_END'
-  //const webout = await grabvals(inputs)
+  // const webout = await grabvals(inputs)
   //
   grabvals(inputs)
   res.write('<html>')
@@ -183,5 +140,4 @@ app.post('/test',async (req, res) =>{
 
 // response to port 3001
 app.listen(3001)
->>>>>>> a6e9676e0b7907c8cfeadc66178f9d80393a816b
 console.log('The app is running at http://localhost:3001')

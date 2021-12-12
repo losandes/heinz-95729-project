@@ -21,6 +21,7 @@
     "@polyn/blueprint": "~2.6.0",
     "@polyn/immutable": "~1.0.11",
     "async": "~3.2.2",
+    "body-parser": "^1.19.1",
     "hilary": "~5.2.0",
     "page": "~1.11.6",
     "polyn": "~1.10.2",
