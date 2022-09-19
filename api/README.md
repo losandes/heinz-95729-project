@@ -69,7 +69,7 @@ mkdir -p $HOST_VOLUME_PATH
 # Postgres variables
 DB_USERNAME=${DB_USERNAME:=app_admin}
 DB_PASSWORD=${DB_PASSWORD:=parsley-lumber-informal-Spectra-8}
-DB_NAME=${DB_NAME:=app}
+DB_NAME=${DB_NAME:=heinz_95729_app}
 
 # Docker image variables
 DB_PORT=${DB_PORT:=5432}

@@ -1,5 +1,6 @@
 # environment settings
 .env
+docker-up.sh
 
 # developer-specific / hidden
 /bin/me-*
