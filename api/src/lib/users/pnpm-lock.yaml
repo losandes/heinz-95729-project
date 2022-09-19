@@ -1,19 +1,19 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
-  '@polyn/blueprint': ~2.5.4
+  '@polyn/blueprint': ~2.6.0
   '@polyn/immutable': ~1.0.11
   jsonwebtoken: ~8.5.1
   knex: ~0.95.13
   nyc: ~15.0.1
   pg: ~8.7.1
-  supposed: ~1.1.1
+  supposed: ~1.1.6
   unexpected: ~11.14.0
   uuid: ~8.3.2
 
 dependencies:
-  '@polyn/blueprint': 2.5.4
-  '@polyn/immutable': 1.0.11_@polyn+blueprint@2.5.4
+  '@polyn/blueprint': 2.6.0
+  '@polyn/immutable': 1.0.11_@polyn+blueprint@2.6.0
   jsonwebtoken: 8.5.1
   knex: 0.95.13_pg@8.7.1
   pg: 8.7.1
@@ -21,7 +21,7 @@ dependencies:
 
 devDependencies:
   nyc: 15.0.1
-  supposed: 1.1.1
+  supposed: 1.1.6
   unexpected: 11.14.0
 
 packages:
@@ -203,6 +203,8 @@ packages:
     resolution: {integrity: sha512-RUVpT0G2h6rOZwqLDTrKk7ksNv7YpAilTnYe1/Q+eDjxEceRMKVWbCsX7t8h6C1qCFi/1Y8WZjcEPBAFG27GPw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.16.0
     dev: true
 
   /@babel/template/7.16.0:
@@ -255,16 +257,16 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /@polyn/blueprint/2.5.4:
-    resolution: {integrity: sha512-ZF5beugLT07cptk7fAnx3QeAo1CSOfphwMHdNN58eHFQdJfVrVWW771PBhQQK7cVd+jk6IIA8umHPQ2zOdZdeQ==}
+  /@polyn/blueprint/2.6.0:
+    resolution: {integrity: sha512-8WFzs2G8IVCuTGtO8NBbn7yiIwdZIac5/9QrqSdEA8Jobum/k0sHERbO2ayrl655svMDBIR3IeDC9mIAw1NEzA==}
     dev: false
 
-  /@polyn/immutable/1.0.11_@polyn+blueprint@2.5.4:
+  /@polyn/immutable/1.0.11_@polyn+blueprint@2.6.0:
     resolution: {integrity: sha512-MN/O+Sver1PCxqcF9e5VMPUFrXutCA4oz1of5NT7R4vkkfQTkBfK3ndXHLC3ocXmDWLVIFWzowA/j88Dum0+Eg==}
     peerDependencies:
       '@polyn/blueprint': 2.6.0
     dependencies:
-      '@polyn/blueprint': 2.5.4
+      '@polyn/blueprint': 2.6.0
     dev: false
 
   /aggregate-error/3.1.0:
@@ -1326,8 +1328,8 @@ packages:
       has-flag: 4.0.0
     dev: true
 
-  /supposed/1.1.1:
-    resolution: {integrity: sha512-hLFGSTrQHlavEuvYMgt4IMj24DK2g7SLn63NaEZY9VwINBbS6IdEAjGgQqCdnXkf5yec21WIjSI4lxv2dpayEw==}
+  /supposed/1.1.6:
+    resolution: {integrity: sha512-Mhg5vPp/orwitB96OT+E5Syv+0Z+TsV5wLIWlmJeWls1cr+t1ihcLqyTtVJw8rrfP17zzzjDNXo71qRWT8mV8g==}
     dev: true
 
   /tarn/3.0.1:

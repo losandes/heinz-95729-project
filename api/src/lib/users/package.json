@@ -12,11 +12,11 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "nyc": "~15.0.1",
-    "supposed": "~1.1.1",
+    "supposed": "~1.1.6",
     "unexpected": "~11.14.0"
   },
   "dependencies": {
-    "@polyn/blueprint": "~2.5.4",
+    "@polyn/blueprint": "~2.6.0",
     "@polyn/immutable": "~1.0.11",
     "jsonwebtoken": "~8.5.1",
     "knex": "~0.95.13",
