@@ -12,7 +12,7 @@ These domains are composed into a koa app (API only) in the [src/api](src/api) d
 
 This project uses Architecture Decision Records (ADRs). In addition to the documentation in this file, you should [read the ADRs](adr). They include information on project organization (file and folder naming, design conventions, app composition), library decision context, etc. As you contribute to this project, please make sure to include ADRs for any significant decisions that you make.
 
-These instructions assume you are using a bash compatible shell (i.e. https://ohmyz.sh/) and that you navigated to the directory this README is in in your terminal (i.e. `cd ~/.../heinz-95729-project/api`).
+These instructions assume you are using a bash compatible shell (e.g. https://ohmyz.sh/) and that you navigated to the directory this README is in in your terminal (e.g. `cd ~/.../heinz-95729-project/api`).
 
 ### ENVVARS
 
@@ -22,28 +22,26 @@ See _.env-example_ for a list of ENVVARS. You can set these either by adding a _
 
 #### Docker
 
-Most of the dependencies can be installed via the command line. _Docker_ is not one of them. Before installing docker, make sure you don't have a conflict:
+Most of the dependencies can be installed via the command line. _Docker_ is not necessarily one of them, although there is a brew cask for macos and linux. Before installing docker, make sure you don't have a conflict:
 
 ```Shell
-which docker
+which docker # note this will not return a result if docker isn't running
 ```
 
-1. If that printed "/usr/local/bin/docker" you're all set :+1:
-1. If that printed something else, you might need to get rid of what you have. For instance, if it points to a global npm package (i.e. in your nvm directory), remove it.
+1. If that printed "/usr/local/bin/docker" you're all set :+1:... you can move on to provisioning the database
+1. If that printed something else, you might need to get rid of what you have. For instance, if it points to a global npm package (e.g. in your nvm directory), remove it.
 1. When you're confident there is no conflict, install [Docker for Mac](https://www.docker.com/docker-mac), or [Docker for Windows](https://www.docker.com/docker-windows)
-1. Install [Kitematic](https://kitematic.com)
-1. Start both Docker and Kitematic
-
-> NOTE: regardless of which operating system you use, these instructions
-> assume you're using a shell derived from bash, such as https://ohmyz.sh/.
+1. Start Docker
 
 #### Provisioning a Postgres Database
 
 This app uses [PostgreSQL](https://www.postgresql.org/) for the database. You can install it directly on your computer if you like. I prefer to install it in a docker container because it's easier to destroy and rebuild it. You'll need a database IDE as well. There are lots of good options out there. I often use [TablePlus](https://www.tableplus.io/download).
 
-##### Installing Postgres with bash
+To initiate a PostgreSQL container, follow the instructions at: [How to Use the Postgres Docker Official Image](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/)
 
-Following is a bash script that you can execute to start a new postgres container.
+##### Initiating a Postgres container with bash
+
+Alternatively, you can create a bash script (.sh) with the following code in it, make it executable (e.g. `chmod 766 [filename]`), and execute it.
 
 ```Shell
 #!/bin/bash
@@ -64,7 +62,7 @@ mkdir -p $HOST_VOLUME_PATH
 
 # NOTE: the variables in this script can be overridden
 # by exporting the values in your terminal
-# i.e. export DB_IMAGE_NAME=my_app_db
+# e.g. export DB_IMAGE_NAME=my_app_db
 
 # Postgres variables
 DB_USERNAME=${DB_USERNAME:=app_admin}
@@ -122,35 +120,6 @@ docker exec -it ${DB_IMAGE_NAME:=pgdb} /bin/bash
 docker exec -it $DB_IMAGE_NAME \
   sh -c 'exec psql --username=$POSTGRES_USER --dbname=$POSTGRES_DB'
 ```
-
-##### Installing Postgres with Docker and Kitematic
-
-1. Install [Docker for Mac](https://www.docker.com/docker-mac), or [Docker for Windows](https://www.docker.com/docker-windows)
-2. Install [Kitematic](https://kitematic.com)
-3. Start both Docker and Kitematic
-4. In Kitematic, click "+ New", and search for for the "official postgres" package
-
-<img width="846" alt="postgres-container" src="https://user-images.githubusercontent.com/933621/140774217-e9e302dc-eb35-4e2c-8ac1-a8db1f902b20.png">
-
-5. Click "CREATE" to create an instance
-6. Select the "postgres" instance from the left navigation
-
-<img width="1075" alt="select-image" src="https://user-images.githubusercontent.com/933621/140775164-5473433f-3d72-43dc-b275-486072f9e95c.png">
-
-7. Click "Settings" and in the "General" tab, set Environment Variables for:
-   -   POSTGRES_DB=heinz_95729_app
-   -   POSTGRES_USER=app_admin
-   -   POSTGRES_PASSWORD=parsley-lumber-informal-Spectra-8
-   -   TZ=GMT
-
-
-<img width="1084" alt="set-envvars" src="https://user-images.githubusercontent.com/933621/140776846-6813bd41-8310-406f-9fa5-3b6a3efac10a.png">
-
-8. In the "Hostname / Ports" tab, set the "Published IP:Port" to 5432.
-
-<img width="1086" alt="set-port" src="https://user-images.githubusercontent.com/933621/140777087-4af6d0a9-ac7a-45ba-9a2e-cd5654b64348.png">
-
-9. Start the container
 
 #### Install NVM
 
@@ -213,7 +182,8 @@ http POST http://localhost:3000/books <<< '{ "title": "This Is Where I Leave You
 
 # Get a book
 # Replace the `:uid` with the uid of the product you created
-http http://localhost:3000/books/:uid
+# http://localhost:3000/books/:uid
+http http://localhost:3000/books/where_i_leave_you
 
 # Find a book
 # Replace the `:uid` with the uid of the product you created
@@ -227,6 +197,10 @@ _If you experience an EACCESS error when trying to use pnpm, follow [npm's guide
 ## Running Tests
 
 ```Shell
+# set the database connection ENVVAR
+# note that your connection string might be different than the example
+export DB_CONNECTION_STRING=postgresql://app_admin:parsley-lumber-informal-Spectra-8@0.0.0.0:5432/heinz_95729_app?sslmode=disable
+
 # run the tests locally
 pnpm test -- -r nyan
 
@@ -257,7 +231,7 @@ In this API, domains are created as their own packages to promote decoupling, an
 1. Create your package in _src/lib_, and make sure to give it a unique name in the package.json
 1. Create, or copy/paste-and-edit the base files and folders from another domain: index.js, knexfile and migrate.js (if there are migrations), test.js, test-plan.js, src/, migrations/.
 1. In your terminal, navigate to _src/api_
-1. Install the domain (i.e. `pnpm add ../lib/new-domain`)
+1. Install the domain (e.g. `pnpm add ../lib/new-domain`)
 1. Require the package and initialize it in _src/api/compose-domains.js_ (Poor Man's DI). Note this is where you will register routes and database schema migrations, as well.
 1. If the domain includes features that should be added to the health check, add a test to _src/api/compose-test.js_
 
@@ -304,7 +278,7 @@ npx knex migrate:make add_table
 
 ### Migration file naming conventions
 
-As with ADRs and commit messages, and to help with readability, the name should be a _present tense imperative verb phrase_. To balance readability, and system usability, names should be lower-snake-case (lowercase with underscores). i.e.:
+As with ADRs and commit messages, and to help with readability, the name should be a _present tense imperative verb phrase_. To balance readability, and system usability, names should be lower-snake-case (lowercase with underscores). e.g.:
 
 * add_users_table
 * alter_users_table_add_foo_column

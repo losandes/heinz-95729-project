@@ -44,7 +44,7 @@ const finalPlan = new Promise((resolve, reject) => {
 
 module.exports = finalPlan.then((plan) => // run the aggregate plan
   supposed.Suite({
-    name: 'sample-slack',
+    name: 'heinz-95729-api',
     assertionLibrary: expect,
   })
     .runner()
