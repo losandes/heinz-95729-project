@@ -112,7 +112,13 @@ Steps for Running Pandama in Local Docker:
   ```bash
   docker-compose up
   ```
-4. run Django
+4. create a python virtual env
   ```bash
+  cd code
+  pyenv install
+  ```
+5. run Django in a virtual env
+  ```bash
+  cd code
   python manage.py runserver
   ```
