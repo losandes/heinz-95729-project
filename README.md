@@ -120,7 +120,7 @@ Steps for Running Pandama in Local Docker:
    ```bash
    cd pandama-ext/code
    pipenv shell
-   pip install requirements.txt
+   pip install -r requirements.txt
    ```
 
 ### Run and Test
