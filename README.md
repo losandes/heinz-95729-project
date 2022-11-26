@@ -103,3 +103,16 @@ Steps for Running Pandama in Local Docker:
   - pass: pandama
 - RabbitMQ: 
   - http://localhost:15672/
+
+## Local Dev
+
+1. add .env files into the root folder
+2. add data folder into the root folder
+3. run all related dbs
+  ```bash
+  docker-compose up
+  ```
+4. run Django
+  ```bash
+  python manage.py runserver
+  ```
