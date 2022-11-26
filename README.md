@@ -106,19 +106,33 @@ Steps for Running Pandama in Local Docker:
 
 ## Local Dev
 
+### Initialization
+
 1. add .env files into the root folder
 2. add data folder into the root folder
-3. run all related dbs
+3. create a python virtual env and install all requirements (two options)
+   1. pipenv + Pipfile.lock (if you faced unexpected errors, you can choose option-2 to finish)
+   ```bash
+   cd pandama-ext/code
+   pipenv install
+   ```
+   2. pipenv + requirements.txt
+   ```bash
+   cd pandama-ext/code
+   pipenv shell
+   pip install requirements.txt
+   ```
+
+### Run and Test
+
+1. run dbs
   ```bash
+  cd pandama-ext
   docker-compose up
   ```
-4. create a python virtual env
+2. run Django (pipenv)
   ```bash
-  cd code
-  pyenv install
-  ```
-5. run Django in a virtual env
-  ```bash
-  cd code
+  cd pandama-ext/code
+  pipenv shell
   python manage.py runserver
   ```
