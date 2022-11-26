@@ -35,12 +35,12 @@ app.conf.timezone = 'US/Eastern'
 @worker_ready.connect
 def at_start(sender, **kwargs):
     """Run tasks at startup"""
-    CommonTools.postgres_init()
-    CommonTools.redis_init()
-    ESProcessor.create_mapping()
-    ESProcessor.delete_all_index()
-    MongoProcessor.delete_all_products()
-    SpiderProductAPI.async_spider.delay()
+    # CommonTools.postgres_init()
+    # CommonTools.redis_init()
+    # ESProcessor.create_mapping()
+    # ESProcessor.delete_all_index()
+    # MongoProcessor.delete_all_products()
+    # SpiderProductAPI.async_spider.delay()
 
 @app.task
 def task_es_add_index():

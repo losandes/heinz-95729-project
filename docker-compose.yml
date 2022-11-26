@@ -37,37 +37,37 @@ services:
     networks:
       - inner_pandama
   
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.14.2
-    restart: always
-    networks:
-      - inner_pandama
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:7.14.2
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #   depends_on:
+  #     - elasticsearch
 
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.14.2
-    restart: always
-    networks:
-      - inner_pandama
-    depends_on:
-      - elasticsearch
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash:7.14.2
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #   depends_on:
+  #     - elasticsearch
   
-  apm:
-    image: docker.elastic.co/apm/apm-server:7.14.2
-    restart: always
-    networks:
-      - inner_pandama
-    depends_on:
-      - elasticsearch
+  # apm:
+  #   image: docker.elastic.co/apm/apm-server:7.14.2
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #   depends_on:
+  #     - elasticsearch
 
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:7.14.2
-    restart: always
-    networks:
-      - inner_pandama
-    depends_on:
-      - elasticsearch
+  # filebeat:
+  #   image: docker.elastic.co/beats/filebeat:7.14.2
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #   depends_on:
+  #     - elasticsearch
 
   celery_worker:
     image: pandama:latest
@@ -79,35 +79,35 @@ services:
       - rabbitmq
       - redis
       - mongodb
-      - neo4j
+      # - neo4j
       - elasticsearch
-      - logstash
-      - kibana
+      # - logstash
+      # - kibana
 
-  celery_beat:
-    image: pandama:latest
-    restart: always
-    networks:
-      - inner_pandama
-    depends_on:
-      - celery_worker
+  # celery_beat:
+  #   image: pandama:latest
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #   depends_on:
+  #     - celery_worker
 
-  web:
-    image: pandama:latest
-    restart: always
-    networks:
-      - inner_pandama
-      - outer_pandama
-    depends_on:
-      - celery_beat
+  # web:
+  #   image: pandama:latest
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #     - outer_pandama
+  #   depends_on:
+  #     - celery_beat
 
-  nginx:
-    image: nginx:1.13
-    restart: always
-    depends_on:
-      - web
-    networks:
-      - outer_pandama
+  # nginx:
+  #   image: nginx:1.13
+  #   restart: always
+  #   depends_on:
+  #     - celery_beat
+  #   networks:
+  #     - outer_pandama
 
 networks:
   inner_pandama:
