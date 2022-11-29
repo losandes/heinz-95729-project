@@ -1,0 +1,1 @@
+1. scripts/deploy.sh zips the workspace and deploys it to S3
