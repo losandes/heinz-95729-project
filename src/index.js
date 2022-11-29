@@ -1,10 +1,10 @@
-const express = require('express');
-const app = express();
-const port = 3000;
 
-app.get('/', (req, res) => res.send('Hello World!'));
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`); 
-    console.log(`Example app listening on port ${port}!`); 
-    console.log(`Example app listening on port ${port}!`);
-});
+'use strict';
+const AWS = require('aws-sdk');
+
+exports.handler = function (event, context, callback) {
+    console.log(JSON.stringify(`Event: event`));
+    // Lambda Code Here
+    // context.succeed('Success!')
+    // context.fail('Failed!')
+};
