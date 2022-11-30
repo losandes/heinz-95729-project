@@ -93,12 +93,12 @@ async function initialize() {
 async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
-
+  const return_url =  "/online-store/payment-success.html";
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:4242/checkout.html",
+      return_url: window.location.href = location.protocol + "//" + location.host + "/store/payment-success.html",
     },
   });
 
@@ -130,7 +130,8 @@ async function checkStatus() {
 
   switch (paymentIntent.status) {
     case "succeeded":
-      showMessage("Payment succeeded!");
+        showMessage("widuqgiudwqhuiqwhuqhw.");
+      window.location.href =  window.location.href = location.protocol + "//" + location.host + "/online-store/payment-success.html";
       break;
     case "processing":
       showMessage("Your payment is processing.");
@@ -139,7 +140,8 @@ async function checkStatus() {
       showMessage("Your payment was not successful, please try again.");
       break;
     default:
-      showMessage("Something went wrong.");
+       window.location.href =  window.location.href = location.protocol + "//" + location.host + "/online-store/payment-fail.html";
+
       break;
   }
 }

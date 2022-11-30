@@ -47,6 +47,8 @@ urlpatterns = [
     path('store/ajax-order-history', OrderPageViews.store_ajax_orders_history_page, name='store_ajax_orders_history_page'),
     path('store/pay', OrderPageViews.store_orders_pay_page, name='store_orders_pay_page'),
     path('store/single_pay', OrderPageViews.store_orders_single_pay_page, name='store_orders_single_pay_page'),
+    path('store/pay_success', OrderPageViews.store_orders_pay_success_page, name='store_orders_pay_success_page'),
+    path('store/pay_fail',OrderPageViews.store_orders_pay_fail_page, name='store_orders_pay_fail_page'),
 
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),
