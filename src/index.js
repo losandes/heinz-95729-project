@@ -1,10 +1,12 @@
 
-'use strict';
-const AWS = require('aws-sdk');
 
 exports.handler = function (event, context, callback) {
-    console.log(JSON.stringify(`Event: event`));
-    // Lambda Code Here
-    // context.succeed('Success!')
-    // context.fail('Failed!')
+    var response = {
+        statusCode: 200,
+        headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+        },
+        body: "Hello world!",
+    };
+    callback(null, response);
 };
