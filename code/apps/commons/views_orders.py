@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from apps.customers.views import my_login_required
 from apps.carts.views import queryCartByCustomerId_Redis
 from apps.customers.models import Customer
@@ -9,9 +9,12 @@ from config.settings.config_common import \
     S3_PRODUCT_IMAGE_THUMBNAIL_URL_PREFIX, \
     S3_PDP_SCREENSHOT_URL_PREFIX, \
     PAGE_SIZE_ORDER_HISTORY
-from apps.orders.views import queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout
+from apps.orders.views import  queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout, pay_with_stripe
 import logging
+import stripe
 logger = logging.getLogger(__name__)
+
+stripe.api_key = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
 
 class OrderPageViews:
 
@@ -72,12 +75,31 @@ class OrderPageViews:
 
     @my_login_required
     def store_orders_pay_page(request):
-
-        if request.method == 'POST':
-            if not order_checkout(request):
-                return render(request, "online-store/payment-fail.html")
-            else:
-                return render(request, "online-store/payment-success.html")
+        total_price=10
+        actual_price = total_price * 100
+        session = stripe.checkout.Session.create(
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': 'T-shirt',
+                    },
+                    'unit_amount': actual_price,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url='http://127.0.0.1:8000/store/online-store/payment-fail.html',
+            cancel_url='http://127.0.0.1:8000/store/online-store/payment-success.html',
+        )
+        return redirect(session.url, code=303)
+        #
+        # if request.method == 'POST':
+        #     pay_with_stripe(200)
+        #     if not order_checkout(request):
+        #         return render(request, "online-store/payment-fail.html")
+        #     else:
+        #         return render(request, "online-store/payment-success.html")
 
     @my_login_required
     def store_orders_single_pay_page(request):
