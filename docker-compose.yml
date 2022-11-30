@@ -70,7 +70,7 @@ services:
   #     - elasticsearch
 
   celery_worker:
-    image: pandama:latest
+    image: johnnyliunice/pandama:latest
     restart: always
     networks:
       - inner_pandama
