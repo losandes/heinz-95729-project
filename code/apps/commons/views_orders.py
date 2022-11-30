@@ -9,7 +9,7 @@ from config.settings.config_common import \
     S3_PRODUCT_IMAGE_THUMBNAIL_URL_PREFIX, \
     S3_PDP_SCREENSHOT_URL_PREFIX, \
     PAGE_SIZE_ORDER_HISTORY
-from apps.orders.views import  queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout, pay_with_stripe
+from apps.orders.views import  queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout
 import logging
 import stripe
 logger = logging.getLogger(__name__)
