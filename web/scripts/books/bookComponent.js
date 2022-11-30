@@ -68,6 +68,9 @@ module.exports = {
       state = book
     }
 
+    // this is for testing purposes
+    console.log("Papyr");
+
     return { component, setBook }
   },
 }
