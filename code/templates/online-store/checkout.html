@@ -1,106 +1,176 @@
 {% extends "online-store/common/base.html" %}
 {% load static %}
+<!--   <link rel="stylesheet" href="{% static 'online-store/css/checkout.css' %}">-->
 {% block header %}
 <div class="container h-100 d-flex align-items-center justify-content-between">
     <!-- Back Button-->
     <div class="back-button"><a onclick="goBack()"><i class="lni-arrow-left"></i>Back</a></div>
     <!-- Page Title-->
     <div class="page-heading">
-        <h6 class="mb-0">Billing Information</h6>
+        <h6 class="mb-0">Accept a payment</h6>
     </div>
     <!-- Navbar Toggler-->
     <div class="suha-navbar-toggler d-flex justify-content-between flex-wrap" id="suhaNavbarToggler">
         <span></span><span></span><span></span></div>
+    <link rel="stylesheet" href="{% static 'online-store/css/checkout.css' %}">
+    <script src="https://js.stripe.com/v3/"></script>
+<!--    <script src="checkout.js" defer></script>-->
 </div>
 {% endblock %}
 
 
 {% block content %}
 <!-- Checkout Wrapper-->
-<form method="post" action="{% url 'store_orders_pay_page' %}" name="buy" id="buy">
-    <div class="checkout-wrapper-area py-3">
-        <!-- Billing Address-->
-        <div class="billing-information-card mb-4" data-step="1" data-intro="Billing information grabbed from your profile, and you can also change these value for current order.">
-            <div class="card  bg-success">
-                <div class="card-body">
-                    <h6 class="text-center mb-0 text-white">Edit Billing Information</h6>
-                </div>
-            </div>
+  <form id="payment-form">
+      <div id="payment-element">
+        <!--Stripe.js injects the Payment Element-->
+      </div>
+      <button id="submit">
+        <div class="spinner hidden" id="spinner"></div>
+        <span id="button-text">Pay now</span>
+      </button>
+      <div id="payment-message" class="hidden"></div>
+      {% csrf_token %}
+    </form>
 
-
-            <div class="card user-data-card">
-                <div class="card-body">
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                        <div class="title"><i class="lni-user"></i><span>Full Name</span></div>
-
-                        <input class="form-control" type="text" name="FullName" id="FullName" value="{{FullName}}">
-                        <!--<div class="data-content">{{FullName}}</div>-->
-                    </div>
-
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                        <div class="title"><i class="lni-envelope"></i><span>Email Address</span></div>
-                        <input class="form-control" type="text" name="Email" id="Email" value={{Email}}>
-                        <!--<div class="data-content">{{Email}} </div>-->
-                    </div>
-
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                        <div class="title"><i class="lni-phone-handset"></i><span>Phone</span></div>
-                        <input class="form-control" type="text" name="Phone" id="Phone" value={{Phone}}>
-                        <!--<div class="data-content">{{Phone}} </div>-->
-                    </div>
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                        <div class="title"><i class="lni-map-marker"></i><span>Shipping Address</span></div>
-                        <input class="form-control" type="text" name="Shipping" id="Shipping" value="{{Shipping}}">
-                        <!--<div class="data-content">{{Shipping}} </div>-->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card cart-amount-area">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <h5 class="total-price mb-0">$<span class="counter">{{ total_price|stringformat:".2f" }}</span></h5>
-
-                <button type="submit" class="btn btn-warning">Confirm &amp; Pay</button>
-                <!--<a href=""></a>-->
-            </div>
-        </div>
-    </div>
-    {% csrf_token %}
-
-</form>
 {% endblock %}
 
 
 {% block extrascripts %}
 <script>
-    if ($.cookie('intro-complete-checkout') == undefined){
-        introJs().start().oncomplete(function(targetElement) {
-            $.cookie('intro-complete-checkout', true);  
-        }).onexit(function(){
-            $.cookie('intro-complete-checkout', true);   
-        });
+const stripe = Stripe("pk_test_51M88sVAjuUbW2aMV6TdrcRfKu8EQbqn9GCdg3LMWhL6kabtBpINJdep9QwsdrtjopoSNkZSt3EVEk8hl60lwME4i00OtY3Fegf");
+
+// The items the customer wants to buy
+const items = [{ id: "xl-tshirt" }];
+
+let elements;
+
+initialize();
+checkStatus();
+
+document
+  .querySelector("#payment-form")
+  .addEventListener("submit", handleSubmit);
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
+    return cookieValue;
+}
 
+// Fetches a payment intent and captures the client secret
+async function initialize() {
+  const response = await fetch("{% url 'store_orders_pay_page' %}", {
+    method: "POST",
+    headers: { "Content-Type": "application/json","X-CSRFToken": getCookie("csrftoken"),},
+    body: JSON.stringify({ items }),
+  });
+  const { clientSecret } = await response.json();
 
+  const appearance = {
+    theme: 'stripe',
+  };
+  elements = stripe.elements({ appearance, clientSecret });
 
-    $('#buy').submit(function(){
+  const paymentElementOptions = {
+    layout: "tabs",
+  };
 
+  const paymentElement = elements.create("payment", paymentElementOptions);
+  paymentElement.mount("#payment-element");
+}
 
-    
+async function handleSubmit(e) {
+  e.preventDefault();
+  setLoading(true);
 
-    if ($('#Email').val().length < 1 || $('#FullName').val().length < 1 || $('#Shipping').val().length < 1 || $('#Phone').val().length < 1) {
-         alertShow("error", "Please fill the form!");
-         return false;
-    }
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      // Make sure to change this to your payment completion page
+      return_url: "http://localhost:4242/checkout.html",
+    },
+  });
 
+  // This point will only be reached if there is an immediate error when
+  // confirming the payment. Otherwise, your customer will be redirected to
+  // your `return_url`. For some payment methods like iDEAL, your customer will
+  // be redirected to an intermediate site first to authorize the payment, then
+  // redirected to the `return_url`.
+  if (error.type === "card_error" || error.type === "validation_error") {
+    showMessage(error.message);
+  } else {
+    showMessage("An unexpected error occurred.");
+  }
 
+  setLoading(false);
+}
 
+// Fetches the payment intent status after payment submission
+async function checkStatus() {
+  const clientSecret = new URLSearchParams(window.location.search).get(
+    "payment_intent_client_secret"
+  );
 
-    });
+  if (!clientSecret) {
+    return;
+  }
 
+  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
 
+  switch (paymentIntent.status) {
+    case "succeeded":
+      showMessage("Payment succeeded!");
+      break;
+    case "processing":
+      showMessage("Your payment is processing.");
+      break;
+    case "requires_payment_method":
+      showMessage("Your payment was not successful, please try again.");
+      break;
+    default:
+      showMessage("Something went wrong.");
+      break;
+  }
+}
 
+// ------- UI helpers -------
+
+function showMessage(messageText) {
+  const messageContainer = document.querySelector("#payment-message");
+
+  messageContainer.classList.remove("hidden");
+  messageContainer.textContent = messageText;
+
+  setTimeout(function () {
+    messageContainer.classList.add("hidden");
+    messageText.textContent = "";
+  }, 4000);
+}
+
+// Show a spinner on payment submission
+function setLoading(isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    document.querySelector("#submit").disabled = true;
+    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector("#button-text").classList.add("hidden");
+  } else {
+    document.querySelector("#submit").disabled = false;
+    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector("#button-text").classList.remove("hidden");
+  }
+}
 
 </script>
 {% endblock %}

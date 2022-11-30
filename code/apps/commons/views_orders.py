@@ -11,10 +11,12 @@ from config.settings.config_common import \
     PAGE_SIZE_ORDER_HISTORY
 from apps.orders.views import  queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout
 import logging
+from django.http import JsonResponse
 import stripe
 logger = logging.getLogger(__name__)
 
-stripe.api_key = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
+stripe.api_key = 'sk_test_51M88sVAjuUbW2aMVxUVjXsoWcCqkOBaFlesi05StlseN5cjgWfecxPL3Gk92wVGce39Io6g45Wt2TxvgrZRtE0qL000QbTOHnI'
+
 
 class OrderPageViews:
 
@@ -73,33 +75,26 @@ class OrderPageViews:
 
             return render(request, "online-store/order.html", context)
 
+
+
     @my_login_required
     def store_orders_pay_page(request):
-        total_price=10
-        actual_price = total_price * 100
-        session = stripe.checkout.Session.create(
-            line_items=[{
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {
-                        'name': 'T-shirt',
-                    },
-                    'unit_amount': actual_price,
+        try:
+            # data = json.loads(request.data)
+            # Create a PaymentIntent with the order amount and currency
+            intent = stripe.PaymentIntent.create(
+                amount=1000,
+                currency='usd',
+                automatic_payment_methods={
+                    'enabled': True,
                 },
-                'quantity': 1,
-            }],
-            mode='payment',
-            success_url='http://127.0.0.1:8000/store/online-store/payment-fail.html',
-            cancel_url='http://127.0.0.1:8000/store/online-store/payment-success.html',
-        )
-        return redirect(session.url, code=303)
-        #
-        # if request.method == 'POST':
-        #     pay_with_stripe(200)
-        #     if not order_checkout(request):
-        #         return render(request, "online-store/payment-fail.html")
-        #     else:
-        #         return render(request, "online-store/payment-success.html")
+            )
+            return JsonResponse({
+                'clientSecret': intent['client_secret']
+            })
+        except Exception as e:
+            return JsonResponse(error=str(e)), 403
+
 
     @my_login_required
     def store_orders_single_pay_page(request):

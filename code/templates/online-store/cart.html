@@ -96,10 +96,7 @@
             <h5 class="total-price mb-0">$<span id="total_price"
                                                 class="counter">{{ total_price|stringformat:".2f" }}</span></h5>
             {% if cart %}
-            <form method="post" action="{% url 'store_orders_pay_page' %}" name="buy" id="buy">
-                <button type="submit" class="btn btn-warning">Checkout</button>
-                {% csrf_token %}
-            </form>
+                <a id="checkout_btn" class="btn btn-warning" href="{% url 'store_page' page='checkout' %}">Checkout Now</a>
             {% else %}
             <a id="checkout_btn" class="btn" style="color:white; background-color: gray" href="#" disabled>Checkout
                 Now</a>
