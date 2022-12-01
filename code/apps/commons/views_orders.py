@@ -89,6 +89,9 @@ class OrderPageViews:
                     'enabled': True,
                 },
             )
+            if not order_checkout(request):
+                return render(request, "online-store/payment-fail.html")
+
             return JsonResponse({
                 'clientSecret': intent['client_secret']
             })
@@ -160,3 +163,9 @@ class OrderPageViews:
         #     return render(request, "online-store/checkout-fail.html")
         # else:
         #     return render(request, "online-store/payment-success.html")
+
+    def store_orders_pay_success_page(request):
+        return render(request, "online-store/payment-success.html")
+
+    def store_orders_pay_fail_page(request):
+        return render(request, "online-store/payment-fail.html")

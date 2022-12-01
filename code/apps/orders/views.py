@@ -246,9 +246,3 @@ def order_single_checkout(request):
     return True
 
 
-def store_orders_pay_success_page(request):
-    return render(request, "online-store/payment-success.html")
-
-
-def store_orders_pay_fail_page(request):
-    return render(request, "online-store/payment-fail.html")
