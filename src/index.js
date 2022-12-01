@@ -1,6 +1,9 @@
 
 
 exports.handler = function (event, context, callback) {
+
+    console.log(JSON.stringify(event));
+
     var response = {
         statusCode: 200,
         headers: {

@@ -21,10 +21,6 @@ resource "aws_s3_bucket_object" "object" {
   key    = "deployable.zip"
   source = "./../deployable.zip"
 
-  # The filemd5() function is available in Terraform 0.11.12 and later
-  # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
-  # etag = "${md5(file("path/to/file"))}"
-  etag = filemd5("./../deployable.zip")
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
@@ -122,4 +118,40 @@ resource "aws_lambda_permission" "apigw_lambda" {
 
   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
   source_arn = "arn:aws:execute-api:us-east-1:841024617537:${aws_api_gateway_rest_api.api.id}/*/${aws_api_gateway_method.method.http_method}${aws_api_gateway_resource.resource.path}"
+}
+
+# This is to optionally manage the CloudWatch Log Group for the Lambda Function.
+# If skipping this resource configuration, also add "logs:CreateLogGroup" to the IAM policy below.
+resource "aws_cloudwatch_log_group" "example" {
+  name              = "/aws/lambda/starbux_lambda"
+  retention_in_days = 14
+}
+
+# See also the following AWS managed policy: AWSLambdaBasicExecutionRole
+resource "aws_iam_policy" "lambda_logging" {
+  name        = "lambda_logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
 }
