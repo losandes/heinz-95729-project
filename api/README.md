@@ -16,7 +16,10 @@ These instructions assume you are using a bash compatible shell (e.g. https://oh
 
 ### ENVVARS
 
-See _.env-example_ for a list of ENVVARS. You can set these either by adding a _.env_ file to the root folder of this project, or using `export ENVVAR_NAME=value` in your terminal.
+ENVVARS is an abbreviation for Environment Variables. In order for the API to run, you need to set the ENVVARS. There are examples for what you need to set in _.env-example_ (you may need to show hidden files on your OS to be able to see files that start with a `.`). On a linux based system, you can `export ENVVAR_NAME=value` to set an ENVVAR. The drawback of this approach is that you have to do it every time you open a new terminal tab. This API uses a tool to persist your ENVVARS. To take advantage of that:
+
+1. Copy the `.env-example` file
+1. Paste the file in this same directory, giving it the name, `.env`
 
 ### Install the dependencies
 
@@ -41,7 +44,15 @@ To initiate a PostgreSQL container, follow the instructions at: [How to Use the 
 
 ##### Initiating a Postgres container with bash
 
-Alternatively, you can create a bash script (.sh) with the following code in it, make it executable (e.g. `chmod 766 [filename]`), and execute it.
+Alternatively, you can:
+
+1. Create a bash script in this folder (e.g. `touch pgup.sh`)
+1. Make the bash script executable (e.g. `chmod 766 pgup.sh`)
+1. Paste into that file, the code from the block below
+1. Change the path for `DIR=` so that it matches the path to this directory
+1. Execute the script (e.g. `./pgup.sh`)
+
+> NOTE that if you have a readonly filesystem, you will need to comment out the `mkdir -p $HOST_VOLUME_PATH` and make those directories by hand. The error message you receive should include the `$HOST_VOLUME_PATH`, so try running the script without commenting that first.
 
 ```Shell
 #!/bin/bash
@@ -50,7 +61,7 @@ Alternatively, you can create a bash script (.sh) with the following code in it,
 # https://hub.docker.com/_/postgres
 
 printf "\nrunning up...\n\n"
-# assumes this script is in a directory named, "bin"
+# !!!!!!!!!!!!!!!! IMPORTANT: you need to set the DIR path below to the location of this folder
 DIR=/Users/[the path to where you cloned this repo...]/heinz-95729-project/api
 HOST_VOLUME_PATH=${DB_HOST_VOLUME_PATH:=$DIR/docker_volumes/postgresql/data}
 CTNR_VOLUME_PATH=${DB_CTNR_VOLUME_PATH:=/var/lib/postgresql/data}
@@ -95,6 +106,12 @@ docker run \
 Here are some other scripts you can use to interact with the docker image:
 
 ```Shell
+# list all running instances
+docker ps
+
+# list all instances (running or not)
+docker ps -a
+
 # destroy the image:
 docker rm -fv ${DB_IMAGE_NAME:=pgdb}
 rm -rf $HOST_VOLUME_PATH
@@ -144,6 +161,9 @@ nvm use 16.3.0
 # And set it as your default (optional)
 nvm alias default 16.3.0
 
+# install HTTPIE
+brew install httpie
+
 # cleanup cached brew files
 brew cleanup -s
 rm -rf "$(brew --cache)"
@@ -151,7 +171,7 @@ rm -rf "$(brew --cache)"
 
 ##### Without HomeBrew
 
-[Install NVM](https://github.com/nvm-sh/nvm#installing-and-updating). Then in a bash derived shell, use NVM to install a version of NodeJS, and then install pnpm.
+[Install NVM](https://github.com/nvm-sh/nvm#installing-and-updating). Then in a bash derived shell, use NVM to install a version of NodeJS, and then install pnpm. If you're running Windows, install [Chocolatey](https://chocolatey.org/)
 
 ```Shell
 # install node LTE 16.3.0
@@ -160,6 +180,14 @@ nvm install 16.3.0
 nvm use 16.3.0
 # And set it as your default (optional)
 nvm alias default 16.3.0
+
+# IFF you're running linux
+install httpie
+# or if you're using snaps
+snap install httpie
+
+# IFF you're running windows
+choco install httpie
 ```
 
 #### The rest
