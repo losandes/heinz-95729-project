@@ -1,8 +1,6 @@
-const dialogflow = require('dialogflow');
+// const dialogflow = require('dialogflow');
 
 exports.handler = function (event, context, callback) {
-
-
     console.log(JSON.stringify(event));
 
     var response = {
@@ -10,7 +8,7 @@ exports.handler = function (event, context, callback) {
         headers: {
             'Content-Type': 'text/html; charset=utf-8',
         },
-        body: "whats up!",
+        body: 'whats up!',
     };
     callback(null, response);
 };

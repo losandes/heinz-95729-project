@@ -1,3 +1,6 @@
+#run prettier
+npm run format
+
 #set the correct environment variable
 export AWS_DEFAULT_PROFILE=ecomm
 
