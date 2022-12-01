@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from apps.customers.views import my_login_required
 from apps.carts.views import queryCartByCustomerId_Redis
 from apps.customers.models import Customer
@@ -9,9 +9,14 @@ from config.settings.config_common import \
     S3_PRODUCT_IMAGE_THUMBNAIL_URL_PREFIX, \
     S3_PDP_SCREENSHOT_URL_PREFIX, \
     PAGE_SIZE_ORDER_HISTORY
-from apps.orders.views import queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout
+from apps.orders.views import  queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout
 import logging
+from django.http import JsonResponse
+import stripe
 logger = logging.getLogger(__name__)
+
+stripe.api_key = 'sk_test_51M88sVAjuUbW2aMVxUVjXsoWcCqkOBaFlesi05StlseN5cjgWfecxPL3Gk92wVGce39Io6g45Wt2TxvgrZRtE0qL000QbTOHnI'
+
 
 class OrderPageViews:
 
@@ -70,14 +75,29 @@ class OrderPageViews:
 
             return render(request, "online-store/order.html", context)
 
+
+
     @my_login_required
     def store_orders_pay_page(request):
-
-        if request.method == 'POST':
+        try:
+            # data = json.loads(request.data)
+            # Create a PaymentIntent with the order amount and currency
+            intent = stripe.PaymentIntent.create(
+                amount=1000,
+                currency='usd',
+                automatic_payment_methods={
+                    'enabled': True,
+                },
+            )
             if not order_checkout(request):
                 return render(request, "online-store/payment-fail.html")
-            else:
-                return render(request, "online-store/payment-success.html")
+
+            return JsonResponse({
+                'clientSecret': intent['client_secret']
+            })
+        except Exception as e:
+            return JsonResponse(error=str(e)), 403
+
 
     @my_login_required
     def store_orders_single_pay_page(request):
@@ -143,3 +163,9 @@ class OrderPageViews:
         #     return render(request, "online-store/checkout-fail.html")
         # else:
         #     return render(request, "online-store/payment-success.html")
+
+    def store_orders_pay_success_page(request):
+        return render(request, "online-store/payment-success.html")
+
+    def store_orders_pay_fail_page(request):
+        return render(request, "online-store/payment-fail.html")
