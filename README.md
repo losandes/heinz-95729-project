@@ -5,3 +5,5 @@
 3. TODO: set up deploy script for CICD, thoughts: just send new object to S3 as lambda is already hooked up
 
 4. TODO: npm install https://stackoverflow.com/questions/34437900/how-to-load-npm-modules-in-aws-lambda
+
+5. #use proper credentials ==> export AWS_DEFAULT_PROFILE=ecomm
