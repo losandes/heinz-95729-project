@@ -49,6 +49,12 @@ If you started the API or ran `pnpm run migrate:up` in the [api directory](../ap
 - index.html (SPA markup / HTML)
 - server.js (The HTTP host to make this available on port 3001)
 
+## Building the LESS stylesheets
+
+This project uses LESS for the stylesheets. Browsers can't read LESS files, so they need to be transpiled into CSS files. To transpile the LESS, run `pnpm run less` from this directory. To see the command that executes, look in the scripts section of the package.json file. 
+
+Alternatively, you can install a VSCode extension that transpiles LESS files on save. I typically use _Easy LESS_ by mrcrowl to compile the LESS files on save: `code --install-extension mrcrowl.easy-less`. If you choose to use the extension, everyone on the team should install it also because the output of this extension is different than the output of `pnpm run less`, so having different methods of transpilation will result in unnecessary changes to the main.css file.
+
 ## The Module Pattern
 This application uses a specific module pattern that works with [hilary](https://github.com/losandes/hilaryjs/tree/master/docs) to meet the Dependency Inversion Principle. The `module-shim` allows us to define new modules so other modules can begin to depend on them in two steps:
 
