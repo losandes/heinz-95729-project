@@ -1,6 +1,8 @@
 Prereqs:
 1. install node.js v12.18.4
 2. run `npm install -g prettier`
+3. run `npm ci`
+3. set up aws configs - ask Ahmad for credentials
 
 
 Directions:
