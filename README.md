@@ -1,8 +1,10 @@
 Prereqs:
 1. install node.js v12.18.4
-2. run `npm install -g prettier`
-3. run `npm ci`
-3. set up aws configs - ask Ahmad for credentials
+2. try to use git bash instead of powershell or command prompt
+3. install aws cli: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+4. run `npm install -g prettier`
+5. run `npm ci`
+6. set up aws configs - ask Ahmad for credentials
 
 
 Directions:
