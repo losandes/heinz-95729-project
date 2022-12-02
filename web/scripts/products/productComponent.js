@@ -23,7 +23,7 @@ module.exports = {
         </div>`,
       data: () => {
         return state
-      },
+      }
     })
 
     const setProduct = (product) => {

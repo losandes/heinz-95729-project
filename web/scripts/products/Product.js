@@ -39,8 +39,24 @@ module.exports = {
         }
       }
 
+      // add selected items to a cart object and save to localStorage
       self.addToCart = (event) => {
+        console.log(this);
         console.log(`TODO: add ${self.title} to shopping cart`)
+        let newCart = {};
+        // check existing cart
+        const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+        if (Object.keys(cart).length == 0) {
+          newCart = {
+            [self.id]: self
+          }
+        } else {
+          newCart = {
+            ...cart,
+            [self.id]: self
+          }
+        }
+        localStorage.setItem("cart", JSON.stringify(newCart));
       }
 
       return self
