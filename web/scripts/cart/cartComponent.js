@@ -1,11 +1,13 @@
 module.exports = {
   scope: 'heinz',
   name: 'cartComponent',
-  dependencies: ['Vue'],
-  factory: (Vue) => {
+  dependencies: ['Vue', 'environment'],
+  factory: (Vue, env) => {
     'use strict'
 
-    let state = {};
+    let state = {
+      productCount: 0
+    };
 
     const component = Vue.component('cart', {
       template: `
@@ -87,6 +89,27 @@ module.exports = {
       data: () => {
         return state
       },
+      methods: {
+        checkout: async () => {
+          console.log("Checkout...")
+          
+          const stripe = Stripe(env.get('STRIPE_SECRET'))
+          const session = await stripe.checkout.sessions.create({
+            line_items: [
+              {
+                // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                price: 'pr_1234',
+                quantity: 1,
+              },
+            ],
+            mode: 'payment',
+            success_url: 'http://localhost:3001/checkout/success',
+            cancel_url: 'http://localhost:3001/checkout/cancel',
+          });
+        
+          res.redirect(303, session.url);
+        }
+      }
     })
 
     return { component }

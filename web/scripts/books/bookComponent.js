@@ -55,7 +55,7 @@ module.exports = {
             </div>
             <div>{{description}}</div>
             <div class="purchase">
-              <button class="btn btn-success btn-buy" v-on:click="addToCart">{{price}}</button>
+              <button class="btn btn-success btn-buy" v-on:click="addToCart">{{ price }}</button>
             </div>
           </div>
         </div>`,
