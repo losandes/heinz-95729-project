@@ -1,13 +1,14 @@
 module.exports = {
   scope: 'heinz',
   name: 'cartController',
-  dependencies: ['router', 'cartComponent', 'cartRepo'],
-  factory: (router, cartComponent, cartRepo) => {
+  dependencies: ['router', 'cartComponent', 'cartRepo', 'environment'],
+  factory: (router, cartComponent, cartRepo, env) => {
     'use strict'
 
     // we save all added products here after querying the database
     let state = {
-      addedProducts: {}
+      addedProducts: {},
+      paymentStatus: ''
     };
     /**
      * Route binding (controller)
@@ -16,6 +17,12 @@ module.exports = {
     function registerRoutes (app) {
       router('/checkout', () => {
         console.log("API call!")
+        state.paymentStatus = ''
+        app.currentView = 'cart'
+      })
+      router('/checkout/:status', () => {
+        console.log("Payment success!")
+        state.paymentStatus = context.params.status
         app.currentView = 'cart'
       })
     }

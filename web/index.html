@@ -26,12 +26,15 @@
             </div><!-- /input-group -->
         </div>
         <nav>
-            <a href="/login">
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-            </a>
-            <a href="/checkout">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </a>
+            <div class="wrap-icon">
+                <a href="/login">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                </a>
+                <a href="/checkout">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                </a>
+                <div class="cart-count">0</div>
+        </div>
         </nav>
     </header>
     <div class="container">
@@ -49,6 +52,7 @@
     <script src="https://unpkg.com/vue@2"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3"></script> <!-- Stripe JS SDK -->
 
     <!-- uncomment these if you are supporting old browsers, like IE 11 -->
     <!-- <script src="/node_modules/promise-polyfill/dist/polyfill.min.js"></script> -->
