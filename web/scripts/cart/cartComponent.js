@@ -13,9 +13,8 @@ module.exports = {
       template: `
     
     <div>
-      <head>
      <h1 id="page">Shopping Cart</h1>
-   </head>
+   
 
   <div class="shopping-cart">
     <link href="_cart.less" rel="stylesheet" />
@@ -92,7 +91,7 @@ module.exports = {
       methods: {
         checkout: async () => {
           console.log("Checkout...")
-          
+
           const stripe = Stripe(env.get('STRIPE_SECRET'))
           const session = await stripe.checkout.sessions.create({
             line_items: [
@@ -106,7 +105,7 @@ module.exports = {
             success_url: 'http://localhost:3001/checkout/success',
             cancel_url: 'http://localhost:3001/checkout/cancel',
           });
-        
+
           res.redirect(303, session.url);
         }
       }
