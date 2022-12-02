@@ -1,22 +1,10 @@
-module.exports = {
-  scope: 'heinz',
-  name: 'cartComponent',
-  dependencies: ['Vue'],
-  factory: (Vue) => {
-    'use strict'
+<head>
+  <h1 id="page">Shopping Cart</h1>
+</head>
 
-    let state = {};
-
-    const component = Vue.component('cart', {
-      template: `
-    
-    <div>
-      <head>
-     <h1 id="page">Shopping Cart</h1>
-   </head>
-
+<body>
   <div class="shopping-cart">
-    <link href="_cart.less" rel="stylesheet" />
+    <link href="cart.css" rel="stylesheet" />
 
     <div cl ass="column-labels">
       <label class="product-image">Image</label>
@@ -28,7 +16,7 @@ module.exports = {
 
     <div class="product">
       <div class="product-image">
-        <img src="/images/books/beforeIGo.jpg">
+        <img src="/Users/kim_wu/Documents/GitHub/heinz-95729-project/web/images/books/beforeIGo.jpg">
       </div>
       <div class="product-name">
         <div class="product-title">book1</div>
@@ -43,7 +31,7 @@ module.exports = {
 
     <div class="product">
       <div class="product-image">
-        <img src="/images/books/beforeIGo.jpg">
+        <img src="/Users/kim_wu/Documents/GitHub/heinz-95729-project/web/images/books/beforeIGo.jpg">
       </div>
       <div class="product-name">
         <div class="product-title">book1</div>
@@ -79,17 +67,4 @@ module.exports = {
     <button class="checkout">Checkout</button>
 
   </div>
-  </div>
-
-      `,
-
-
-      data: () => {
-        return state
-      },
-    })
-
-    return { component }
-  },
-}
-
+</body>
