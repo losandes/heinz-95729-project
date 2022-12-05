@@ -5,6 +5,7 @@ from apps.commons.views_customers import CustomerPageViews
 from apps.commons.views_products import ProductPageViews
 from apps.commons.views_orders import OrderPageViews
 from apps.commons.views_carts import CartPageViews
+from apps.commons.views_payment import PaymentPageViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
@@ -45,10 +46,14 @@ urlpatterns = [
     path('store/single_checkout', OrderPageViews.store_orders_single_checkout_page, name='store_orders_single_checkout_page'),
     path('store/order', OrderPageViews.store_orders_history_page, name='store_orders_history_page'),
     path('store/ajax-order-history', OrderPageViews.store_ajax_orders_history_page, name='store_ajax_orders_history_page'),
-    path('store/pay', OrderPageViews.store_orders_pay_page, name='store_orders_pay_page'),
     path('store/single_pay', OrderPageViews.store_orders_single_pay_page, name='store_orders_single_pay_page'),
-    path('store/pay_success', OrderPageViews.store_orders_pay_success_page, name='store_orders_pay_success_page'),
-    path('store/pay_fail',OrderPageViews.store_orders_pay_fail_page, name='store_orders_pay_fail_page'),
+
+    # Payment Domain
+    path('store/pay', PaymentPageViews.store_orders_pay_page, name='store_orders_pay_page'),
+    path('store/pay_success', PaymentPageViews.store_orders_pay_success_page, name='store_orders_pay_success_page'),
+    path('store/pay_fail', PaymentPageViews.store_orders_pay_fail_page, name='store_orders_pay_fail_page'),
+    path('store/pay/update_status', PaymentPageViews.store_pay_update_status, name='store_pay_update_status'),
+
 
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),

@@ -42,7 +42,7 @@ const stripe = Stripe("pk_test_51M88sVAjuUbW2aMV6TdrcRfKu8EQbqn9GCdg3LMWhL6kabtB
 
 // The items the customer wants to buy
 const items = [{ id: "xl-tshirt" }];
-
+let new_pay_id = 1;
 let elements;
 
 initialize();
@@ -75,8 +75,11 @@ async function initialize() {
     headers: { "Content-Type": "application/json","X-CSRFToken": getCookie("csrftoken"),},
     body: JSON.stringify({ items }),
   });
-  const { clientSecret } = await response.json();
 
+  const { clientSecret } = await response.json();
+  new_pay_id = clientSecret['new_pay_id'];
+  console.log("-------")
+  console.log(new_pay_id)
   const appearance = {
     theme: 'stripe',
   };
@@ -135,20 +138,41 @@ async function checkStatus() {
     case "succeeded":
         showMessage("Your payment is successful");
       window.location.href =  location.protocol + "//" + location.host + "/store/pay_success";
+      changePaymentStatus(1);
       break;
     case "processing":
       showMessage("Your payment is processing.");
+       changePaymentStatus(2);
+      window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
       break;
     case "requires_payment_method":
       showMessage("Your payment was not successful, please try again.");
-
+       changePaymentStatus(2);
+      window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
       break;
     default:
         showMessage("Your payment fails");
+        changePaymentStatus(2);
        window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
-
       break;
   }
+}
+
+function changePaymentStatus(status_code){
+      $.ajax({
+            type: "POST",
+            url: "/store/pay/update_status",
+            data: {
+                "new_pay_id": new_pay_id,
+                "status": status_code,
+                "csrfmiddlewaretoken": getCSRFToken()
+            },
+            dataType: "json",
+            error: function (json) {
+                alertShow("error", "Failed to update payment");
+                return;
+            }
+        });
 }
 
 // ------- UI helpers -------
