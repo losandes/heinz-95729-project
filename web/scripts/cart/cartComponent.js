@@ -1,3 +1,4 @@
+
 module.exports = {
   scope: "heinz",
   name: "cartComponent",
@@ -14,16 +15,21 @@ module.exports = {
       cartTotal: 0,
     };
 
+    
     const component = Vue.component("cart", {
       mounted: () => {
+
         state.products = []; // clear previous items
         // get added products from localStorage
         const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+  
         for (const key in cart) {
           state.products.push(cart[key]);
         }
         calculateTotal();
+      
       },
+      
       template: `
         <div class="shopping-cart-wrapper">
           <div class="cart-title">
@@ -109,6 +115,10 @@ module.exports = {
       ).toFixed(2);
     };
 
+
+    const updateCounter = () => {
+      let counter = state.products.length;
+    }
     const updateLocalStorage = () => {
       localStorage.clear("cart");
       const cart = {};
@@ -118,6 +128,6 @@ module.exports = {
       localStorage.setItem("cart", JSON.stringify(cart));
     };
 
-    return { component, calculateTotal, updateLocalStorage };
+    return { component, calculateTotal, updateLocalStorage, updateCounter };
   },
 };

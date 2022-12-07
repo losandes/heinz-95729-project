@@ -5,7 +5,7 @@
 
 printf "\nrunning up...\n\n"
 # assumes this script is in a directory named, "bin"
-DIR=/Users/[the path to where you cloned this repo...]/heinz-95729-project/api
+DIR=/Users/kim_wu/Documents/GitHub/heinz-95729-project/api
 HOST_VOLUME_PATH=${DB_HOST_VOLUME_PATH:=$DIR/docker_volumes/postgresql/data}
 CTNR_VOLUME_PATH=${DB_CTNR_VOLUME_PATH:=/var/lib/postgresql/data}
 

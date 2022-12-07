@@ -10,6 +10,7 @@ module.exports = {
       addedProducts: {},
       paymentStatus: ''
     };
+
     /**
      * Route binding (controller)
      * @param {Vue} app - the main Vue instance (not the header)
