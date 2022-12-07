@@ -52,7 +52,7 @@ resource "aws_lambda_function" "starbux_lambda" {
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "src.handler"
 
-  runtime = "nodejs12.x"
+  runtime = "nodejs16.x"
 
   environment {
     variables = {
