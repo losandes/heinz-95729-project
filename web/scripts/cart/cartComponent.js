@@ -1,4 +1,3 @@
-
 module.exports = {
   scope: "heinz",
   name: "cartComponent",
@@ -15,28 +14,25 @@ module.exports = {
       cartTotal: 0,
     };
 
-    
     const component = Vue.component("cart", {
       mounted: () => {
-
         state.products = []; // clear previous items
         // get added products from localStorage
         const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-  
+
         for (const key in cart) {
           state.products.push(cart[key]);
         }
         calculateTotal();
-      
       },
-      
+
       template: `
         <div class="shopping-cart-wrapper">
           <div class="cart-title">
             <h2 id="page">Your Shopping Cart ({{ products.length }} products)</h2>
-            <button class="checkout" v-on:click="checkout">Checkout</button>
+            <button class="checkout" v-on:click="checkout" v-if="products.length > 0">Checkout</button>
           </div>
-          <div class="shopping-cart">
+          <div class="shopping-cart" v-if="products.length > 0">
             <div class="column-labels">
               <label>Image</label>
               <label>Book Name</label>
@@ -52,7 +48,7 @@ module.exports = {
                 <div class="product-name">
                   <div class="product-title">{{ product.title }}</div>
                 </div>
-                <div class="product-price">{{ product.price }}</div>
+                <div class="product-price">{{ "$" + product.price }}</div>
                 <div class="product-removal">
                   <button class="remove-product" v-on:click="removeProduct(product.id)">Remove</button>
                 </div>
@@ -115,10 +111,9 @@ module.exports = {
       ).toFixed(2);
     };
 
-
     const updateCounter = () => {
       let counter = state.products.length;
-    }
+    };
     const updateLocalStorage = () => {
       localStorage.clear("cart");
       const cart = {};
