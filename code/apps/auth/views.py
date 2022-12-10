@@ -8,15 +8,6 @@ from django.utils import timezone
 from apps.customers.models import Customer
 from apps.carts.views import integrateCart
 
-GOOGLE_CLIENT_ID = '915635583265-gjkf3465a0bq2uj7s353cc8ao1vej2gb.apps.googleusercontent.com'
-GOOGLE_SECRET = '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'
-GOOGLE_CALLBACK_URL = 'http://127.0.0.1:8000/store/google/login/callback'
-REDDIT_CLIENT_ID = 'DYg8CNigzvN2DNa0zUdyIg'
-REDDIT_SECRET = 'USxs8BzLy3JTMQqiWJ2X75tMbV3ZHA'
-REDDIT_CALLBACK_URL = 'http://127.0.0.1:8000/store/reddit/login/callback'
-GITHUB_CLIENT_ID = '5d4e495633c453924014'
-GITHUB_SECRET = '31537f9841677663b02a8e17621cc7177d21aa8a'
-GITHUB_CALLBACK_URL = 'http://127.0.0.1:8000/store/github/login/callback'
 
 # Get Google user's info
 def get_user_info_google(code):
