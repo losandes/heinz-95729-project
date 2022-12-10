@@ -7,8 +7,21 @@ import hashlib
 from django.utils import timezone
 from apps.customers.models import Customer
 from apps.carts.views import integrateCart
+from django.core.exceptions import ObjectDoesNotExist
 from config.settings.config_oauth import GOOGLE_CLIENT_ID, GOOGLE_SECRET, GOOGLE_CALLBACK_URL, REDDIT_CLIENT_ID, REDDIT_SECRET, REDDIT_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_SECRET, GITHUB_CALLBACK_URL
 
+def deal_login_callback(code, request, provider):
+    if provider == 'google':
+        data = get_user_info_google(code)
+        customer = creat_customer(name=data['name'], email=data['email'], first_name=data['given_name'], last_name=data['family_name'])
+    elif provider == 'reddit':
+        data = get_user_info_reddit(code)
+        customer = creat_customer(name=data['name'], email=data['name'] + '@pandama.com')
+    elif provider == 'github':
+        data = get_user_info_github(code)
+        customer = creat_customer(name=data['login'], email=data['login'] + '@pandama.com')
+    
+    login(request, customer)
 
 # Get Google user's info
 def get_user_info_google(code):
@@ -88,49 +101,27 @@ def creat_password():
     hash_value = hashlib.sha256((salt + password).encode()).hexdigest()
     return hash_value, salt
 
-def creat_customer_google(data):
-    hash_value, salt = creat_password()
-    customer = Customer(first_name=data['given_name'],
-                        last_name=data['family_name'],
-                        username=data['name'],
-                        email=data['email'],
-                        last_login_time=timezone.now(),
-                        password=hash_value,
-                        pass_salt=salt,
-                        created_time=timezone.now(),
-                        updated_time=timezone.now())
-    customer.save()
+def creat_customer(name, email, first_name="", last_name=""):
+    try: 
+        customer = Customer.objects.get(username = name)
+    except ObjectDoesNotExist:
+        hash_value, salt = creat_password()
+        customer = Customer(first_name=first_name,
+                            last_name=last_name,
+                            username=name,
+                            email=email,
+                            last_login_time=timezone.now(),
+                            password=hash_value,
+                            pass_salt=salt,
+                            created_time=timezone.now(),
+                            updated_time=timezone.now())
+        customer.save()
     return customer
 
-def creat_customer_reddit(data):
-    hash_value, salt = creat_password()
-    customer = Customer(username=data['name'],
-                        email=data['name'] + '@pandama.com',
-                        last_login_time=timezone.now(),
-                        password=hash_value,
-                        pass_salt=salt,
-                        created_time=timezone.now(),
-                        updated_time=timezone.now())
-    customer.save()
-    return customer
-
-def creat_customer_github(data):
-    hash_value, salt = creat_password()
-    if data['email'] is None:
-        email = data['login'] + '@pandama.com'
-    else:
-        email = data['email']
-    customer = Customer(username=data['login'],
-                        email=email,
-                        last_login_time=timezone.now(),
-                        password=hash_value,
-                        pass_salt=salt,
-                        created_time=timezone.now(),
-                        updated_time=timezone.now())
-    customer.save()
-    return customer
 
 def login(request, customer):
+    if customer is None:
+        return redirect('store_customers_login_page')  
     if "Customer" in request.session.keys():
         return redirect('store_customers_home_page')            
 

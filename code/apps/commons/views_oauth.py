@@ -1,8 +1,6 @@
 from urllib import parse
 from django.shortcuts import redirect
-from apps.customers.models import Customer
-from django.core.exceptions import ObjectDoesNotExist
-from apps.oauth.views import get_user_info_google, creat_customer_google, login, get_user_info_reddit, creat_customer_reddit, get_user_info_github, creat_customer_github
+from apps.oauth.views import deal_login_callback
 from config.settings.config_oauth import GOOGLE_CLIENT_ID, GOOGLE_CALLBACK_URL, REDDIT_CLIENT_ID, REDDIT_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL
 
 class AuthViews:
@@ -17,19 +15,6 @@ class AuthViews:
                                         'prompt': 'consent'
                                     }))
         return redirect(google_auth_url)
-
-    def google_login_callback(request):
-        code = request.GET.get("code", "")
-        if code:
-            data = get_user_info_google(code)
-            try: 
-                customer = Customer.objects.get(username = data['name'])
-            except ObjectDoesNotExist:
-                customer = creat_customer_google(data)
-            
-            login(request, customer)
-
-        return redirect("store_customers_login_page")
 
     def reddit_login(request):
         from uuid import uuid4
@@ -46,17 +31,6 @@ class AuthViews:
                                     }))
         return redirect(reddit_auth_url)
 
-    def reddit_login_callback(request):
-        code = request.GET.get("code", "")
-        if code:
-            data = get_user_info_reddit(code)
-            try: 
-                customer = Customer.objects.get(username = data['name'])
-            except ObjectDoesNotExist:
-                customer = creat_customer_reddit(data)
-            login(request, customer)
-        return redirect("store_customers_login_page")
-
     def github_login(request):
         from uuid import uuid4
         state = str(uuid4())
@@ -69,15 +43,13 @@ class AuthViews:
                                     }))
         return redirect(github_auth_url)
 
-    def github_login_callback(request):
+    def login_callback(request):
         code = request.GET.get("code", "")
         if code:
-            data = get_user_info_github(code)
-            try: 
-                customer = Customer.objects.get(username = data['login'])
-            except ObjectDoesNotExist:
-                customer = creat_customer_github(data)
-            
-            login(request, customer)
-
+            if 'google' in request.META['PATH_INFO']:
+                deal_login_callback(code, request, 'google')
+            elif 'reddit' in request.META['PATH_INFO']:
+                deal_login_callback(code, request, 'reddit')
+            elif 'github' in request.META['PATH_INFO']:
+                deal_login_callback(code, request, 'github')
         return redirect("store_customers_login_page")
