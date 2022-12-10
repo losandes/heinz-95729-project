@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from apps.products.services_mongo import MongoProcessor
 from apps.products.services_neo4j import Neo4jProcessor
 from apps.products.services_es import ESProcessor
+from apps.search.services_es import ESSearchProcessor
 from apps.products.services_spider import SpiderProductAPI
 from apps.carts.views import clear_all_sessions
 from apps.catalogs.views import queryCatalogList
@@ -76,4 +77,10 @@ class ManualOperationPageView:
         if request.method == "POST":
             clear_all_sessions()
             return HttpResponse("All sessions cleared")
+    
+    @csrf_exempt
+    def es_create_analyzer(request):
+        if request.method == "POST":
+            res = ESSearchProcessor.create_autocomplete_analyzer()
+            return HttpResponse(res)
             

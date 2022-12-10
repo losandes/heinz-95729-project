@@ -58,6 +58,7 @@ urlpatterns = [
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),
     path('operation/es_create_mapping', ManualOperationPageView.es_create_mapping),
+    path('operation/es_create_analyzer', ManualOperationPageView.es_create_analyzer),
     path("operation/es_add_index", ManualOperationPageView.es_add_index),
     path("operation/es_delete_all_index", ManualOperationPageView.es_delete_all_index), 
     path("operation/mongo_delete_all_data", ManualOperationPageView.mongo_delete_all_data),
