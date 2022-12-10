@@ -7,6 +7,7 @@ import hashlib
 from django.utils import timezone
 from apps.customers.models import Customer
 from apps.carts.views import integrateCart
+from config.settings.config_oauth import GOOGLE_CLIENT_ID, GOOGLE_SECRET, GOOGLE_CALLBACK_URL, REDDIT_CLIENT_ID, REDDIT_SECRET, REDDIT_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_SECRET, GITHUB_CALLBACK_URL
 
 
 # Get Google user's info

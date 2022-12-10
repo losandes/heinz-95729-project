@@ -2,15 +2,16 @@ from urllib import parse
 from django.shortcuts import redirect
 from apps.customers.models import Customer
 from django.core.exceptions import ObjectDoesNotExist
-import apps.auth.views as v
+from apps.oauth.views import get_user_info_google, creat_customer_google, login, get_user_info_reddit, creat_customer_reddit, get_user_info_github, creat_customer_github
+from config.settings.config_oauth import GOOGLE_CLIENT_ID, GOOGLE_CALLBACK_URL, REDDIT_CLIENT_ID, REDDIT_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL
 
 class AuthViews:
     def google_login(request):
         google_auth_url = '%s?%s' % ('https://accounts.google.com/o/oauth2/auth',
                                     parse.urlencode({
                                         'response_type': 'code',
-                                        'client_id': v.GOOGLE_CLIENT_ID,
-                                        'redirect_uri': v.GOOGLE_CALLBACK_URL,
+                                        'client_id': GOOGLE_CLIENT_ID,
+                                        'redirect_uri': GOOGLE_CALLBACK_URL,
                                         'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
                                         'access_type': 'online',
                                         'prompt': 'consent'
@@ -20,13 +21,13 @@ class AuthViews:
     def google_login_callback(request):
         code = request.GET.get("code", "")
         if code:
-            data = v.get_user_info_google(code)
+            data = get_user_info_google(code)
             try: 
                 customer = Customer.objects.get(username = data['name'])
             except ObjectDoesNotExist:
-                customer = v.creat_customer_google(data)
+                customer = creat_customer_google(data)
             
-            v.login(request, customer)
+            login(request, customer)
 
         return redirect("store_customers_login_page")
 
@@ -36,10 +37,10 @@ class AuthViews:
         'client_id=CLIENT_ID&response_type=TYPE&state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING'
         reddit_auth_url = '%s?%s' % ('https://www.reddit.com/api/v1/authorize',
                                     parse.urlencode({
-                                        'client_id': v.REDDIT_CLIENT_ID,
+                                        'client_id': REDDIT_CLIENT_ID,
                                         'response_type': 'code',
                                         'state':state,
-                                        'redirect_uri': v.REDDIT_CALLBACK_URL,
+                                        'redirect_uri': REDDIT_CALLBACK_URL,
                                         'scope': 'identity',
                                         'duration': 'temporary',
                                     }))
@@ -48,12 +49,12 @@ class AuthViews:
     def reddit_login_callback(request):
         code = request.GET.get("code", "")
         if code:
-            data = v.get_user_info_reddit(code)
+            data = get_user_info_reddit(code)
             try: 
                 customer = Customer.objects.get(username = data['name'])
             except ObjectDoesNotExist:
-                customer = v.creat_customer_reddit(data)
-            v.login(request, customer)
+                customer = creat_customer_reddit(data)
+            login(request, customer)
         return redirect("store_customers_login_page")
 
     def github_login(request):
@@ -61,8 +62,8 @@ class AuthViews:
         state = str(uuid4())
         github_auth_url = '%s?%s' % ('https://github.com/login/oauth/authorize',
                                     parse.urlencode({
-                                        'client_id': v.GITHUB_CLIENT_ID,
-                                        'redirect_uri': v.GITHUB_CALLBACK_URL,
+                                        'client_id': GITHUB_CLIENT_ID,
+                                        'redirect_uri': GITHUB_CALLBACK_URL,
                                         'scope': 'user',
                                         'state': state,
                                     }))
@@ -71,12 +72,12 @@ class AuthViews:
     def github_login_callback(request):
         code = request.GET.get("code", "")
         if code:
-            data = v.get_user_info_github(code)
+            data = get_user_info_github(code)
             try: 
                 customer = Customer.objects.get(username = data['login'])
             except ObjectDoesNotExist:
-                customer = v.creat_customer_github(data)
+                customer = creat_customer_github(data)
             
-            v.login(request, customer)
+            login(request, customer)
 
         return redirect("store_customers_login_page")
