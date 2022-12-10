@@ -10,6 +10,7 @@ from apps.commons.views_search import SearchPageViews
 from apps.commons.views_bot import BotPageViews
 from apps.commons.views_oauth import AuthViews
 from apps.commons.views_search import SearchPageViews
+from apps.commons.views_auth import AuthViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
@@ -68,6 +69,14 @@ urlpatterns = [
     
     # Search Domain
     path('store/ajax-autocomplete-search', SearchPageViews.autocomplete_search_ajax, name='autocomplete_search_ajax'),
+    
+    # OAuth Domain
+    path('store/google/login', AuthViews.google_login, name='store_google_login'),
+    path('store/google/login/callback', AuthViews.google_login_callback, name='store_google_login_callback'),
+    path('store/reddit/login', AuthViews.reddit_login, name='store_reddit_login'),
+    path('store/reddit/login/callback', AuthViews.reddit_login_callback, name='store_reddit_login_callback'),
+    path('store/github/login', AuthViews.github_login, name='store_github_login'),
+    path('store/github/login/callback', AuthViews.github_login_callback, name='store_github_login_callback'),
 
     # Bot Domain
     path('store/message', BotPageViews.get_message_from_bot, name='get_message_from_bot'),
