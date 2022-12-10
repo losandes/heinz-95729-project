@@ -6,6 +6,7 @@ from apps.commons.views_products import ProductPageViews
 from apps.commons.views_orders import OrderPageViews
 from apps.commons.views_carts import CartPageViews
 from apps.commons.views_payment import PaymentPageViews
+from apps.commons.views_auth import AuthViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
@@ -54,6 +55,13 @@ urlpatterns = [
     path('store/pay_fail', PaymentPageViews.store_orders_pay_fail_page, name='store_orders_pay_fail_page'),
     path('store/pay/update_status', PaymentPageViews.store_pay_update_status, name='store_pay_update_status'),
 
+    # OAuth Domain
+    path('store/google/login', AuthViews.google_login, name='store_google_login'),
+    path('store/google/login/callback', AuthViews.google_login_callback, name='store_google_login_callback'),
+    path('store/reddit/login', AuthViews.reddit_login, name='store_reddit_login'),
+    path('store/reddit/login/callback', AuthViews.reddit_login_callback, name='store_reddit_login_callback'),
+    path('store/github/login', AuthViews.github_login, name='store_github_login'),
+    path('store/github/login/callback', AuthViews.github_login_callback, name='store_github_login_callback'),
 
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),
