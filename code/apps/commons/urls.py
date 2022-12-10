@@ -10,7 +10,7 @@ from apps.commons.views_search import SearchPageViews
 from apps.commons.views_bot import BotPageViews
 from apps.commons.views_oauth import AuthViews
 from apps.commons.views_search import SearchPageViews
-from apps.commons.views_auth import AuthViews
+from apps.commons.views_oauth import AuthViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
