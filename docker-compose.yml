@@ -69,20 +69,20 @@ services:
   #   depends_on:
   #     - elasticsearch
 
-  celery_worker:
-    image: johnnyliunice/pandama:latest
-    restart: always
-    networks:
-      - inner_pandama
-    depends_on:
-      - postgres
-      - rabbitmq
-      - redis
-      - mongodb
-      # - neo4j
-      - elasticsearch
-      # - logstash
-      # - kibana
+  # celery_worker:
+  #   image: johnnyliunice/pandama:latest
+  #   restart: always
+  #   networks:
+  #     - inner_pandama
+  #   depends_on:
+  #     - postgres
+  #     - rabbitmq
+  #     - redis
+  #     - mongodb
+  #     # - neo4j
+  #     - elasticsearch
+  #     # - logstash
+  #     # - kibana
 
   # celery_beat:
   #   image: pandama:latest
