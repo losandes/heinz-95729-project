@@ -3,7 +3,30 @@ class ESProductModel:
   {
     "settings":{
         "number_of_shards":1,
-        "number_of_replicas":0
+        "number_of_replicas":0,
+        "analysis": {
+            "analyzer": {
+                "autocomplete_analyzer": {
+                    "tokenizer": "autocomplete_tokenizer",
+                    "filter": [
+                        "lowercase"
+                    ]
+                },
+                "autocomplete_search": {
+                    "tokenizer": "lowercase"
+                }
+            },
+            "tokenizer": {
+                "autocomplete_tokenizer": {
+                    "type": "edge_ngram",
+                    "min_gram": 2,
+                    "max_gram": 10,
+                    "token_chars": [
+                        "letter"
+                    ]
+                }
+            }
+        } 
     },
     "mappings":{
         "properties":{
@@ -11,10 +34,14 @@ class ESProductModel:
               "type":"text"
           },
           "name":{
-              "type":"text"
+              "type":"text",
+              "analyzer": "autocomplete_analyzer",
+              "search_analyzer": "autocomplete_search"
           },
           "chinese_name":{
-              "type":"text"
+              "type":"text",
+              "analyzer": "autocomplete_analyzer",
+              "search_analyzer": "autocomplete_search"
           },
           "brand":{
               "type":"keyword"
