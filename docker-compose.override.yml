@@ -92,23 +92,23 @@ services:
   #     - ./logs:/logs
   #     - ./config/filebeat.yml:/usr/share/filebeat/filebeat.yml
 
-  celery_worker:
-    build: .
-    image: pandama:latest
-    env_file: ./env/.env.dev
-    command: 
-      bash ./wait-for-it.sh postgres:5432 -t 0 -s -- 
-      sh -c "python3 manage.py makemigrations commons &&  
-      python3 manage.py makemigrations customers &&  
-      python3 manage.py makemigrations catalogs &&  
-      python3 manage.py makemigrations carts &&  
-      python3 manage.py makemigrations products &&  
-      python3 manage.py makemigrations orders &&  
-      python3 manage.py migrate && 
-      celery -A config worker -c 1 --beat -l INFO"
-    volumes:
-      - ./code:/code
-      - ./logs:/logs
+  # celery_worker:
+  #   build: .
+  #   image: pandama:latest
+  #   env_file: ./env/.env.dev
+  #   command: 
+  #     bash ./wait-for-it.sh postgres:5432 -t 0 -s -- 
+  #     sh -c "python3 manage.py makemigrations commons &&  
+  #     python3 manage.py makemigrations customers &&  
+  #     python3 manage.py makemigrations catalogs &&  
+  #     python3 manage.py makemigrations carts &&  
+  #     python3 manage.py makemigrations products &&  
+  #     python3 manage.py makemigrations orders &&  
+  #     python3 manage.py migrate && 
+  #     celery -A config worker -c 1 --beat -l INFO"
+  #   volumes:
+  #     - ./code:/code
+  #     - ./logs:/logs
 
   # celery_beat:
   #   env_file: ./env/.env.dev
