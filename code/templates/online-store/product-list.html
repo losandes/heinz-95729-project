@@ -4,21 +4,21 @@
 
 {% block header %}
     <!-- Header Area-->
-    <div class="header-area" id="headerArea">
-      <div class="container h-100 d-flex align-items-center justify-content-between">
-        <!-- Back Button-->
-        <div class="back-button"><a onclick="goBack()"><i class="lni-arrow-left"></i>Back</a></div>
-        <!-- Search Form-->
-        <div class="top-search-form">
-          <form action="product-list" method="GET">
-            <input class="form-control" type="search" id="product_search_input" name="search" placeholder="Enter your keyword" data-step="1" data-intro="You can search everything no matter using english or chinese. &#129321;">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
-        </div>
-        <!-- Filter Option-->
-        <div class="filter-option" id="suhaNavbarToggler" data-step="2" data-intro="Product filters to help you find what you want. &#129321;"><i class="lni-cog"></i></div>
+ 
+    <div class="container h-100 d-flex align-items-center justify-content-between">
+      <!-- Back Button-->
+      <div class="back-button"><a onclick="goBack()"><i class="lni-arrow-left"></i>Back</a></div>
+      <!-- Search Form-->
+      <div class="top-search-form">
+        <form action="product-list" method="GET">
+          <input class="form-control" type="search" id="product_search_input" name="search" placeholder="Enter your keyword" data-step="1" data-intro="You can search everything no matter using english or chinese. &#129321;"  onkeyup="autocomplete_search(this)">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
       </div>
+      <!-- Filter Option-->
+      <div class="filter-option" id="suhaNavbarToggler" data-step="2" data-intro="Product filters to help you find what you want. &#129321;"><i class="lni-cog"></i></div>
     </div>
+    
 
     <!-- Side Nav Wrapper-->
     <div class="suha-sidenav-wrapper filter-nav" id="sidenavWrapper">

@@ -6,6 +6,7 @@ from apps.commons.views_products import ProductPageViews
 from apps.commons.views_orders import OrderPageViews
 from apps.commons.views_carts import CartPageViews
 from apps.commons.views_payment import PaymentPageViews
+from apps.commons.views_search import SearchPageViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
@@ -54,6 +55,8 @@ urlpatterns = [
     path('store/pay_fail', PaymentPageViews.store_orders_pay_fail_page, name='store_orders_pay_fail_page'),
     path('store/pay/update_status', PaymentPageViews.store_pay_update_status, name='store_pay_update_status'),
 
+    # Search Domain
+    path('store/ajax-autocomplete-search', SearchPageViews.autocomplete_search_ajax, name='autocomplete_search_ajax'),
 
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),
