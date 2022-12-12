@@ -7,6 +7,7 @@ from apps.commons.views_orders import OrderPageViews
 from apps.commons.views_carts import CartPageViews
 from apps.commons.views_payment import PaymentPageViews
 from apps.commons.views_oauth import AuthViews
+from apps.commons.views_search import SearchPageViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
@@ -62,6 +63,9 @@ urlpatterns = [
     path('store/reddit/login/callback', AuthViews.login_callback, name='login_callback'),
     path('store/github/login', AuthViews.github_login, name='store_github_login'),
     path('store/github/login/callback', AuthViews.login_callback, name='login_callback'),
+    
+    # Search Domain
+    path('store/ajax-autocomplete-search', SearchPageViews.autocomplete_search_ajax, name='autocomplete_search_ajax'),
 
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),

@@ -28,6 +28,8 @@
     <div class="header-area" id="headerArea">
       {% block header %}
       {% endblock %}
+      <div id="autocomplete_search_result">
+      </div>
     </div>
     <!-- Side Nav Wrapper-->
     <div class="suha-sidenav-wrapper" id="sidenavWrapper">
@@ -158,6 +160,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js" integrity="sha512-WYNEDpX7FCz0ejmdUFl444n+v7gDgDFYmxy2YBx99v15UUk3zU5ZWYFBXFCvWYvd+nv/guwUnXmrecK7Ee0Wtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% block extrascripts %}
     {% endblock %}
+    <script>
+      function autocomplete_search(obj) {
+        var query = $(obj).val();
+        commonAjax("store/ajax-autocomplete-search", "GET", {'query': query}, "html", function(html){
+            if (html == "") {
+                
+            }
+            else{
+              $("#autocomplete_search_result").html(html);
+            }
+        }, function(){
+            alertShow("error", "Occurred error!");
+        });
+      }
+    </script>
   </body>
 <!-- Mirrored from demo.designing-world.com/suha-v1.1.0/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Jan 2020 15:57:15 GMT -->
 </html>
