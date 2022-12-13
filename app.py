@@ -3,7 +3,7 @@ import os
 
 import openai
 from dotenv import load_dotenv
-from flask import Flask, request, send_from_directory
+from flask import Flask, request
 
 import database_functions
 from gpt3 import gpt3
