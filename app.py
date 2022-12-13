@@ -10,7 +10,7 @@ from gpt3 import gpt3
 
 load_dotenv()
 
-openai.api_key = environ["OPENAI_API_KEY"]
+openai.api_key = environ.get("OPENAI_API_KEY")
 
 gpt3 = gpt3(openai.api_key)
 app = Flask(__name__) # used ngrok to listen to port 5000 so that 

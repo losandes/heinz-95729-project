@@ -10,11 +10,10 @@ any queries.
 """
 import mysql.connector
 import os
-import ssl
 
 mydb = mysql.connector.connect(
     user="ScottyAdmin", 
-    password = os.environ["DB_PASSWORD"], 
+    password = os.environ.get("DB_PASSWORD"), 
     host="scottybot-db.mysql.database.azure.com", 
     port=3306, 
     database="scottybot", 
