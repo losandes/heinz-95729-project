@@ -18,8 +18,7 @@ mydb = mysql.connector.connect(
     host="scottybot-db.mysql.database.azure.com", 
     port=3306, 
     database="scottybot", 
-    ssl_ca="DigiCertGlobalRootCA.crt.pem",
-    tls_versions = ["TLSv1", "TLSv1.1", 'TLSv1.2', 'TLSv1.3']
+    ssl_ca="DigiCertGlobalRootCA.crt.pem"
     )
 cursor = mydb.cursor()
 
