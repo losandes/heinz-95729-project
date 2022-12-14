@@ -1,4 +1,4 @@
 Flask==2.1.0
-mysql_connector==2.2.9
+mysql-connector-python==8.0.31
 openai==0.25.0
 python-dotenv==0.21.0
