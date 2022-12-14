@@ -44,3 +44,6 @@ DYNAMIC_SYS_SETTINGS_LOCKER_INDEX_ASYNC_PROCESS=env.str('DYNAMIC_SYS_SETTINGS_LO
 
 CHROMEDRIVER_PATH=env.str('CHROMEDRIVER_PATH', default='/app/.chromedriver/bin/chromedriver')
 GOOGLE_CHROME_BIN=env.str('GOOGLE_CHROME_BIN', default='/app/.apt/usr/bin/google-chrome')
+
+STRIPE_API_KEY=env.str('STRIPE_API_KEY')
+STRIPE_API_KEY_TEST=env.str('STRIPE_API_KEY_TEST')
