@@ -27,7 +27,7 @@ def welcome():
 def webhook():
     print("Received request from df")
     req = request.get_json(silent = True, force=True)
-    print(req)
+    #print(req)
     fulfillmentText = ''
     df_query = req.get('queryResult') 
     df_intent = df_query.get('intent')
@@ -36,8 +36,8 @@ def webhook():
         action = df_intent['displayName']
     message = df_query.get('queryText')
     params = df_query.get('parameters') # this is a dictionary
-    print( params)
-    print("retrieved necessary info, starting switch statement")
+    #print( params)
+    #print("retrieved necessary info, starting switch statement")
     # pull the user ID from the original slack payload
     user = ''
     slack_og = req.get('originalDetectIntentRequest')
@@ -56,9 +56,10 @@ def webhook():
     
 
 def switch(action, message, user, params):
-    print("started switch statment. responding based on action: " + action)
+    #print("started switch statment. responding based on action: " + action)
     df_response ="Sorry, I didn't quite get that"
     if action == "AddCourse":
+        print("Adding a course")
         if len(params['course-number'])>0:
             courses_string = ""
             for course in params['course-number']:
@@ -71,6 +72,7 @@ def switch(action, message, user, params):
         else:
             df_response = "I can't tell what course you would like to add. Please try again with a more specific course topic or course number."
     elif action == "DropCourse":
+        print("Dropping a course")
         if len(params['course-number'])>0:
             courses_string=''
             for course in params['course-number']:
@@ -83,6 +85,7 @@ def switch(action, message, user, params):
         else:
             df_response = "I can't tell what course you would like to drop. Please try again with a more specific course topic or course number."
     elif action == "FindCourse":
+        print("Finding courses")
         if len(params['course-number'])>0:
             courses_string = ""
             for course in params['course-number']:
