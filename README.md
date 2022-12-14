@@ -1,6 +1,13 @@
 # ScottyBot Dialogflow
 
-## Getting Started
+## Meet ScottyBot
+
+Please go to the scottybot-development-workspace channel that you were invited to and begin interacting with @ScottyBot_Mayank.
+We have deployed the application contained in this Dialogflow portion of the project to heroku for you to access it more easily.
+If there are any questions, concerns or issues please reach out to us.
+If you would like to use a local environment for the application, database or both please see the following instructions.
+
+## Manual Setup
 
 First make sure that a recent version of python is installed on your computer.
 Once python is installed, enter the main project directory and open a terminal (bash terminal for Mac, git bash for windows).
@@ -37,7 +44,7 @@ set DB_Password=<password_here>
 set OPENAI_API_KEY=<GPT3_API_SECRET_KEY_HERE>
 ```
 
-> Note: If you prefer to use your own database, please use the provided Generate ScottyBot Database script to populate a relational database named scottybot. If you choose to use your own database (this can be a local database) then you will need to change the host, user and password in the database_functions.py module as well as update or delete the ssl_ca and port sections of the connection
+> Note: If you prefer to use your own database, please use the provided Generate ScottyBot Database script to populate a relational database named scottybot. If you choose to use your own database (this can be a local database) then you will need to change the host, user and password in the database_functions.py module as well as update or delete the ssl_ca and port sections of the connection  
 
 Once you have your .env file, in your terminal run the command 
 for Mac:
@@ -45,7 +52,7 @@ for Mac:
 $ source .env 
 ```
 
-> Note: if you plan on pushing this to github, ensure that your .gitignore file includes venv
+> Note: if you plan on pushing this to github, ensure that your .gitignore file includes .env
 
 ## Running and Interacting with ScottyBot
 
@@ -61,7 +68,8 @@ Now that dialogflow knows what URL to communicate with, return to the terminal i
 ```Shell
 python app.py
 ```
-> Note: if that does not work try python3 app.py
+> Note: if that does not work try python3 app.py  
+
 Now that the app is running and there is a URL that Dialogflow can communicate with, please go to the scottybot-development-workspace channel that you were invited to you and communicate with @ScottyBot_Mayank 
 
 ## Final Steps
