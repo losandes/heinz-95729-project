@@ -21,7 +21,7 @@ for Mac:
 ```Shell
 $ source venv/bin/activate
 ```
-Now that the virtual environment is activated (you should see somthing along the lines of venv in parentesis above or preceding your command input line) we will install the required packages for this project.
+Now that the virtual environment is activated (you should see somthing along the lines of (venv) above or preceding your command input line. Now we will install the required packages for this project.
 ```Shell
 (venv) $ pip install -r requirements.txt
 ```
