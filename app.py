@@ -65,7 +65,7 @@ def switch(action, message, user, params):
             for course in params['course-number']:
                 database_functions.addCourse(user, course)
                 courses_string += str(course) + " "
-            df_response = gpt3.gpt_response(message)
+            df_response = "Course " + course + " has been added"
         elif params['topic'] != "":
             poss_course = database_functions.findCourse(params['topic'])
             df_response = "Are any of these the course you want? \n" + poss_course + "\n" + "If so, please try to add by course number"
@@ -78,7 +78,7 @@ def switch(action, message, user, params):
             for course in params['course-number']:
                 database_functions.dropCourse(user, course)
                 courses_string += str(course) + " "
-            df_response = gpt3.gpt_response(message)
+            df_response = "Course " + course + " has been removed"
         elif params['topic'] != "":
             poss_course = database_functions.findCourse(params['topic'])
             df_response = "Are any of these the course you want to drop? \n" + poss_course + "\n" + "If so, please try to drop by course number"
@@ -90,10 +90,10 @@ def switch(action, message, user, params):
             courses_string = ""
             for course in params['course-number']:
                 courses_string += database_functions.findCourse(course) + "\n"
-            df_response = gpt3.gpt_response(message) + "\n" + courses_string 
+            df_response = gpt3.gpt_response(message) + "\n" + "I found the following course offerings:" + "\n" + courses_string 
         elif params['topic'] != "":
             courses_string = database_functions.findCourse(params['topic'])
-            df_response =  gpt3.gpt_response(message) + "\n" + courses_string
+            df_response =  gpt3.gpt_response(message) + "\n" + "I found the following course offerings:" + "\n" + courses_string
         else:
             df_response = "I can't tell what course you are looking for. Please try again with a more specific course topic or course number."        
     elif action == "ViewSchedule":
