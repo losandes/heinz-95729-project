@@ -1,6 +1,5 @@
 {% extends "online-store/common/base.html" %}
 {% load static %}
-<!--   <link rel="stylesheet" href="{% static 'online-store/css/checkout.css' %}">-->
 {% block header %}
 <div class="container h-100 d-flex align-items-center justify-content-between">
     <!-- Back Button-->
@@ -14,7 +13,6 @@
         <span></span><span></span><span></span></div>
     <link rel="stylesheet" href="{% static 'online-store/css/checkout.css' %}">
     <script src="https://js.stripe.com/v3/"></script>
-<!--    <script src="checkout.js" defer></script>-->
 </div>
 {% endblock %}
 
@@ -38,10 +36,10 @@
 
 {% block extrascripts %}
 <script>
-const stripe = Stripe("pk_test_51M88sVAjuUbW2aMV6TdrcRfKu8EQbqn9GCdg3LMWhL6kabtBpINJdep9QwsdrtjopoSNkZSt3EVEk8hl60lwME4i00OtY3Fegf");
+var stripe_api_key = '{{ stripe_key }}';
+const stripe = Stripe(stripe_api_key);
 
-// The items the customer wants to buy
-const items = [{ id: "xl-tshirt" }];
+const items = [{ id: "items" }];
 let new_pay_id = 1;
 let elements;
 
@@ -68,7 +66,6 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// Fetches a payment intent and captures the client secret
 async function initialize() {
   const response = await fetch("{% url 'store_orders_pay_page' %}", {
     method: "POST",
@@ -78,8 +75,6 @@ async function initialize() {
 
   const { clientSecret } = await response.json();
   new_pay_id = clientSecret['new_pay_id'];
-  console.log("-------")
-  console.log(new_pay_id)
   const appearance = {
     theme: 'stripe',
   };
@@ -96,22 +91,13 @@ async function initialize() {
 async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
-  // const return_url =  "/online-store/payment-success.html";
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      // Make sure to change this to your payment completion page
-      // return_url: window.location.href = location.protocol + "//" + location.host + "/store/pay_success",
-      //   return_url: "http://localhost:4242/checkout.html",
         return_url: location.protocol + "//" + location.host + "/store/checkout",
     },
   });
 
-  // This point will only be reached if there is an immediate error when
-  // confirming the payment. Otherwise, your customer will be redirected to
-  // your `return_url`. For some payment methods like iDEAL, your customer will
-  // be redirected to an intermediate site first to authorize the payment, then
-  // redirected to the `return_url`.
   if (error.type === "card_error" || error.type === "validation_error") {
     showMessage(error.message);
     window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
@@ -122,7 +108,6 @@ async function handleSubmit(e) {
   setLoading(false);
 }
 
-// Fetches the payment intent status after payment submission
 async function checkStatus() {
   const clientSecret = new URLSearchParams(window.location.search).get(
     "payment_intent_client_secret"
@@ -175,8 +160,6 @@ function changePaymentStatus(status_code){
         });
 }
 
-// ------- UI helpers -------
-
 function showMessage(messageText) {
   const messageContainer = document.querySelector("#payment-message");
 
@@ -189,7 +172,6 @@ function showMessage(messageText) {
   }, 4000);
 }
 
-// Show a spinner on payment submission
 function setLoading(isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner

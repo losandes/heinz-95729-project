@@ -10,7 +10,6 @@ from decimal import *
 from apps.products.services_screenshot import ScreenshotProcessor
 from celery import shared_task
 import jsonpickle
-from config.settings.config_common import LOGTAIL_SOURCE_TOKEN
 from config.settings.config_common import PAGE_SIZE_ORDER_HISTORY
 import logging
 
@@ -24,7 +23,6 @@ def order_checkout_precheck_customer(total_price, customerId):
 
     if cur_balance <= total_price:
         return False
-
     return True
 
 
@@ -67,8 +65,6 @@ def order_first_checkout(customerId):
 
 
 def single_order_first_checkout(customerId, sku_number, quantity):
-    # sku_number = request.POST.get("sku_number", None)
-    # quantity = int(request.POST.get("quantity", None))
 
     cur_customer = Customer.objects.get(id=customerId)
     cur_sku_dto = MongoProcessor.query_sku_array_by_sku_number_array([sku_number])

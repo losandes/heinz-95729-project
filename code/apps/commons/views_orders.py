@@ -8,7 +8,8 @@ from config.settings.config_common import \
     LOGTAIL_SOURCE_TOKEN, \
     S3_PRODUCT_IMAGE_THUMBNAIL_URL_PREFIX, \
     S3_PDP_SCREENSHOT_URL_PREFIX, \
-    PAGE_SIZE_ORDER_HISTORY
+    PAGE_SIZE_ORDER_HISTORY, \
+    STRIPE_API_KEY_TEST
 from apps.orders.views import  queryOrdersItemsByCustomerId, queryOrdersByCustomerId, order_checkout, order_first_checkout, order_single_checkout, single_order_first_checkout
 import logging
 from django.http import JsonResponse
@@ -34,6 +35,7 @@ class OrderPageViews:
 
         cur_cart = queryCartByCustomerId_Redis(customerId)
         context['total_price'] = cur_cart["total"]
+        context['stripe_key'] = STRIPE_API_KEY_TEST
 
         if not order_first_checkout(customerId):
             return render(request, "online-store/checkout-fail.html")
