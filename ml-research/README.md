@@ -26,10 +26,12 @@ https://github.com/cmu-phil/tetrad
 
 Tetrad document and tutorial URLs are here:
 
-Tutorial:
+
+  * Tutorial:
 https://rawgit.com/cmu-phil/tetrad/development/tetrad-gui/src/main/resources/resources/javahelp/manual/tetrad_tutorial.html
 
-Manual:
+
+  * Manual:
 https://htmlpreview.github.io/?https:///github.com/cmu-phil/tetrad/blob/development/docs/manual/index.html
 
 Also, we use the Java environment to work the causal inference code tetrad-gui-7.1.0-launch.jar. 
