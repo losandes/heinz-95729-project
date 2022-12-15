@@ -3,22 +3,21 @@ exports.up = async function (knex) {
       id UUID PRIMARY KEY NOT NULL,
       productId TEXT NOT NULL,
       userId TEXT NOT NULL,
-      timestamp_ms BIGINT NOT NULL,
-
+      timestamp_ms BIGINT NOT NULL
   );
 
   COMMENT ON COLUMN orderhistory.id IS 'The record id';
   COMMENT ON COLUMN orderhistory.productId IS 'The product id';
   COMMENT ON COLUMN orderhistory.userId IS 'The user ID';
-  COMMENT ON COLUMN orderhistory.timestamp_ms IS 'The time of purchase, in milliseconds';`
+  COMMENT ON COLUMN orderhistory.timestamp_ms IS 'The time of purchase, in milliseconds';`;
 
   await knex.transaction(async (trx) => {
-    return await trx.raw(sql)
-  })
-}
+    return await trx.raw(sql);
+  });
+};
 
 exports.down = async function (knex) {
   await knex.transaction(async (trx) => {
-    return await trx.raw('DROP TABLE orderhistory;')
-  })
-}
+    return await trx.raw("DROP TABLE orderhistory;");
+  });
+};

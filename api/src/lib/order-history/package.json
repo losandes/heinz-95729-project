@@ -1,7 +1,7 @@
 {
-  "name": "@heinz-95729-api/orderhistory",
+  "name": "@heinz-95729-api/order-history",
   "version": "0.1.0",
-  "description": "The core definitions / features for orderhistory",
+  "description": "The core definitions / features for order-history",
   "private": true,
   "main": "index.js",
   "scripts": {

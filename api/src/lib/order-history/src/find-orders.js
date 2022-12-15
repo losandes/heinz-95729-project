@@ -10,7 +10,7 @@ function FindOrderFactory (deps) {
    * Get a Order by id
    *
    * Usage with httpie:
-   *     http http://localhost:3000/products?q=Tropper
+   *     http http://localhost:3000/findOrders?q=Tropper
    */
   const findOrder = async (ctx) => {
     const logger = ctx.request.state.logger
