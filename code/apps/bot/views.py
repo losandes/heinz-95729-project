@@ -18,7 +18,7 @@ def get_bot_response(request):
             logger.info(
                 "get submitted text from html " + request.POST.get("message"))
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/chengxinhao/Desktop/aws/diaflow/newagent-pl9e-f2862b0a6aaa.json'
+            "GOOGLE_APPLICATION_CREDENTIALS"] = 'env/chatbot_credential.json'
         DIALOGFLOW_LANGUAGE_CODE = 'en'
         SESSION_ID = 'anything'
 
