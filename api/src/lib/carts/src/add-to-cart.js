@@ -1,34 +1,34 @@
 /**
- * @param {ProductPgRepo} productRepo
+ * @param {CartPgRepo} CartRepo
  */
-function FindOrderFactory (deps) {
+function AddToCartFactory (deps) {
   'use strict'
 
-  const { orderRepo } = deps
+  const { CartRepo } = deps
 
   /**
-   * Get a Order by id
-   *
-   * Usage with httpie:
-   *     http http://localhost:3000/products?q=Tropper
+   * Adds a product to a cart
+   * @param {Object} ctx - the context object containing the product information to add to the cart
    */
-  const findOrder = async (ctx) => {
+  const AddToCart = async (ctx) => {
     const logger = ctx.request.state.logger
+    const product = ctx.request.body
 
     try {
-      const orders = await orderRepo.find(ctx.query.q)
+      // Use the CartRepo to insert or update the product in the cart
+      const { cart, res } = await CartRepo.upsert(product)
 
-      logger.emit('order_find_success', 'debug', { count: orders.length, orders })
+      logger.emit('Cart_upsert_success', 'debug', { cart, res })
 
       ctx.response.status = 200
-      ctx.response.body = orders
+      ctx.response.body = cart
     } catch (err) {
-      logger.emit('order_find_error', 'error', { err })
-      throw new Error('Failed to find orders with query ' + ctx.query.q)
+      logger.emit('Cart_upsert_error', 'error', { err })
+      throw new Error('Failed to add product to cart')
     }
   }
 
-  return { findOrder }
+  return { AddToCart }
 }
 
-module.exports = FindOrderFactory
+module.exports = AddToCartFactory
