@@ -76,7 +76,7 @@ function goBack() {
      window.location.href = location.protocol + "//" + location.host + "/store/home"; 
   }
 
-  url_array = ['store/home', 'store/profile', 'store/wish-list', 'store/catalog', 'store/product-list', 'store/product-detail', 'store/cart', 'store/order']
+  url_array = ['store/home', 'store/profile', 'store/wish-list', 'store/catalog', 'store/product-list', 'store/product-detail', 'store/cart', 'store/order', 'store/message']
 
   for (var index in url_array) {
     if (document.referrer.indexOf(url_array[index]) >= 0) {
