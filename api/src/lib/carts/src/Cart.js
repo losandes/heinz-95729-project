@@ -1,12 +1,34 @@
 /**
- * @param {@polyn/blueprint} blueprint
+
  * @param {@polyn/immutable} immutable
  * @param {uuid/v4} uuid
  */
+
+const { Product } = require('../product/src/Product')
+
+class Cart {
+  constructor (input) {
+    this.products = input.products || []
+  }
+
+  addProduct (product) {
+    // Ensure that the product being added is an instance of the Product class
+    if (!(product instanceof Product)) {
+      throw new Error('Product is not an instance of Product')
+    }
+
+    this.products.push(product)
+  }
+
+  removeProduct (productId) {
+    this.products = this.products.filter((product) => product.id !== productId)
+  }
+}
+
 function CartFactory (deps) {
   'use strict'
 
-  const { registerBlueprint, optional } = deps.blueprint
+
   const { immutable } = deps.immutable
   const { uuid } = deps
 
@@ -14,13 +36,9 @@ function CartFactory (deps) {
     UUID: /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
   }
 
-  const CartBlueprint = {
-    id: optional(REGEX.UUID).withDefault(uuid),
-    productId: 'string',
-    userId: 'string',
-  }
 
-  registerBlueprint('Cart', CartBlueprint)
+
+
   const Cart = immutable('Order', CartBlueprint)
   Cart.blueprint = CartBlueprint
 
