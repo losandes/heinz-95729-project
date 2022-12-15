@@ -1,0 +1,3 @@
+[submodule "ScottyBoty_LUIS"]
+	path = ScottyBot
+	url = https://github.com/ewclark47/ScottyBot
