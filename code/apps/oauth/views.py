@@ -29,13 +29,13 @@ def deal_login_callback(code, request, provider):
     customer = None
     if provider == 'google':
         data = get_user_info_google(request, code)
-        customer = creat_customer(name=data['name'], email=data['email'], first_name=data['given_name'], last_name=data['family_name'])
+        customer = create_customer(name=data['name'], email=data['email'], first_name=data['given_name'], last_name=data['family_name'])
     elif provider == 'reddit':
         data = get_user_info_reddit(request, code)
-        customer = creat_customer(name=data['name'], email=data['name'] + '@pandama.com')
+        customer = create_customer(name=data['name'], email=data['name'] + '@pandama.com')
     elif provider == 'github':
         data = get_user_info_github(request, code)
-        customer = creat_customer(name=data['login'], email=data['login'] + '@pandama.com')
+        customer = create_customer(name=data['login'], email=data['login'] + '@pandama.com')
     # After creating the customer, login the customer
     login(request, customer)
 
@@ -122,7 +122,7 @@ def get_user_info_github(request, code):
     data = response.json()
     return data
 
-def creat_password():
+def create_password():
     salt = ""
     for i in range(6):
         index = math.floor(random.random() * 10)
@@ -132,14 +132,14 @@ def creat_password():
     hash_value = hashlib.sha256((salt + password).encode()).hexdigest()
     return hash_value, salt
 
-def creat_customer(name, email, first_name="", last_name=""):
+def create_customer(name, email, first_name="", last_name=""):
     '''Create a customer object and store it into the database,
     if the customer already exists, simply return it.
     '''
     try: # if the customer already exists
         customer = Customer.objects.get(username = name)
     except ObjectDoesNotExist: # otherwise, create the customer oject and save it to database
-        hash_value, salt = creat_password()
+        hash_value, salt = create_password()
         customer = Customer(first_name=first_name,
                             last_name=last_name,
                             username=name,
