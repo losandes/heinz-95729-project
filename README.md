@@ -5,7 +5,11 @@
 Please go to the scottybot-development-workspace channel that you were invited to and begin interacting with @ScottyBot_Mayank.
 We have deployed the application contained in this Dialogflow portion of the project to heroku for you to access it more easily.
 If there are any questions, concerns or issues please reach out to us.
-If you would like to use a local environment for the application, database or both please see the following instructions.
+If you would like to use a local environment for the application, database or both please see the following instructions for Manual Setup.
+
+### ScottyBot Web App
+
+Although still a work in progress, our desired endstate if we had unlimited time and resources was a Web App that could be integrated with Carnegie Mellon's website to actually assist students with scheduling. We have been unable to build out the full functionality with our database as of now, but we were able to integrate GPT3 functionality with a basic, unstyled Web App. Our ScottyBot Web App can be found at https://scottybot-dialogflow.herokuapp.com/
 
 ## Manual Setup
 
