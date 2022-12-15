@@ -49,6 +49,7 @@
     "unexpected": "~11.14.0"
   },
   "dependencies": {
-    "order-history": "link:..\\lib\\order-history"
+    "order-history": "link:..\\lib\\order-history",
+    "orderHistory": "link:..\\lib\\orderHistory"
   }
 }

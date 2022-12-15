@@ -1,7 +1,7 @@
 const ProductsDomain = require('@heinz-95729-api/products')
 const BooksDomain = require('@heinz-95729-api/books')
 const UsersDomain = require('@heinz-95729-api/users')
-const OrderHistoryDomain = require('@heinz-95729-api/order-history')
+const OrderHistoryDomain = require('@heinz-95729-api/orderHistory')
 const StartupError = require('./StartupError.js')
 
 /**
@@ -44,7 +44,7 @@ const compose = async (context) => {
 
     // ORDER HISTORY
     // =========================================================================
-    context.domains.OrderHistoryDomain = new OrderHistoryDomain({
+    context.domains.orderHistory = new OrderHistoryDomain({
       knex: context.knex,
     })
     context.migrations.push({ domain: 'orderHistory', migrate: context.domains.orderHistory.migrate })
