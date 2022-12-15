@@ -129,6 +129,15 @@
             </a>
           </li>
           <li>
+              {% if 'message' in request.path %}
+              <a href="{% url 'store_page' page='message' %}" class="text-primary">
+              {% else %}
+              <a href="{% url 'store_page' page='message' %}">
+              {% endif %}
+              <i class="fas fa-message"></i>ChatBot
+            </a>
+          </li>
+          <li>
             {% if 'cart' in request.path %}
             <a href="{% url 'store_page' page='cart' %}" class="text-primary">
             {% else %}
