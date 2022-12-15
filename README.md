@@ -31,6 +31,10 @@ It's a combination word from a Chinese word and an English word.
 You can check out our wiki to find detailed user stories, UI design, and tech design for each new feature.
 [https://github.com/liuninglin/pandama-ext/wiki](https://github.com/liuninglin/pandama-ext/wiki)
 
+## Management
+
+[GitHub Project](https://github.com/users/liuninglin/projects/1) and [GitHub Wiki](https://github.com/liuninglin/pandama-ext/wiki)
+
 ## How to Run
 
 1. Configuration
