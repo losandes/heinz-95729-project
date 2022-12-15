@@ -25,9 +25,9 @@ This project came from my team project in CMU course 17637 taught by Jeffrey Epp
 | Name          | Department                    | Contributions                                  |
 | ------------- | ----------------------------- | ------------------------------------------ |
 | Ninglin Liu   | CMU Heinz College - MISM      | Lead Team / Develop / Deployment / Docker Configuration |
-| [Jianbing Gong](https://github.com/JianbinGong) | CMU Heinz College - MISM      | Develop |
-| [Shu Wu](https://github.com/Sukeastree)        | CMU Heinz College - MISM      | Develop      |
-| [Xiaoting Wang](https://github.com/makethedayunique) | CMU Heinz College - MISM BIDA | Develop |
+| [Xinhao Cheng] | CMU - MSIN    | Develop |
+| [Shu Wu]        | CMU Heinz College - MISM      | Develop      |
+| [Zhiben Chen]| CMU Heinz College - MISM | Develop |
 
 ## Acknowledgement
 
