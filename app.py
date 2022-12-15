@@ -3,7 +3,7 @@ import os
 
 import openai
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 import database_functions
 from gpt3 import gpt3
@@ -16,11 +16,16 @@ gpt3 = gpt3(openai.api_key)
 app = Flask(__name__) # used ngrok to listen to port 5000 so that 
 # the dialogflow webhook works with flask
 # command for command line: ngrok http 5000
+app.static_folder='static'
 
 @app.route('/')
-@app.route('/home')
 def welcome():
-    return "Hello World from ScottyBot-Dialogflow Home Page"
+    return render_template("index.html")
+
+@app.route('/get', methods=['GET'])
+def get_scotty_response():
+    message = request.args.get("message")
+    return gpt3.gpt_response(message)
 
 
 @app.route('/webhook', methods=['GET', 'POST'])
