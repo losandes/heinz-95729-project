@@ -1,6 +1,7 @@
 const ProductsDomain = require('@heinz-95729-api/products')
 const BooksDomain = require('@heinz-95729-api/books')
 const UsersDomain = require('@heinz-95729-api/users')
+const CartDomain = require('@heinz-95729-api/carts')
 const StartupError = require('./StartupError.js')
 
 /**
@@ -40,6 +41,17 @@ const compose = async (context) => {
       env: context.env,
     })
     context.migrations.push({ domain: 'users', migrate: context.domains.users.migrate })
+
+
+    // CART
+    // =========================================================================
+    context.domains.carts = new CartDomain({
+      knex: context.knex,
+    })
+    context.migrations.push({ domain: 'carts', migrate: context.domains.carts.migrate })
+    context.routes.push((router) => router.get('/carts/:userId', context.domains.carts.findOrder)) // 3. http http://localhost:3000/carts/Srinivas_N3
+
+
 
     const loginRedirectRoute = (ctx) => `${ctx.origin}/users/authorize`
 
