@@ -2,6 +2,7 @@
 
  * @param {@polyn/immutable} immutable
  * @param {uuid/v4} uuid
+ * @param {Product} Product
  */
 
 const { Product } = require('../product/src/Product')
