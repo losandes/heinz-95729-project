@@ -1,0 +1,88 @@
+/* Global "table" column settings */
+/* Body/Header stuff */
+/* Column headers */
+/* Product entries */
+/* Totals section */
+.shopping-history-wrapper {
+  padding: 12px 100px;
+
+  .order-history-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+  }
+
+  .shopping-history {
+    padding-top: 24px;
+
+    .column-labels {
+      display: flex;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+      label {
+        color: #000;
+        flex: 1;
+        text-align: center;
+      }
+    }
+
+    .products-wrapper {
+      max-height: 340px;
+      overflow: auto;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 24px;
+      .product {
+        display: flex;
+        margin-bottom: 20px;
+        .product-txId {
+          flex: 1;
+          text-align: center;
+          color: #000;
+          font-weight: 400;
+        }
+        .product-purchase {
+          flex: 1;
+          text-align: center;
+          color: #000;
+          font-weight: 400;
+        }
+        .product-image {
+          display: flex;
+          justify-content: center;
+          flex: 1;
+          img {
+            height: 104px;
+          }
+        }
+
+        .product-name {
+          flex: 1;
+          text-align: center;
+          .product-title {
+            color: #000;
+            font-weight: 400;
+          }
+        }
+
+        .product-price {
+          flex: 1;
+          text-align: center;
+          color: #000;
+          font-weight: 400;
+        }
+
+        .product-download {
+          flex: 1;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,137 @@
+/* Global "table" column settings */
+/* Body/Header stuff */
+/* Column headers */
+/* Product entries */
+/* Totals section */
+.shopping-cart-wrapper {
+  padding: 0px 100px;
+
+  .cart-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    h2 {
+      text-align: center;
+      font-weight: 700;
+    }
+    .checkout {
+      border: 0;
+      padding: 0px 12px;
+      background-color: #6b6;
+      color: #fff;
+      font-size: 20px;
+      border-radius: 3px;
+      font-weight: 500;
+      height: 44px;
+      margin-top: 18px;
+      &:hover {
+        background-color: #494;
+      }
+    }
+  }
+
+  .shopping-cart {
+    padding-top: 24px;
+
+    .column-labels {
+      display: flex;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+      label {
+        color: #000;
+        flex: 1;
+        text-align: center;
+      }
+    }
+
+    .products_wrapper {
+      max-height: 340px;
+      overflow: auto;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 24px;
+      .product {
+        display: flex;
+        margin-bottom: 20px;
+        .product-image {
+          display: flex;
+          justify-content: center;
+          flex: 1;
+          img {
+            height: 104px;
+          }
+        }
+
+        .product-name {
+          flex: 1;
+          text-align: center;
+          .product-title {
+            color: #000;
+            font-weight: 400;
+          }
+        }
+
+        .product-price {
+          flex: 1;
+          text-align: center;
+          color: #000;
+          font-weight: 400;
+        }
+
+        .product-removal {
+          flex: 1;
+          text-align: center;
+        }
+      }
+
+      .remove-product {
+        border: 0;
+        padding: 4px 8px;
+        background-color: #c66;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 3px;
+        font-weight: 500;
+
+        &:hover {
+          background-color: #a44;
+        }
+      }
+    }
+
+    .totals {
+      .totals-item {
+        float: right;
+        clear: both;
+        width: 100%;
+        margin-bottom: 10px;
+
+        label {
+          float: left;
+          clear: both;
+          width: 79%;
+          text-align: right;
+          color: #000;
+          font-weight: 400;
+        }
+
+        .totals-value {
+          float: right;
+          width: 21%;
+          text-align: right;
+          color: #000;
+          font-weight: 400;
+        }
+      }
+
+      .totals-item-total {
+        .total,
+        .totals-value {
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

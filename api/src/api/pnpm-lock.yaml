@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@heinz-95729-api/books': link:../lib/books
+  '@heinz-95729-api/orderHistory': link:../lib/orderHistory
   '@heinz-95729-api/products': link:../lib/products
   '@heinz-95729-api/users': link:../lib/users
   '@koa/cors': ~3.1.0
@@ -30,6 +31,7 @@ specifiers:
 
 dependencies:
   '@heinz-95729-api/books': link:../lib/books
+  '@heinz-95729-api/orderHistory': link:../lib/orderHistory
   '@heinz-95729-api/products': link:../lib/products
   '@heinz-95729-api/users': link:../lib/users
   '@koa/cors': 3.1.0
