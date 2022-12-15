@@ -2,7 +2,7 @@ const db = require('knex')
 const supposed = require('supposed')
 const expect = require('unexpected')
 const pkg = require('./package.json')
-const OrderFactory = require('.')
+const CartsFactory = require('.')
 
 const knex = db({
   client: 'pg',
@@ -16,7 +16,7 @@ const teardowns = [() => knex.destroy()]
 const suite = supposed.Suite({
   name: pkg.name,
   assertionLibrary: expect,
-  inject: { Order: OrderFactory({ knex }) },
+  inject: { Carts: CartsFactory({ knex }) },
 })
 
 const runner = suite.runner({
