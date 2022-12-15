@@ -76,7 +76,19 @@
 <!--              <div class="agent-thumbnail mr-2"><img src="./chat.png" alt=""></div>-->
               <!-- Agent Message Text-->
               <div class="agent-message-text">
+                   {% if sku != null %}
+                        <a href="{% url 'store_products_product_detail_page' %}?product_number={{sku}}"
+                               style="
+                          /*text-overflow: ellipsis;*/
+                          /*overflow: hidden;*/
+                          width: 50vw;
+                          /*white-space: nowrap;*/
+                          /*display: inline-block;*/
+                          font-size:12px;
+                      ">{{ user_res }}</a>
+                {% else %}
                 <p>{{user_res}}</p><span>{{user_res_time}}</span>
+                  {% endif %}
               </div>
             </div>
                {% endif %}
@@ -84,18 +96,6 @@
         </div>
       </div>
     </div>
-    <!-- Type Message Form-->
-<!--    <div class="type-text-form" style="position:relative;bottom:18px">-->
-<!--      <form action="#">-->
-<!--        <div class="form-group file-upload mb-0">-->
-<!--          <input type="file"><span class="lni-cloud-upload"></span>-->
-<!--        </div>-->
-<!--          {% csrf_token %}-->
-<!--        <textarea class="form-control" name="message" cols="30" rows="10" placeholder="Type your message ..."></textarea>-->
-<!--         <input type="submit"><span class="lni-cloud-upload"></span>-->
-<!--        <button type="submit"><i class="fa fa-paper-plane-o"></i></button>-->
-<!--      </form>-->
-<!--    </div>-->
 
     <div class="type-text-form" style="position:absolute;top:553px">
       <form action="#" method="POST">
