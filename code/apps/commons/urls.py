@@ -7,6 +7,7 @@ from apps.commons.views_orders import OrderPageViews
 from apps.commons.views_carts import CartPageViews
 from apps.commons.views_payment import PaymentPageViews
 from apps.commons.views_search import SearchPageViews
+from apps.commons.views_bot import BotPageViews
 
 urlpatterns = [
     path('admins/<str:page>', CommonPageViews.admin_page, name='admin_page'),
@@ -57,6 +58,10 @@ urlpatterns = [
 
     # Search Domain
     path('store/ajax-autocomplete-search', SearchPageViews.autocomplete_search_ajax, name='autocomplete_search_ajax'),
+
+    # Bot Domain
+    path('store/message', BotPageViews.get_message_from_bot, name='get_message_from_bot'),
+
 
     # Manual Operation
     path('operation/spider_execute', ManualOperationPageView.spider_execute),
