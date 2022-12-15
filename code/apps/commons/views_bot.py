@@ -17,9 +17,3 @@ class BotPageViews:
             return render(request, "online-store/" + "message" + ".html", context)
         if request.method == "POST":
             return get_bot_response(request)
-
-
-        # print("text:", response.query_result.query_text)
-        # print("intent:", response.query_result.intent.display_name)
-        # print("intent 的 confidence:", response.query_result.intent_detection_confidence)
-        # print("response text:", response.query_result.fulfillment_text)

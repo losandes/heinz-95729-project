@@ -52,9 +52,6 @@ def get_bot_response(request):
 
 
 def process_responce(response, request):
-    print("absd")
-    print(response.query_result.intent.display_name)
-    print(response.query_result.query_text)
     if response.query_result.intent.display_name == "add to cart - yes - custom":
         skuid = response.query_result.query_text.split(":", 1)[1]
         #add to cart
