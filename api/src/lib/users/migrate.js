@@ -1,12 +1,13 @@
+
 /**
  * @param {knex} knex
  */
-function MigrateProductsFactory (deps) {
+function MigrateCartsFactory (deps) {
   'use strict'
 
   const { path, knex } = deps
   const directory = path.join(__dirname, 'migrations')
-  const tableName = 'z_migrations_users'
+  const tableName = 'z_migrations_carts'
 
   const up = async () => {
     await knex.migrate.latest({ directory, tableName })
@@ -18,4 +19,4 @@ function MigrateProductsFactory (deps) {
   return { up, down }
 }
 
-module.exports = MigrateProductsFactory
+module.exports = MigrateCartsFactory

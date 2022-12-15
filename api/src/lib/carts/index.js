@@ -1,26 +1,26 @@
 const blueprint = require('@polyn/blueprint')
 const immutable = require('@polyn/immutable')
-const path = require('path')
 const uuid = require('uuid').v4
-const { Order } = require('./src/Order.js')({ blueprint, immutable, uuid })
-const { OrderPgRepo } = require('./src/OrderPgRepo.js')({ blueprint, Order })
-const FindOrderFactory = require('./src/find-orders.js')
-const MigrateOrderFactory = require('./migrate.js')
+const { Cart } = require('./src/Cart.js')({ blueprint, immutable, uuid })
+const { CartPgRepo } = require('./src/CartPgRepo.js')({ Cart })
+const { AddToCart } = require('./src/add-to-cart.js')()
+const { RemoveProduct } = require('./src/remove-product.js')()
 
 /**
  * @param {knex} knex - A configured/initialized instance of knex
  */
-function OrderFactory (input) {
-  const orderRepo = new OrderPgRepo({ knex: input.knex })
-  const { findOrder } = new FindOrderFactory({ orderRepo })
-  const migrate = MigrateOrderFactory({ path, knex: input.knex })
+function CartsFactory (input) {
+  const cartRepo = new CartPgRepo({ knex: input.knex })
+  const { addToCart } = new AddToCart({ cartRepo })
+  const { removeProduct } = new RemoveProduct({ cartRepo })
 
   return {
-    Order,
-    orderRepo,
-    findOrder,
-    migrate,
+    Cart,
+    cartRepo,
+    addToCart,
+    removeProduct,
   }
 }
 
-module.exports = OrderFactory
+module.exports = CartsFactory
+
