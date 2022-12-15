@@ -25,6 +25,7 @@ Tetrad GitHub url is here:
 https://github.com/cmu-phil/tetrad
 
 Tetrad document and tutorial URLs are here:
+
 Tutorial:
 https://rawgit.com/cmu-phil/tetrad/development/tetrad-gui/src/main/resources/resources/javahelp/manual/tetrad_tutorial.html
 
