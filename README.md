@@ -1,31 +1,15 @@
-Created Date: 30 Jan 2019
-
-# Getting started with Flask
-An easy way to get started with Flask for Beginners
-Working with Flask (a micro web framework written in python) was one of the things that I really wanted to try but was never able to 😕
-
-
-But finally!! I did it….yaaay!! and am really excited to share it with ya all… It's super easy and super cool.
-I'll help you with the basics of creating a website using HTML and to add a route through the flask.
+Prereqs:
+1. install node.js v12.18.4
+2. try to use git bash instead of powershell or command prompt
+3. install aws cli: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+4. run `npm install -g prettier`
+5. run `npm ci`
+6. set up aws configs - ask Ahmad for credentials
 
 
-First, install the Flask package: pip install Flask
-
-
-Create a new folder and inside your project folder, create a static folder and templates folder.
-The static folder will have your CSS and images while templates will hold your HTML files. This is important as initially when I tried working on Flask while having no clue about the directory tree, I was not able to run the file that's when I found out that flask looks for templates for views where the HTML files lie. And api.py is the main file which you will have to run to make your HTML file work!
-
-
-#### INSTALLATION GUIDE:
-open your terminal and
-
-` git clone https://github.com/pemagrg1/flask-for-beginners.git`
-
-`cd flask-for-beginners`
-
-`$ python3 api.py`
-
-
-## for FULL NLP flask website:
-
-Download from : https://github.com/pemagrg1/NLP-Flask-Website
+Directions:
+1. scripts/deploy.sh zips the workspace and deploys it to S3
+2. our webhook url POST: https://u9ofbpxmqd.execute-api.us-east-1.amazonaws.com/Prod/resource
+3. TODO: set up deploy script for CICD, thoughts: just send new object to S3 as lambda is already hooked up
+4. TODO: npm install https://stackoverflow.com/questions/34437900/how-to-load-npm-modules-in-aws-lambda
+5. #use proper credentials ==> export AWS_DEFAULT_PROFILE=ecomm
