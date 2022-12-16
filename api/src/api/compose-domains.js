@@ -62,7 +62,7 @@ const compose = async (context) => {
     context.migrations.push({ domain: 'carts', migrate: context.domains.carts.migrate })
     context.routes.push((router) => router.post('/carts', context.domains.carts.addToCart)) // 3. http://localhost:3000/carts/Srinivas_N3
     context.routes.push((router) => router.get('/carts/get/:uid', context.domains.carts.getCart))
-    // context.routes.push((router) => router.post('/carts', context.domains.carts.removeProduct)) // 3. http://localhost:3000/carts/Srinivas_N3
+    context.routes.push((router) => router.delete('/carts/remove', context.domains.carts.removeProduct))
 
     // ORDER HISTORY
     // =========================================================================

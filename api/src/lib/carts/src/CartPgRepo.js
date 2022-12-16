@@ -71,19 +71,18 @@ function CartPgRepoFactory (deps) {
         const results = mapResults(await knex('carts')
           .join('products', 'products.uid', 'carts.productid')
           .where('userid', userId))
-        return results.length ? results : null
+        return results.length ? results : []
       }
 
 
     /**
      * Removes a product from the cart by id
      * @param {string} userId - the id of the product in the cart to remove
-     * @returns {boolean} - whether or not the record was deleted
+     * @returns {Object} - whether the deletion was successful
      */
-    const deleteById = async (userId,productId) => {
+    const deleteById = async (userId, productId) => {
       const count = await knex('carts').where('productid', productId).andWhere('userid', userId).del()
-
-      return count > 0
+      return { deleted: count > 0 };
     }
 
     return {

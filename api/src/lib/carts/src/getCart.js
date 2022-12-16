@@ -17,7 +17,6 @@ function GetCartFactory (deps) {
 
     try {
       const carts = await cartRepo.get.byId(ctx.params.uid)
-
       logger.emit('order_find_success', 'debug', { count: carts.length, carts })
 
       ctx.response.status = 200

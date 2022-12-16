@@ -10,25 +10,25 @@ function RemoveCartFactory (deps) {
    * Adds a product to a cart
    * @param {Object} ctx - the context object containing the product information to add to the cart
    */
-  const removeCart = async (ctx) => {
+  const removeProduct = async (ctx) => {
     const logger = ctx.request.state.logger
-    const product = ctx.request.body
+    const body = ctx.request.body
 
     try {
       // Use the CartRepo to insert or update the product in the cart
-      const { cart, res } = await cartRepo.delete(product)
+      const { deleted } = await cartRepo.delete.byId(body.userId, body.productId)
 
-      logger.emit('Cart_delete_success', 'debug', { cart, res })
+      logger.emit('Cart_delete_success', 'debug', { deleted })
 
       ctx.response.status = 200
-      ctx.response.body = cart
+      ctx.response.body = { deleted }
     } catch (err) {
       logger.emit('Cart_delete_error', 'error', { err })
       throw new Error('Failed to add product to cart')
     }
   }
 
-  return { removeCart }
+  return { removeProduct }
 }
 
 module.exports = RemoveCartFactory
