@@ -63,6 +63,7 @@ const compose = async (context) => {
     context.routes.push((router) => router.post('/carts', context.domains.carts.addToCart)) // 3. http://localhost:3000/carts/Srinivas_N3
     context.routes.push((router) => router.get('/carts/get/:uid', context.domains.carts.getCart))
     context.routes.push((router) => router.delete('/carts/remove', context.domains.carts.removeProduct))
+    context.routes.push((router) => router.delete('/carts/checkoutSession', context.domains.carts.stripeCheckoutSession))
 
     // ORDER HISTORY
     // =========================================================================
