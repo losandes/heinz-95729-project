@@ -1,7 +1,8 @@
 # Create your views here.
 from django.test import TestCase
+from django.utils import timezone
 import os
-from google.api_core.exceptions import InvalidArgument
+from apps.customers.models import Customer
 from apps.carts.views import addCart, addCartBySessionId
 from apps.orders.models import *
 
