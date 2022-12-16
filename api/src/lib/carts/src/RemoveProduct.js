@@ -7,7 +7,7 @@ function RemoveCartFactory (deps) {
   const { cartRepo } = deps
 
   /**
-   * Adds a product to a cart
+   * Removes a product to a cart
    * @param {Object} ctx - the context object containing the product information to add to the cart
    */
   const removeProduct = async (ctx) => {
@@ -15,7 +15,7 @@ function RemoveCartFactory (deps) {
     const body = ctx.request.body
 
     try {
-      // Use the CartRepo to insert or update the product in the cart
+      // Use the CartRepo to delete the product in the cart
       const { deleted } = await cartRepo.delete.byId(body.userId, body.productId)
 
       logger.emit('Cart_delete_success', 'debug', { deleted })
