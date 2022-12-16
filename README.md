@@ -37,28 +37,32 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
 
 ## How to Run
 
-1. Copy env folder
+1. Copy log folder
    
+   Copy the log folder to the root folder.
+
+2. Copy env folder
+  
    Copy the env folder to the root folder.
 
-2. Copy data folder
-   
+3. Copy data folder
+  
    Copy the data folder to the root folder.
 
-3. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
+4. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
 
    ```bash
    docker-compose -f docker-compose-dev.yml up
    ```
 
-4. Install all python packages into a virtual env
+5. Install all python packages into a virtual env
 
    ```bash
    cd pandama-ext/code
    pipenv install
    ```
 
-5. Run Django web service
+6. Run Django web service
 
    ```bash
    cd code
@@ -66,11 +70,12 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
    python manage.py runserver
    ```
 
-6. Access Pandama with the mobile mode in the browser ( Chrome )
+7. Access Pandama with the mobile mode in the browser ( Chrome )
+   
    Access [http://localhost](http://localhost), then change the mode of your browser to mobile mode.
    **Warning: You'll face some 404 or 500 errors because some services aren't launched ready, you need to wait no more than 3 mins**
 
-7. Stop and Close all Services
+8. Stop and Close all Services
     1. Close all Data Services
       Just tap "Command" + "C" to exit "docker-compose up", then you can run the code below to make sure all services are down.
 
@@ -83,30 +88,34 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
 
 ## Run Unit Tests
 
-**If you already ran all services from "How to Run", you can jump to step 5 directly.**
+**If you already ran all services from "How to Run", you can jump to step 6 directly.**
 
-1. Copy env folder
+1. Copy log folder
+   
+   Copy the log folder to the root folder.
+
+2. Copy env folder
    
    Copy the env folder to the root folder.
 
-2. Copy data folder
+3. Copy data folder
    
    Copy the data folder to the root folder.
 
-3. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
+4. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
 
    ```bash
    docker-compose -f docker-compose-dev.yml up
    ```
 
-4. Install all python packages into a virtual env
+5. Install all python packages into a virtual env
 
    ```bash
    cd code
    pipenv install
    ```
 
-5. Run all Django unit tests
+6. Run all Django unit tests
 
    ```bash
    cd code
