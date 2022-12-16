@@ -8,6 +8,12 @@ https://github.com/asangawa/heinz-95729-project/new/main/ml-research
 ## Tutrial
 A tutorial is here:
 
+As a dataset in experiments of the project, we use the cervical cancer patients dataset "risk_factors_cervical_cancer.csv."
+This dataset is collected by UCI Machine Learning repository. You can also see the data description on the website. 
+  * **Dataset path**: https://github.com/asangawa/heinz-95729-project/blob/main/ml-research/codes/data/risk_factors_cervical_cancer.csv
+  * **UCI Machine Learning repository**: https://archive.ics.uci.edu/ml/datasets/Cervical+cancer+(Risk+Factors)
+
+
 Traditional machine learning models and the neural network model are implemented in Jupyter notebooks. 
 Please refer to the corresponding notebooks.
   * **Traditional Machine Learning**: 01_KNN_DT_RF_V2.ipynb
