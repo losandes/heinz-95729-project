@@ -25,6 +25,15 @@ cd web
 pnpm run watch
 ```
 
+
+# Project Structure
+
+* Alchemyrt - Mobile project with design file labeled `App Wireframe.pdf` and demo video
+* uploader - API code (contains README)
+* images_generated - images created using OpenAI
+* Data Generation.ipynb - code for generating descriptions
+* data_generation.py - code for generating images
+
 # Setup Instructions
 
 
