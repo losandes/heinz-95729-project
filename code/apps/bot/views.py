@@ -61,7 +61,7 @@ def process_responce(response, request, context):
     elif response.query_result.intent.display_name == "product-detail - yes - custom":
         sku = response.query_result.query_text.split(":", 1)[1]
         context["sku"] = sku
-        return "product:" + sku;
+        return "click here "
     else: return response.query_result.fulfillment_text
 
 def add_cart_in_chat(request, sku_number, qty):
@@ -80,12 +80,18 @@ def add_cart_in_chat(request, sku_number, qty):
         sessionId = request.session.session_key
         if request.method == "POST":
             res = addCartBySessionId(sessionId, sku_number, qty)
-            return res["message"]
+            if res["status"] == 200:
+                return "add success! you can check it in your cart"
+            else:
+                return "add failed, a wrong sku id"
     else:
         if request.method == "POST":
             customerId = request.session["Customer"].id
             res = addCart(customerId, sku_number, qty)
-            return res["message"]
+            if res["status"] == 200:
+                return "add success! you can check it in your cart"
+            else:
+                return "add failed, a wrong sku id"
 
 
 
