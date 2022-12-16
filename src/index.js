@@ -1,6 +1,73 @@
 // // const dialogflow = require('dialogflow');
 
 const { dialogflow, Image } = require('actions-on-google');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+const uri =
+    'mongodb+srv://ecomm:0Ax6t45R3tdgU8oR@cluster0.z4xh1w1.mongodb.net/?retryWrites=true&w=majority';
+const client = new MongoClient(uri);
+
+async function insert_cart_item(user_id, items) {
+    var rec = {
+        user_id: user_id,
+        items,
+        placed: false,
+    };
+
+    try {
+        await client.connect();
+        const query = { user_id: user_id, placed: false };
+        newdoc = await client.db('main').collection('order').findOne(query);
+
+        if (newdoc == null) {
+            await client.db('main').collection('order').insertOne(rec).catch();
+        } else {
+            const update_query = { user_id: user_id };
+
+            // add the current coffee into the document
+            await client
+                .db('main')
+                .collection('order')
+                .updateOne(update_query, {
+                    $push: { items: { $each: items } },
+                });
+
+            // aggregate duplicated coffees
+            const agg = [
+                { $unwind: '$items' },
+                {
+                    $group: {
+                        _id: '$items.coffee',
+                        number: { $sum: '$items.number' },
+                    },
+                },
+                {
+                    $group: {
+                        _id: 0,
+                        items: { $push: { coffee: '$_id', number: '$number' } },
+                    },
+                },
+                { $project: { _id: 0, items: 1 } },
+            ];
+
+            const result = await client
+                .db('main')
+                .collection('order')
+                .aggregate(agg);
+
+            for await (const doc of result) {
+                await client
+                    .db('main')
+                    .collection('order')
+                    .updateOne({ user_id: user_id }, { $set: doc });
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
 
 const app = dialogflow({ debug: true });
 console.log('in index.js');
@@ -23,15 +90,19 @@ app.intent('Default Fallback Intent', (conv) => {
 });
 
 app.intent('order.additem', (conv) => {
-    console.log(JSON.stringify(conv));
+    console.log('additem');
 
-    conv.ask('What would you like to order?');
-});
+    // user id is assumed to be always one
+    // this isn't correct in production, but within the scope of project, user
+    // authentication / authorization will be too much work
+    user_id = 1;
 
-app.intent('order.additem - yes', (conv) => {
-    console.log(JSON.stringify(conv));
+    params = conv.body.queryResult.parameters;
+    items = params['number-coffee'];
 
-    conv.ask('What would you like to order?');
+    insert_cart_item(user_id, items);
+
+    conv.ask('Coffee added to order.');
 });
 
 exports.handler = app;
