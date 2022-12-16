@@ -6,9 +6,8 @@ from apps.orders.models import *
 from django.shortcuts import render
 from datetime import datetime
 from apps.carts.views import addCart, addCartBySessionId
-from apps.carts.views import queryCartByCustomerId_Redis
 from config.settings.config_common import DIALOGFLOW_PROJECT_ID
-
+import environ
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +16,10 @@ def get_bot_response(request):
         if request.method == "POST":
             logger.info(
                 "get submitted text from html " + request.POST.get("message"))
+        root = environ.Path(__file__) - 4
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = 'env/chatbot_credential.json'
+            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_credential.json')
+
         DIALOGFLOW_LANGUAGE_CODE = 'en'
         SESSION_ID = 'anything'
 
