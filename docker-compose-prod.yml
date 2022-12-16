@@ -129,7 +129,6 @@ services:
     volumes:
       - ./code:/code
       - ./logs:/logs
-      - ./env/chatbot_credential.json:/code/env/chatbot_credential.json
     ports:
       - "8000:8000"
 

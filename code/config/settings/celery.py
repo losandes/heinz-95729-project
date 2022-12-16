@@ -1,6 +1,6 @@
 import django
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.base')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.env_dev')
 django.setup()
 
 from celery.signals import worker_ready
