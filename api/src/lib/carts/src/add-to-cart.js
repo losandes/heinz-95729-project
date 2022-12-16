@@ -4,7 +4,7 @@
 function AddToCartFactory (deps) {
   'use strict'
 
-  const { CartRepo } = deps
+  const { cartRepo } = deps
 
   /**
    * Adds a product to a cart
@@ -16,7 +16,7 @@ function AddToCartFactory (deps) {
 
     try {
       // Use the CartRepo to insert or update the product in the cart
-      const { cart, res } = await CartRepo.upsert(product)
+      const { cart, res } = await cartRepo.upsert(product)
 
       logger.emit('Cart_upsert_success', 'debug', { cart, res })
 
