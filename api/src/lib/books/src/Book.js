@@ -8,7 +8,7 @@ function BookFactory (deps) {
 
   const { registerBlueprint } = deps.blueprint
   const { immutable } = deps.immutable
-  const { Product } = deps
+  const { Product } = deps 
 
   registerBlueprint('Author', {
     name: 'string',

@@ -5,7 +5,7 @@ const uuid = require('uuid').v4
 const { Cart } = require('./src/Cart.js')({ blueprint, immutable, uuid })
 const { CartPgRepo } = require('./src/CartPgRepo.js')({ blueprint, Cart })
 const AddToCartFactory = require('./src/add-to-cart.js')
-const RemoveProductFactory = require('./src/remove-product.js')
+const RemoveProductFactory = require('./src/RemoveProduct.js')
 const MigrateCartFactory = require('./migrate.js')
 
 /**

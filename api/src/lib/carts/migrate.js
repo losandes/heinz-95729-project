@@ -6,7 +6,7 @@ function MigrateOrdersFactory (deps) {
 
   const { path, knex } = deps
   const directory = path.join(__dirname, 'migrations')
-  const tableName = 'z_migrations_orderhistory'
+  const tableName = 'z_migrations_carts'
 
   const up = async () => {
     await knex.migrate.latest({ directory, tableName })

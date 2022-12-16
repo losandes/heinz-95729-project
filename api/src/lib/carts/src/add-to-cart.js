@@ -10,7 +10,7 @@ function AddToCartFactory (deps) {
    * Adds a product to a cart
    * @param {Object} ctx - the context object containing the product information to add to the cart
    */
-  const AddToCart = async (ctx) => {
+  const addToCart = async (ctx) => {
     const logger = ctx.request.state.logger
     const product = ctx.request.body
 
@@ -28,7 +28,7 @@ function AddToCartFactory (deps) {
     }
   }
 
-  return { AddToCart }
+  return { addToCart }
 }
 
 module.exports = AddToCartFactory

@@ -3,14 +3,13 @@ exports.up = async function (knex) {
       id UUID PRIMARY KEY NOT NULL,
       productId TEXT NOT NULL,
       userId TEXT NOT NULL,
-      time_added_ms BIGINT NOT NULL,
-
+      time_added_ms BIGINT NOT NULL
   );
 
   COMMENT ON COLUMN carts.id IS 'The record id';
   COMMENT ON COLUMN carts.productId IS 'The product id';
   COMMENT ON COLUMN carts.userId IS 'The user ID';
-  COMMENT ON COLUMN carts.timestamp_ms IS 'The time of product added to cart, in milliseconds';`
+  COMMENT ON COLUMN carts.time_added_ms IS 'The time of product added to cart, in milliseconds';`
 
   await knex.transaction(async (trx) => {
     return await trx.raw(sql)

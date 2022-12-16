@@ -43,24 +43,6 @@ const compose = async (context) => {
     })
     context.migrations.push({ domain: 'users', migrate: context.domains.users.migrate })
 
-    // CART
-    // =========================================================================
-    context.domains.carts = new CartDomain({
-      knex: context.knex,
-    })
-    context.migrations.push({ domain: 'carts', migrate: context.domains.carts.migrate })
-    context.routes.push((router) => router.get('/carts/:userId', context.domains.carts.findOrder)) // 3. http http://localhost:3000/carts/Srinivas_N3
-
-    // ORDER HISTORY
-    // =========================================================================
-    context.domains.orderHistory = new OrderHistoryDomain({
-      knex: context.knex,
-    })
-    context.migrations.push({ domain: 'orderHistory', migrate: context.domains.orderHistory.migrate })
-    context.routes.push((router) => router.get('/orderHistory/:userId', context.domains.orderHistory.findOrder)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
-
-
-
     const loginRedirectRoute = (ctx) => `${ctx.origin}/users/authorize`
 
     context.routes.push((router) =>                                                                    // http POST http://localhost:3000/users <<< '{ "email": "shopper5@95729.com", "name": "Shopper 5" }'
@@ -71,6 +53,26 @@ const compose = async (context) => {
     )
     context.routes.push((router) => router.get('/users/authorize', context.domains.users.authorize(context.env.WEB_APP_ORIGIN)))
     context.routes.push((router) => router.get('/users/me', context.domains.users.getProfile))
+
+    // CART
+    // =========================================================================
+    context.domains.carts = new CartDomain({
+      knex: context.knex
+    })
+
+    console.log(context.domains.carts);
+    context.migrations.push({ domain: 'carts', migrate: context.domains.carts.migrate })
+    context.routes.push((router) => router.post('/carts', context.domains.carts.addToCart)) // 3. http://localhost:3000/carts/Srinivas_N3
+    // context.routes.push((router) => router.post('/carts', context.domains.carts.removeProduct)) // 3. http://localhost:3000/carts/Srinivas_N3
+
+    // ORDER HISTORY
+    // =========================================================================
+    context.domains.orderHistory = new OrderHistoryDomain({
+      knex: context.knex,
+    })
+    context.migrations.push({ domain: 'orderHistory', migrate: context.domains.orderHistory.migrate })
+    context.routes.push((router) => router.get('/orderHistory/:userId', context.domains.orderHistory.findOrder)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
+
 
     context.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
     return context
