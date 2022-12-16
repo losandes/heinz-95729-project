@@ -18,7 +18,7 @@ function AddToOrderFactory (deps) {
       // Use the orderRepo to insert or update the product in the cart
       const { order, res } = await orderRepo.upsert(product)
 
-      // Clear Cart
+      // Clear Cart for the specified user
       const { deleted } = await cartRepo.delete.byUserId(body.userId)
 
       logger.emit('Order_upsert_success', 'debug', { order, res })
