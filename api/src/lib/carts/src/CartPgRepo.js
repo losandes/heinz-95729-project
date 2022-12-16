@@ -77,11 +77,11 @@ function CartPgRepoFactory (deps) {
 
     /**
      * Removes a product from the cart by id
-     * @param {string} id - the id of the product in the cart to remove
+     * @param {string} userId - the id of the product in the cart to remove
      * @returns {boolean} - whether or not the record was deleted
      */
-    const deleteById = async (id) => {
-      const count = await knex('carts').where('id', id).del()
+    const deleteById = async (userId,productId) => {
+      const count = await knex('carts').where('productid', productId).andWhere('userid', userId).del()
 
       return count > 0
     }

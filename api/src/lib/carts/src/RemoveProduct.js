@@ -1,34 +1,34 @@
 /**
  * @param {CartPgRepo} CartRepo
  */
-function RemoveProductFactory (deps) {
+function RemoveCartFactory (deps) {
   'use strict'
 
-  const { CartRepo } = deps
+  const { cartRepo } = deps
 
   /**
-   * Removes a product from the cart
-   * @param {Object} ctx - the context object containing the ID of the product to remove from the cart
+   * Adds a product to a cart
+   * @param {Object} ctx - the context object containing the product information to add to the cart
    */
-  const RemoveProduct = async (ctx) => {
+  const removeCart = async (ctx) => {
     const logger = ctx.request.state.logger
-    const productId = ctx.request.params.id
+    const product = ctx.request.body
 
     try {
-      // Use the CartRepo to delete the product from the cart
-      const result = await CartRepo.delete.byId(productId)
+      // Use the CartRepo to insert or update the product in the cart
+      const { cart, res } = await cartRepo.delete(product)
 
-      logger.emit('Cart_delete_success', 'debug', { result })
+      logger.emit('Cart_delete_success', 'debug', { cart, res })
 
       ctx.response.status = 200
-      ctx.response.body = result
+      ctx.response.body = cart
     } catch (err) {
       logger.emit('Cart_delete_error', 'error', { err })
-      throw new Error('Failed to remove product from cart')
+      throw new Error('Failed to add product to cart')
     }
   }
 
-  return { RemoveProduct }
+  return { removeCart }
 }
 
-module.exports = RemoveProductFactory
+module.exports = RemoveCartFactory
