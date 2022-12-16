@@ -52,7 +52,7 @@ app.intent('Personalize', async (conv) => {
     let responseCode = await new Personalization().relay();
 
     conv.ask(
-        'Please tell me your favorite drink and favorite pick up location'
+        'Please tell me your favorite drink and your favorite pick up location'
     );
 });
 
