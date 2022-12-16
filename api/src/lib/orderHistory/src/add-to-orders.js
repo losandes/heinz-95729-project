@@ -10,28 +10,27 @@ function AddToOrderFactory (deps) {
    * Adds a product to a cart
    * @param {Object} ctx - the context object containing the product information to add to the cart
    */
-  const addToOrder = async (ctx) => {
+  const completeOrder = async (ctx) => {
     const logger = ctx.request.state.logger
-    const product = ctx.request.body
+    const userOrders = ctx.request.body.orders
 
     try {
       // Use the orderRepo to insert or update the product in the cart
-      const { order, res } = await orderRepo.upsert(product)
-
+      const { orders, res } = await orderRepo.upsert(userOrders)
       // Clear Cart for the specified user
-      const { deleted } = await cartRepo.delete.byUserId(body.userId)
+      const deleted = await cartRepo.delete.byUserId(body.userId)
 
-      logger.emit('Order_upsert_success', 'debug', { order, res })
+      logger.emit('Order_upsert_success', 'debug', { orders, res })
 
       ctx.response.status = 200
-      ctx.response.body = order
+      ctx.response.body = { ordersAdded: true }
     } catch (err) {
       logger.emit('Order_upsert_error', 'error', { err })
       throw new Error('Failed to add product to order')
     }
   }
 
-  return { addToOrder }
+  return { completeOrder }
 }
 
 module.exports = AddToOrderFactory

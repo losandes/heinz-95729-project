@@ -18,6 +18,8 @@ function OrderFactory (deps) {
     id: optional(REGEX.UUID).withDefault(uuid),
     productId: 'string',
     userId: 'string',
+    transactionId: 'string',
+    price: 'decimal2',
   }
 
   registerBlueprint('Order', OrderBlueprint)

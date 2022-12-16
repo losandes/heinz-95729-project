@@ -63,7 +63,7 @@ const compose = async (context) => {
     context.routes.push((router) => router.post('/carts', context.domains.carts.addToCart)) // 3. http://localhost:3000/carts/Srinivas_N3
     context.routes.push((router) => router.get('/carts/get/:uid', context.domains.carts.getCart))
     context.routes.push((router) => router.delete('/carts/remove', context.domains.carts.removeProduct))
-    context.routes.push((router) => router.delete('/carts/checkoutSession', context.domains.carts.stripeCheckoutSession))
+    context.routes.push((router) => router.post('/carts/checkoutSession', context.domains.carts.stripeCheckoutSession))
 
     // ORDER HISTORY
     // =========================================================================
@@ -72,8 +72,8 @@ const compose = async (context) => {
       cartRepo: context.domains.carts.cartRepo
     })
     context.migrations.push({ domain: 'orderHistory', migrate: context.domains.orderHistory.migrate })
-    context.routes.push((router) => router.get('/orderHistory/:uid', context.domains.orderHistory.findOrder)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
-    context.routes.push((router) => router.post('/orderHistory', context.domains.orderHistory.addToOrder)) 
+    context.routes.push((router) => router.get('/orderHistory/:uid', context.domains.orderHistory.findOrders)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
+    context.routes.push((router) => router.post('/orderHistory', context.domains.orderHistory.completeOrder)) 
 
     context.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
     return context

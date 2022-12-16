@@ -18,25 +18,20 @@ function OrderPgRepoFactory (deps) {
      * @param {IOrder} input - an instance of Order to upsert
      */
     const upsert = async (input) => {
-      const order = new Order(input)
+      const orders = input.map(product => new Order(product))
+      console.log("********************************************")
+      console.log(orders);
       const res = await knex.transaction(async (trx) => {
-        const res1 = await trx('orderhistory')
-          .insert({
-            id: order.id,
-            userId: order.userId,
-            productId: order.productId,
-            transactionId: order.transactionId,
-            timestamp_ms: Date.now(),
-          })
+         return trx('orderhistory')
+          .insert(orders)
           .onConflict('id')
+          .merge([
+            'userid',
+            'productid',
+          ])
       })
 
-      if (res.rowCount !== 1) {
-        const err = new Error('The number of operations to upsert a record was not expected')
-        err.data = res
-      }
-
-      return { order, res }
+      return { orders, res }
 
     }
 
@@ -57,8 +52,7 @@ function OrderPgRepoFactory (deps) {
      */
     const orderById = async (id) => {
       const results = mapResults(await knex('orderhistory').where('id', id))
-
-      return results.length ? results[0] : null
+      return results.length ? results : null
     }
 
     /**
@@ -69,8 +63,7 @@ function OrderPgRepoFactory (deps) {
     const orderByUserId = async (userId) => {
       const results = mapResults(await knex('orderhistory').join('products', 'products.uid', 'orderhistory.productid')
           .where('userid', userId))
-
-      return results.length ? results[0] : null
+      return results && results.length ? results : null
     }
 
     // eslint-disable-next-line no-useless-escape

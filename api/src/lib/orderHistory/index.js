@@ -5,6 +5,7 @@ const uuid = require('uuid').v4
 const { Order } = require('./src/Order.js')({ blueprint, immutable, uuid })
 const { OrderPgRepo } = require('./src/OrderPgRepo.js')({ blueprint, Order })
 const FindOrderFactory = require('./src/find-orders.js')
+const CompleteOrderFactory = require('./src/add-to-orders.js')
 const MigrateOrderFactory = require('./migrate.js')
 
 /**
@@ -12,13 +13,15 @@ const MigrateOrderFactory = require('./migrate.js')
  */
 function OrderFactory (input) {
   const orderRepo = new OrderPgRepo({ knex: input.knex })
-  const { findOrder } = new FindOrderFactory({ orderRepo })
+  const { findOrders } = new FindOrderFactory({ orderRepo })
+  const { completeOrder } = new CompleteOrderFactory({ orderRepo })
   const migrate = MigrateOrderFactory({ path, knex: input.knex })
 
   return {
     Order,
     orderRepo,
-    findOrder,
+    findOrders,
+    completeOrder,
     migrate,
   }
 }

@@ -4,6 +4,7 @@ exports.up = async function (knex) {
       productid TEXT NOT NULL,
       userid TEXT NOT NULL,
       transactionid TEXT NOT NULL,
+      price DECIMAL NOT NULL,
       timestamp_ms BIGINT NOT NULL
   );
 
@@ -11,6 +12,7 @@ exports.up = async function (knex) {
   COMMENT ON COLUMN orderhistory.productid IS 'The product id';
   COMMENT ON COLUMN orderhistory.userid IS 'The user ID';
   COMMENT ON COLUMN orderhistory.transactionid IS 'The transaction id of the purchase item';
+  COMMENT ON COLUMN orderhistory.price IS 'The price of the purchase item';
   COMMENT ON COLUMN orderhistory.timestamp_ms IS 'The time of purchase, in milliseconds';`;
 
   await knex.transaction(async (trx) => {

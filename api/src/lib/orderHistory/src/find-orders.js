@@ -12,12 +12,11 @@ function FindOrderFactory (deps) {
    * Usage with httpie:
    *     http http://localhost:3000/findOrders?q=Tropper
    */
-  const findOrder = async (ctx) => {
+  const findOrders = async (ctx) => {
     const logger = ctx.request.state.logger
 
     try {
-     // const orders = await orderRepo.find(ctx.query.q)
-      const orders = await cartRepo.get.byUserId(ctx.params.uid)
+      const orders = await orderRepo.get.byUserId(ctx.params.uid) || []
       logger.emit('order_find_success', 'debug', { count: orders.length, orders })
 
       ctx.response.status = 200
@@ -28,7 +27,7 @@ function FindOrderFactory (deps) {
     }
   }
 
-  return { findOrder }
+  return { findOrders }
 }
 
 module.exports = FindOrderFactory
