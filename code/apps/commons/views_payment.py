@@ -28,12 +28,12 @@ class PaymentPageViews:
                     'enabled': True,
                 },
             )
-            new_pay_id = pay(request)
-            if new_pay_id == -1:
-                return render(request, "online-store/payment-fail.html")
+            # new_pay_id = pay(request)
+            # if new_pay_id == -1:
+            #     return render(request, "online-store/payment-fail.html")
             return JsonResponse({
                 'clientSecret': intent['client_secret'],
-                'new_pay_id': new_pay_id,
+                # 'new_pay_id': new_pay_id,
             })
         except Exception as e:
             return JsonResponse(error=str(e)), 403
@@ -49,4 +49,10 @@ class PaymentPageViews:
             update_payment_status(request)
         except Exception as e:
             return JsonResponse(error=str(e)), 403
+
+    def store_orders_deduct_stock_page(request):
+        pay(request)
+        # new_pay_id = pay(request)
+        # if new_pay_id == -1:
+        #     return render(request, "online-store/payment-fail.html")
 
