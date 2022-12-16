@@ -10,14 +10,8 @@ specifiers:
   eslint-plugin-standard: ~4.1.0
   nodemon: ~2.0.20
   nyc: ~15.0.1
-  order-history: link:..\lib\order-history
-  orderHistory: link:..\lib\orderHistory
   supposed: ~1.1.6
   unexpected: ~11.14.0
-
-dependencies:
-  order-history: link:../lib/order-history
-  orderHistory: link:../lib/orderHistory
 
 devDependencies:
   coveralls: 3.1.1

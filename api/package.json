@@ -47,9 +47,5 @@
     "nyc": "~15.0.1",
     "supposed": "~1.1.6",
     "unexpected": "~11.14.0"
-  },
-  "dependencies": {
-    "order-history": "link:..\\lib\\order-history",
-    "orderHistory": "link:..\\lib\\orderHistory"
   }
 }
