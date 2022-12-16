@@ -25,4 +25,7 @@ cd web
 pnpm run watch
 ```
 
+# Setup Instructions
+
+
 Navigate to http://localhost:3001 to see the app
