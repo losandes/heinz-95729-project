@@ -6,7 +6,6 @@ function OrderPgRepoFactory (deps) {
   'use strict'
 
   const { Order } = deps
-  const { is } = deps.blueprint
 
   /**
    * @param {pg/Pool} db - The Pool function from pg
@@ -42,8 +41,11 @@ function OrderPgRepoFactory (deps) {
 
     const mapResults = (results) => results.map((record) => new Order({
       id: record.id,
-      productId: record.productId,
-      userId: record.userId,
+      productId: record.productid,
+      userId: record.userid,
+      title: record.title,
+      thumbnailHref: record.thumbnail_href,
+      price: record.price,
     }))
 
     /**
@@ -63,7 +65,8 @@ function OrderPgRepoFactory (deps) {
      * @returns {IOrder | null} - an instance of Order if a record was found, otherwise null
      */
     const orderByUserId = async (userId) => {
-      const results = mapResults(await knex('orderhistory').where('userId', userId))
+      const results = mapResults(await knex('orderhistory').join('products', 'products.uid', 'orderhistory.productid')
+          .where('userid', userId))
 
       return results.length ? results[0] : null
     }
@@ -85,7 +88,7 @@ function OrderPgRepoFactory (deps) {
      * @param {string} search - the word or phrase to search for
      * @returns {IOrder[]} - an array of Products
      */
-    const find = async (query) => {
+   /* const find = async (query) => {
       if (is.not.string(query)) {
         return []
       }
@@ -98,7 +101,7 @@ function OrderPgRepoFactory (deps) {
           },
         ),
       )
-    }
+    }*/
 
     /**
      * Deletes a Product by id
@@ -117,7 +120,7 @@ function OrderPgRepoFactory (deps) {
         byId: orderById,
         byUserId: orderByUserId,
       },
-      find,
+     // find,
       delete: {
         byId: deleteById,
       },

@@ -70,8 +70,8 @@ const compose = async (context) => {
       knex: context.knex,
     })
     context.migrations.push({ domain: 'orderHistory', migrate: context.domains.orderHistory.migrate })
-    context.routes.push((router) => router.get('/orderHistory/:userId', context.domains.orderHistory.findOrder)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
-
+    context.routes.push((router) => router.get('/orderHistory/:uid', context.domains.orderHistory.findOrder)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
+    context.routes.push((router) => router.post('/orderHistory', context.domains.orderHistory.addToOrder)) 
 
     context.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
     return context
