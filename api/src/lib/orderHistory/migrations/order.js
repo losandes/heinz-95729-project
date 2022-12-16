@@ -1,14 +1,16 @@
 exports.up = async function (knex) {
   const sql = `CREATE TABLE orderhistory (
       id UUID PRIMARY KEY NOT NULL,
-      productId TEXT NOT NULL,
-      userId TEXT NOT NULL,
+      productid TEXT NOT NULL,
+      userid TEXT NOT NULL,
+      transactionid TEXT NOT NULL,
       timestamp_ms BIGINT NOT NULL
   );
 
   COMMENT ON COLUMN orderhistory.id IS 'The record id';
-  COMMENT ON COLUMN orderhistory.productId IS 'The product id';
-  COMMENT ON COLUMN orderhistory.userId IS 'The user ID';
+  COMMENT ON COLUMN orderhistory.productid IS 'The product id';
+  COMMENT ON COLUMN orderhistory.userid IS 'The user ID';
+  COMMENT ON COLUMN orderhistory.transactionid IS 'The transaction id of the purchase item';
   COMMENT ON COLUMN orderhistory.timestamp_ms IS 'The time of purchase, in milliseconds';`;
 
   await knex.transaction(async (trx) => {

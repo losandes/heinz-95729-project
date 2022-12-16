@@ -80,8 +80,13 @@ function CartPgRepoFactory (deps) {
      * @param {string} userId - the id of the product in the cart to remove
      * @returns {Object} - whether the deletion was successful
      */
-    const deleteById = async (userId, productId) => {
-      const count = await knex('carts').where('productid', productId).andWhere('userid', userId).del()
+    const deleteByUserAndProductId = async (userId, productId) => {
+      const count = await knex('carts').where('userid', userId).andWhere('productid', productId).del()
+      return { deleted: count > 0 };
+    }
+
+    const deleteByUserId = async (userId) => {
+      const count = await knex('carts').where('userid', userId).del()
       return { deleted: count > 0 };
     }
 
@@ -91,7 +96,8 @@ function CartPgRepoFactory (deps) {
         byId: productsByUserId,
       },
       delete: {
-        byId: deleteById,
+        byId: deleteByUserAndProductId,
+        byUserId: deleteByUserId,
       },
     }
   }

@@ -4,7 +4,7 @@
 function AddToOrderFactory (deps) {
   'use strict'
 
-  const { orderRepo } = deps
+  const { orderRepo,cartRepo } = deps
 
   /**
    * Adds a product to a cart
@@ -17,6 +17,9 @@ function AddToOrderFactory (deps) {
     try {
       // Use the orderRepo to insert or update the product in the cart
       const { order, res } = await orderRepo.upsert(product)
+
+      // Clear Cart
+      const { deleted } = await cartRepo.delete.byUserId(body.userId)
 
       logger.emit('Order_upsert_success', 'debug', { order, res })
 

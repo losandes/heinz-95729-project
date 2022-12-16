@@ -25,6 +25,7 @@ function OrderPgRepoFactory (deps) {
             id: order.id,
             userId: order.userId,
             productId: order.productId,
+            transactionId: order.transactionId,
             timestamp_ms: Date.now(),
           })
           .onConflict('id')
@@ -43,6 +44,7 @@ function OrderPgRepoFactory (deps) {
       id: record.id,
       productId: record.productid,
       userId: record.userid,
+      transactionId: record.transactionid,
       title: record.title,
       thumbnailHref: record.thumbnail_href,
       price: record.price,

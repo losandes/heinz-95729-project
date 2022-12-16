@@ -68,6 +68,7 @@ const compose = async (context) => {
     // =========================================================================
     context.domains.orderHistory = new OrderHistoryDomain({
       knex: context.knex,
+      cartRepo: context.domains.carts.cartRepo
     })
     context.migrations.push({ domain: 'orderHistory', migrate: context.domains.orderHistory.migrate })
     context.routes.push((router) => router.get('/orderHistory/:uid', context.domains.orderHistory.findOrder)) // 3. http http://localhost:3000/orderHistory/Srinivas_N3
