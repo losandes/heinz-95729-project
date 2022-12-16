@@ -22,14 +22,14 @@ function CartPgRepoFactory (deps) {
         return trx('carts')
           .insert({
             id: cart.id,
-            productId: cart.product_id,
-            cartId: cart.product_id,
+            productId: cart.productId,
+            userId: cart.userId,
             time_added_ms: Date.now(),
           })
           .onConflict('id')
           .merge([
-            'product_id',
-            'quantity',
+            'productId',
+            'userId',
           ])
       })
 
