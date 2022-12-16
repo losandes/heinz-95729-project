@@ -22,8 +22,8 @@ function CartPgRepoFactory (deps) {
         return trx('carts')
           .insert({
             id: cart.id,
-            product_id: cart.product_id,
-            quantity: cart.quantity,
+            productId: cart.product_id,
+            cartId: cart.product_id,
             time_added_ms: Date.now(),
           })
           .onConflict('id')
