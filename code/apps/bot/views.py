@@ -18,7 +18,7 @@ def get_bot_response(request):
                 "get submitted text from html " + request.POST.get("message"))
         root = environ.Path(__file__) - 4
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_credential.json')
+            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_config.json')
 
         DIALOGFLOW_LANGUAGE_CODE = 'en'
         SESSION_ID = 'anything'
