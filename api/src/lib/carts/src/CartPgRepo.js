@@ -46,7 +46,7 @@ function CartPgRepoFactory (deps) {
       productId: record.productid,
       userId: record.userid,
       title: record.title,
-      imageUrl: record.thumbnail_href,
+      thumbnailHref: record.thumbnail_href,
       price: record.price,
     }))
 
@@ -67,11 +67,11 @@ function CartPgRepoFactory (deps) {
      * @param {string} userId - the user Id of the user to get the product in the cart
      * @returns {ICart | null} - an instance of Cart if a record was found, otherwise null
      */
-      const productByUserId = async (userId) => {
+      const productsByUserId = async (userId) => {
         const results = mapResults(await knex('carts')
           .join('products', 'products.uid', 'carts.productid')
           .where('userid', userId))
-        return results.length ? results[0] : null
+        return results.length ? results : null
       }
 
 
@@ -89,7 +89,7 @@ function CartPgRepoFactory (deps) {
     return {
       upsert,
       get: {
-        byId: productByUserId,
+        byId: productsByUserId,
       },
       delete: {
         byId: deleteById,
