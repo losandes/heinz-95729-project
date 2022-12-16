@@ -63,6 +63,7 @@ const compose = async (context) => {
     console.log(context.domains.carts);
     context.migrations.push({ domain: 'carts', migrate: context.domains.carts.migrate })
     context.routes.push((router) => router.post('/carts', context.domains.carts.addToCart)) // 3. http://localhost:3000/carts/Srinivas_N3
+    context.routes.push((router) => router.post('/carts', context.domains.carts.getCart))
     // context.routes.push((router) => router.post('/carts', context.domains.carts.removeProduct)) // 3. http://localhost:3000/carts/Srinivas_N3
 
     // ORDER HISTORY

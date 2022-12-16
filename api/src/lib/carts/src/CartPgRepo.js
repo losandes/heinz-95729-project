@@ -52,11 +52,24 @@ function CartPgRepoFactory (deps) {
      * @param {string} id - the id of the product in the cart to get
      * @returns {ICart | null} - an instance of Cart if a record was found, otherwise null
      */
-    const productById = async (id) => {
+    const productByUserId = async (id) => {
       const results = mapResults(await knex('carts').where('id', id))
 
       return results.length ? results[0] : null
     }
+
+
+        /**
+     * Gets a product in the cart by userId
+     * @param {string} userId - the user Id of the user to get the product in the cart
+     * @returns {ICart | null} - an instance of Cart if a record was found, otherwise null
+     */
+        const productById = async (userId) => {
+          const results = mapResults(await knex('carts').where('userId', userId))
+    
+          return results.length ? results[0] : null
+        }
+
 
     /**
      * Removes a product from the cart by id
