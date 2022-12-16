@@ -38,9 +38,11 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
 ## How to Run
 
 1. Copy env folder
+   
    Copy the env folder to the root folder.
 
 2. Copy data folder
+   
    Copy the data folder to the root folder.
 
 3. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
@@ -84,9 +86,11 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
 **If you already ran all services from "How to Run", you can jump to step 5 directly.**
 
 1. Copy env folder
+   
    Copy the env folder to the root folder.
 
 2. Copy data folder
+   
    Copy the data folder to the root folder.
 
 3. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
