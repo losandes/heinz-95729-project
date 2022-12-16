@@ -16,8 +16,6 @@ from django.http import JsonResponse
 import stripe
 logger = logging.getLogger(__name__)
 
-stripe.api_key = 'sk_test_51M88sVAjuUbW2aMVxUVjXsoWcCqkOBaFlesi05StlseN5cjgWfecxPL3Gk92wVGce39Io6g45Wt2TxvgrZRtE0qL000QbTOHnI'
-
 
 class OrderPageViews:
 

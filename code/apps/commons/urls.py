@@ -54,6 +54,7 @@ urlpatterns = [
     path('store/pay_success', PaymentPageViews.store_orders_pay_success_page, name='store_orders_pay_success_page'),
     path('store/pay_fail', PaymentPageViews.store_orders_pay_fail_page, name='store_orders_pay_fail_page'),
     path('store/pay/update_status', PaymentPageViews.store_pay_update_status, name='store_pay_update_status'),
+    path('store/store_orders_deduct_stock_page', PaymentPageViews.store_orders_deduct_stock_page, name='store_orders_deduct_stock_page'),
 
     # Search Domain
     path('store/ajax-autocomplete-search', SearchPageViews.autocomplete_search_ajax, name='autocomplete_search_ajax'),
