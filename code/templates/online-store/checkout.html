@@ -1,0 +1,202 @@
+{% extends "online-store/common/base.html" %}
+{% load static %}
+{% block header %}
+<div class="container h-100 d-flex align-items-center justify-content-between">
+    <!-- Back Button-->
+    <div class="back-button"><a onclick="goBack()"><i class="lni-arrow-left"></i>Back</a></div>
+    <!-- Page Title-->
+    <div class="page-heading">
+        <h6 class="mb-0">Accept a payment</h6>
+    </div>
+    <!-- Navbar Toggler-->
+    <div class="suha-navbar-toggler d-flex justify-content-between flex-wrap" id="suhaNavbarToggler">
+        <span></span><span></span><span></span></div>
+    <link rel="stylesheet" href="{% static 'online-store/css/checkout.css' %}">
+    <script src="https://js.stripe.com/v3/"></script>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<!-- Checkout Wrapper-->
+  <form id="payment-form">
+      <div id="payment-element">
+        <!--Stripe.js injects the Payment Element-->
+      </div>
+      <button id="submit">
+        <div class="spinner hidden" id="spinner"></div>
+        <span id="button-text">Pay now</span>
+      </button>
+      <div id="payment-message" class="hidden"></div>
+      {% csrf_token %}
+    </form>
+
+{% endblock %}
+
+
+{% block extrascripts %}
+<script>
+var stripe_api_key = '{{ stripe_key }}';
+const stripe = Stripe(stripe_api_key);
+
+const items = [{ id: "items" }];
+let new_pay_id = 1;
+let elements;
+
+initialize();
+checkStatus();
+
+document
+  .querySelector("#payment-form")
+  .addEventListener("submit", handleSubmit);
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function initialize() {
+  const response = await fetch("{% url 'store_orders_pay_page' %}", {
+    method: "POST",
+    headers: { "Content-Type": "application/json","X-CSRFToken": getCookie("csrftoken"),},
+    body: JSON.stringify({ items }),
+  });
+
+  const { clientSecret } = await response.json();
+  new_pay_id = clientSecret['new_pay_id'];
+  const appearance = {
+    theme: 'stripe',
+  };
+  elements = stripe.elements({ appearance, clientSecret });
+
+  const paymentElementOptions = {
+    layout: "tabs",
+  };
+
+  const paymentElement = elements.create("payment", paymentElementOptions);
+  paymentElement.mount("#payment-element");
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  setLoading(true);
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+        return_url: location.protocol + "//" + location.host + "/store/checkout",
+    },
+  });
+
+  if (error.type === "card_error" || error.type === "validation_error") {
+    showMessage(error.message);
+    window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
+  } else {
+    showMessage("An unexpected error occurred.");
+  }
+
+  setLoading(false);
+}
+
+async function checkStatus() {
+  const clientSecret = new URLSearchParams(window.location.search).get(
+    "payment_intent_client_secret"
+  );
+
+  if (!clientSecret) {
+    return;
+  }
+
+  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+  switch (paymentIntent.status) {
+    case "succeeded":
+        showMessage("Your payment is successful");
+      window.location.href =  location.protocol + "//" + location.host + "/store/pay_success";
+      await paySuccess();
+      changePaymentStatus(1);
+      break;
+    case "processing":
+      showMessage("Your payment is processing.");
+       changePaymentStatus(2);
+      window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
+      break;
+    case "requires_payment_method":
+      showMessage("Your payment was not successful, please try again.");
+       changePaymentStatus(2);
+      window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
+      break;
+    default:
+        showMessage("Your payment fails");
+        changePaymentStatus(2);
+       window.location.href =  location.protocol + "//" + location.host + "/store/pay_fail";
+      break;
+  }
+}
+
+async function paySuccess() {
+    const response = await fetch("{% url 'store_orders_deduct_stock_page' %}", {
+        method: "POST",
+        headers: {"Content-Type": "application/json", "X-CSRFToken": getCookie("csrftoken"),},
+        body: JSON.stringify({items}),
+    });
+}
+
+function changePaymentStatus(status_code){
+      $.ajax({
+            type: "POST",
+            url: "/store/pay/update_status",
+            data: {
+                "new_pay_id": new_pay_id,
+                "status": status_code,
+                "csrfmiddlewaretoken": getCSRFToken()
+            },
+            dataType: "json",
+            error: function (json) {
+                alertShow("error", "Failed to update payment");
+                return;
+            }
+        });
+}
+
+function showMessage(messageText) {
+  const messageContainer = document.querySelector("#payment-message");
+
+  messageContainer.classList.remove("hidden");
+  messageContainer.textContent = messageText;
+
+  setTimeout(function () {
+    messageContainer.classList.add("hidden");
+    messageText.textContent = "";
+  }, 4000);
+}
+
+function setLoading(isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    document.querySelector("#submit").disabled = true;
+    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector("#button-text").classList.add("hidden");
+  } else {
+    document.querySelector("#submit").disabled = false;
+    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector("#button-text").classList.remove("hidden");
+  }
+}
+
+</script>
+{% endblock %}
+
+
+
+

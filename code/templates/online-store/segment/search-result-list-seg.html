@@ -1,0 +1,12 @@
+
+<div style="overflow-y: scroll;">
+    {% for searchResult in searchResultList.hits.hits %}
+    <div class="container d-flex align-items-center justify-content-between" style="background: white;">
+        
+        <a href="{% url 'store_products_product_detail_page' %}?product_number={{ searchResult.source.product_number }}">
+        <div style="padding-top: 5px; padding-bottom: 5px;" onclick="">{{ searchResult.source.name }} - {{ searchResult.source.chinese_name }}</div>
+        </a>
+        
+    </div>
+    {% endfor %}
+</div>

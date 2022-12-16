@@ -1,0 +1,127 @@
+{% extends "online-store/common/base.html" %}
+{% load static %}
+{% block header %}
+<!-- Mirrored from demo.designing-world.com/suha-v1.1.0/message.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Jan 2020 15:57:15 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
+    <!-- Title-->
+    <title>Suha - Multipurpose Ecommerce Mobile Template</title>
+    <!-- Favicon-->
+    <link rel="icon" href="img/core-img/favicon.ico">
+    <!-- Stylesheet-->
+  </head>
+
+  <body>
+    <!-- Preloader-->
+<!--    <div class="preloader" id="preloader">-->
+<!--      <div class="spinner-grow text-secondary" role="status">-->
+<!--        <div class="sr-only">Loading...</div>-->
+<!--      </div>-->
+<!--    </div>-->
+    <!-- Header Area-->
+    <div class="header-area" id="headerArea">
+      <div class="container h-100 d-flex align-items-center justify-content-between">
+        <!-- Back Button-->
+        <div class="back-button"><a onclick="goBack()"><i class="lni-arrow-left"></i>Back</a>
+    </div>
+        <!-- Page Title-->
+        <div class="page-heading">
+          <h6 class="mb-0">Live Chat</h6>
+        </div>
+        <!-- Navbar Toggler-->
+        <div class="suha-navbar-toggler d-flex justify-content-between flex-wrap" id="suhaNavbarToggler"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <div class="page-content-wrapper">
+      <!-- Live Chat Intro-->
+      <div class="live-chat-intro mb-3">
+        <p>Start a conversation</p><td><img src="{% static 'online-store/img/bot/chat.png' %}" alt=""></td>
+        <div class="status online">We're online</div>
+        <!-- .status.offline We’ll be back soon // Use this code for "Offline" Status-->
+      </div>
+      <!-- Support Wrapper-->
+      <div class="support-wrapper py-3">
+        <div class="container">
+          <!-- Live Chat Wrapper-->
+          <div class="live-chat-wrapper">
+            <!-- Agent Message Content-->
+            <div class="agent-message-content d-flex align-items-center">
+              <!-- Agent Thumbnail-->
+              <div class="agent-thumbnail mr-2"><td><img src="{% static 'online-store/img/bot/chat.png' %}" alt=""></td></div>
+              <!-- Agent Message Text-->
+              <div class="agent-message-text">
+                <p>Hi there! You can start asking your question below. I am ready to help. Type "item" for a item query, and "cart" for  add something to your cart, "pandama" for our project</p><span>{{start_time}}</span>
+              </div>
+            </div>
+            <!-- User Message Content-->
+              {% if user_req != null %}
+            <div class="user-message-content">
+              <!-- User Message Text-->
+              <div class="user-message-text">
+                <p>{{user_req}}</p><span>{{user_req_time}}</span>
+              </div>
+            </div>
+              {% endif %}
+            <!-- Agent Message Content-->
+              {% if user_res != null %}
+            <div class="agent-message-content d-flex align-items-center">
+              <!-- Agent Thumbnail-->
+              <div class="agent-thumbnail mr-2"><td><img src="{% static 'online-store/img/bot/chat.png' %}" alt=""></td></div>
+<!--              <div class="agent-thumbnail mr-2"><img src="./chat.png" alt=""></div>-->
+              <!-- Agent Message Text-->
+              <div class="agent-message-text" style="font-size:12px">
+                   {% if sku != null %}
+                        <a href="{% url 'store_products_product_detail_page' %}?product_number={{sku}}"
+                               style="
+                          /*text-overflow: ellipsis;*/
+                          /*overflow: hidden;*/
+                          width: 50vw;
+                          /*white-space: nowrap;*/
+                          /*display: inline-block;*/
+                          font-size:12px;
+                      ">{{ user_res }}</a> to view
+
+                {% else %}
+                <p>{{user_res}}</p><span>{{user_res_time}}</span>
+                  {% endif %}
+              </div>
+            </div>
+               {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="type-text-form" style="position:fixed;bottom:55px" >
+         <form id='form1' action="#" method='POST'  style="
+                          text-overflow: ellipsis;
+                          overflow: hidden;
+                          width: 100vw;
+                          height: 100vw;
+                          white-space: nowrap;
+                          display: inline-block;
+                          /*font-size:12px;*/
+                      ">
+             <textarea class="form-control" name="message" cols="30" rows="10" placeholder="Type your message ..." onkeydown="if(event.keyCode==13 && !event.shiftKey) {enter_btn(event)}"></textarea>
+             <button type="submit"><i class="fa fa-paper-plane-o"></i></button>
+              {% csrf_token %}
+        </form>
+  </div>
+  </body>
+
+
+<!-- Mirrored from demo.designing-world.com/suha-v1.1.0/message.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Jan 2020 15:57:15 GMT -->
+</html>
+<script>
+	function enter_btn(a) {
+        a.preventDefault();
+        form1.submit()
+
+        }
+</script>
+{% endblock %}

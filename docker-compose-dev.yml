@@ -1,0 +1,102 @@
+version: "3.1"
+
+services:
+  postgres:
+    image: postgres:9.6
+    restart: always
+    networks:
+      - inner_pandama
+    environment:
+      - POSTGRES_USER=pandama
+      - POSTGRES_PASSWORD=pandama
+      - POSTGRES_DB=pandama
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6.2
+    restart: always
+    networks:
+      - inner_pandama
+    command: redis-server --requirepass pandama
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+
+  mongodb:
+    image: mongo:5.0.5
+    restart: always
+    networks:
+      - inner_pandama
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=pandama
+      - MONGO_INITDB_ROOT_PASSWORD=pandama
+      - MONGO_INITDB_DATABASE=pandama
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+
+  neo4j:
+    image: neo4j/neo4j-arm64-experimental:4.1.0-arm64
+    restart: always
+    networks:
+      - inner_pandama
+    environment:
+      - NEO4J_AUTH=neo4j/pandama
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./data/neo4j:/data
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.2
+    restart: always
+    networks:
+      - inner_pandama
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=pandama
+      - http.host=0.0.0.0
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./data/elasticsearch/nodes/0:/usr/share/elasticsearch/data
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    networks:
+      - inner_pandama
+    environment:
+      - RABBITMQ_SSL_CA_FILE=/certs/rabbitmq/ca_certificate.pem
+      - RABBITMQ_SSL_CERT_FILE=/certs/rabbitmq/server_certificate.pem
+      - RABBITMQ_SSL_KEY_FILE=/certs/rabbitmq/server_key.pem
+      - RABBITMQ_DEFAULT_USER=pandama
+      - RABBITMQ_DEFAULT_PASS=pandama
+    ports:
+      - "15672:15672"
+      - "15671:15671"
+      - "5672:5672"
+      - "5671:5671"
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+      - ./certs/rabbitmq:/certs/rabbitmq
+
+networks:
+  inner_pandama:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.20.0.0/16
+  outer_pandama:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/16
