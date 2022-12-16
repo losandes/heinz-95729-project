@@ -1,8 +1,8 @@
 module.exports = {
   scope: "heinz",
   name: "cartComponent",
-  dependencies: ["Vue", "environment"],
-  factory: (Vue, env) => {
+  dependencies: ["Vue", "cartRepo"],
+  factory: (Vue, cartRepo) => {
     "use strict";
 
     const taxPerc = 0.05;
@@ -15,17 +15,6 @@ module.exports = {
     };
 
     const component = Vue.component("cart", {
-      mounted: () => {
-        state.products = []; // clear previous items
-        // get added products from localStorage
-        const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-
-        for (const key in cart) {
-          state.products.push(cart[key]);
-        }
-        calculateTotal();
-      },
-
       template: `
         <div class="shopping-cart-wrapper">
           <div class="cart-title">
@@ -34,8 +23,8 @@ module.exports = {
           </div>
           <div class="shopping-cart" v-if="products.length > 0">
             <div class="column-labels">
-              <label>Image</label>
-              <label>Book Name</label>
+              <label>Cover</label>
+              <label>Product Name</label>
               <label>Price</label>
               <label>Edit</label>
             </div>
@@ -50,7 +39,7 @@ module.exports = {
                 </div>
                 <div class="product-price">{{ "$" + product.price }}</div>
                 <div class="product-removal">
-                  <button class="remove-product" v-on:click="removeProduct(product.id)">Remove</button>
+                  <button class="remove-product" v-on:click="removeProduct(product.productId)">Remove</button>
                 </div>
               </div>
             </div>
@@ -75,7 +64,6 @@ module.exports = {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       `,
@@ -84,26 +72,37 @@ module.exports = {
       },
       methods: {
         removeProduct: (productId) => {
-          state.products = state.products.filter(
-            (product) => product.id != productId
-          );
-          calculateTotal();
-          updateLocalStorage();
+          cartRepo.remove(productId, (err, result) => {
+            if (result && result.deleted) {
+              removeProductFromCart(productId);
+            }
+          });
         },
         checkout: async () => {
-          const stripe = Stripe(env.get("STRIPE_SECRET"));
-          window.location.href =
-            "https://buy.stripe.com/test_eVa14l3XMeaF2l2000";
+          cartRepo.createStripeSession(state.products, (err, sessionObj) => {
+            window.location.href = sessionObj.session.url;
+          });
         },
       },
     });
 
+    const setProducts = (products) => {
+      if (products && typeof Array.isArray(products)) {
+        state.products = products;
+      }
+      calculateTotal();
+    };
+
     const calculateTotal = () => {
       state.cartTotal = 0;
       state.subTotal = 0;
+
+      let productTotal = 0;
       state.products.forEach((product) => {
-        state.subTotal += product.price;
+        productTotal += parseFloat(product.price);
       });
+      state.subTotal = productTotal;
+
       state.subTotal = +parseFloat(state.subTotal).toFixed(2);
       state.tax = +parseFloat(taxPerc * state.subTotal).toFixed(2);
       state.cartTotal = +parseFloat(
@@ -111,18 +110,22 @@ module.exports = {
       ).toFixed(2);
     };
 
-    const updateCounter = () => {
-      let counter = state.products.length;
-    };
-    const updateLocalStorage = () => {
-      localStorage.clear("cart");
-      const cart = {};
-      for (let product of state.products) {
-        cart[product.id] = product;
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
+    const removeProductFromCart = (productId) => {
+      state.products = state.products.filter(
+        (product) => product.productId != productId
+      );
+      calculateTotal();
     };
 
-    return { component, calculateTotal, updateLocalStorage, updateCounter };
+    const getProducts = () => {
+      return state.products;
+    };
+
+    return {
+      component,
+      getProducts,
+      setProducts,
+      calculateTotal,
+    };
   },
 };

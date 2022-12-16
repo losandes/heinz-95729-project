@@ -1,16 +1,16 @@
 module.exports = {
-  scope: 'heinz',
-  name: 'registrationComponent',
-  dependencies: ['environment', 'Vue'],
+  scope: "heinz",
+  name: "registrationComponent",
+  dependencies: ["environment", "Vue"],
   factory: (env, Vue) => {
-    'use strict'
+    "use strict";
 
-    const apiRoute = `${env.get('apiOrigin')}/users`
+    const apiRoute = `${env.get("apiOrigin")}/users`;
     const state = {
       email: null,
       name: null,
-    }
-    const component = Vue.component('register', {
+    };
+    const component = Vue.component("register", {
       template: `
         <div id="user-registration-form">
           <form action="${apiRoute}" method='POST'>
@@ -27,10 +27,10 @@ module.exports = {
           <br />
         </div>`,
       data: function () {
-        return state
+        return state;
       },
-    })
+    });
 
-    return { component }
+    return { component };
   },
-}
+};

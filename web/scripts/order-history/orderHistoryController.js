@@ -16,6 +16,9 @@ module.exports = {
      */
     function registerRoutes(app) {
       router("/history", () => {
+        orderHistoryRepo.get((err, orders) => {
+          orderHistoryComponent.setOrders(orders);
+        });
         app.currentView = "orderHistory";
       });
     }
