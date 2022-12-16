@@ -39,7 +39,6 @@ def get_bot_response(request):
         context["user_req_time"] = req_time
         context["user_res_time"] = res_time
         context["user_req"] = request.POST.get("message")
-        context["item"] = "111"
         return render(request, "online-store/" + "message" + ".html", context)
     except:
         req_time = datetime.now()
