@@ -35,6 +35,8 @@ pnpm run watch
 * data_generation.py - code for generating images
 
 # Setup Instructions
-
+1. Download Latest AndroidStudio
+2. Create Emulator w/ API > 23 (Recommend API 32) OR use physical Android Device w/ Develop Options enabled and USB Debugging enabled
+3. Run App.
 
 Navigate to http://localhost:3001 to see the app
