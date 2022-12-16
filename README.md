@@ -37,97 +37,89 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
 
 ## How to Run
 
-1. Configuration
-   Put the env file into the env folder.
-2. Data
-   You can use legacy data by putting the data folder in the root folder. This data folder contains all stored data for PostgreSQL, MongoDB, Elasticsearch, Redis, Neo4j, and RabbitMQ.
-3. Run from Docker Compose
-   ```
-   docker-compose up
-   ```
-4. Access Pandama with the mobile mode in the browser ( Chrome )
-   Type the URL [http://localhost](http://localhost) in your browser, and change the mode of your browser to mobile mode.
-   **Warning: You'll face some 404 or 500 errors because some services aren't launched successfully, you need to wait no more than 3 mins**
-5. Stop and Close all Services
-   Just tap "Command" + "C" to exit "docker-compose up", then you can run the code below to make sure all services are down.
-   ```
-   docker-compose down
+1. Copy env folder
+   Copy the env folder to the root folder.
+
+2. Copy data folder
+   Copy the data folder to the root folder.
+
+3. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
+
+   ```bash
+   docker-compose -f docker-compose-dev.yml up
    ```
 
-## Run Unit Tests
-**If you already ran all services from "How to Run", you can jump to step 4 directly.**
+4. Install all python packages into a virtual env
 
-1. Configuration
-   Put the env file into the env folder.
-2. Data
-   You can use legacy data by putting the data folder in the root folder. This data folder contains all stored data for PostgreSQL, MongoDB, Elasticsearch, Redis, Neo4j, and RabbitMQ.
-3. Run all Data Services (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
-   ```
-   docker-compose up
-   ```
-4. Install all Python Packages into a virtual env
-   ```
-   cd code
+   ```bash
+   cd pandama-ext/code
    pipenv install
    ```
-5. Run all Django Unit Tests
-   ```
-   cd code
-   pipenv shell
-   ./manage.py test apps
-   ```
 
-## How to Develop
+5. Run Django web service
 
-1. Configuration
-   Put the env file into the env folder.
-2. Data
-   You can use legacy data by putting the data folder in the root folder. This data folder contains all stored data for PostgreSQL, MongoDB, Elasticsearch, Redis, Neo4j, and RabbitMQ.
-3. Run all Data Services (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
-   ```
-   docker-compose up
-   ```
-4. Install all Python Packages into a virtual env
-   ```
-   cd code
-   pipenv install
-   ```
-5. Run Django Service
-   ```
+   ```bash
    cd code
    pipenv shell
    python manage.py runserver
    ```
-6. Run Celery Service
-   ```
-   cd code
-   pipenv shell
-   python manage.py celery
-   ```
-7. Access Pandama with the mobile mode in the browser ( Chrome )
-   Type the URL [http://localhost](http://localhost) in your browser, and change the mode of your browser to mobile mode.
-   **Warning: You'll face some 404 or 500 errors because some services aren't launched successfully, you need to wait no more than 3 mins**
-5. Stop and Close all Services
+
+6. Access Pandama with the mobile mode in the browser ( Chrome )
+   Access [http://localhost](http://localhost), then change the mode of your browser to mobile mode.
+   **Warning: You'll face some 404 or 500 errors because some services aren't launched ready, you need to wait no more than 3 mins**
+
+7. Stop and Close all Services
     1. Close all Data Services
       Just tap "Command" + "C" to exit "docker-compose up", then you can run the code below to make sure all services are down.
-      ```
-      docker-compose down
-      ``` 
+
+         ```bash
+         docker-compose -f docker-compose-dev.yml down
+         ```
+
     2. Stop Django Service
       Just tap "Command" + "C" to exit
-    3. Stop Celery Service
-      Just tap "Command" + "C" to exit
+
+## Run Unit Tests
+
+**If you already ran all services from "How to Run", you can jump to step 5 directly.**
+
+1. Copy env folder
+   Copy the env folder to the root folder.
+
+2. Copy data folder
+   Copy the data folder to the root folder.
+
+3. Run all data service (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
+
+   ```bash
+   docker-compose -f docker-compose-dev.yml up
+   ```
+
+4. Install all python packages into a virtual env
+
+   ```bash
+   cd code
+   pipenv install
+   ```
+
+5. Run all Django unit tests
+
+   ```bash
+   cd code
+   pipenv shell
+   python manage.py test apps
+   ```
 
 ## URL and Username/Password for Services
 
 - Pandama webiste
-  - http://localhost
+  - http://localhost:8000
 - PostgreSQL
   - port: 5432
   - username: pandama
   - pass: pandama
   - db: pandama
-- Redis: 
+- Redis:
   - port: 6379
   - auth: pandama
 - MongoDB
@@ -135,19 +127,20 @@ You can check out our wiki to find detailed user stories, UI design, and tech de
   - username: pandama
   - pass: pandama
   - db: pandama
-- Neo4j: 
+- Neo4j:
   - http://localhost:7474/browser
   - auth: neo4j/pandama
 - Elasticsearch
   - port: 9200
   - pass: pandama
-- RabbitMQ: 
+- RabbitMQ:
   - http://localhost:15672/
 
 ## Failed to Run "pipenv install"
+
 You may fail to run this command because of the M1 chip. You can try to google and find a solution to resolve this issue. Or you can also try the solution below.
 
-```
+```bash
 cd code
 pipenv shell
 pip install -r requirements.txt
