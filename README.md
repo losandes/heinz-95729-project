@@ -1,87 +1,127 @@
-
 <p align="center">
   <img src="./docs/assets/logo.png">
 </p>
 
-[![Gitbook Badge](https://img.shields.io/badge/Wiki-Pandama-yellow)](https://github.com/liuninglin/pandama/wiki)
-![Django Badge](https://img.shields.io/badge/Django-3.2-green)<space><space>
+# CMU Heinz 95729 Course Project - Pandama Team
 
-## Website Preview
+This repo is created based on [**Pandama**](https://github.com/liuninglin/pandama) which is a course project for "Web Development (17637)". For detailed info on Pandama, you can check out the wiki of Pandama to get to know more info like business architecture, tech architecture, data flows, and backlogs. [https://github.com/liuninglin/pandama/wiki](https://github.com/liuninglin/pandama/wiki)
 
-![preview](./docs/assets/preview-small.gif)
+## Team Members
 
-## Vision
+| Name | Department  | GitHub | Features | Module |
+|---|---|---|---|---|
+| Ninglin Liu | Heinz - MISM | [liuninglin](https://github.com/liuninglin) | Autocomplete Search | Search |
+| Shu Wu | Heinz - MISM | [sukeascat](https://github.com/sukeascat) | Strip Payment | Payment |
+| Zhiben Chen | Heinz - MISM | [ims-kdks](https://github.com/ims-kdks) | OAuth Login | OAuth |
+| Xinhao Cheng | INI - MSMITE | [xinhaoc](https://github.com/xinhaoc) | ChatBot Shopping | Bot |
 
-As Chinese students, we hope to buy all kinds of Chinese goods in Pittsburgh. Usually, we choose to buy at Lotus Supermarket, but the online shopping platform of Lotus is not good. When purchasing various daily necessities and food, we found that there were various problems with the interface of the Lotus website. For example, its recharge button may fail. If you click the button several times in a row, you will be charged more than once. Its account management is also very problematic, and the password of an account can be changed without verification. Our group wants to build a shopping platform like Lotus supermarket to provide groceries for Chinese students.
+## Purpose of This Project
 
-## The meaning of the project name
+Add more advanced features into Pandama, like ChatBot, Autocomplete Search, OAuth, and Payment.
 
-Pandama = Panda + ma. "Panda" is the symbol of China, it represents the Chinese featured products on our websites. The pronunciation of "DaMa" is the same as the Chinese character "大妈" which means the grandmother in English. The name gives homesick Chinese students a feeling of sweet home and their own lovely grandmother. So, visiting the Pandama is just like coming back home and taking a tasty dinner made by your grandmother.
+## Meaning of Pandama
 
-## Contributors
+![meaning of pandama](docs/assets/pandama-name-meaning.png)
+It's a combination word from a Chinese word and an English word.
+**Panda**: English word, a sign of China.
+**Dama**: It means grandma in Chinese. We're trying to give our audiences a feeling of coming back home and eating the delicious food made by their grandma. Convey a feeling of trust, warmth, and relaxation.
 
-This project came from my team project in CMU course 17637 taught by Jeffrey Eppinger and Sujata Telang, team members are shown below. And later I add more monitoring features and docker configuration into this project.
+## Design of Each New Feature
 
-| Name          | Department                    | Contributions                                  |
-| ------------- | ----------------------------- | ------------------------------------------ |
-| Ninglin Liu   | CMU Heinz College - MISM      | Lead Team / Develop / Deployment / Docker Configuration |
-| [Xinhao Cheng] | CMU - MSIN    | Develop |
-| [Shu Wu]        | CMU Heinz College - MISM      | Develop      |
-| [Zhiben Chen]| CMU Heinz College - MISM | Develop |
+You can check out our wiki to find detailed user stories, UI design, and tech design for each new feature.
+[https://github.com/liuninglin/pandama-ext/wiki](https://github.com/liuninglin/pandama-ext/wiki)
 
-## Acknowledgement
+## Management
 
-All product data crawled from [Lotus Food](https://www.lotusfoodonline.com/#/home).
+[GitHub Project](https://github.com/users/liuninglin/projects/1) and [GitHub Wiki](https://github.com/liuninglin/pandama-ext/wiki)
 
-## Future Works
+## How to Run
 
-- Transform to Django REST framework
-- Using Kubernetes to implement a microservices architecture
-- Deploy apps into Kubernetes cluster in AWS
-- Add management features
-- (Optional) Try Service Mesh
-
-## Features
-
-![preview](./docs/assets/features.png)
-
-## Tech Arch
-
-![preview](./docs/assets/tech_arch.png)
-
-## Getting started
-
-Steps for Running Pandama in Local Docker:
 1. Configuration
-   1. Put your custom env file under the env folder
-   2. Set your secret key and access key for your AWS account
-   3. Change your S3 access URL
-2. Run by docker compose
-   ```bash
+   Put the env file into the env folder.
+2. Data
+   You can use legacy data by putting the data folder in the root folder. This data folder contains all stored data for PostgreSQL, MongoDB, Elasticsearch, Redis, Neo4j, and RabbitMQ.
+3. Run from Docker Compose
+   ```
    docker-compose up
    ```
-   ![docker compose](./docs/assets/docker-compose-up.gif)
-3. Create products from Pittsburgh chinese lotus online store
-   ```bash
-   curl -X POST localhost/operation/spider_execute
+4. Access Pandama with the mobile mode in the browser ( Chrome )
+   Type the URL [http://localhost](http://localhost) in your browser, and change the mode of your browser to mobile mode.
+   **Warning: You'll face some 404 or 500 errors because some services aren't launched successfully, you need to wait no more than 3 mins**
+5. Stop and Close all Services
+   Just tap "Command" + "C" to exit "docker-compose up", then you can run the code below to make sure all services are down.
    ```
-4. Access Pandama with the mobile mode in the browser(Chrome)
+   docker-compose down
    ```
-   http://localhost
-   ```
-5. Stop docker compose
-    Click "Ctrl" + "C" to force stop, then type the commands below
-    ```bash
-    docker-compose down
-    ```
-    ![docker compose](./docs/assets/docker-compose-down.gif)
 
-## URL for Pandama
+## Run Unit Tests
+**If you already ran all services from "How to Run", you can jump to step 4 directly.**
+
+1. Configuration
+   Put the env file into the env folder.
+2. Data
+   You can use legacy data by putting the data folder in the root folder. This data folder contains all stored data for PostgreSQL, MongoDB, Elasticsearch, Redis, Neo4j, and RabbitMQ.
+3. Run all Data Services (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
+   ```
+   docker-compose up
+   ```
+4. Install all Python Packages into a virtual env
+   ```
+   cd code
+   pipenv install
+   ```
+5. Run all Django Unit Tests
+   ```
+   cd code
+   pipenv shell
+   ./manage.py test apps
+   ```
+
+## How to Develop
+
+1. Configuration
+   Put the env file into the env folder.
+2. Data
+   You can use legacy data by putting the data folder in the root folder. This data folder contains all stored data for PostgreSQL, MongoDB, Elasticsearch, Redis, Neo4j, and RabbitMQ.
+3. Run all Data Services (PostgreSQL, Redis, MongoDB, Neo4j, Elasticsearch, and RabbitMQ)
+   ```
+   docker-compose up
+   ```
+4. Install all Python Packages into a virtual env
+   ```
+   cd code
+   pipenv install
+   ```
+5. Run Django Service
+   ```
+   cd code
+   pipenv shell
+   python manage.py runserver
+   ```
+6. Run Celery Service
+   ```
+   cd code
+   pipenv shell
+   python manage.py celery
+   ```
+7. Access Pandama with the mobile mode in the browser ( Chrome )
+   Type the URL [http://localhost](http://localhost) in your browser, and change the mode of your browser to mobile mode.
+   **Warning: You'll face some 404 or 500 errors because some services aren't launched successfully, you need to wait no more than 3 mins**
+5. Stop and Close all Services
+    1. Close all Data Services
+      Just tap "Command" + "C" to exit "docker-compose up", then you can run the code below to make sure all services are down.
+      ```
+      docker-compose down
+      ``` 
+    2. Stop Django Service
+      Just tap "Command" + "C" to exit
+    3. Stop Celery Service
+      Just tap "Command" + "C" to exit
+
+## URL and Username/Password for Services
 
 - Pandama webiste
   - http://localhost
-- Kibana / APM
-  - http://localhost:5601
 - PostgreSQL
   - port: 5432
   - username: pandama
@@ -104,35 +144,11 @@ Steps for Running Pandama in Local Docker:
 - RabbitMQ: 
   - http://localhost:15672/
 
-## Local Dev
+## Failed to Run "pipenv install"
+You may fail to run this command because of the M1 chip. You can try to google and find a solution to resolve this issue. Or you can also try the solution below.
 
-### Initialization
-
-1. add .env files into the root folder
-2. add data folder into the root folder
-3. create a python virtual env and install all requirements (two options)
-   1. pipenv + Pipfile.lock (if you faced unexpected errors, you can choose option-2 to finish)
-   ```bash
-   cd pandama-ext/code
-   pipenv install
-   ```
-   2. pipenv + requirements.txt
-   ```bash
-   cd pandama-ext/code
-   pipenv shell
-   pip install -r requirements.txt
-   ```
-
-### Run and Test
-
-1. run dbs
-  ```bash
-  cd pandama-ext
-  docker-compose up
-  ```
-2. run Django (pipenv)
-  ```bash
-  cd pandama-ext/code
-  pipenv shell
-  python manage.py runserver
-  ```
+```
+cd code
+pipenv shell
+pip install -r requirements.txt
+```
