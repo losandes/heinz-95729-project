@@ -19,7 +19,7 @@ function OrderFactory (deps) {
     productId: 'string',
     userId: 'string',
     transactionId: 'string',
-    price: 'decimal2',
+    amount: 'decimal:2',
   }
 
   registerBlueprint('Order', OrderBlueprint)

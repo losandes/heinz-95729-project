@@ -14,7 +14,7 @@ const MigrateOrderFactory = require('./migrate.js')
 function OrderFactory (input) {
   const orderRepo = new OrderPgRepo({ knex: input.knex })
   const { findOrders } = new FindOrderFactory({ orderRepo })
-  const { completeOrder } = new CompleteOrderFactory({ orderRepo })
+  const { completeOrder } = new CompleteOrderFactory({ orderRepo, cartRepo: input.cartRepo })
   const migrate = MigrateOrderFactory({ path, knex: input.knex })
 
   return {

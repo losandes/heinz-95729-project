@@ -18,9 +18,16 @@ function OrderPgRepoFactory (deps) {
      * @param {IOrder} input - an instance of Order to upsert
      */
     const upsert = async (input) => {
-      const orders = input.map(product => new Order(product))
-      console.log("********************************************")
-      console.log(orders);
+      let orders = input.map(order => new Order(order))
+      orders = orders.map(order => ({
+        id: order.id,
+        productid: order.productId,
+        userid: order.userId,
+        amount: order.amount,
+        transactionid: order.transactionId,
+        timestamp_ms: Date.now(),
+      }))
+
       const res = await knex.transaction(async (trx) => {
          return trx('orderhistory')
           .insert(orders)
@@ -33,26 +40,6 @@ function OrderPgRepoFactory (deps) {
 
       return { orders, res }
 
-    }
-
-    const mapResults = (results) => results.map((record) => new Order({
-      id: record.id,
-      productId: record.productid,
-      userId: record.userid,
-      transactionId: record.transactionid,
-      title: record.title,
-      thumbnailHref: record.thumbnail_href,
-      price: record.price,
-    }))
-
-    /**
-     * Gets a Order by id
-     * @param {string} id - the ID of the Orders to get (i.e. `e0ed9bc0-6e4c-4d7f-9d98-46714ffa357c`)
-     * @returns {IOrder | null} - an instance of Orders if a record was found, otherwise null
-     */
-    const orderById = async (id) => {
-      const results = mapResults(await knex('orderhistory').where('id', id))
-      return results.length ? results : null
     }
 
     /**
@@ -109,13 +96,21 @@ function OrderPgRepoFactory (deps) {
       return count > 0
     }
 
+    const mapResults = (results) => results.map((record) => ({
+      id: record.id,
+      productId: record.productid,
+      userId: record.userid,
+      transactionId: record.transactionid,
+      title: record.title,
+      thumbnailHref: record.thumbnail_href,
+      amount: record.amount,
+    }))
+
     return {
       upsert,
       get: {
-        byId: orderById,
         byUserId: orderByUserId,
       },
-     // find,
       delete: {
         byId: deleteById,
       },
