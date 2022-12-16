@@ -1,7 +1,7 @@
 /**
  * @param {CartPgRepo} cartRepo
  */
-function FindCartFactory (deps) {
+function GetCartFactory (deps) {
   'use strict'
 
   const { cartRepo } = deps
@@ -12,11 +12,11 @@ function FindCartFactory (deps) {
    * Usage with httpie:
    *     http http://localhost:3000/findOrders?q=Tropper
    */
-  const findCart = async (ctx) => {
+  const getCart = async (ctx) => {
     const logger = ctx.request.state.logger
 
     try {
-      const carts = await cartRepo.find(ctx.query.q)
+      const carts = await cartRepo.get.byId(ctx.params.uid)
 
       logger.emit('order_find_success', 'debug', { count: carts.length, carts })
 
@@ -28,7 +28,7 @@ function FindCartFactory (deps) {
     }
   }
 
-  return { findCart }
+  return { getCart }
 }
 
-module.exports = FindCartFactory
+module.exports = GetCartFactory
