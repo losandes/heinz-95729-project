@@ -137,13 +137,14 @@ class DatabaseExecutor {
     async readProfileItem() {
         await client.connect();
         let userProfile = {};
+        await client.connect();
         userProfile = await client
             .db('main')
             .collection('profile')
             .findOne({ user_id: user_id })
-            .then((document) => {
+            .then(async function (document) {
+                await client.close().then();
                 console.log('mongo: ' + document);
-                client.close();
                 return document;
             })
             .catch((err) => {
