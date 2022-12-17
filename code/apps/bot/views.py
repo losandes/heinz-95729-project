@@ -1,4 +1,4 @@
-from django.test import TestCase
+
 import os
 from google.cloud import dialogflow_v2
 import logging
@@ -6,25 +6,25 @@ from apps.orders.models import *
 from django.shortcuts import render
 from datetime import datetime
 from apps.carts.views import addCart, addCartBySessionId
-from config.settings.config_common import DIALOGFLOW_PROJECT_ID
 import environ
+from config.settings.config_common import DIALOGFLOW_PROJECT_ID
 
+
+
+# from google.api_core.exceptions import InvalidArgument
+# Create your tests here.
 logger = logging.getLogger(__name__)
 
-def get_bot_response(request):
+def get_bot_response(text_to_be_analyzed, sessionId, if_login, customerId):
     try:
-        if request.method == "POST":
-            logger.info(
-                "get submitted text from html " + request.POST.get("message"))
+
         root = environ.Path(__file__) - 4
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_config.json')
-
+            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_credential.json')
         DIALOGFLOW_LANGUAGE_CODE = 'en'
         SESSION_ID = 'anything'
 
 
-        text_to_be_analyzed = request.POST.get("message")
         req_time = datetime.now()
 
         session_client = dialogflow_v2.SessionsClient()
@@ -35,11 +35,11 @@ def get_bot_response(request):
         res_time = datetime.now()
 
         context = {}
-        context["user_res"] = process_responce(response, request, context)
+        context["user_res"] = process_responce(response, context, if_login, sessionId, customerId)
         context["user_req_time"] = req_time
         context["user_res_time"] = res_time
-        context["user_req"] = request.POST.get("message")
-        return render(request, "online-store/" + "message" + ".html", context)
+        context["user_req"] = text_to_be_analyzed
+        return context
     except:
         req_time = datetime.now()
         res_time = datetime.now()
@@ -47,50 +47,37 @@ def get_bot_response(request):
         context["user_res"] = "wrong format of input message"
         context["user_req_time"] = req_time
         context["user_res_time"] = res_time
-        context["user_req"] = request.POST.get("message")
-        return render(request, "online-store/" + "message" + ".html", context)
+        context["user_req"] = text_to_be_analyzed
+        return context
 
 
-def process_responce(response, request, context):
+def process_responce(response, context, if_login, sessionId, customerId):
+
     if response.query_result.intent.display_name == "add to cart - yes - custom":
         skuid = response.query_result.query_text.split(":", 1)[1]
-
         #add to cart
-        return add_cart_in_chat(request, skuid, 1)
+        return add_cart_in_chat(skuid, 1, if_login, sessionId, customerId)
     elif response.query_result.intent.display_name == "product-detail - yes - custom":
         sku = response.query_result.query_text.split(":", 1)[1]
         context["sku"] = sku
+
         return "click here "
     else: return response.query_result.fulfillment_text
 
-def add_cart_in_chat(request, sku_number, qty):
-    if "Customer" in request.session.keys():
-        if_login = True
-    else:
-        if_login = False
-
+def add_cart_in_chat(sku_number, qty, if_login, sessionId, customerId):
     if not if_login:
         # If not log in
-        if not request.session.session_key:
-            request.session.create()
-            # Set expiration time 60 minutes | for test set 5 minutes
-            request.session.set_expiry(60 * 60)
-        # Get the session id for later operation
-        sessionId = request.session.session_key
-        if request.method == "POST":
-            res = addCartBySessionId(sessionId, sku_number, qty)
-            if res["status"] == 200:
-                return "add success! you can check it in your cart"
-            else:
-                return "add failed, a wrong sku id"
+        res = addCartBySessionId(sessionId, sku_number, qty)
+        if res["status"] == 200:
+            return "add success! you can check it in your cart"
+        else:
+            return "add failed, a wrong sku id"
     else:
-        if request.method == "POST":
-            customerId = request.session["Customer"].id
-            res = addCart(customerId, sku_number, qty)
-            if res["status"] == 200:
-                return "add success! you can check it in your cart"
-            else:
-                return "add failed, a wrong sku id"
+        res = addCart(customerId, sku_number, qty)
+        if res["status"] == 200:
+            return "add success! you can check it in your cart"
+        else:
+            return "add failed, a wrong sku id"
 
 
 
