@@ -87,8 +87,6 @@ def webhook():
         action = df_intent['displayName']
     message = df_query.get('queryText')
     params = df_query.get('parameters')  # this is a dictionary
-    # print( params)
-    # print("retrieved necessary info, starting switch statement")
     # pull the user ID from the original slack payload
     user = ''
     slack_og = req.get('originalDetectIntentRequest')
@@ -96,7 +94,6 @@ def webhook():
     slack_data = slack_payload.get('data')
     slack_event = slack_data.get('event')
     user = slack_event['user']
-    # print(user)
     fulfillmentText = switch(action, message, user, params)
 
     return {
@@ -126,7 +123,6 @@ def switch(action, message, user, params):
         a string containing the response to be sent back
     """
 
-    # print("started switch statment. responding based on action: " + action)
     df_response = "Sorry, I didn't quite get that"
     if action == "AddCourse":
         print("Adding a course")
