@@ -52,10 +52,10 @@ We can show our individual contributions to the project:
   * Fundamental Resrach of Machine Learning: Jessie   
   * ML Use-cases of Healthcare Field: Jessie   
   * Implementation:
-    * Extract, Transform, Load (ETL): Aki - cervical_cancer.py
-    * Feature Distribution Check Tool: Jessie - 03-01_Feature distribution.ipynb
-    * Traditional Machine Learning Models (KNN, Dicision Tree, Random Forest, Ensemble Model): Eva - 01_KNN_DT_RF_V2.ipynb
-    * Neural Network Model (Multi-layer Perceptron): Aki - 02_NeuralNetwork_CervicalCancerClassification_DI.ipynb
-    * Causal Inference Model (FCI): Aki - Causal Analysis_Cervical Cancer.tet
-  * Final Presentation Slide: All - Interpretable Machine Learning in Healthcare _presentation.pdf
-  * Research Paper: All - Final Research Paper_submit.pdf
+    * Extract, Transform, Load (ETL): **Aki** - cervical_cancer.py
+    * Feature Distribution Check Tool: **Jessie** - 03-01_Feature distribution.ipynb
+    * Traditional Machine Learning Models (KNN, Dicision Tree, Random Forest, Ensemble Model): **Yirun** - 01_KNN_DT_RF_V2.ipynb
+    * Neural Network Model (Multi-layer Perceptron): **Aki** - 02_NeuralNetwork_CervicalCancerClassification_DI.ipynb
+    * Causal Inference Model (FCI): **Aki** - Causal Analysis_Cervical Cancer.tet
+  * Final Presentation Slide: **All** - Interpretable Machine Learning in Healthcare _presentation.pdf
+  * Research Paper: **All** - Final Research Paper_submit.pdf
