@@ -20,8 +20,7 @@ def get_bot_response(text_to_be_analyzed, sessionId, if_login, customerId):
 
         root = environ.Path(__file__) - 4
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_credential.json')
-        # DIALOGFLOW_PROJECT_ID = 'newagent-pl9e'
+            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_config.json')
         DIALOGFLOW_LANGUAGE_CODE = 'en'
         SESSION_ID = 'anything'
 
@@ -68,7 +67,6 @@ def process_responce(response, context, if_login, sessionId, customerId):
 def add_cart_in_chat(sku_number, qty, if_login, sessionId, customerId):
     if not if_login:
         # If not log in
-
         res = addCartBySessionId(sessionId, sku_number, qty)
         if res["status"] == 200:
             return "add success! you can check it in your cart"
