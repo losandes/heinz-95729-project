@@ -124,3 +124,4 @@ To make it simpler, please look at the figure below:
 ![alt text](https://ecomm-starbux-artifact-bucket.s3.amazonaws.com/Screen+Shot+2022-12-16+at+9.44.20+PM.png)
 
 As you can see, API gateway provides a rest interface to the google assistant and Dialogflow platforms. On the other end, Lambda uses the MongoDB drivers to deliver stateful functionality for the end user.
+

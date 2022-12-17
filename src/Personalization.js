@@ -1,4 +1,4 @@
-const dbExecutor = require('./dbExecutor');
+const dbExecutor = require('./DatabaseExecutor');
 //response codes
 const ResponseCodes = require('./ResponseCodes');
 
@@ -32,6 +32,12 @@ class Personalization {
         }
         console.log('Personalization update close');
         return;
+    }
+
+    async getUserProfile() {
+        const profileItem = await new dbExecutor().readProfileItem();
+        console.log('profileItem: ' + profileItem);
+        return profileItem;
     }
 }
 

@@ -1,4 +1,4 @@
-const dbExecutor = require('./dbExecutor');
+const dbExecutor = require('./DatabaseExecutor');
 const responseCodes = require('./ResponseCodes');
 
 function run() {
@@ -10,4 +10,50 @@ function run() {
         });
 }
 
-run();
+function add() {
+    new dbExecutor().insertCartItem(['Cinnamon Cappuccino']).then();
+}
+
+async function t2() {
+    result = await new dbExecutor().showCartItem(1).then();
+    if (result.length == 0) {
+        reply = 'Your cart is empty! Maybe consider add some coffee here!';
+    } else {
+        reply = 'Your cart includes ';
+        result.forEach((value, i) => {
+            if (i == 0) {
+                reply =
+                    reply + result[0].number + ' cups of ' + result[0].coffee;
+            } else {
+                reply =
+                    reply +
+                    ' and ' +
+                    result[i].number +
+                    ' cups of ' +
+                    result[i].coffee;
+            }
+        });
+    }
+    console.log(reply);
+}
+
+async function cart() {
+    const c = await new dbExecutor().showCartItem(1);
+    console.log(c);
+}
+
+function t3() {
+    new dbExecutor().placeOrder(1);
+}
+
+function clear() {
+    new dbExecutor().clearCart(1);
+}
+
+async function addFac() {
+    items = await new dbExecutor().readProfileItem();
+    console.log(items.favorite_drink);
+    await new dbExecutor().insertCartItem([items.favorite_drink]).then();
+}
+
+addFac();

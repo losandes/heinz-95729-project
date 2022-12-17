@@ -6,10 +6,12 @@ const {
     BasicCard,
     Suggestions,
 } = require('actions-on-google');
-
 const app = dialogflow({ debug: true });
+
+const dbExecutor = require('./DatabaseExecutor');
 const Personalization = require('./Personalization');
 const Menu = require('./Menu');
+const Cart = require('./Cart');
 const ResponseCodes = require('./ResponseCodes');
 
 app.intent('Default Welcome Intent', (conv, event) => {
@@ -52,7 +54,7 @@ app.intent('Personalize', async (conv) => {
     let responseCode = await new Personalization().relay();
 
     conv.ask(
-        'Please tell me your favorite drink and favorite pick up location'
+        'Please tell me your favorite drink and your favorite pick up location'
     );
 });
 
@@ -63,15 +65,13 @@ app.intent('Personalize-followup', async (conv, event) => {
         event.location['street-address']
     );
 
-    console.log('updateStatus: ' + updateStatus);
-
     conv.ask(
         `Okay I have updated your favorite drink to ${event.Coffee} and your favorite pick up location to ${event.location['street-address']}`
     );
     conv.ask(
-        `Is there anything else you'd like to do? You can say things like order coffee or hear the menu`
+        `Is there anything else you'd like to do? You can say things like add coffee or hear the menu`
     );
-    conv.ask(new Suggestions(['Order Coffee', 'Hear Menu']));
+    conv.ask(new Suggestions(['Add Coffee', 'Hear Menu']));
 });
 
 app.intent('Menu', async (conv, event) => {
@@ -88,20 +88,94 @@ app.intent('Help', (conv, event) => {
     );
 });
 
-app.intent('order.additem', (conv) => {
-    console.log('additem');
+app.intent('Add Item', async (conv, event) => {
+    let addCartResponse = await new Cart().addToCart(conv);
 
-    // user id is assumed to be always one
-    // this isn't correct in production, but within the scope of project, user
-    // authentication / authorization will be too much work
-    // user_id = 1;
+    console.log(JSON.stringify(event));
+    console.log('ToppingAndCoffee: ' + event['ToppingAndCoffee']);
 
-    // params = conv.body.queryResult.parameters;
-    // items = params['number-coffee'];
+    if (!event['ToppingAndCoffee'] || event['ToppingAndCoffee'] == '') {
+        let menu = new Menu();
+        conv.ask(
+            `I'm sorry, I don't know how to order that, the menu consists of ${menu.renderMenu()}, and the toppings consist of ${menu.renderToppings()}. Would you like to add a caramel Mocha? `
+        );
+        conv.ask(
+            new Suggestions(['Yes', 'No', 'Place Another Order', 'Hear Menu'])
+        );
+    } else {
+        conv.ask(
+            `Okay I have added ${addCartResponse} to your cart, you can either add another drink or when you're ready you can say checkout.`
+        );
+        conv.ask(
+            new Suggestions(['Add Latte', 'Check Out', 'Hear Menu', 'Cart'])
+        );
+    }
+});
 
-    // insert_cart_item(user_id, items);
+app.intent('Add Item - yes', async (conv, event) => {
+    conv.body.queryResult.parameters['ToppingAndCoffee'] = ['Caramel Mocha'];
+    let addCartResponse = await new Cart().addToCart(conv);
+    conv.ask(
+        `Okay, I have added Caramel Mocha to your cart. To Checkout, simply say Checkout, or if you'd like to add another Item, say add Latte.`
+    );
+    conv.ask(new Suggestions(['Add Latte', 'Checkout', 'Cart']));
+});
 
-    conv.ask('Coffee added to order.');
+app.intent('Add Item - no', async (conv, event) => {
+    conv.ask(
+        `Okay, what would you like to do? You can say things like Hear Menu, Hear Cart`
+    );
+    conv.ask(new Suggestions(['Hear Menu', 'Hear Cart']));
+});
+
+app.intent('Add Favorite Item', async (conv, event) => {
+    console.log('add favorite');
+    favorite_drink = await new Cart().addFavorite();
+
+    conv.ask(
+        `Okay I have added your favorite ${favorite_drink} to your cart, you can either add another drink or when you're ready you can say checkout.`
+    );
+    conv.ask(new Suggestions(['Add Latte', 'Check Out', 'Hear Menu', 'Cart']));
+});
+
+app.intent('Show Cart', async (conv) => {
+    let showCartResponse = await new Cart().showCart();
+    if (showCartResponse.code == ResponseCodes.CART_IS_EMPTY) {
+        conv.ask(showCartResponse.reply);
+        conv.ask(new Suggestions(['Add Cinnamon Latte']));
+    } else {
+        conv.ask(showCartResponse.reply);
+        conv.ask(new Suggestions(['Yes', 'No', 'Clear Cart']));
+    }
+});
+
+app.intent('Show Cart - yes', async (conv) => {
+    const userProfile = await new Personalization().getUserProfile();
+    console.log(JSON.stringify(userProfile));
+    conv.close(
+        `Your order will be available for pickup in 10 minutes at ${userProfile.favorite_location}`
+    );
+    new dbExecutor().clearCart();
+});
+
+app.intent('Show Cart - no', async (conv) => {
+    conv.ask(`Ok, you can either add drinks to your cart, or clear your cart`);
+    conv.ask(new Suggestions(['Add Caramel Iced Latte', 'Clear Cart']));
+});
+
+app.intent('order.clearcart', async (conv) => {
+    console.log('clear cart');
+    new dbExecutor().clearCart();
+    conv.ask('Your cart has been cleared.');
+});
+
+app.intent('Place Order', async (conv) => {
+    conv.ask(
+        'Ok, what would you like to order? You can say things like Black Coffee, Cinnamon Iced Latte or Hear menu'
+    );
+    conv.ask(
+        new Suggestions(['Black Coffee', 'Cinnamon Iced Latte', 'Hear Menu'])
+    );
 });
 
 exports.handler = app;

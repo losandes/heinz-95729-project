@@ -9,14 +9,15 @@ such as setting up user authentication & authorization, however for now
 we will assume that one person is using this app, thus user_id will always be 1
 */
 const user_id = 1;
-class dbExecutor {
+class DatabaseExecutor {
     constructor() {}
 
-    async insertCartItem(user_id, items) {
+    async insertCartItem(items) {
         var rec = {
             user_id: user_id,
             items,
             placed: false,
+            time: new Date(),
         };
 
         try {
@@ -34,53 +35,84 @@ class dbExecutor {
                     .insertOne(rec)
                     .catch();
             } else {
-                const update_query = { user_id: user_id };
-
-                // add the current coffee into the document
                 await client
                     .db('main')
                     .collection('order')
-                    .updateOne(update_query, {
-                        $push: { items: { $each: items } },
+                    .updateOne(query, {
+                        $push: { items: items[0] },
                     });
-
-                // aggregate duplicated coffees
-                const agg = [
-                    { $unwind: '$items' },
-                    {
-                        $group: {
-                            _id: '$items.coffee',
-                            number: { $sum: '$items.number' },
-                        },
-                    },
-                    {
-                        $group: {
-                            _id: 0,
-                            items: {
-                                $push: { coffee: '$_id', number: '$number' },
-                            },
-                        },
-                    },
-                    { $project: { _id: 0, items: 1 } },
-                ];
-
-                const result = await client
-                    .db('main')
-                    .collection('order')
-                    .aggregate(agg);
-
-                for await (const doc of result) {
-                    await client
-                        .db('main')
-                        .collection('order')
-                        .updateOne({ user_id: user_id }, { $set: doc });
-                }
             }
         } catch (e) {
             console.error(e);
         } finally {
             await client.close();
         }
+    }
+
+    async showCartItem() {
+        let cart = {};
+
+        await client.connect();
+        cart = await client
+            .db('main')
+            .collection('order')
+            .findOne({ user_id: user_id, placed: false })
+            .then((document) => {
+                console.log(document);
+                client.close();
+                if (!document) {
+                    return [];
+                } else {
+                    return document.items;
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                client.close();
+                return [];
+            });
+
+        //console.log('cart: ' + JSON.stringify(cart));
+
+        return cart;
+    }
+
+    async placeOrder(user_id) {
+        let update = {
+            $set: {
+                placed: true,
+            },
+        };
+
+        await client.connect();
+        return await client
+            .db('main')
+            .collection('order')
+            .updateOne({ user_id: user_id, placed: false }, update, {
+                upsert: false,
+            })
+            .then(() => {
+                client.close();
+                return;
+            });
+    }
+
+    async clearCart() {
+        let update = {
+            $set: {
+                items: [],
+            },
+        };
+
+        await client.connect();
+        return await client
+            .db('main')
+            .collection('order')
+            .deleteOne({ user_id: user_id, placed: false })
+            .then(() => {
+                client.close();
+                return;
+            });
     }
 
     async updateProfileItems(coffee, location) {
@@ -103,16 +135,20 @@ class dbExecutor {
     }
 
     async readProfileItem() {
+        await client.connect();
         let userProfile = {};
+        await client.connect();
         userProfile = await client
             .db('main')
             .collection('profile')
             .findOne({ user_id: user_id })
-            .then((document) => {
-                client.close();
+            .then(async function (document) {
+                await client.close().then();
+                console.log('mongo: ' + document);
                 return document;
             })
             .catch((err) => {
+                console.log('mongoError: ' + err);
                 client.close();
                 return null;
             });
@@ -123,4 +159,4 @@ class dbExecutor {
     }
 }
 
-module.exports = dbExecutor;
+module.exports = DatabaseExecutor;
