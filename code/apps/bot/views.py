@@ -20,7 +20,7 @@ def get_bot_response(text_to_be_analyzed, sessionId, if_login, customerId):
 
         root = environ.Path(__file__) - 4
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_credential.json')
+            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_config.json')
         DIALOGFLOW_LANGUAGE_CODE = 'en'
         SESSION_ID = 'anything'
 

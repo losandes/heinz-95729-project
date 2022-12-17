@@ -23,7 +23,7 @@ class botTestCase(TestCase):
         # env
         root = environ.Path(__file__) - 4
         os.environ[
-            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_credential.json')
+            "GOOGLE_APPLICATION_CREDENTIALS"] = root('env/chatbot_config.json')
         cls.DIALOGFLOW_PROJECT_ID = 'newagent-pl9e'
         cls.DIALOGFLOW_LANGUAGE_CODE = 'en'
         cls.SESSION_ID = 'anything'
@@ -43,7 +43,7 @@ class botTestCase(TestCase):
     def test_general_question(self):
         self.text_to_be_analyzed = "pandama"
         response = self.get_response()
-        assert response.query_result.fulfillment_text == "do you mean add to cart? \"Y\" for yes and \"N\" for No"
+        assert response.query_result.fulfillment_text == "Pandama = Panda + ma. \"Panda\" is the symbol of China, it represents the Chinese featured products on our websites. We are an online store for purchasing Chinese food"
 
     def test_add_cart(self):
         self.text_to_be_analyzed = "cart"
@@ -52,7 +52,7 @@ class botTestCase(TestCase):
         self.text_to_be_analyzed = "Y"
         response = self.get_response()
         assert response.query_result.fulfillment_text == "OK please give us the skuId with format sku:the product skuid"
-        test_bot = addCart(customerId=self.test_customer.username, sku_number=self.sku_number, qty=self.qty)
+        test_bot = addCart(customerId=self.test_customer.username, skuId=self.sku_number, qty=self.qty)
         self.assertIsNotNone(test_bot)
 
     def test_add_cart_session(self):
@@ -62,7 +62,7 @@ class botTestCase(TestCase):
         self.text_to_be_analyzed = "Y"
         response = self.get_response()
         assert response.query_result.fulfillment_text == "OK please give us the skuId with format sku:the product skuid"
-        test_bot = addCartBySessionId(sessionId=self.sessionId, sku_number=self.sku_number, qty=self.qty)
+        test_bot = addCartBySessionId(sessionId=self.sessionId, skuId=self.sku_number, qty=self.qty)
         self.assertIsNotNone(test_bot)
 
     def test_item_detail(self):
