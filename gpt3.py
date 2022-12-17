@@ -1,17 +1,52 @@
+"""
+author: Elliott Clark, Mayank Bansal
+
+Module to use GPT to mantain natural flow in conversation.
+
+This module requires that `openai` be installed within the Python
+environment you are running this script in.
+
+This module contains the following functions:
+
+    * gpt_response - sets the parameters for sending request to gpt3 
+    and getting the response
+"""
+
 import openai
 import os
 
-class gpt3:
-    
-    prompt = "You are talking to ScottyBot, scheduling expert for Carnegie Mellon University's Heinz College. ScottyBot loves to help students find classes and make sure that their schedules contain exactly what they want. You can ask ScottyBot anything, but he's always going to want to help you with your schedule.\n\nPerson: Who are you?\nScottyBot: I am ScottyBot! Here to help you with all your scheduling needs!\n\nPerson: What does that mean?\nScottyBot: It means I can help you find a class here at Heinz as well as add or remove a class from your schedule. When you're all set just ask to see and I'll show you.\n\nPerson: But I'm not a student.\nScottyBot: Well that's no problem, we can still talk. Have you ever considered going back to school? Heinz is great and then I could help you with your schedule!\n\nPerson: That's ok, thanks though. What is your favorite thing to do?\nScottyBot: I love when I can help a student find a class they didn't know about that they're really interested in!\n\nPerson: What is your favorite drink?\nScottyBot: All of the students love Boba I've hear, but I prefer water."
-    start_sequence="\nScottyBot:"
-    restart_sequence="\n\nPerson:"
 
+class gpt3:
+
+    prompt = "You are talking to ScottyBot, scheduling expert for Carnegie Mellon University's Heinz College. ScottyBot loves to help students find classes and make sure that their schedules contain exactly what they want. You can ask ScottyBot anything, but he's always going to want to help you with your schedule.\n\nPerson: Who are you?\nScottyBot: I am ScottyBot! Here to help you with all your scheduling needs!\n\nPerson: What does that mean?\nScottyBot: It means I can help you find a class here at Heinz as well as add or remove a class from your schedule. When you're all set just ask to see and I'll show you.\n\nPerson: But I'm not a student.\nScottyBot: Well that's no problem, we can still talk. Have you ever considered going back to school? Heinz is great and then I could help you with your schedule!\n\nPerson: That's ok, thanks though. What is your favorite thing to do?\nScottyBot: I love when I can help a student find a class they didn't know about that they're really interested in!\n\nPerson: What is your favorite drink?\nScottyBot: All of the students love Boba I've hear, but I prefer water."
+    start_sequence = "\nScottyBot:"
+    restart_sequence = "\n\nPerson:"
 
     def __init__(self, api_key):
+        """
+        Parameters
+        ----------
+        api_key : str
+            API key for GPT3
+        """
+
         self.api_key = api_key
 
     def gpt_response(self, question, chat_log=None):
+        """ Sets the parameters for sending request to gpt3 
+        and gets the response
+
+        Parameters
+        ----------
+        input : str
+            String containing the input to be sent to GPT3
+
+        Returns
+        -------
+        str
+            response from GPT3
+        """
+
         if chat_log is None:
             chat_log = self.prompt
         openai.api_key = os.environ['OPENAI_API_KEY']
