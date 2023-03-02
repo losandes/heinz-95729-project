@@ -39,7 +39,7 @@
     "@robotsandpencils/koa-errors": "~0.1.1",
     "dotenv": "~8.2.0",
     "knex": "~0.95.13",
-    "koa": "~2.13.4",
+    "koa": "~2.14.1",
     "koa-bodyparser": "~4.3.0",
     "koa-helmet": "~6.0.0",
     "koa-router": "~10.0.0",
