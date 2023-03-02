@@ -32,7 +32,7 @@
     "@heinz-95729-api/books": "link:../lib/books",
     "@heinz-95729-api/products": "link:../lib/products",
     "@heinz-95729-api/users": "link:../lib/users",
-    "@koa/cors": "~3.1.0",
+    "@koa/cors": "~3.4.3",
     "@polyn/blueprint": "~2.6.0",
     "@polyn/immutable": "~1.0.11",
     "@polyn/logger": "~0.5.2",
