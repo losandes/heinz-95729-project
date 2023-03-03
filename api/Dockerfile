@@ -19,7 +19,7 @@ RUN pnpm recursive install --force --reporter=silent && \
 
 # Prod Build
 # ------------------------------------------------------------------------------
-FROM node:14-stretch-slim
+FROM node:14.21.3-bullseye-slim
 
 COPY --from=builder --chown=node:node /app/node_modules /app/node_modules
 COPY --from=builder --chown=node:node /app/dist /app/dist
