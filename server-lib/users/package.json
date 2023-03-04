@@ -1,0 +1,22 @@
+{
+  "name": "@heinz-95729/users",
+  "version": "0.1.0",
+  "description": "Heinz 95729 project Users",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=18.14.1"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "author": "losandes",
+  "license": "MIT",
+  "dependencies": {
+    "@heinz-95729/storage": "link:../storage",
+    "@paralleldrive/cuid2": "^2.2.0",
+    "@polyn/blueprint": "^2.7.0",
+    "@polyn/immutable": "^1.1.2"
+  }
+}

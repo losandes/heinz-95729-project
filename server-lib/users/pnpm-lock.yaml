@@ -1,0 +1,37 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@heinz-95729/storage': link:../storage
+  '@paralleldrive/cuid2': ^2.2.0
+  '@polyn/blueprint': ^2.7.0
+  '@polyn/immutable': ^1.1.2
+
+dependencies:
+  '@heinz-95729/storage': link:../storage
+  '@paralleldrive/cuid2': 2.2.0
+  '@polyn/blueprint': 2.7.0
+  '@polyn/immutable': 1.1.2_@polyn+blueprint@2.7.0
+
+packages:
+
+  /@noble/hashes/1.2.0:
+    resolution: {integrity: sha512-FZfhjEDbT5GRswV3C6uvLPHMiVD6lQBmpoX5+eSiPaMTXte/IKqI5dykDxzZB/WBeK/CDuQRBWarPdi3FNY2zQ==}
+    dev: false
+
+  /@paralleldrive/cuid2/2.2.0:
+    resolution: {integrity: sha512-CVQDpPIUHrUGGLdrMGz1NmqZvqmsB2j2rCIQEu1EvxWjlFh4fhvEGmgR409cY20/67/WlJsggenq0no3p3kYsw==}
+    dependencies:
+      '@noble/hashes': 1.2.0
+    dev: false
+
+  /@polyn/blueprint/2.7.0:
+    resolution: {integrity: sha512-stT0ZnqUoD4MvH1p6mzXiX7R8z0WlJGjNnC8IQMMZwzpTEfgLzH5SE2JpHEKXr58qW93fc3SUFJaxCHuBNe42g==}
+    dev: false
+
+  /@polyn/immutable/1.1.2_@polyn+blueprint@2.7.0:
+    resolution: {integrity: sha512-LLJQvL0aFwsqTyPQK8scqcJ4Jb5W+UJqBw9ZwJO9hTIO96CSRy3Qo9Ia8Wo240T4NQt9ysaT3e9MBRQdGsOh6A==}
+    peerDependencies:
+      '@polyn/blueprint': 2.7.0
+    dependencies:
+      '@polyn/blueprint': 2.7.0
+    dev: false

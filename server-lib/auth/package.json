@@ -1,0 +1,21 @@
+{
+  "name": "@heinz-95729/auth",
+  "version": "0.1.0",
+  "description": "Heinz 95729 project authentication",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=18.14.1"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "author": "losandes",
+  "license": "MIT",
+  "dependencies": {
+    "@polyn/blueprint": "^2.7.0",
+    "@polyn/immutable": "^1.1.2",
+    "jsonwebtoken": "^9.0.0"
+  }
+}

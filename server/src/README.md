@@ -1,0 +1,1 @@
+You probably don't need to touch any of these files. They compose the server and get it running. Make changes here at your own risk. The files you likely need to change are in the directory above this, or in the _schema_ directory adjacent to this directory.
