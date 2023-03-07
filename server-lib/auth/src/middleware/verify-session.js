@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken'
 import Session from '../typedefs/Session.js'
 
 /**
- * @type {import('koa').Middleware<IKoaContextState>}
+ * @returns {IKoaMiddleware}
  */
-export const verifySession = async (ctx, next) => {
+export const verifySession = () => async (ctx, next) => {
   const { env, logger } = ctx.state
   const {
     JWT_COOKIE_NAME,

@@ -7,9 +7,9 @@
  *       requireSession,
  *       listUsers)
  *   )
- * @type {import('koa').Middleware<IKoaContextState>}
+ * @returns {IKoaMiddleware}
  */
-export const requireSession = async (ctx, next) => {
+export const requireSession = () => async (ctx, next) => {
   const { logger } = ctx.state
 
   try {

@@ -2,9 +2,9 @@
  * Checks to see if the request includes an active session
  * and returns a response with a boolean answer (e.g.
  * { authenticated: true|false })
- * @type {import('koa').Middleware<IKoaContextState>}
+ * @returns {IKoaMiddleware}
  */
-export const testSession = async (ctx) => {
+export const testSession = () => async (ctx) => {
   const { logger } = ctx.state
 
   try {

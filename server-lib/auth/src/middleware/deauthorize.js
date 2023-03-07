@@ -2,7 +2,7 @@
  * Generates a Koa middleware that redirects the browser
  * to the given URL (e.g. the home page)
  * @param {string} redirectURL
- * @returns {IKoaRoute}
+ * @returns {IKoaMiddleware}
  */
 export const deauthorize = (redirectURL) => async (ctx) => {
   ctx.response.body = '<html>' +

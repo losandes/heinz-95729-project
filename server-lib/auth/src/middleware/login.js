@@ -6,7 +6,7 @@ import Session from '../typedefs/Session.js'
  * (via a cookie) and redirects them to the location
  * produced by the _makeRedirect_ param
  * @param {(ctx: IKoaContext) => string} makeRedirect
- * @returns {IKoaRoute}
+ * @returns {IKoaMiddleware}
  */
 export const login = (makeRedirect) => async (ctx) => {
   const { env, logger, resolvers } = ctx.state

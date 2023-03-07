@@ -3,7 +3,7 @@
  * (via a cookie overwrite) and redirects them to the
  * location produced by the _makeRedirect_ param
  * @param {(ctx: IKoaContext) => string} makeRedirect
- * @returns {IKoaRoute}
+ * @returns {IKoaMiddleware}
  */
 export const logout = (makeRedirect) => async (ctx) => {
   const { env, logger } = ctx.state
