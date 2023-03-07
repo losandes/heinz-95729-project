@@ -3,7 +3,8 @@ import StartupError from './StartupError.js'
 /**
  * Test any dependencies the API has (i.e. database connections, etc.)
  * NOTE: this function is executed on startup, and by the '/health' route
- * @param {any} context the context produced by `bootstrap`
+ * @param {IAppContext} context the context produced by `bootstrap`
+ * @returns {Promise<IAppContext>}
  */
 export const verify = async (context) => {
   try {

@@ -26,6 +26,15 @@ const envvarsBlueprint = {
     DEV: 'development',
     PROD: 'production',
   })),
+  /**
+   * This ENVVAR is used to turn dev features on and off, such as
+   * GraphiQL, and the Content-Security-Policies that go with that
+   */
+  ALLOW_DEV_CONFIGURATIONS: optional('boolean').from(({ output }) => [
+    output.NODE_ENV_OPTIONS.LOCAL,
+    output.NODE_ENV_OPTIONS.DEV,
+  ].includes(output.NODE_ENV)),
+  ENFORCE_HTTPS: optional('boolean').from(({ output }) => !output.ALLOW_DEV_CONFIGURATIONS),
   APP_VERSION: required('string').from(({ value, input }) => value || input.npm_package_version),
   PORT: optional('string').withDefault('3000'),
   ROUTER_PREFIX: optional('string').withDefault(''),
@@ -54,11 +63,12 @@ const envvarsBlueprint = {
     }
   }),
   CORS_ORIGIN: optional('string').from(({ value, output }) => is.string(value) ? value : output.WEB_APP_ORIGIN),
-  JWT_COOKIE_NAME: optional('string').withDefault('rnpfc'),
+  JWT_COOKIE_NAME: optional('string').withDefault('h95729s'),
   JWT_SECRET: '256bitString',
+  /** JWT Expiry in the format that jsonwebtoken wants it: make sure it matches  JWT_EXPIRES_IN_MS! */
   JWT_EXPIRES_IN: optional('string').withDefault('30d'),
-  JWT_EXPIRES_IN_MS: optional('number')                  // the number of milliseconds in the future cookies/jwts should expire
-    .withDefault(86400000 * 30 /* 30 days */),
+  /** Cookie Expiry in the millisecond format that koa's ctx.cookies.set wants it: make sure it matches JWT_EXPIRES_IN! */
+  JWT_EXPIRES_IN_MS: optional('number').withDefault(86400000 * 30 /* 30 days */),
   LOG_WRITER: required(/^(ArrayWriter|ConsoleWriter|DevConsoleWriter|StdoutWriter)$/).from(({ value, output }) => {
     if (is.string(value)) {
       return value

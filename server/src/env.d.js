@@ -7,6 +7,8 @@
 *   TEST: string
 *   PROD: string
 * }} NODE_ENV_OPTIONS - default={ LOCAL: 'local', DEV: 'development', TEST: 'test', PROD: 'production' }
+* @property {boolean} ENFORCE_HTTPS - whether or not to enforce HTTPS or allow HTTP requests
+* @property {boolean} ALLOW_DEV_CONFIGURATIONS - turn dev features on and off, such as GraphiQL, and the Content-Security-Policies that go with that
 * @property {string} APP_VERSION
 * @property {string} PORT - default='3001'
 * @property {string} ROUTER_PREFIX - default=''

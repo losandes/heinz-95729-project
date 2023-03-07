@@ -38,12 +38,24 @@
  */
 
 /**
+ * # IAppContext
+ * This is the schema for the app lifecycle (generated per app
+ * startup / runtime) variables and tools. Several of these properties
+ * end up in or produce variables/tools that are added to the
+ * request context (`ctx.state`; see IKoaContextState).
+ *
+ * - `env`: an object representing environment variables
+ * - `logger`: an EventEmitter for logs (instance of @polyn/logger)
+ * - `storage`: an object containing data storage repositories
+ * - `routes`: an array of factories (functions) that add Koa Middleware to the router that is provided to each factory
+ * - `resolverFactories`: an array of factories (functions) that add data resolvers to the request state
  * @typedef {Object} IAppContext
  * @property {IENVVARS} env
  * @property {import('@polyn/logger').LogEmitter} logger
  * @property {IStorageNamepaces} storage
  * @property {IKoaRouteFactory[]} routes
  * @property {IDataResolverFactory[]} resolverFactories
+ * @property {import('koa')<IKoaContextState, import('koa').DefaultContext>} [app]
  */
 
 /**
@@ -52,42 +64,81 @@
  */
 
 /**
+ * # IKoaContextState
+ * This is the schema for the `ctx.state` object, which is available
+ * on every koa request.
+ *
+ * ### Request Lifecyle properties (generated per request):
+ * - `affinityTime`: a number representing the time that the request was received by the server
+ * - `affinityId`: a nonce string representing the ID of the request
+ * - `method`: a string representing the HTTP method used for the request (e.g. GET, POST, etc.)
+ * - `url`: a string representing the URL of the request
+ * - `origin`: a string representing the HTTP origin of the request
+ * - `maybeProxiedOrigin`: a string representing the HTTP origin of the request, with an additional path appended if the API is running in a proxy
+ * - `logger`: an EventEmitter for logs (instance of @polyn/logger)
+ * - `resolvers`: an object containing data resolvers
+ * - `session`: an optional object representing session data
+ *
+ * ### App Lifecycle propertes (generated per app startup / runtime):
+ * - `env`: an object representing environment variables
+ * - `storage`: an object containing data storage repositories
+ *
  * @typedef {Object} IKoaContextState
+ * @property {number} affinityTime
  * @property {string} affinityId
  * @property {string} method
  * @property {string} url
  * @property {string} origin
+ * @property {string} maybeProxiedOrigin
  * @property {import('@polyn/logger').ILogEmitter} logger
- * @property {IENVVARS} env
- * @property {IStorageNamepaces} storage
  * @property {Object.<string, IDataResolver>} resolvers
  * @property {ISession} [session]
+ * @property {IENVVARS} env
+ * @property {IStorageNamepaces} storage
  */
 
 /**
+ * This provides shorthand typedef access to Koa's ParameterizedContext
+ * I use this all over the place. It doesn't just reduce the import
+ * statements. It also sets the type of ctx.state to IKoaContextState.
  * @template {any} [TResponseBody=any]
  * @typedef {import('koa').ParameterizedContext<IKoaContextState, import('koa').DefaultContext, TResponseBody>} IKoaContext
  */
 
 /**
- * @callback IKoaRoute
- * @param {IKoaContext} ctx
- * @returns {Promise<void>}
+ * # IKoaMiddleware
+ * This provides shorthand typedef access to a typed Koa Middleware
+ * using IKoaContextState as the type
+ * @typedef {import('koa').Middleware<IKoaContextState>} IKoaMiddleware
  */
 
 /**
  * @callback IKoaRouteDefinition
  * @param {string | RegExp} path
- * @param {import('koa').Middleware<IKoaContextState>} middleware
+ * @param {IKoaMiddleware} middleware
  */
 
 /**
+ * There is something wrong with @types/koa-router. For some reason
+ * I can't reference the Router class, which is where pretty much
+ * everything is defined. This is a subset of the typedef for it.
+ * I'm just adding things as I need them
+ * @see https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/koa-router/index.d.ts
  * @typedef {Object} IKoaRouter
+ * @property {IKoaRouteDefinition} delete
  * @property {IKoaRouteDefinition} get
+ * @property {IKoaRouteDefinition} head
+ * @property {IKoaRouteDefinition} options
  * @property {IKoaRouteDefinition} patch
  * @property {IKoaRouteDefinition} post
  * @property {IKoaRouteDefinition} put
- * @property {IKoaRouteDefinition} delete
+ * @property {string[]} methods - ['HEAD', 'OPTIONS', 'GET', 'PUT', 'PATCH', 'POST', 'DELETE']
+ * @property {boolean} exclusive
+ * @property {Object} params
+ * @property {any[]} stack - guessing this is actually string[]... not sure yet
+ * @property {any} host - guessing this is actually string... not sure yet
+ * @property {import('koa-router').IRouterOptions} opts
+ * @property {() => import('koa-router').IMiddleware<any, {}>} routes
  */
 
 /**

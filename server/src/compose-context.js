@@ -18,7 +18,7 @@ const makeRepo = (namespace, env, logger) => {
     table: namespace,
     busyTimeout: 10000,
   })
-  // const repo = new Keyv({
+  // new Keyv({
   //   namespace,
   //   store: new KeyvFile({
   //     filename: path.join(
@@ -70,7 +70,7 @@ export const composeContext = async (injectedContext = {}) => {
       logger.on(event, logWriter.listen),
     )
 
-    logger.emit('compose_context_complete', 'trace', { cwd: process.cwd() })
+    logger.emit('compose_context_complete', 'trace', { cwd: process.cwd(), env })
 
     return {
       env,

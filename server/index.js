@@ -51,7 +51,7 @@ const composeDomains = async (context) => {
       router.get('/deauthorize',
         deauthorize(`${context.env.WEB_APP_ORIGIN}/auth/login`))
       router.get('/session/test',
-        testSession)
+        testSession())
     })
 
     /* NEXT DOMAIN BELOW THIS

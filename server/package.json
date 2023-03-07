@@ -36,6 +36,7 @@
     "@heinz-95729/users": "link:../server-lib/users",
     "@keyv/sqlite": "^3.6.4",
     "@koa/cors": "^4.0.0",
+    "@paralleldrive/cuid2": "^2.2.0",
     "@polyn/blueprint": "^2.7.0",
     "@polyn/immutable": "^1.1.2",
     "@polyn/logger": "^1.0.2",
@@ -48,7 +49,8 @@
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^6.1.0",
-    "koa-router": "^12.0.0"
+    "koa-router": "^12.0.0",
+    "rate-limiter-flexible": "^2.4.1"
   },
   "devDependencies": {
     "@types/node": "^18.14.5",

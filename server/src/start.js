@@ -2,11 +2,17 @@ import StartupError from './StartupError.js'
 
 /**
  * Start listening on the configured port, and track any startup completion metrics
- * @param {any} context the context produced by `bootstrap`
+ * @param {IAppContext} context the context produced by `bootstrap`
+ * @returns {Promise<IAppContext>}
  */
 export const start = async (context) => {
   try {
     const { app, env } = context
+
+    if (!app) {
+      throw new Error('Expected the koa app to be defined on the app context')
+    }
+
     app.listen(env.PORT)
     context.logger.emit('startup', 'info', {
       message: 'app is listening',
