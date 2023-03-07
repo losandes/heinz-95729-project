@@ -67,7 +67,7 @@ const composeDomains = async (context) => {
 } // /compose.domains
 
 // start the app
-composeContext()
+await composeContext()
   .then(composeDomains)
   .then(composeApp)
   .then(start)
