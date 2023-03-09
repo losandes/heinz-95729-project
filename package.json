@@ -8,7 +8,8 @@
   },
   "type": "module",
   "bin": {
-    "cuid": "./bin/cuid.js"
+    "cuid": "./bin/cuid.js",
+    "repo-init": "./bin/repo-init.js"
   },
   "scripts": {
     "dev:server": "cd server; pnpm run dev",
@@ -17,7 +18,7 @@
     "build": "cd client; pnpm run build",
     "preview": "cd client; pnpm run preview",
     "check": "cd client; pnpm run check",
-    "check:watch": "cd client; pnpm run check:watchc",
+    "check:watch": "cd client; pnpm run check:watch",
     "test:client": "cd client; pnpm test",
     "test:lib": "cd lib; supposed -r nyan",
     "test:lib:live": "nodemon --watch lib -e js --exec 'cd lib; supposed'",

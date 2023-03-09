@@ -42,15 +42,6 @@ This app caches data it pulls from Forecast and BambooHR in files for now. They 
 These commands assume your terminal is in the same directory as this README and that you already have homebrew installed.
 
 ```Shell
-# Create the gitignored data directory and a db file
-mkdir server/data_volumes
-touch server/data_volumes/heinz-95729.db
-
-# Create the .env files, then check them out and
-# make sure you agree with the settings
-cp server/.env.example server/.env
-cp client/.env.example client/.env
-
 # Update homebrew
 brew update
 
@@ -62,20 +53,32 @@ source $(brew --prefix nvm)/nvm.sh
 brew cleanup -s
 rm -rf "$(brew --cache)"
 
-# install node LTE 18.14.1
-nvm install 18.14.1
+# install node LTE 18.14.2
+nvm install 18.14.2
 
 # Use it
-nvm use 18.14.1
+nvm use 18.14.2
 
 # And set it as your default (optional)
-nvm alias default 18.14.1
+nvm alias default 18.14.2
 
 # Install pnpm (this is necessary as long as this is a mono-repo)
 npm install -g pnpm
 
 # Install the app's dependencies
 pnpm install --recursive
+
+# Generate data_volumes and ENVVARS
+#   Creates the gitignored data directory and a db file. Same as:
+#     mkdir server/data_volumes
+#     touch server/data_volumes/rnp-forecast.db
+#
+#   Creates the .env files. Same as:
+#     cp server/.env.example server/.env
+#     cp client/.env.example client/.env
+npx repo-init
+
+# Review server/.env and client/.env and change any ENVVARs you need to
 
 # Start the app in _watch_ mode
 pnpm run dev
