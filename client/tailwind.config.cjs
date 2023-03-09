@@ -1,0 +1,78 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = { // eslint-disable-line import/no-commonjs
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        mineshaft: {
+          900: '#121212',
+          800: '#262626',
+          700: '#3b3b3b',
+          600: '#5f5f5f',
+          500: '#7d7d7d',
+          400: '#a8a8a8',
+          300: '#cbcbcb',
+          200: '#e5e5e5',
+          100: '#f1f1f1',
+          50: '#f6f6f6',
+        },
+        smoke: {
+          900: '#121318',
+          800: '#1b1c25',
+          700: '#282a36',
+          600: '#3e4255',
+          500: '#696f8f',
+          400: '#9da4ca',
+          300: '#c7ceec',
+          200: '#dbe1f8',
+          100: '#eaecf9',
+          50: '#eff1fc',
+        },
+        // dracula
+        'biloba-flower': { 500: '#b898e6' },
+        'pastel-green': { 500: '#61e884' },
+        'persian-pink': { 500: '#f385c4' },
+        'blizzard-blue': { 500: '#97e1f1' },
+        koromiko: { 500: '#ffb86c' },
+        zombie: { 500: '#dee493' },
+        // milk-bright
+        'boston-blue': { 500: '#4290bb' },
+        pelorous: { 500: '#2eaab6' },
+        'ocean-green': { 500: '#4bb68a' },
+        ronchi: { 500: '#eed555' },
+        jaffa: { 500: '#ee7335' },
+        amaranth: { 500: '#ee3554' },
+        'medium-red-violet': { 500: '#c9377b' },
+        eminence: { 500: '#6e3370' },
+        // bright
+        'bright-turquoise':  { 500: '#18ddf2' },
+        'caribbean-green':  { 500: '#00d89d' },
+        supernova:  { 500: '#fdc800' },
+        trinidad:  { 500: '#ee4a00' },
+        razzmatazz:  { 500: '#c90761' },
+        'violet-eggplant':  { 500: '#ab21a7' },
+        clairvoyant:  { 500: '#5f0661' },
+      }, // /colors
+      height: {
+        '10vh': '10vh',
+        '20vh': '20vh',
+        '30vh': '30vh',
+        '40vh': '40vh',
+        '50vh': '50vh',
+        '60vh': '60vh',
+        '70vh': '70vh',
+        '75vh': '75vh',
+        '76vh': '76vh',
+        '78vh': '78vh',
+        '80vh': '80vh',
+        '90vh': '90vh',
+        '100vh': '100vh',
+      },
+    },
+  },
+  plugins: [],
+  darkMode: 'class',
+}

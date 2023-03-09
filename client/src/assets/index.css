@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .striped tbody tr:nth-child(even) {
+    @apply bg-smoke-100 dark:bg-smoke-700;
+  }
+}
