@@ -16,6 +16,7 @@ export const testSession = testSessionModule
 export const verifySession = verifySessionModule
 export const Session = SessionModule
 
+/** @type {IAuthModule} */
 export default {
   authorize,
   deauthorize,

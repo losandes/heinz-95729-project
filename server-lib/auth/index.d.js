@@ -1,48 +1,42 @@
 /**
- * @callback IMakeRedirect
- * @param {IKoaContext} ctx
- * @returns {string}
- *
- * @callback ILoginRoute
- * @param {IMakeRedirect} makeRedirect
- * @returns {IKoaRoute}
- *
- * @callback IAuthorizeRoute
+ * @callback IAuthenticateMiddleware
+ * @param {(ctx: IKoaContext) => string} makeRedirect
+ * @returns {IKoaMiddleware}
+ */
+
+/**
+ * @callback IAuthorizeMiddleware
  * @param {string} redirectURL
- * @returns {IKoaRoute}
+ * @returns {IKoaMiddleware}
+ */
+
+/**
+ * #IAuthModule
+ * Koa middleware for authentication and authorization.
  *
- * @typedef {Object} ILogin
- * @property {ILoginRoute} login
- * @property {IAuthorizeRoute} authorize
- *
- * @typedef {Object} ILogout
- * @property {ILoginRoute} logout
- * @property {IAuthorizeRoute} deauthorize
- */
-
-/**
- * @typedef {Object} IComposedAuthModule
- * @property {ILoginRoute} login
- * @property {ILoginRoute} logout
- * @property {IAuthorizeRoute} authorize
- * @property {IAuthorizeRoute} deauthorize
- * @property {IKoaMiddleware} requireSession
- * @property {IKoaRoute} testSession
- * @property {IKoaMiddleware} verifySession
- */
-
-/**
- * @callback IComposeAuthWithAppContext
- * @param {IAppContext} appContext
- * @returns {IComposedAuthModule}
- */
-
-/**
- * @typedef {Object} IComposeAuth
- * @property {IComposeAuthWithAppContext} with
- */
-
-/**
+ * - `authorize`: redirects the user back to the web app, which
+ *    is presumable running at a different host or port
+ * - `deauthorize`: redirects the user back to the web app, which
+ *    is presumable running at a different host or port
+ * - `login`: authenticates the user and adds a session cookie to
+ *    the session
+ * - `logout`: tells the browser to remove the session cookie
+ * - `requireSession`: koa middleware that produces a 404 response
+ *    when a request to access a protected route is made without a
+ *    valid session
+ * - `testSession`: koa middleware that exposes whether or not a
+ *    valid session is present (e.g. so the web app can conditionally
+ *    show login and logout buttons)
+ * - `verifySession`: koa middleware that verifies the session and
+ *    adds approprate session data to the `ctx.state`
+ * - `Session`: the session object
  * @typedef {Object} IAuthModule
- * @property {IComposeAuth} composeAuth
+ * @property {IAuthorizeMiddleware} authorize
+ * @property {IAuthorizeMiddleware} deauthorize
+ * @property {IAuthenticateMiddleware} login
+ * @property {IAuthenticateMiddleware} logout
+ * @property {IKoaMiddleware} requireSession
+ * @property {IKoaMiddleware} testSession
+ * @property {IKoaMiddleware} verifySession
+ * @property {Session} Session
  */
