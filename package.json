@@ -12,19 +12,23 @@
     "repo-init": "./bin/repo-init.js"
   },
   "scripts": {
+    "build": "cd client; pnpm run build",
+    "build:preview": "cd client; pnpm run preview",
     "dev:server": "cd server; pnpm run dev",
     "dev:client": "cd client; pnpm run dev",
     "dev": "concurrently \"pnpm run dev:*\" --raw --kill-others",
-    "build": "cd client; pnpm run build",
-    "preview": "cd client; pnpm run preview",
-    "check": "cd client; pnpm run check",
-    "check:watch": "cd client; pnpm run check:watch",
+    "lint:client": "cd client; eslint . & pnpm run lint",
+    "lint:server": "cd server; eslint .",
+    "lint:server-lib": "cd server-lib; eslint .",
+    "lint": "pnpm run lint:client & pnpm run lint:server & pnpm run lint:server-lib",
     "test:client": "cd client; pnpm test",
-    "test:lib": "cd lib; supposed -r nyan",
-    "test:lib:live": "nodemon --watch lib -e js --exec 'cd lib; supposed'",
     "test:server": "cd server; supposed -r nyan",
-    "test:server:live": "nodemon --watch server -e js --exec 'cd server; supposed'",
-    "test": "pnpm run test:client & pnpm run test:lib & pnpm run test:server"
+    "test:server-lib": "cd server-lib; supposed -r nyan",
+    "test": "pnpm run test:client & pnpm run test:server & pnpm run test:server-lib",
+    "watch:test:client": "nodemon --watch lib -e js --exec 'pnpm run test:client'",
+    "watch:test:server": "nodemon --watch lib -e js --exec 'pnpm run test:server'",
+    "watch:test:server-lib": "nodemon --watch lib -e js --exec 'pnpm run test:server-lib'",
+    "watch:test": "concurrently \"pnpm run watch:test:*\" --raw --kill-others"
   },
   "repository": {
     "type": "git",

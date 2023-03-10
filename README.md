@@ -20,7 +20,7 @@ root
 ├── client: the svelte web app
 │   ├── src: the svelte code
 │   └── static: static HTTP resources
-├── lib: the domains that the graph-api consumes
+├── server-lib: the domains that the graph-api consumes
 └── server: the server code
     ├── data_volumes: gitignored folder where the API data is cached
     └── src: the koa+yoga api code
