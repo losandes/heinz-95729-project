@@ -18,7 +18,7 @@
 
 /**
  * @typedef {Object} SessionStaticProps
- * @property {Object} blueprint
+ * @property {any} schema
  */
 
 /**

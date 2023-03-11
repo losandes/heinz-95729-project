@@ -1,18 +1,16 @@
-import { registerBlueprint } from '@polyn/blueprint'
-import { immutable } from '@polyn/immutable'
+import { immutable } from '@heinz-95729/immutable'
+import { z } from 'zod'
 
-const sessionBlueprint = {
-  id: 'string',
-  email: 'string',
-  name: 'string',
-}
-
-registerBlueprint('Session', sessionBlueprint)
+const sessionSchema = z.object({
+  id: z.string().cuid2(),
+  email: z.string().email(),
+  name: z.string().min(2),
+})
 
 /** @type {ImmutableSession} */
-const _Session = immutable('Session', sessionBlueprint)
+const _Session = immutable('Session', sessionSchema)
 
 /** @type {Session} */
 export default class Session extends _Session {
-  static blueprint = sessionBlueprint
+  static schema = sessionSchema
 }
