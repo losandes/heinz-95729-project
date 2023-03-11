@@ -1,0 +1,21 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@polyn/immutable': ^1.1.2
+  zod: ^3.21.4
+
+dependencies:
+  '@polyn/immutable': 1.1.2
+  zod: 3.21.4
+
+packages:
+
+  /@polyn/immutable/1.1.2:
+    resolution: {integrity: sha512-LLJQvL0aFwsqTyPQK8scqcJ4Jb5W+UJqBw9ZwJO9hTIO96CSRy3Qo9Ia8Wo240T4NQt9ysaT3e9MBRQdGsOh6A==}
+    peerDependencies:
+      '@polyn/blueprint': 2.7.0
+    dev: false
+
+  /zod/3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false
