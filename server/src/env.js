@@ -23,7 +23,7 @@ const DESC = {
   PATH_TO_GRAPHQL_SCHEMA: 'the path to the GraphQL schema (e.g. schema/schema.graphql)',
 }
 
-const BaseEnv = z.object({
+const baseEnv = z.object({
   NODE_ENV: z.enum(['local', 'development', 'test', 'production'])
     .describe(DESC.NODE_ENV),
   NODE_ENV_OPTIONS: z.object({
@@ -79,7 +79,7 @@ const BaseEnv = z.object({
     .describe(DESC.LOG_LISTENERS),
 })
 
-const CalculatedEnvvars = z.object({
+const calculatedEnvvars = z.object({
   APP_VERSION: z.string().min(2).trim().optional().describe(DESC.APP_VERSION),
   ALLOW_DEV_CONFIGURATIONS: z.boolean().optional().describe(DESC.ALLOW_DEV_CONFIGURATIONS),
   ENFORCE_HTTPS: z.boolean().optional().describe(DESC.ENFORCE_HTTPS),
@@ -87,7 +87,7 @@ const CalculatedEnvvars = z.object({
   CORS_ORIGIN: z.string().url().trim().optional().describe(DESC.CORS_ORIGIN),
 })
 
-export const EnvSchema = BaseEnv.merge(CalculatedEnvvars).transform((value) => {
+export const envSchema = baseEnv.merge(calculatedEnvvars).transform((value) => {
   value.APP_VERSION = value.APP_VERSION || process?.env?.npm_package_version
   value.APP_IS_IN_PROXY = !!(value.ROUTER_PREFIX && value.ROUTER_PREFIX.length)
   value.CORS_ORIGIN = value.CORS_ORIGIN || value.WEB_APP_ORIGIN
@@ -101,9 +101,9 @@ export const EnvSchema = BaseEnv.merge(CalculatedEnvvars).transform((value) => {
 })
 
 /** @type {_ENVVARS} */
-const _ENVVARS = immutable('ENVVARS', EnvSchema)
+const _ENVVARS = immutable('ENVVARS', envSchema)
 
 /** @type {ENVVARS} */
 export default class Envvars extends _ENVVARS {
-  static schema = EnvSchema
+  static schema = envSchema
 }
