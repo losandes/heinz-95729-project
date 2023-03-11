@@ -19,7 +19,7 @@
 
 /**
  * @typedef {Object} IUserStaticProps
- * @property {Object} blueprint
+ * @property {any} session
  */
 
 /**
