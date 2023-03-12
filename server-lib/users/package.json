@@ -15,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "@heinz-95729/immutable": "link:../immutable",
-    "@heinz-95729/storage": "link:../storage",
     "@paralleldrive/cuid2": "^2.2.0",
     "zod": "^3.21.4"
   },
