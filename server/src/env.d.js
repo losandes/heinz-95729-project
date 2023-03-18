@@ -42,8 +42,6 @@
  * @property {string[]} LOG_LISTENERS
  * @property {string} PATH_TO_KEYV_DB
  * @property {string} PATH_TO_GRAPHQL_SCHEMA
- * @property {string} BAMBOOHR_COMPANY_DOMAIN
- * @property {number} FORECAST_ACCOUNT_ID
  */
 
 /**

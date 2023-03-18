@@ -26,19 +26,8 @@ const DESC = {
 const baseEnv = z.object({
   NODE_ENV: z.enum(['local', 'development', 'test', 'production'])
     .describe(DESC.NODE_ENV),
-  NODE_ENV_OPTIONS: z.object({
-    LOCAL: z.string().min(3).trim(),
-    TEST: z.string().min(3).trim(),
-    DEV: z.string().min(3).trim(),
-    PROD: z.string().min(3).trim(),
-  }).default({
-    LOCAL: 'local',
-    TEST: 'test',
-    DEV: 'development',
-    PROD: 'production',
-  }).describe(DESC.NODE_ENV_OPTIONS),
   PORT: z.union([z.number(), z.string()]).default(3001)
-    .pipe(z.coerce.number().int().gte(3000))
+    .pipe(z.coerce.number().int().gt(0))
     .describe(DESC.PORT),
   ROUTER_PREFIX: z.string().startsWith('/').trim().optional().describe(DESC.ROUTER_PREFIX),
   WEB_APP_ORIGIN: z.string().url().trim().default('http://localhost:3001').describe(DESC.WEB_APP_ORIGIN),
@@ -80,6 +69,17 @@ const baseEnv = z.object({
 })
 
 const calculatedEnvvars = z.object({
+  NODE_ENV_OPTIONS: z.object({
+    LOCAL: z.string().min(3).trim(),
+    TEST: z.string().min(3).trim(),
+    DEV: z.string().min(3).trim(),
+    PROD: z.string().min(3).trim(),
+  }).default({
+    LOCAL: 'local',
+    TEST: 'test',
+    DEV: 'development',
+    PROD: 'production',
+  }).describe(DESC.NODE_ENV_OPTIONS),
   APP_VERSION: z.string().min(2).trim().optional().describe(DESC.APP_VERSION),
   ALLOW_DEV_CONFIGURATIONS: z.boolean().optional().describe(DESC.ALLOW_DEV_CONFIGURATIONS),
   ENFORCE_HTTPS: z.boolean().optional().describe(DESC.ENFORCE_HTTPS),
