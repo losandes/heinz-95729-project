@@ -9,7 +9,10 @@
   },
   "type": "module",
   "scripts": {
-    "test": "supposed"
+    "test": "supposed",
+    "test:ci": "supposed -r tap,summary --no-color",
+    "test:coverage:ci": "c8 --reporter=text --reporter=text-summary pnpm run test:ci",
+    "coverage:ci": "mkdir -p ./coverage && touch ./coverage/lcov.info; c8 report --reporter=text-lcov > ./coverage/lcov.info"
   },
   "author": "losandes",
   "license": "MIT",

@@ -54,6 +54,15 @@ async () => {
   expect(ctx.cookies.requestStore.get('foo'), 'to equal', 'bar')
 })
 
+test([givenMockCtx, 'when cookies are added to the context',
+  'it should put the cookies on the responseStore'].join(', '),
+async () => {
+  const { ctx } = await makeMockKoaContext()
+  ctx.cookies.set('foo', 'bar')
+
+  expect(ctx.cookies.responseStore.get('foo'), 'to equal', 'bar')
+})
+
 test([givenMockCtx, 'when constructed with request headers',
   'it should support header retrieval'].join(', '),
 async () => {
