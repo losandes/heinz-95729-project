@@ -38,5 +38,5 @@
  * @property {IKoaMiddleware} requireSession
  * @property {IKoaMiddleware} testSession
  * @property {IKoaMiddleware} verifySession
- * @property {Session} Session
+ * @property {ZSession} session
  */

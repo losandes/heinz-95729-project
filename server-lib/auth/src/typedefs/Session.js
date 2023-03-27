@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+/** @type {ZSession} */
 export const session = z.object({
   id: z.string().cuid2(),
   user: z.object({
