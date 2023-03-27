@@ -1,5 +1,5 @@
 import { createId } from '@paralleldrive/cuid2'
-import Session from '../typedefs/Session.js'
+import sessionSchema from '../typedefs/session.js'
 import { sign } from '../jwt/sign.js'
 import { store } from '../jwt/store.js'
 
@@ -34,7 +34,7 @@ export const login = (makeRedirect) => async (ctx) => {
       return
     }
 
-    const session = new Session({
+    const session = sessionSchema.parse({
       id: user.id,
       email: user.email,
       name: user.name,
@@ -44,8 +44,8 @@ export const login = (makeRedirect) => async (ctx) => {
     logger.emit('login_success', 'debug')
     logger.emit('login_success', 'audit_info', { session })
 
-    const token = await sign(ctx)(session.toObject())
-    await store(ctx)(session.toObject())
+    const token = await sign(ctx)(session)
+    await store(ctx)(session)
 
     ctx.cookies.set(SESSIONS_COOKIE_NAME, token, {
       maxAge: SESSIONS_EXPIRE_IN_MS, // will expire in (e.g. 30 days)

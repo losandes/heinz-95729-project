@@ -1,6 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken'
 import { resolve } from './resolve.js'
-import Session from '../typedefs/Session.js'
+import sessionSchema from '../typedefs/session.js'
 
 /**
  * @curried
@@ -73,7 +73,7 @@ export const verify = (ctx) => async (token) => {
     return
   }
 
-  const session = new Session(verified)
+  const session = sessionSchema.parse(verified)
   const stored = await resolve(ctx)(session)
 
   logger.emit('jwt_verification_complete', 'local', { session, stored })

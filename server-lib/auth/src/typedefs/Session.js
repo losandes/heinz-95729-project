@@ -1,7 +1,6 @@
-import { immutable } from '../../../../server-packages/immutable'
 import { z } from 'zod'
 
-const sessionSchema = z.object({
+export const session = z.object({
   id: z.string().cuid2(),
   user: z.object({
     id: z.string().cuid2(),
@@ -10,10 +9,4 @@ const sessionSchema = z.object({
   }),
 })
 
-/** @type {ImmutableSession} */
-const _Session = immutable('Session', sessionSchema)
-
-/** @type {Session} */
-export default class Session extends _Session {
-  static schema = sessionSchema
-}
+export default session
