@@ -1,29 +1,34 @@
 {
-    "env": {
-        "es6": true
-    },
-    "extends": [
-        "plugin:functional/external-vanilla-recommended",
-        "plugin:functional/recommended",
-        "plugin:functional/stylistic",
-        "standard"
-    ],
-    "plugins": ["functional"],
-    "rules": {
-        "comma-dangle": ["error", "always-multiline"],
-        "functional/rule-name": "error",
-        "import/extensions": [2, "ignorePackages"],
-        "import/no-commonjs": 2,
-        "import/no-unresolved": 2,
-        "no-console": "error",
-        "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
-        "no-unused-expressions": "off"
-    },
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "extensions": [".js", ".ts", ".cjs", ".mjs"]
-            }
-        }
+  "env": {
+    "es6": true
+  },
+  "extends": [
+    "plugin:functional/external-vanilla-recommended",
+    "plugin:functional/recommended",
+    "plugin:functional/stylistic",
+    "standard"
+  ],
+  "plugins": ["functional"],
+  "rules": {
+    "comma-dangle": ["error", "always-multiline"],                              // require trailing commas like airbnb and google rules
+    "functional/immutable-data": [
+      "error",
+      { "ignorePattern": "^(ctx|mutable)" }
+    ],                                                                          // koa and express assume you are mutating the middleware arguments
+    "functional/no-expression-statements": "off",                               // I'd rather just ignore this rule when calling void functions, but that only works with TypeScript. @see https://github.com/eslint-functional/eslint-plugin-functional/blob/v5.0.7/docs/rules/no-expression-statements.md
+    "functional/no-let": ["error", { "ignorePattern": "^state" }],              // let properties named state be mutated
+    "generator-star-spacing": ["error", "after"],                               // `function*`, not `function *` for generators
+    "import/extensions": [2, "ignorePackages"],                                 // require file extensions on imports, except for package imports
+    "import/no-commonjs": 2,                                                    // force es6 import export declarations
+    "import/no-unresolved": 2,                                                  // ensure that all imported modules can be resolved
+    "no-console": "error",                                                      // Don't leave console.log statements anywhere... use the logger
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }]                 // Allow end of line comments to be aligned to each other
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".cjs", ".mjs"]
+      }
     }
+  }
 }
