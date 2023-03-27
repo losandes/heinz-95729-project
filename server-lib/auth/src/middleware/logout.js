@@ -1,3 +1,6 @@
+import { verify } from '../jwt/verify.js'
+import { revoke } from '../jwt/revoke.js'
+
 /**
  * Generates a Koa middleware that signs the user out
  * (via a cookie overwrite) and redirects them to the
@@ -8,19 +11,21 @@
 export const logout = (makeRedirect) => async (ctx) => {
   const { env, logger } = ctx.state
   const {
-    NODE_ENV, // /^(local|test|development|production)$/
-    NODE_ENV_OPTIONS,
-    JWT_COOKIE_NAME,
+    NODE_ENV_ENFORCE_SECURITY,
+    SESSIONS_COOKIE_NAME,
   } = env
 
   try {
-    ctx.cookies.set(JWT_COOKIE_NAME, 'expired', {
-      maxAge: -99999999,
-      sameSite: 'lax', // limit the scope of the cookie to this site, but allow top level redirects
-      path: '/', // set the relative path that the cookie is scoped for
-      secure: NODE_ENV !== NODE_ENV_OPTIONS.LOCAL, // only support HTTPS connections
-      httpOnly: true, // dissallow client-side access to the cookie
-      overwrite: true, // overwrite the cookie every time, so nonce data is never re-used
+    const session = await verify(ctx)(ctx.cookies.get(env.SESSIONS_COOKIE_NAME))
+    await revoke(ctx)(session)
+
+    ctx.cookies.set(SESSIONS_COOKIE_NAME, 'expired', {
+      maxAge: -99999999,     // will expire in (e.g. 30 days)
+      sameSite: 'lax',       // limit the scope of the cookie to this site, but allow top level redirects
+      path: '/',             // set the relative path that the cookie is scoped for
+      secure: NODE_ENV_ENFORCE_SECURITY, // only support HTTPS connections
+      httpOnly: true,        // dissallow client-side access to the cookie
+      overwrite: true,       // overwrite the cookie every time, so nonce data is never re-used
     })
 
     ctx.response.status = 302

@@ -1,6 +1,6 @@
 import IndexUsers from './src/loaders/IndexUsers.js'
 import ResolveUsers from './src/resolvers/ResolveUsers.js'
-import User from './src/typedefs/User.js'
+import User from './src/typedefs/user.js'
 
 const { indexUsers } = IndexUsers({})
 const { resolveUsers } = ResolveUsers({})

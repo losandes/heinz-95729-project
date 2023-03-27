@@ -1,8 +1,5 @@
 /**
- * The session information for the signed in user
- * This should be signed in a JWT or equivalent and
- * tracked via a cookie
- * @typedef {Object} IUserModel
+ * @typedef {Object} IUser
  * @property {string} id
  * @property {string} email
  * @property {string} name
@@ -10,18 +7,25 @@
  */
 
 /**
- * @typedef {IUserModel & import("@polyn/immutable").IValidatedImmutable<IUserModel>} IUser
+ * @typedef {Object} ZodUser
+ * @property {import('zod').ZodDefault<import('zod').ZodString>} id
+ * @property {import('zod').ZodString} email
+ * @property {import('zod').ZodString} name
+ * @property {import('zod').ZodDefault<import('zod').ZodNumber>} timeCreatedMs
  */
 
 /**
- * @typedef {new (input: IUserModel) => IUser} ImmutableUser
+ * @typedef {import('zod').ZodObject<ZodUser>} ZUser
  */
 
 /**
- * @typedef {Object} IUserStaticProps
- * @property {any} session
+ * @typedef {import('zod').SafeParseReturnType<ZUser, IUser>} ZSafeParseUser
  */
 
 /**
- * @typedef {ImmutableUser & IUserStaticProps} User
+ * @typedef {import('zod').SafeParseSuccess<ZUser>} ZSafeParseUserSuccess
+ */
+
+/**
+ * @typedef {import('zod').SafeParseError<ZUser>} ZSafeParseUserError
  */

@@ -39,8 +39,8 @@ export const makeCtxState = (context) => async (ctx, next) => {
     method: reqContext.method,
     url: reqContext.url,
     origin: reqContext.origin,
-    maybeProxiedOrigin: context.env.ROUTER_PREFIX.length
-      ? `${reqContext.origin}${context.env.ROUTER_PREFIX}`
+    maybeProxiedOrigin: context.env.SERVER_PROXY_PREFIX.length
+      ? `${reqContext.origin}${context.env.SERVER_PROXY_PREFIX}`
       : reqContext.origin,
     // @ts-ignore
     logger: context.logger.child({ context: reqContext }),

@@ -1,30 +1,36 @@
-import test from 'test'
+import test from 'supposed'
 import expect from 'unexpected'
 import { authorize } from '@heinz-95729/auth'
+import { makeMockKoaContext } from '@heinz-95729/test-utils'
 
-const mockCtx = () => {
-  /** @type {Object.<string, string>} */
-  const headers = {}
-  const set = (
-    /** @type {string} */ key,
-    /** @type {string} */ value,
-  ) => { headers[key] = value }
-  const response = { headers, set, body: null, status: 0 }
+// /**
+//  *
+//  * @param {Object.<string, string>} headers
+//  * @returns
+//  */
+// const mockCtx = (headers = {}) => {
+//   const set = (
+//     /** @type {string} */ key,
+//     /** @type {string} */ value,
+//   ) => { headers[key] = value }
+//   const response = { headers, set, body: null, status: 0 }
 
-  return { response }
-}
+//   return { response }
+// }
 
-const given = '@heinz-95729/auth authorize:'
+const given = '@heinz-95729/auth authorize'
 
 const when = {
   calledWithValidRedirectURL: {
     c: `${given} when auth is called with a valid redirectURL`,
-    s: async () => {
-      const redirectURL = 'http://localhost:3000/authorize'
+    s: async (
+      redirectURL = 'http://localhost:3000/authorize',
+      makeCtx = makeMockKoaContext,
+    ) => {
       const route = authorize(redirectURL)
-      const ctx = mockCtx()
-      // @ts-ignore
-      await route(ctx)
+      const { ctx } = await makeCtx()
+
+      await route(ctx, async () => {})
 
       return { ctx, redirectURL }
     },
@@ -45,7 +51,7 @@ test(when.calledWithValidRedirectURL.c +
 async () => {
   const { ctx } = await when.calledWithValidRedirectURL.s()
 
-  expect(ctx.response.headers['Content-Type'], 'to equal', 'text/html')
+  expect(ctx.response.get('Content-Type'), 'to equal', 'text/html')
 })
 
 test(when.calledWithValidRedirectURL.c +

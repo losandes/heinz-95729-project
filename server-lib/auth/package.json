@@ -9,19 +9,21 @@
   },
   "type": "module",
   "scripts": {
-    "test": "supposed -r nyan"
+    "test": "supposed"
   },
   "author": "losandes",
   "license": "MIT",
   "dependencies": {
     "@heinz-95729/immutable": "link:../immutable",
+    "@paralleldrive/cuid2": "^2.2.0",
     "jsonwebtoken": "^9.0.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
     "@heinz-95729/auth": "link:",
+    "@heinz-95729/test-utils": "link:../../server-packages/test-utils",
     "c8": "^7.13.0",
-    "test": "npm:supposed@^1.3.3",
+    "supposed": "^1.3.3",
     "unexpected": "^13.1.0"
   }
 }

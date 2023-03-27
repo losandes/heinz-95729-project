@@ -1,77 +1,65 @@
-import _User from '../typedefs/User.js'
+import { withArray } from '@heinz-95729/functional'
+import _user from '../typedefs/user.js'
 import _seeds from './seeds/seeds.js'
 import _KEYS from '../KEYS.js'
 
 /**
  * @param {{
- *   User?: User
+ *   user?: ZUser
  *   seeds?: IUsersSeed[]
  *   KEYS?: IUserKeys
  * }} dependencies
  * @returns {{ indexUsers: (context: IAppContext) => Promise<ISeedResult> }}
  */
 export default function ({
-  User = _User,
+  user = _user,
   seeds = _seeds,
   KEYS = _KEYS,
 }) {
-  /**
-   * Casts a data record to a User model
-   * @param {IUserModel} user
-   * @returns {IUser}
-   */
-  const toUser = (user) => new User(user)
-
   /**
    * Loads the users from the data store. Because this prototype
    * uses Keyv file storage by default, we need to load the data
    * into memory to be able to resolve records
    * @param {IUsersSeed} usersSeed
    * @param {IAppContext} context
-   * @returns {Promise<ISeedResult>}
+   * @returns {Promise<IGroupedPromiseSettledResults>}
    */
   async function indexOneSeed (usersSeed, { logger, storage }) {
     const seed = await storage.users.get(`users::seed::${usersSeed.id}`)
 
     if (seed) {
-      return { seeded: false, fulfilled: 0, rejected: 0 }
+      return { fulfilled: [], rejected: [] }
     }
 
-    /** @type {IUser[]} */
-    const users = usersSeed.data.map(toUser)
-    const userIds = users.reduce((/** @type {string[]} */ ids, user) => {
-      ids.push(user.id)
-      return ids
+    // @ts-ignore
+    const users = usersSeed.data.map(user.parse)
+    const userIds = users.reduce((/** @type {string[]} */ mutableIds, user) => {
+      mutableIds.push(user.id)
+      return mutableIds
     }, [])
-    const sets = users.reduce((/** @type {Promise<any>[]} */ _sets, user) => {
-      _sets.push(storage.users.set(
+    const sets = users.reduce((/** @type {Promise<any>[]} */ mutableSets, user) => {
+      mutableSets.push(storage.users.set(
         KEYS.make.userKey(user.id),
         user,
       ))
-      _sets.push(storage.users.set(
+      mutableSets.push(storage.users.set(
         KEYS.make.userByEmailKey(user.email),
         user.id,
       ))
-      return _sets
-    }, [])
+      return mutableSets
+    }, [storage.users.set(KEYS.USER_IDS, userIds)])
 
-    sets.push(storage.users.set(KEYS.USER_IDS, userIds))
-    sets.push(storage.users.set(`users::seed::${usersSeed.id}`, usersSeed.id))
+    /** @type {IGroupedPromiseSettledResults} */
+    const { fulfilled, rejected } = withArray(await Promise.allSettled(sets))
+      .groupBy((/** @type {PromiseSettledResult<any>} */ { status }) => status)
 
-    const results = await Promise.allSettled(sets)
-    let fulfilled = 0
-    let rejected = 0
-
-    results.forEach((result) => {
-      if (result.status === 'fulfilled') {
-        fulfilled += 1
-      } else if (result.status === 'rejected') {
-        rejected += 1
-        logger.emit('users_seed_failure', 'warn', result.reason)
-      }
+    rejected.forEach((rejection) => {
+      logger.emit('users_seed_failure', 'warn', rejection.reason)
     })
 
-    return { seeded: true, fulfilled, rejected }
+    await storage.users.set(`users::seed::${usersSeed.id}`, usersSeed.id)
+
+    return { fulfilled, rejected }
   } // /indexUsers
 
   /**
@@ -83,14 +71,16 @@ export default function ({
    */
   async function indexUsers (context) {
     const { storage } = context
-    const results = { seeded: false, fulfilled: 0, rejected: 0 }
 
-    for (const seed of seeds) {
-      const result = await indexOneSeed(seed, context)
-      results.seeded = results.seeded || result.seeded
-      results.fulfilled += result.fulfilled
-      results.rejected += result.rejected
-    }
+    const results = await seeds.reduce(async (asyncMutableResults, seed) => {
+      const mutableResults = await asyncMutableResults
+      const oneResult = await indexOneSeed(seed, context)
+      mutableResults.seeded = mutableResults.seeded || oneResult.fulfilled.length > 0
+      mutableResults.fulfilled += oneResult.fulfilled.length
+      mutableResults.rejected += oneResult.rejected.length
+
+      return mutableResults
+    }, Promise.resolve({ seeded: false, fulfilled: 0, rejected: 0 }))
 
     await storage.users.set(KEYS.LAST_INDEXED, Date.now())
 

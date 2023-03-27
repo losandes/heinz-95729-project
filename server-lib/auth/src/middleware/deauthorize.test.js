@@ -1,30 +1,21 @@
-import test from 'test'
+import test from 'supposed'
 import expect from 'unexpected'
 import { deauthorize } from '@heinz-95729/auth'
+import { makeMockKoaContext } from '@heinz-95729/test-utils'
 
-const mockCtx = () => {
-  /** @type {Object.<string, string>} */
-  const headers = {}
-  const set = (
-    /** @type {string} */ key,
-    /** @type {string} */ value,
-  ) => { headers[key] = value }
-  const response = { headers, set, body: null, status: 0 }
-
-  return { response }
-}
-
-const given = '@heinz-95729/auth deauthorize:'
+const given = '@heinz-95729/auth deauthorize'
 
 const when = {
   calledWithValidRedirectURL: {
     c: `${given} when auth is called with a valid redirectURL`,
-    s: async () => {
-      const redirectURL = 'http://localhost:3000/deauthorize'
+    s: async (
+      redirectURL = 'http://localhost:3000/deauthorize',
+      makeCtx = makeMockKoaContext,
+    ) => {
       const route = deauthorize(redirectURL)
-      const ctx = mockCtx()
-      // @ts-ignore
-      await route(ctx)
+      const { ctx } = await makeCtx()
+
+      await route(ctx, async () => {})
 
       return { ctx, redirectURL }
     },
@@ -45,7 +36,7 @@ test(when.calledWithValidRedirectURL.c +
 async () => {
   const { ctx } = await when.calledWithValidRedirectURL.s()
 
-  expect(ctx.response.headers['Content-Type'], 'to equal', 'text/html')
+  expect(ctx.response.get('Content-Type'), 'to equal', 'text/html')
 })
 
 test(when.calledWithValidRedirectURL.c +

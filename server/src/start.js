@@ -13,12 +13,12 @@ export const start = async (context) => {
       throw new Error('Expected the koa app to be defined on the app context')
     }
 
-    app.listen(env.PORT)
+    app.listen(env.SERVER_PORT)
     context.logger.emit('startup', 'info', {
       message: 'app is listening',
-      PORT: env.PORT,
+      SERVER_PORT: env.SERVER_PORT,
       NODE_ENV: env.NODE_ENV,
-      APP_VERSION: env.APP_VERSION,
+      SERVER_VERSION: env.SERVER_VERSION,
     })
 
     return context

@@ -20,11 +20,12 @@ root
 ├── client: the svelte web app
 │   ├── src: the svelte code
 │   └── static: static HTTP resources
+├── server: the server code
+│   ├── data_volumes: gitignored folder where API data is cached
+│   └── src: the koa+yoga api code
+│       └── schema: the GraphQL schema (typedefs and resolvers)
 ├── server-lib: the domains that the graph-api consumes
-└── server: the server code
-    ├── data_volumes: gitignored folder where the API data is cached
-    └── src: the koa+yoga api code
-        └── schema: the GraphQL schema (typedefs and resolvers)
+└── server-packages: supporting code (think if them like 3rd party packages)
 ```
 
 ## Getting Started

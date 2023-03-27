@@ -32,12 +32,12 @@ export const composeApp = async (context) => {
   try {
     /** @type {Koa<IKoaContextState, Koa.DefaultContext>} */
     const app = new Koa()
-    app.proxy = context.env.APP_IS_IN_PROXY
+    app.proxy = context.env.SERVER_IS_IN_PROXY
 
     /** @type {IKoaRouter} */
     // @ts-ignore
     const router = app.proxy
-      ? new Router({ prefix: context.env.ROUTER_PREFIX })
+      ? new Router({ prefix: context.env.SERVER_PROXY_PREFIX })
       : new Router()
 
     app.on('error', (err, ctx) => {
@@ -60,7 +60,7 @@ export const composeApp = async (context) => {
      * on the configuration you provide.
      */
     app.use(e500({
-      showStack: context.env.NODE_ENV === context.env.NODE_ENV_OPTIONS.LOCAL,
+      showStack: !context.env.NODE_ENV_ENFORCE_SECURITY,
     }))
 
     /**
@@ -117,7 +117,7 @@ export const composeApp = async (context) => {
      * @api public
      */
     app.use(cors({
-      origin: context.env.CORS_ORIGIN,
+      origin: context.env.CLIENT_ORIGIN,
       allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
       allowHeaders: ['Authorization', 'Accepts', 'Content-Type', 'If-Match', 'If-Modified-Since', 'If-None-Match', 'If-Unmodified-Since', 'Range', 'X-Requested-With', 'X-Request-ID'],
       exposeHeaders: ['Content-Length', 'Date', 'ETag', 'Expires', 'Last-Modified', 'X-Powered-By', 'X-Request-ID', 'X-heinz-95729-Media-Type'],
@@ -201,7 +201,7 @@ export const composeApp = async (context) => {
       plugins: [],
     }
 
-    if (!context.env.ALLOW_DEV_CONFIGURATIONS) {
+    if (context.env.NODE_ENV_ENFORCE_SECURITY) {
       yogaConfig.graphiql = false
       yogaConfig.plugins?.push(useDisableIntrospection({
         isDisabled: (request) =>

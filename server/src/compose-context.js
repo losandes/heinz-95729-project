@@ -65,7 +65,7 @@ export const composeContext = async (injectedContext = {}) => {
       products: makeRepo('products', env, logger),
     }
 
-    env.LOG_LISTENERS.forEach((/** @type {string} */ event) =>
+    env.LOG_EVENTS.forEach((/** @type {string} */ event) =>
       // @ts-ignore
       logger.on(event, logWriter.listen),
     )

@@ -43,11 +43,11 @@ const composeDomains = async (context) => {
        *   curl --request POST http://localhost:3001/api/session/test
        */
       router.post('/login',
-        login((ctx) => `${ctx.origin}${context.env.ROUTER_PREFIX}/authorize`))
+        login((ctx) => `${ctx.origin}${context.env.SERVER_PROXY_PREFIX}/authorize`))
       router.get('/authorize',
         authorize(`${context.env.WEB_APP_ORIGIN}/auth/authorized`))
       router.post('/logout',
-        logout((ctx) => `${ctx.origin}${context.env.ROUTER_PREFIX}/deauthorize`))
+        logout((ctx) => `${ctx.origin}${context.env.SERVER_PROXY_PREFIX}/deauthorize`))
       router.get('/deauthorize',
         deauthorize(`${context.env.WEB_APP_ORIGIN}/auth/login`))
       router.get('/session/test',

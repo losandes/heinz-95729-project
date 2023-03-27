@@ -10,7 +10,7 @@
 
 /**
  * @typedef {Object} IUserTypedefs
- * @property {User} User
+ * @property {ZUser} User
  */
 
 /**

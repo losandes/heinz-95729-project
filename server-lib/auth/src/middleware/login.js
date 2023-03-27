@@ -1,5 +1,7 @@
-import jwt from 'jsonwebtoken'
+import { createId } from '@paralleldrive/cuid2'
 import Session from '../typedefs/Session.js'
+import { sign } from '../jwt/sign.js'
+import { store } from '../jwt/store.js'
 
 /**
  * Generates a Koa middleware that signs the user in
@@ -11,12 +13,9 @@ import Session from '../typedefs/Session.js'
 export const login = (makeRedirect) => async (ctx) => {
   const { env, logger, resolvers } = ctx.state
   const {
-    NODE_ENV, // /^(local|test|development|production)$/
-    NODE_ENV_OPTIONS,
-    JWT_COOKIE_NAME,
-    JWT_SECRET,
-    JWT_EXPIRES_IN,
-    JWT_EXPIRES_IN_MS,
+    NODE_ENV_ENFORCE_SECURITY,
+    SESSIONS_COOKIE_NAME,
+    SESSIONS_EXPIRE_IN_MS,
   } = env
 
   try {
@@ -25,41 +24,40 @@ export const login = (makeRedirect) => async (ctx) => {
       rawBody: ctx.request.rawBody,
     })
 
-    /** @type {IResolveUsers} */
-    const users = resolvers.users
     const email = /** @type {any} */ (ctx.request.body)?.email
-    let user
+    const user = typeof email === 'string'
+      ? await /** @type {IResolveUsers} */ (resolvers.users).getBy.email(email)
+      : undefined
 
-    if (typeof email === 'string') {
-      user = await users.getBy.email(email)
-    }
-
-    if (user) {
-      const session = new Session({
-        id: user.id,
-        email: user.email,
-        name: user.name,
-      })
-
-      logger.emit('login_success', 'debug')
-      logger.emit('login_success', 'audit_info', { session })
-
-      const token = jwt.sign(session.toObject(), JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
-
-      ctx.cookies.set(JWT_COOKIE_NAME, token, {
-        maxAge: JWT_EXPIRES_IN_MS, // will expire in 30 days
-        sameSite: 'lax', // limit the scope of the cookie to this site, but allow top level redirects
-        path: '/', // set the relative path that the cookie is scoped for
-        secure: NODE_ENV !== NODE_ENV_OPTIONS.LOCAL, // only support HTTPS connections
-        httpOnly: true, // dissallow client-side access to the cookie
-        overwrite: true, // overwrite the cookie every time, so nonce data is never re-used
-      })
-
-      ctx.response.status = 302
-      ctx.response.redirect(makeRedirect(ctx))
-    } else {
+    if (!user) {
       ctx.response.status = 404
+      return
     }
+
+    const session = new Session({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      nonce: createId(),
+    })
+
+    logger.emit('login_success', 'debug')
+    logger.emit('login_success', 'audit_info', { session })
+
+    const token = await sign(ctx)(session.toObject())
+    await store(ctx)(session.toObject())
+
+    ctx.cookies.set(SESSIONS_COOKIE_NAME, token, {
+      maxAge: SESSIONS_EXPIRE_IN_MS, // will expire in (e.g. 30 days)
+      sameSite: 'lax',           // limit the scope of the cookie to this site, but allow top level redirects
+      path: '/',                 // set the relative path that the cookie is scoped for
+      secure: NODE_ENV_ENFORCE_SECURITY,     // only support HTTPS connections
+      httpOnly: true,            // dissallow client-side access to the cookie
+      overwrite: true,           // overwrite the cookie every time, so nonce data is never re-used
+    })
+
+    ctx.response.status = 302
+    ctx.response.redirect(makeRedirect(ctx))
   } catch (err) {
     logger.emit('login_failure', 'error', { err })
     throw new Error('Failed to sign the user in')

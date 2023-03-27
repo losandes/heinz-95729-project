@@ -1,13 +1,23 @@
 {
-    "extends": ["standard"],
+    "env": {
+        "es6": true
+    },
+    "extends": [
+        "plugin:functional/external-vanilla-recommended",
+        "plugin:functional/recommended",
+        "plugin:functional/stylistic",
+        "standard"
+    ],
+    "plugins": ["functional"],
     "rules": {
-        "no-unused-expressions": "off",
         "comma-dangle": ["error", "always-multiline"],
-        "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
-        "no-console": "error",
-        "import/no-unresolved": 2,
+        "functional/rule-name": "error",
+        "import/extensions": [2, "ignorePackages"],
         "import/no-commonjs": 2,
-        "import/extensions": [2, "ignorePackages"]
+        "import/no-unresolved": 2,
+        "no-console": "error",
+        "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+        "no-unused-expressions": "off"
     },
     "settings": {
         "import/resolver": {

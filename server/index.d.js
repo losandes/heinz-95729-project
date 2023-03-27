@@ -1,6 +1,23 @@
 /**
- * @template T
- * @typedef {Object.<string, T>} IMap
+ * # IMap<TKey, TVal>
+ * Defines an object that is key-value-pairs of a
+ * consistent type
+ * @template TKey
+ * @template TVal
+ * @typedef {Object.<TKey, TVal>} IMap
+ */
+
+/**
+ * @typedef {Object} IGroupedPromiseSettledResults
+ * @property {PromiseFulfilledResult<any>[]} fulfilled
+ * @property {PromiseRejectedResult[]} rejected
+ */
+
+/**
+ * @typedef {Object} ISeedResult
+ * @property {boolean} seeded
+ * @property {number} fulfilled
+ * @property {number} rejected
  */
 
 /**
@@ -55,7 +72,7 @@
  * @property {IStorageNamepaces} storage
  * @property {IKoaRouteFactory[]} routes
  * @property {IDataResolverFactory[]} resolverFactories
- * @property {import('koa')<IKoaContextState, import('koa').DefaultContext>} [app]
+ * @property {IKoaApp} [app]
  */
 
 /**
@@ -145,4 +162,11 @@
  * @callback IKoaRouteFactory
  * @param {IKoaRouter} router
  * @returns {void}
+ */
+
+/**
+ * # IKoaApp
+ * This provides shorthand typedef access to a typed instance of Koa
+ * using IKoaContextState as the type
+ * @typedef {import('koa')<IKoaContextState, import('koa').DefaultContext>} IKoaApp
  */

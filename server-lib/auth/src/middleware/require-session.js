@@ -9,21 +9,20 @@
  *   )
  * @returns {IKoaMiddleware}
  */
-export const requireSession = () => async (ctx, next) => {
+export const requireSession = (/** @type {any} */ _placeholder) => async (ctx, next) => {
   const { logger } = ctx.state
 
   try {
-    const authenticated = ctx.state && Object.keys(ctx.state).includes('session')
+    const authenticated = typeof ctx.state === 'object' &&
+      typeof ctx.state.session !== 'undefined' &&
+      ctx.state.session !== null
 
-    if (authenticated) {
-      logger.emit('required_session_found', 'trace')
-      return next()
-    } else {
-      logger.emit('required_session_not_found', 'trace')
-      ctx.response.status = 404
-    }
+    ctx.response.status = authenticated ? 200 : 404
+
+    logger.emit('session_required_complete', 'trace', { authenticated })
+    return next()
   } catch (err) {
-    logger.emit('required_session_failure', 'error', { err })
+    logger.emit('session_required_failed', 'error', { err })
     throw new Error('Failed to check the request session')
   }
 }

@@ -242,7 +242,7 @@ const makeDirectives = (options) => {
  * }} options
  */
 const isGraphiQL = ({ ctx, prefix }) =>
-  ctx.state.env.ALLOW_DEV_CONFIGURATIONS &&
+  !ctx.state.env.NODE_ENV_ENFORCE_SECURITY &&
   ctx.request.method === 'GET' && (
     ctx.request.path.startsWith('/graphql') ||
     (
@@ -290,7 +290,7 @@ export const setCsp = ({
   const securityViolationsReportUrl = `${ctx.state.maybeProxiedOrigin}${SECURITY_VIOLATION_REPORT_PATH}`
   const policy = makeDirectives({
     directives,
-    enforceHttps: ctx.state.env.ENFORCE_HTTPS,
+    enforceHttps: ctx.state.env.NODE_ENV_ENFORCE_SECURITY,
     isGraphiQL: isGraphiQL({ ctx, prefix }),
     nonce: ctx.state.affinityId,
     securityViolationsReportUrl,
