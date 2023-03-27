@@ -8,9 +8,7 @@ const makeFunc = (sleepMs = 0) => {
   let called = 0
 
   return {
-    // eslint-disable-next-line functional/functional-parameters
     getCount: () => called,
-    // eslint-disable-next-line functional/functional-parameters
     func: async () => {
       called += 1
       const id = createId()
@@ -75,7 +73,6 @@ test('given @heinz-95729/test-utils LazySingleton, ' +
      'when the func throws an error' +
      'all callers should throw',
 async () => {
-  // eslint-disable-next-line functional/functional-parameters
   const func = async () => { throw new Error('BOOM!') }
   const { getResult } = LazySingleton(func)
 

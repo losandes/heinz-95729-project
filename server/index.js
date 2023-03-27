@@ -16,21 +16,21 @@ import { loaders as userLoaders, resolvers as userResolvers } from '@heinz-95729
 
 /**
  * Composes the dependency graph
- * @param {IAppContext} context the context produced by `compose-context`
+ * @param {IAppContext} mutableContext the context produced by `compose-context`
  * @returns {Promise<IAppContext>}
  */
-const composeDomains = async (context) => {
+const composeDomains = async (mutableContext) => {
   try {
     /* Users
      * =========================================================================
      */
-    await userLoaders.indexUsers(context)
-    context.resolverFactories.push(userResolvers.resolveUsers)
+    await userLoaders.indexUsers(mutableContext)
+    mutableContext.resolverFactories.push(userResolvers.resolveUsers)
 
     /* Auth
      * =========================================================================
      */
-    context.routes.push((/** @type {IKoaRouter} */ router) => {
+    mutableContext.routes.push((/** @type {IKoaRouter} */ router) => {
       /**
        * Usage with HTTPie:
        *   http POST http://localhost:3001/api/login <<< '{ "email": "shopper1@95729.com" }'
@@ -43,13 +43,13 @@ const composeDomains = async (context) => {
        *   curl --request POST http://localhost:3001/api/session/test
        */
       router.post('/login',
-        login((ctx) => `${ctx.origin}${context.env.SERVER_PROXY_PREFIX}/authorize`))
+        login((ctx) => `${ctx.origin}${mutableContext.env.SERVER_PROXY_PREFIX}/authorize`))
       router.get('/authorize',
-        authorize(`${context.env.WEB_APP_ORIGIN}/auth/authorized`))
+        authorize(`${mutableContext.env.CLIENT_ORIGIN}/auth/authorized`))
       router.post('/logout',
-        logout((ctx) => `${ctx.origin}${context.env.SERVER_PROXY_PREFIX}/deauthorize`))
+        logout((ctx) => `${ctx.origin}${mutableContext.env.SERVER_PROXY_PREFIX}/deauthorize`))
       router.get('/deauthorize',
-        deauthorize(`${context.env.WEB_APP_ORIGIN}/auth/login`))
+        deauthorize(`${mutableContext.env.CLIENT_ORIGIN}/auth/login`))
       router.get('/session/test',
         testSession())
     })
@@ -57,10 +57,10 @@ const composeDomains = async (context) => {
     /* NEXT DOMAIN BELOW THIS
      * ========================================================================= */
 
-    context.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
+    mutableContext.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
 
     // @ts-ignore
-    return context
+    return mutableContext
   } catch (/** @type {any} */ e) {
     throw new StartupError('compose_domains_failed', e)
   }

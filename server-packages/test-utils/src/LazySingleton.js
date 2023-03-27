@@ -17,7 +17,6 @@ export default function (func, timeoutMs = 2000) {
   /** @type {any} */
   let res
 
-  // eslint-disable-next-line functional/functional-parameters
   const getFirstResult = () => new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       running = false

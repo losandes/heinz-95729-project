@@ -11,6 +11,10 @@
   "plugins": ["functional"],
   "rules": {
     "comma-dangle": ["error", "always-multiline"],                              // require trailing commas like airbnb and google rules
+    "functional/functional-parameters": [
+      "error",
+      { "enforceParameterCount": false }
+    ],                                                                          // expect functional params (e.g. no addressing this.arguments), but don't require params @see https://github.com/eslint-functional/eslint-plugin-functional/blob/v5.0.7/docs/rules/functional-parameters.md
     "functional/immutable-data": [
       "error",
       { "ignorePattern": "^(ctx|mutable)" }
