@@ -33,8 +33,8 @@
  * @property {string} NODE_ENV
  * @property {boolean} NODE_ENV_ENFORCE_SECURITY
  * @property {string} SERVER_VERSION
- * @property {string} SERVER_PORT
- * @property {string} SERVER_PROXY_PREFIX
+ * @property {number} SERVER_PORT
+ * @property {string} [SERVER_PROXY_PREFIX]
  * @property {boolean} SERVER_IS_IN_PROXY
  * @property {string} SERVER_ORIGIN
  * @property {string} CLIENT_ORIGIN
@@ -48,20 +48,4 @@
  * @property {string[]} LOG_EVENTS
  * @property {string} PATH_TO_KEYV_DB
  * @property {string} PATH_TO_GRAPHQL_SCHEMA
- */
-
-/**
- * The static properties defined on ENVVARS
- * @typedef {Object} _ENVVARSStaticProps
- * @property {any} schema
- */
-
-/**
- * The constructor for ENVVARS
- * @typedef {new (envvars: any) => IENVVARS} _ENVVARS
- */
-
-/**
- * The ENVVARS class
- * @typedef {_ENVVARS & _ENVVARSStaticProps} ENVVARS
  */

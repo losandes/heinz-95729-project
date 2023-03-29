@@ -6,7 +6,6 @@ specifiers:
   '@graphql-tools/schema': ^9.0.17
   '@graphql-yoga/plugin-disable-introspection': ^0.5.1
   '@heinz-95729/auth': link:../server-lib/auth
-  '@heinz-95729/immutable': link:../server-lib/immutable
   '@heinz-95729/users': link:../server-lib/users
   '@keyv/sqlite': ^3.6.5
   '@koa/cors': ^4.0.0
@@ -37,7 +36,6 @@ dependencies:
   '@graphql-tools/schema': 9.0.17_graphql@16.6.0
   '@graphql-yoga/plugin-disable-introspection': 0.5.1_4d7de232canaalaxmusko2bteu
   '@heinz-95729/auth': link:../server-lib/auth
-  '@heinz-95729/immutable': link:../server-lib/immutable
   '@heinz-95729/users': link:../server-lib/users
   '@keyv/sqlite': 3.6.5
   '@koa/cors': 4.0.0

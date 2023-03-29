@@ -2,7 +2,7 @@ import { composeContext } from './src/compose-context.js'
 import { composeApp } from './src/compose-graphql.js'
 import { start } from './src/start.js'
 import { verify } from './src/verify.js'
-import { exit } from './src/exit.js'
+import exitWith from './src/exit.js'
 import StartupError from './src/StartupError.js'
 import {
   login,
@@ -72,4 +72,4 @@ await composeContext()
   .then(composeApp)
   .then(start)
   .then(verify)
-  .catch(exit)
+  .catch(exitWith(process, console, Date))

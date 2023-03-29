@@ -7,6 +7,7 @@ import path from 'node:path'
  *   securityViolationsReportUrl: string
  *   nonce: string
  *   enforceHttps: boolean
+ *   isGraphiQL: boolean
  * }} options
  * @returns {Object.<string, string[]>}
  */
@@ -15,6 +16,7 @@ const makeDefaultDirectives = ({
   securityViolationsReportUrl,
   nonce,
   enforceHttps,
+  isGraphiQL,
 }) => {
   /** @type {Object.<string, string[]>} */
   const directives = {
@@ -69,9 +71,14 @@ const makeDefaultDirectives = ({
     'frame-ancestors': ["'self'"],
     /**
      * Specifies valid sources of images and favicons
+     *
+     * GraphiQL loads a favicon from Github, so we conditionally allow
+     * that on the 'img-src' directive when the route is GraphiQL.
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
      */
-    'img-src': ["'self'", 'data:'],
+    'img-src': isGraphiQL
+      ? ["'self'", 'data:', 'https://raw.githubusercontent.com']
+      : ["'self'", 'data:'],
     /**
      * Specifies valid sources for the <object>, <embed>, and <applet>
      * elements.
@@ -89,9 +96,21 @@ const makeDefaultDirectives = ({
      * URLs loaded directly into <script> elements, but also things
      * like inline script event handlers (onclick) and XSLT stylesheets
      * which can trigger script execution.
+     *
+     * GraphiQL loads JavaScript from a CDN, so we conditionally allow
+     * that on the 'script-src' directive when the route is GraphiQL.
+     *
+     * We also don't control the markup, so we can't add nonces, so
+     * this directive is overriden instead of extended.
+     *
+     * This conditional directive assumes that GraphiQL and
+     * introspection are enabled/disabled using equivalent logic
+     * to `isGraphiQL`
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
      */
-    'script-src': ["'strict-dynamic'", `'nonce-${nonce}'`, "'unsafe-inline'", 'https:'], // todo: push 'http:',
+    'script-src': isGraphiQL
+      ? ['self', "'unsafe-inline'", 'https:', 'https://unpkg.com']
+      : ["'strict-dynamic'", `'nonce-${nonce}'`, "'unsafe-inline'", 'https:'], // todo: push 'http:',
     /**
      * Instructs user agents to control the data passed to DOM XSS
      * sink functions, like Element.innerHTML setter.
@@ -128,9 +147,18 @@ const makeDefaultDirectives = ({
      *
      * It also supports an option to have inline styles, which is
      * denied by default
+     *
+     * GraphiQL loads CSS from a CDN, so we conditionally allow
+     * that on the 'style-src' directive when the route is GraphiQL.
+     *
+     * This conditional directive assumes that GraphiQL and
+     * introspection are enabled/disabled using equivalent logic
+     * to `isGraphiQL`
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
      */
-    'style-src': ["'self'"],
+    'style-src': isGraphiQL
+      ? ["'self'", "'unsafe-inline'", 'https://unpkg.com']
+      : ["'self'"],
     /**
      * Instructs the user agent to report attempts to violate the
      * Content Security Policy. These violation reports consist of
@@ -154,14 +182,14 @@ const makeDefaultDirectives = ({
 
   if (enforceHttps) {
     /**
-    * Instructs user agents to treat all of a site's insecure URLs
-    * (those served over HTTP) as though they have been replaced
-    * with secure URLs (those served over HTTPS). This directive
-    * is intended for web sites with large numbers of insecure
-    * legacy URLs that need to be rewritten.
-    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/upgrade-insecure-requests
-    */
-    directives['upgrade-insecure-requests'] = []
+     * Instructs user agents to treat all of a site's insecure URLs
+     * (those served over HTTP) as though they have been replaced
+     * with secure URLs (those served over HTTPS). This directive
+     * is intended for web sites with large numbers of insecure
+     * legacy URLs that need to be rewritten.
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/upgrade-insecure-requests
+     */
+    return { ...directives, ...{ 'upgrade-insecure-requests': [] } }
   }
 
   return directives
@@ -176,63 +204,41 @@ const makeDefaultDirectives = ({
  *   directives?: Object.<string, string[] | boolean>
  *   isGraphiQL: boolean
  *   enforceHttps: boolean
+ *   logger: import('@polyn/logger').ILogEmitter
  * }} options
  * @returns {string[]}
  */
 const makeDirectives = (options) => {
-  const { isGraphiQL } = options
-  const defaultDirectives = makeDefaultDirectives(options)
+  const directives = { ...makeDefaultDirectives(options), ...options.directives }
 
-  if (isGraphiQL) {
-    /**
-     * GraphiQL loads a favicon from Github, so we conditionally allow
-     * that on the 'img-src' directive when the route is GraphiQL.
-     */
-    defaultDirectives['img-src'].push('https://raw.githubusercontent.com')
-
-    /**
-     * GraphiQL loads CSS from a CDN, so we conditionally allow
-     * that on the 'style-src' directive when the route is GraphiQL.
-     *
-     * This conditional directive assumes that GraphiQL and
-     * introspection are enabled/disabled using equivalent logic
-     * to `isGraphiQL`
-     */
-    defaultDirectives['style-src'].push("'unsafe-inline'")
-    defaultDirectives['style-src'].push('https://unpkg.com')
-
-    /**
-     * GraphiQL loads JavaScript from a CDN, so we conditionally allow
-     * that on the 'script-src' directive when the route is GraphiQL.
-     *
-     * We also don't control the markup, so we can't add nonces, so
-     * this directive is overriden instead of extended.
-     *
-     * This conditional directive assumes that GraphiQL and
-     * introspection are enabled/disabled using equivalent logic
-     * to `isGraphiQL`
-     */
-    defaultDirectives['script-src'] = ['self', "'unsafe-inline'", 'https:', 'https://unpkg.com']
-  }
-
-  const directives = { ...defaultDirectives, ...options.directives }
-  return Object.keys(directives).reduce(
-    (/** @type {string[]} */ output, key) => {
+  /** @type {{ fulfilled: string[], rejected: Error[] }} */
+  const output = Object.keys(directives).reduce(
+    (/** @type {any} */ mutableOutput, key) => {
       if (directives[key] === false) {
         // do nothing - the caller is removing a defaultDirective
+        return mutableOutput
       } else if (
         Array.isArray(directives[key]) &&
         /** @type {string[]} */ (directives[key]).length === 0
       ) {
-        output.push(key)
+        mutableOutput.fulfilled.push(key)
+        return mutableOutput
       } else if (Array.isArray(directives[key])) {
-        output.push(`${key} ${/** @type {string[]} */ (directives[key]).join(' ')}`)
+        mutableOutput.fulfilled.push(`${key} ${/** @type {string[]} */ (directives[key]).join(' ')}`)
+        return mutableOutput
       } else {
-        throw new Error(`Expected the directive to either be an empty array, an array of strings, or a boolean, but got {${typeof directives[key]}}`)
+        mutableOutput.rejected.push(
+          new Error(`Expected the ${key} directive to either be an empty array, an array of strings, or a boolean, but got {${typeof directives[key]}}`),
+        )
+        return mutableOutput
       }
+    }, { filfilled: [], rejected: [] })
 
-      return output
-    }, [])
+  output.rejected.forEach((rejection) => {
+    options.logger.emit('invalid_csp_directive', 'warn', rejection)
+  })
+
+  return output.fulfilled
 }
 
 /**
@@ -295,6 +301,7 @@ export const setCsp = ({
     nonce: ctx.state.affinityId,
     securityViolationsReportUrl,
     SECURITY_VIOLATION_REPORT_NAME,
+    logger: ctx.state.logger,
   }).join(';')
 
   ctx.set('Content-Security-Policy', policy)

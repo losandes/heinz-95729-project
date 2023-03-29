@@ -24,20 +24,36 @@ const SECURITY_VIOLATION_REPORT_NAME = 'security-violation-endpoint' // for Repo
 const SECURITY_VIOLATION_REPORT_PATH = '/security-violation-report'  // the route path
 
 /**
+ * @param {IAppContext} mutableContext the context produced by `bootstrap`
+ */
+const emit = (mutableContext) =>
+  (/** @type {string} */ verbosity) =>
+    // eslint-disable-next-line functional/functional-parameters
+    (/** @type {any[]} */ ...args) =>
+      mutableContext.logger.emit('yoga_log', verbosity, { ...args })
+
+/**
  * Creates an instance of Koa, and the default router
- * @param {IAppContext} context the context produced by `bootstrap`
+ * @param {IAppContext} mutableContext the context produced by `bootstrap`
  * @returns {Promise<IAppContext>}
  */
-export const composeApp = async (context) => {
+export const composeApp = async (mutableContext) => {
   try {
     /** @type {Koa<IKoaContextState, Koa.DefaultContext>} */
-    const app = new Koa()
-    app.proxy = context.env.SERVER_IS_IN_PROXY
+    const app = new Koa({
+      proxy: mutableContext.env.SERVER_IS_IN_PROXY,
+      // env?: string | undefined;
+      // keys?: string[] | undefined;
+      // proxy?: boolean | undefined;
+      // subdomainOffset?: number | undefined;
+      // proxyIpHeader?: string | undefined;
+      // maxIpsCount?: number | undefined;
+    })
 
     /** @type {IKoaRouter} */
     // @ts-ignore
     const router = app.proxy
-      ? new Router({ prefix: context.env.SERVER_PROXY_PREFIX })
+      ? new Router({ prefix: mutableContext.env.SERVER_PROXY_PREFIX })
       : new Router()
 
     app.on('error', (err, ctx) => {
@@ -49,7 +65,7 @@ export const composeApp = async (context) => {
        */
       const logger = ctx.state && ctx.state.logger && typeof ctx.state.logger.emit === 'function'
         ? ctx.state.logger
-        : context.logger
+        : mutableContext.logger
 
       logger.emit('uncaught_koa_error', 'error', { err })
     })
@@ -60,7 +76,7 @@ export const composeApp = async (context) => {
      * on the configuration you provide.
      */
     app.use(e500({
-      showStack: !context.env.NODE_ENV_ENFORCE_SECURITY,
+      showStack: !mutableContext.env.NODE_ENV_ENFORCE_SECURITY,
     }))
 
     /**
@@ -72,7 +88,7 @@ export const composeApp = async (context) => {
      * Note that because this establishes the request state, it needs to
      * run before any middleware that depends on that state being established
      */
-    app.use(makeRequestState(context))
+    app.use(makeRequestState(mutableContext))
 
     /**
      * Wraps the request with metrics gathering
@@ -117,7 +133,7 @@ export const composeApp = async (context) => {
      * @api public
      */
     app.use(cors({
-      origin: context.env.CLIENT_ORIGIN,
+      origin: mutableContext.env.CLIENT_ORIGIN,
       allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
       allowHeaders: ['Authorization', 'Accepts', 'Content-Type', 'If-Match', 'If-Modified-Since', 'If-None-Match', 'If-Unmodified-Since', 'Range', 'X-Requested-With', 'X-Request-ID'],
       exposeHeaders: ['Content-Length', 'Date', 'ETag', 'Expires', 'Last-Modified', 'X-Powered-By', 'X-Request-ID', 'X-heinz-95729-Media-Type'],
@@ -177,36 +193,23 @@ export const composeApp = async (context) => {
     /** @type {import('graphql-yoga').YogaServerOptions<{}, {}>} */
     const yogaConfig = {
       schema: createSchema({
-        typeDefs: await loadTypeDefs(context),
+        typeDefs: await loadTypeDefs(mutableContext),
       }),
       logging: {
-        /** @param {any[]} args */
-        debug (...args) {
-          context.logger.emit('yoga_log', 'debug', { ...args })
-        },
-        /** @param {any[]} args */
-        info (...args) {
-          context.logger.emit('yoga_log', 'info', { ...args })
-        },
-        /** @param {any[]} args */
-        warn (...args) {
-          context.logger.emit('yoga_log', 'warn', { ...args })
-        },
-        /** @param {any[]} args */
-        error (...args) {
-          context.logger.emit('yoga_log', 'error', { ...args })
-        },
+        debug: emit(mutableContext)('debug'),
+        info: emit(mutableContext)('info'),
+        warn: emit(mutableContext)('warn'),
+        error: emit(mutableContext)('error'),
       },
       cors: false,
-      plugins: [],
-    }
-
-    if (context.env.NODE_ENV_ENFORCE_SECURITY) {
-      yogaConfig.graphiql = false
-      yogaConfig.plugins?.push(useDisableIntrospection({
-        isDisabled: (request) =>
-          request.headers.get('x-allow-introspection') !== 'secret-access-key',
-      }))
+      plugins: [
+        useDisableIntrospection({
+          isDisabled: (_request) => mutableContext.env.NODE_ENV_ENFORCE_SECURITY,
+          // or of you want to be able to break the glass
+          // request.headers.get('x-allow-introspection') !== mutableContext.env.GRAPHIQL_SECRET
+        }),
+      ],
+      graphiql: !mutableContext.env.NODE_ENV_ENFORCE_SECURITY,
     }
 
     const yoga = createYoga(yogaConfig)
@@ -215,10 +218,9 @@ export const composeApp = async (context) => {
     app.use(async (ctx, next) => {
       if (!ctx.request.originalUrl.includes('/graphql')) {
         return next()
-      } else {
-        ctx.disableBodyParser = true
       }
 
+      ctx.disableBodyParser = true
       ctx.state.logger.emit('resolving_graphql', 'debug', { params: ctx.params })
 
       // Second parameter adds Koa's context into GraphQL Context
@@ -250,14 +252,14 @@ export const composeApp = async (context) => {
     /**
      * register the routes that were defined in compose-domains.js
      */
-    context.routes.forEach(
+    mutableContext.routes.forEach(
       (/** @type {IKoaRouteFactory} */ registerRoutes) => registerRoutes(router))
 
     app.use(router.routes())
-    context.app = app
+    mutableContext.app = app
 
-    context.logger.emit('compose_app_complete', 'trace', 'compose_app_complete')
-    return context
+    mutableContext.logger.emit('compose_app_complete', 'trace', 'compose_app_complete')
+    return mutableContext
   } catch (/** @type {any} */ e) {
     throw new StartupError('compose_app_failed', e)
   }

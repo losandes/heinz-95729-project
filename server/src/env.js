@@ -1,4 +1,3 @@
-import { immutable } from '../../server-packages/immutable'
 import { z } from 'zod'
 
 const ENV = {
@@ -56,7 +55,7 @@ const baseEnv = z.object({
     'ES256', 'ES384', 'ES512',
   ]).default('HS256').describe(DESC.SESSIONS_ALGORITHM),
   SESSIONS_SECRETS: z.string().or(z.array(kidSecretPairs)) // can also use z.union([z.string(), z.array(kidSecretPairs)])
-    .transform((value) => {
+    .transform((value, ctx) => {
       if (Array.isArray(value)) {
         return value
       } else if (typeof value === 'string') {
@@ -66,7 +65,12 @@ const baseEnv = z.object({
           return { kid, secret, expiration }
         })
       } else {
-        throw new Error(`Expected {${typeof value}} to be a {string} or {Array<{ kid: string, secret: string }>}`)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Expected {${typeof value}} to be a {string} or {Array<{ kid: string, secret: string }>}`,
+        })
+
+        return z.NEVER
       }
     })
     .pipe(z.array(kidSecretPairs))
@@ -95,13 +99,18 @@ const baseEnv = z.object({
     .describe(DESC.LOG_FORMATTER),
   LOG_EVENTS: z.string().or(z.string().array()) // can also use z.union([z.string(), z.string().array()])
     .default(['info', 'warn', 'error', 'fatal'])
-    .transform((value) => {
+    .transform((value, ctx) => {
       if (Array.isArray(value)) {
         return value
       } else if (typeof value === 'string') {
         return value.split(',').map((/** @type {string} */ s) => s.trim())
       } else {
-        throw new Error(`Expected {${typeof value}} to be a {string} or {string[]}`)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Expected {${typeof value}} to be a {string} or {string[]}`,
+        })
+
+        return z.NEVER
       }
     })
     .pipe(z.coerce.string().array())
@@ -109,25 +118,19 @@ const baseEnv = z.object({
 })
 
 const calculatedEnvvars = z.object({
-  SERVER_VERSION: z.string().min(2).trim().optional().describe(DESC.SERVER_VERSION),
-  NODE_ENV_ENFORCE_SECURITY: z.boolean().optional().describe(DESC.NODE_ENV_ENFORCE_SECURITY),
-  SERVER_IS_IN_PROXY: z.boolean().optional().describe(DESC.SERVER_IS_IN_PROXY),
-  SESSIONS_EXPIRE_IN_S: z.number().int().positive().optional().describe(DESC.SESSIONS_EXPIRE_IN_S),
+  SERVER_VERSION: z.string().min(2).trim().optional().default('0.0.0').describe(DESC.SERVER_VERSION),
+  NODE_ENV_ENFORCE_SECURITY: z.boolean().optional().default(true).describe(DESC.NODE_ENV_ENFORCE_SECURITY),
+  SERVER_IS_IN_PROXY: z.boolean().optional().default(false).describe(DESC.SERVER_IS_IN_PROXY),
+  SESSIONS_EXPIRE_IN_S: z.number().int().positive().optional().default(2592000).describe(DESC.SESSIONS_EXPIRE_IN_S),
 })
 
-export const envSchema = baseEnv.merge(calculatedEnvvars).transform((value) => {
-  value.SERVER_VERSION = value.SERVER_VERSION || process?.env?.npm_package_version
-  value.SERVER_IS_IN_PROXY = !!(value.SERVER_PROXY_PREFIX && value.SERVER_PROXY_PREFIX.length)
-  value.NODE_ENV_ENFORCE_SECURITY = ![ENV.LOCAL, ENV.DEV].includes(value.NODE_ENV)
-  value.SESSIONS_EXPIRE_IN_S = Math.floor(value.SESSIONS_EXPIRE_IN_MS / 1000)
+export const envvars = baseEnv.merge(calculatedEnvvars).transform((mutableValue) => {
+  mutableValue.SERVER_VERSION = mutableValue.SERVER_VERSION || process?.env?.npm_package_version || '0.0.0'
+  mutableValue.SERVER_IS_IN_PROXY = !!(mutableValue.SERVER_PROXY_PREFIX && mutableValue.SERVER_PROXY_PREFIX.length)
+  mutableValue.NODE_ENV_ENFORCE_SECURITY = ![ENV.LOCAL, ENV.DEV].includes(mutableValue.NODE_ENV)
+  mutableValue.SESSIONS_EXPIRE_IN_S = Math.floor(mutableValue.SESSIONS_EXPIRE_IN_MS / 1000)
 
-  return value
+  return mutableValue
 })
 
-/** @type {_ENVVARS} */
-const _ENVVARS = immutable('ENVVARS', envSchema)
-
-/** @type {ENVVARS} */
-export default class Envvars extends _ENVVARS {
-  static schema = envSchema
-}
+export default envvars

@@ -3,8 +3,8 @@ import Keyv from 'keyv'
 import path from 'node:path'
 import { LogEmitter, writers, formatters } from '@polyn/logger'
 
-import { exit } from './exit.js'
-import Envvars from './env.js'
+import exitWith from './exit.js'
+import envvars from './env.js'
 import StartupError from './StartupError.js'
 
 /**
@@ -46,12 +46,12 @@ const makeRepo = (namespace, env, logger) => {
  */
 export const composeContext = async (injectedContext = {}) => {
   try {
-    process.on('uncaughtException', exit)
-    process.on('unhandledRejection', exit)
+    process.on('uncaughtException', exitWith(process, console, Date))
+    process.on('unhandledRejection', exitWith(process, console, Date))
 
     dotenv.config({ path: process.env.CONFIG_PATH || path.resolve(process.cwd(), '.env') })
 
-    const env = new Envvars({ ...process.env, ...injectedContext.env })
+    const env = envvars.parse({ ...process.env, ...injectedContext.env })
     const resolverFactories = injectedContext.resolverFactories || []
     const routes = injectedContext.routes || []
     const logger = injectedContext.logger || new LogEmitter()
