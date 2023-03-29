@@ -1,9 +1,11 @@
 /**
- * A Key ID and a CPRNG secret. These are used to sign JWTs.
+ * - KID: 'The key id of this secret',
+ * - SECRET: 'a CPRNG of appropriate length for the algorithm being used to sign tokens (e.g. 256 bits / 32 chars for HS256; 512 bits / 64 chars for HS512)',
+ * - EXPIRATION: 'An optional expiration time expressed as the number of milliseconds elapsed since midnight, January 1, 1970 Universal Coordinated Time (UTC) (e.g. `Date.now() + (86400000 * 30)`; `new Date(\'2023-04-01\').getTime()`',
  * @typedef {Object} IKidSecretPair
- * @property {string} kid
- * @property {string} secret
- * @property {number} [expiration]
+ * @property {string} KID
+ * @property {string} SECRET
+ * @property {number} [EXPIRATION]
  */
 
 /**

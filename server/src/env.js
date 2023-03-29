@@ -28,18 +28,23 @@ const DESC = {
   PATH_TO_GRAPHQL_SCHEMA: 'the path to the GraphQL schema (e.g. schema/schema.graphql)',
 }
 
+const KID_DESC = {
+  KID: 'The key id of this secret',
+  SECRET: 'a CPRNG of appropriate length for the algorithm being used to sign tokens (e.g. 256 bits / 32 chars for HS256; 512 bits / 64 chars for HS512)',
+  EXPIRATION: 'An optional expiration time expressed as the number of milliseconds elapsed since midnight, January 1, 1970 Universal Coordinated Time (UTC) (e.g. `Date.now() + (86400000 * 30)`; `new Date(\'2023-04-01\').getTime()`',
+}
+
 const kidSecretPairs = z.object({
-  kid: z.string().min(32).trim().describe('The key id of this secret'),
-  secret: z.string().min(32).trim().describe('the CPRNG'),
-  expiration: z.number().or(z.string()) // can also use z.union([z.number(), z.string()])
+  KID: z.string().min(32).trim().describe(KID_DESC.KID),
+  SECRET: z.string().min(32).trim().describe(KID_DESC.SECRET),
+  EXPIRATION: z.number().or(z.string()) // can also use z.union([z.number(), z.string()])
     .optional()
     .pipe(z.coerce.number().positive().optional())
-    .describe('An optional expiration time based on `Date.now()`'),
+    .describe(KID_DESC.EXPIRATION),
 })
 
 const baseEnv = z.object({
-  NODE_ENV: z.enum([ENV.LOCAL, ENV.DEV, ENV.TEST, ENV.PROD])
-    .describe(DESC.NODE_ENV),
+  NODE_ENV: z.enum([ENV.LOCAL, ENV.DEV, ENV.TEST, ENV.PROD]).describe(DESC.NODE_ENV),
   SERVER_PORT: z.number().or(z.string()) // can also use z.union([z.number(), z.string()])
     .default(3001)
     .pipe(z.coerce.number().int().gt(0))
@@ -60,9 +65,9 @@ const baseEnv = z.object({
         return value
       } else if (typeof value === 'string') {
         return value.split(',').map((/** @type {string} */ s) => {
-          const [kid, secret, expiration] = s.split(':')
+          const [KID, SECRET, EXPIRATION] = s.split(':')
 
-          return { kid, secret, expiration }
+          return { KID, SECRET, EXPIRATION }
         })
       } else {
         ctx.addIssue({
@@ -118,19 +123,19 @@ const baseEnv = z.object({
 })
 
 const calculatedEnvvars = z.object({
-  SERVER_VERSION: z.string().min(2).trim().optional().default('0.0.0').describe(DESC.SERVER_VERSION),
-  NODE_ENV_ENFORCE_SECURITY: z.boolean().optional().default(true).describe(DESC.NODE_ENV_ENFORCE_SECURITY),
-  SERVER_IS_IN_PROXY: z.boolean().optional().default(false).describe(DESC.SERVER_IS_IN_PROXY),
-  SESSIONS_EXPIRE_IN_S: z.number().int().positive().optional().default(2592000).describe(DESC.SESSIONS_EXPIRE_IN_S),
+  SERVER_VERSION: z.string().min(2).trim().describe(DESC.SERVER_VERSION),
+  NODE_ENV_ENFORCE_SECURITY: z.boolean().describe(DESC.NODE_ENV_ENFORCE_SECURITY),
+  SERVER_IS_IN_PROXY: z.boolean().describe(DESC.SERVER_IS_IN_PROXY),
+  SESSIONS_EXPIRE_IN_S: z.number().int().positive().describe(DESC.SESSIONS_EXPIRE_IN_S),
 })
 
-export const envvars = baseEnv.merge(calculatedEnvvars).transform((mutableValue) => {
+export const envvars = baseEnv.merge(calculatedEnvvars.partial()).transform((mutableValue) => {
   mutableValue.SERVER_VERSION = mutableValue.SERVER_VERSION || process?.env?.npm_package_version || '0.0.0'
   mutableValue.SERVER_IS_IN_PROXY = !!(mutableValue.SERVER_PROXY_PREFIX && mutableValue.SERVER_PROXY_PREFIX.length)
   mutableValue.NODE_ENV_ENFORCE_SECURITY = ![ENV.LOCAL, ENV.DEV].includes(mutableValue.NODE_ENV)
   mutableValue.SESSIONS_EXPIRE_IN_S = Math.floor(mutableValue.SESSIONS_EXPIRE_IN_MS / 1000)
 
   return mutableValue
-})
+}).pipe(baseEnv.merge(calculatedEnvvars))
 
 export default envvars

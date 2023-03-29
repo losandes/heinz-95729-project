@@ -37,12 +37,12 @@ export const sign = (ctx) => async (session) => {
    * The other secrets are for verification only and will expire soon.
    * This is to support secret rotation
    */
-  const { kid, secret } = SESSIONS_SECRETS[0]
+  const { KID, SECRET } = SESSIONS_SECRETS[0]
 
-  const signed = await jwt.sign(session, secret, {
+  const signed = await jwt.sign(session, SECRET, {
     algorithm: SESSIONS_ALGORITHM,
     issuer: SERVER_ORIGIN,
-    keyid: kid,
+    keyid: KID,
     expiresIn: SESSIONS_EXPIRE_IN_S,
     subject: `local|${session.id}`,
   })

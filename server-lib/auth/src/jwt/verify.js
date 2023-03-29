@@ -19,15 +19,15 @@ const withCtx = (ctx) => {
      * @param {import('jsonwebtoken').SigningKeyCallback} callback
      */
     findSecret: (header, callback) => {
-      const maybeSecret = SESSIONS_SECRETS.find(({ kid }) => header.kid === kid)
-      const isExpired = typeof maybeSecret?.expiration === 'number' && Date.now() > maybeSecret.expiration
+      const maybeSecret = SESSIONS_SECRETS.find(({ KID }) => header.kid === KID)
+      const isExpired = typeof maybeSecret?.EXPIRATION === 'number' && Date.now() > maybeSecret.EXPIRATION
 
       if (isExpired) {
-        return callback(new Error(`The secret with kid, "${header.kid}", is no longer valid`))
+        return callback(new Error(`The SECRET with KID, "${header.kid}", is no longer valid`))
       } else if (maybeSecret) {
-        return callback(null, maybeSecret.secret)
+        return callback(null, maybeSecret.SECRET)
       } else {
-        return callback(new Error(`A secret with kid, "${header.kid}", was not found`))
+        return callback(new Error(`A SECRET with KID, "${header.kid}", was not found`))
       }
     },
   }
