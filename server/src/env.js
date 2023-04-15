@@ -34,10 +34,63 @@ const KID_DESC = {
   EXPIRATION: 'An optional expiration time expressed as the number of milliseconds elapsed since midnight, January 1, 1970 Universal Coordinated Time (UTC) (e.g. `Date.now() + (86400000 * 30)`; `new Date(\'2023-04-01\').getTime()`',
 }
 
+/**
+ * If the value is a string, attempts to coerce it from a
+ * CSV to an array of strings
+ * @param {string | string[]} value
+ * @param {z.RefinementCtx} ctx
+ * @returns {string[]}
+ */
+const coerceStringArrayFromCsv = (value, ctx) => {
+  if (Array.isArray(value)) {
+    return value
+  } else if (typeof value === 'string') {
+    return value.split(',').map((/** @type {string} */ s) => s.trim())
+  } else {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `Expected {${typeof value}} to be a {string} or {string[]}`,
+    })
+
+    return z.NEVER
+  }
+}
+
+/**
+ * If the value is a string, this attempts to coerce it into
+ * an array of kidSecretPairs
+ * @param {string | IKidSecretPair[]} value
+ * @param {z.RefinementCtx} ctx
+ * @returns {IKidSecretPair[]}
+ */
+const coerceKidSecretPairs = (value, ctx) => {
+  if (Array.isArray(value)) {
+    return value
+  } else if (typeof value === 'string') {
+    value.split(',').map((/** @type {string} */ s) => s.trim())
+    return value.split(',').map((/** @type {string} */ s) => {
+      const [kid, secret, expiration] = s.trim().split(':')
+
+      return {
+        KID: kid.trim(),
+        SECRET: secret.trim(),
+        EXPIRATION: expiration ? Number(expiration.trim()) : undefined,
+      }
+    })
+  } else {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `Expected {${typeof value}} to be a {string} or {Array<{ KID: string, SECRET: string, EXPIRATION?: number }>}`,
+    })
+
+    return z.NEVER
+  }
+}
+
 const kidSecretPairs = z.object({
-  KID: z.string().min(32).trim().describe(KID_DESC.KID),
-  SECRET: z.string().min(32).trim().describe(KID_DESC.SECRET),
-  EXPIRATION: z.number().or(z.string()) // can also use z.union([z.number(), z.string()])
+  KID: z.string().trim().min(32).describe(KID_DESC.KID),
+  SECRET: z.string().trim().min(32).describe(KID_DESC.SECRET),
+  EXPIRATION: z.union([z.number(), z.string()]) // can also use z.number().or(z.string())
     .optional()
     .pipe(z.coerce.number().positive().optional())
     .describe(KID_DESC.EXPIRATION),
@@ -45,47 +98,30 @@ const kidSecretPairs = z.object({
 
 const baseEnv = z.object({
   NODE_ENV: z.enum([ENV.LOCAL, ENV.DEV, ENV.TEST, ENV.PROD]).describe(DESC.NODE_ENV),
-  SERVER_PORT: z.number().or(z.string()) // can also use z.union([z.number(), z.string()])
+  SERVER_PORT: z.union([z.number(), z.string()]) // can also use z.number().or(z.string())
     .default(3001)
     .pipe(z.coerce.number().int().gt(0))
     .describe(DESC.SERVER_PORT),
   SERVER_PROXY_PREFIX: z.string().startsWith('/').trim().optional().describe(DESC.SERVER_PROXY_PREFIX),
   SERVER_ORIGIN: z.string().url().trim().default('http://localhost:3001').describe(DESC.SERVER_ORIGIN),
   CLIENT_ORIGIN: z.string().url().trim().default('http://localhost:3000').describe(DESC.CLIENT_ORIGIN),
-  SESSIONS_COOKIE_NAME: z.string().trim().default('h95729s').describe(DESC.SESSIONS_COOKIE_NAME),
+  SESSIONS_COOKIE_NAME: z.string().trim().nonempty().default('h95729s').describe(DESC.SESSIONS_COOKIE_NAME),
   SESSIONS_ALGORITHM: z.enum([
     'HS256', 'HS384', 'HS512',
     'RS256', 'RS384', 'RS512',
     'PS256', 'PS384', 'PS512',
     'ES256', 'ES384', 'ES512',
   ]).default('HS256').describe(DESC.SESSIONS_ALGORITHM),
-  SESSIONS_SECRETS: z.string().or(z.array(kidSecretPairs)) // can also use z.union([z.string(), z.array(kidSecretPairs)])
-    .transform((value, ctx) => {
-      if (Array.isArray(value)) {
-        return value
-      } else if (typeof value === 'string') {
-        return value.split(',').map((/** @type {string} */ s) => {
-          const [KID, SECRET, EXPIRATION] = s.split(':')
-
-          return { KID, SECRET, EXPIRATION }
-        })
-      } else {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `Expected {${typeof value}} to be a {string} or {Array<{ kid: string, secret: string }>}`,
-        })
-
-        return z.NEVER
-      }
-    })
+  SESSIONS_SECRETS: z.union([z.string(), z.array(kidSecretPairs)]) // can also use z.string().or(z.array(kidSecretPairs))
+    .transform(coerceKidSecretPairs)
     .pipe(z.array(kidSecretPairs))
     .describe(DESC.SESSIONS_SECRETS),
-  SESSIONS_EXPIRE_IN_MS: z.number().or(z.string()) // can also use z.union([z.string(), z.number()])
+  SESSIONS_EXPIRE_IN_MS: z.union([z.string(), z.number()]) // can also use z.number().or(z.string())
     .default(86400000 * 30 /* 30 days */)
     .pipe(z.coerce.number().int().gte(900000 /* at least 15 minutes */))
     .describe(DESC.SESSIONS_EXPIRE_IN_MS),
-  PATH_TO_KEYV_DB: z.string().trim().describe(DESC.PATH_TO_KEYV_DB),
-  PATH_TO_GRAPHQL_SCHEMA: z.string().trim().describe(DESC.PATH_TO_GRAPHQL_SCHEMA),
+  PATH_TO_KEYV_DB: z.string().trim().nonempty().describe(DESC.PATH_TO_KEYV_DB),
+  PATH_TO_GRAPHQL_SCHEMA: z.string().trim().nonempty().describe(DESC.PATH_TO_GRAPHQL_SCHEMA),
   LOG_WRITER: z.enum([
     'ArrayWriter',
     'ConsoleWriter',
@@ -102,28 +138,15 @@ const baseEnv = z.object({
     'SquashFormatter',
   ]).default('SquashFormatter')
     .describe(DESC.LOG_FORMATTER),
-  LOG_EVENTS: z.string().or(z.string().array()) // can also use z.union([z.string(), z.string().array()])
+  LOG_EVENTS: z.union([z.string(), z.string().array()]) // can also use z.string().or(z.string().array())
     .default(['info', 'warn', 'error', 'fatal'])
-    .transform((value, ctx) => {
-      if (Array.isArray(value)) {
-        return value
-      } else if (typeof value === 'string') {
-        return value.split(',').map((/** @type {string} */ s) => s.trim())
-      } else {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `Expected {${typeof value}} to be a {string} or {string[]}`,
-        })
-
-        return z.NEVER
-      }
-    })
+    .transform(coerceStringArrayFromCsv)
     .pipe(z.coerce.string().array())
     .describe(DESC.LOG_EVENTS),
 })
 
 const calculatedEnvvars = z.object({
-  SERVER_VERSION: z.string().min(2).trim().describe(DESC.SERVER_VERSION),
+  SERVER_VERSION: z.string().trim().nonempty().describe(DESC.SERVER_VERSION),
   NODE_ENV_ENFORCE_SECURITY: z.boolean().describe(DESC.NODE_ENV_ENFORCE_SECURITY),
   SERVER_IS_IN_PROXY: z.boolean().describe(DESC.SERVER_IS_IN_PROXY),
   SESSIONS_EXPIRE_IN_S: z.number().int().positive().describe(DESC.SESSIONS_EXPIRE_IN_S),
