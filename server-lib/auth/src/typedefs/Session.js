@@ -2,11 +2,11 @@ import { z } from 'zod'
 
 /** @type {ZSession} */
 export const session = z.object({
-  id: z.string().cuid2(),
+  id: z.string().trim().cuid2(),
   user: z.object({
-    id: z.string().cuid2(),
-    email: z.string().email(),
-    name: z.string().min(2),
+    id: z.string().trim().cuid2(),
+    email: z.string().trim().email(),
+    name: z.string().trim().nonempty(),
   }),
 })
 
