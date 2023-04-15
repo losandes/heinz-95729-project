@@ -6,9 +6,9 @@ const givenExit = 'given @heinz-95729/server exit'
 
 const time = 1680025460200
 const passthrough = (/** @type {any} */ anything) => anything
-const exit = exitFactory(
-  // @ts-ignore
-  { exit: passthrough },
+
+// @ts-ignore
+const exit = exitFactory({ exit: passthrough }).using(
   { error: passthrough },
   { now: () => time },
 )
