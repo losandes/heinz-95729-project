@@ -2,7 +2,7 @@ import { composeContext } from './src/compose-context.js'
 import { composeApp } from './src/compose-graphql.js'
 import { start } from './src/start.js'
 import { verify } from './src/verify.js'
-import exitWith from './src/exit.js'
+import exit from './src/exit.js'
 import StartupError from './src/StartupError.js'
 import {
   login,
@@ -43,11 +43,11 @@ const composeDomains = async (mutableContext) => {
        *   curl --request POST http://localhost:3001/api/session/test
        */
       router.post('/login',
-        login((ctx) => `${ctx.origin}${mutableContext.env.SERVER_PROXY_PREFIX}/authorize`))
+        login((ctx) => `${ctx.state.maybeProxiedOrigin}/authorize`))
       router.get('/authorize',
         authorize(`${mutableContext.env.CLIENT_ORIGIN}/auth/authorized`))
       router.post('/logout',
-        logout((ctx) => `${ctx.origin}${mutableContext.env.SERVER_PROXY_PREFIX}/deauthorize`))
+        logout((ctx) => `${ctx.state.maybeProxiedOrigin}/deauthorize`))
       router.get('/deauthorize',
         deauthorize(`${mutableContext.env.CLIENT_ORIGIN}/auth/login`))
       router.get('/session/test',
@@ -59,7 +59,6 @@ const composeDomains = async (mutableContext) => {
 
     mutableContext.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
 
-    // @ts-ignore
     return mutableContext
   } catch (/** @type {any} */ e) {
     throw new StartupError('compose_domains_failed', e)
@@ -72,4 +71,4 @@ await composeContext()
   .then(composeApp)
   .then(start)
   .then(verify)
-  .catch(exitWith(process, console, Date))
+  .catch(exit(process).using(console, Date))
