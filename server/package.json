@@ -22,11 +22,12 @@
   "nodemonConfig": {
     "delay": 200,
     "watch": [
-      ".",
-      "../server-lib"
+      "./lib",
+      "./packages",
+      "./src"
     ],
     "ignore": [
-      "server/data/*"
+      "data_volumes/*"
     ],
     "ext": "js,json,graphql"
   },
@@ -35,8 +36,8 @@
     "@graphql-tools/load": "^7.8.13",
     "@graphql-tools/schema": "^9.0.17",
     "@graphql-yoga/plugin-disable-introspection": "^0.5.1",
-    "@heinz-95729/auth": "link:../server-lib/auth",
-    "@heinz-95729/users": "link:../server-lib/users",
+    "@heinz-95729/auth": "link:./lib/auth",
+    "@heinz-95729/users": "link:./lib/users",
     "@keyv/sqlite": "^3.6.5",
     "@koa/cors": "^4.0.0",
     "@paralleldrive/cuid2": "^2.2.0",

@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@heinz-95729/auth": "link:",
-    "@heinz-95729/test-utils": "link:../../server-packages/test-utils",
+    "@heinz-95729/test-utils": "link:../../package-nursery/test-utils",
     "c8": "^7.13.0",
     "supposed": "^1.3.3",
     "unexpected": "^13.1.0"

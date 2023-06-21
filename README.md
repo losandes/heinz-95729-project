@@ -6,9 +6,8 @@ The primary technologies include:
 
 - [Koa](https://koajs.com/) to run the server
 - [GraphQL Yoga](https://the-guild.dev/graphql/yoga-server) to add GraphQL support to koa
-- [VueJS](https://vuejs.org/) for the client (frontend web app)
-- [Vite](https://vitejs.dev/) for client (frontend) tooling
-- [Vitest](https://vitest.dev/) for client (frontend) testing
+- [Astro](https://astro.build/) for the client (web app)
+- [Svelte](https://svelte.dev/) for interactive components in the client
 - [Supposed](https://github.com/losandes/supposed) for server (backend) testing
 - [Tailwindscss](https://tailwindcss.com/) for styling
 - [SQLite](https://www.sqlite.org/index.html) for a quick start for relational data (you can swap this out with a database of your choice)
@@ -17,15 +16,21 @@ The primary technologies include:
 
 ```
 root
-├── client: the svelte web app
-│   ├── src: the svelte code
+├── bin: executables (run them with npx)
+├── client: the app that runs in the browser
+│   ├── lib: the domains that the client consumes
+│   ├── src: the front end web code
 │   └── static: static HTTP resources
-├── server: the server code
-│   ├── data_volumes: gitignored folder where API data is cached
-│   └── src: the koa+yoga api code
-│       └── schema: the GraphQL schema (typedefs and resolvers)
-├── server-lib: the domains that the graph-api consumes
-└── server-packages: supporting code (think if them like 3rd party packages)
+└── server: the api that the client consumes
+    ├── data_volumes: gitignored folder where
+    │     API data is
+    ├── lib: the domains that the
+    │     graph-api consumes
+    ├── package-nursery: supporting code
+    │     (think if them like 3rd party packages)
+    ├── src: the koa+yoga api code
+    └── schema: the GraphQL schema
+          (typedefs and resolvers)
 ```
 
 ## Getting Started

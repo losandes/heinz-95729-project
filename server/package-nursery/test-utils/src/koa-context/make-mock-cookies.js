@@ -20,6 +20,7 @@ export function makeMockCookies (request, response, cookies = {}, secure = true)
 
   that.requestStore = new Map(cookieEntries)
   that.responseStore = new Map(cookieEntries)
+  that.responseCookies = {}
 
   /**
    * @param {string} name
@@ -29,6 +30,7 @@ export function makeMockCookies (request, response, cookies = {}, secure = true)
    */
   that.set = (name, value, opts) => {
     that.responseStore.set(name, value)
+    that.responseCookies[name] = { value, opts }
 
     return that
   }

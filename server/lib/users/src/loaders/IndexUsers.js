@@ -1,5 +1,5 @@
 import { withArray } from '@heinz-95729/functional'
-import _user from '../typedefs/user.js'
+import _user from '../typedefs/User.js'
 import _seeds from './seeds/seeds.js'
 import _KEYS from '../KEYS.js'
 

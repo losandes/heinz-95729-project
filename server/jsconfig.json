@@ -21,7 +21,5 @@
 	"include": [
     "./**/*.js",
     "./**/*.d.ts",
-    "../server-lib/**/*.js",
-    "../server-lib/**/*.d.ts",
   ]
 }

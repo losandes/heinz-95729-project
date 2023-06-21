@@ -1,17 +1,25 @@
 import { createId } from '@paralleldrive/cuid2'
 import sessionSchema from '../typedefs/session.js'
-import { sign } from '../jwt/sign.js'
-import { store } from '../jwt/store.js'
+import { sign as _sign } from '../jwt/sign.js'
+import { store as _store } from '../jwt/store.js'
 
 /**
  * Generates a Koa middleware that signs the user in
  * (via a cookie) and redirects them to the location
  * produced by the _makeRedirect_ param
  * @param {(ctx: IKoaContext) => string} makeRedirect
+ * @param {{
+ *   sign: (ctx: IKoaContext) => (session: ISession) => Promise<string>,
+ *   store: (ctx: IKoaContext) => (session: ISession) => Promise<void>
+ * }} dependencies
  * @returns {IKoaMiddleware}
  */
-export const login = (makeRedirect) => async (ctx) => {
+export const login = (
+  makeRedirect,
+  dependencies = { sign: _sign, store: _store },
+) => async (ctx) => {
   const { env, logger, resolvers } = ctx.state
+  const { sign, store } = dependencies
   const {
     NODE_ENV_ENFORCE_SECURITY,
     SESSIONS_COOKIE_NAME,
@@ -35,10 +43,12 @@ export const login = (makeRedirect) => async (ctx) => {
     }
 
     const session = sessionSchema.parse({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      nonce: createId(),
+      id: createId(),
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      },
     })
 
     logger.emit('login_success', 'debug')

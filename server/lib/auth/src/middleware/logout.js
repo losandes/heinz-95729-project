@@ -1,15 +1,23 @@
-import { verify } from '../jwt/verify.js'
-import { revoke } from '../jwt/revoke.js'
+import { verify as _verify } from '../jwt/verify.js'
+import { revoke as _revoke } from '../jwt/revoke.js'
 
 /**
  * Generates a Koa middleware that signs the user out
  * (via a cookie overwrite) and redirects them to the
  * location produced by the _makeRedirect_ param
  * @param {(ctx: IKoaContext) => string} makeRedirect
+ * @param {{
+ *   verify: (ctx: IKoaContext) => (token: string | undefined) => Promise<ISession | undefined>,
+ *   revoke: (ctx: IKoaContext<any>) => (session: ISession | undefined) => Promise<void>
+ * }} dependencies
  * @returns {IKoaMiddleware}
  */
-export const logout = (makeRedirect) => async (ctx) => {
+export const logout = (
+  makeRedirect,
+  dependencies = { verify: _verify, revoke: _revoke },
+) => async (ctx) => {
   const { env, logger } = ctx.state
+  const { verify, revoke } = dependencies
   const {
     NODE_ENV_ENFORCE_SECURITY,
     SESSIONS_COOKIE_NAME,

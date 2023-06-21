@@ -19,15 +19,18 @@
     "dev": "concurrently \"pnpm run dev:*\" --raw --kill-others",
     "lint:client": "cd client; eslint . & pnpm run lint",
     "lint:server": "cd server; eslint .",
-    "lint:server-lib": "cd server-lib; eslint .",
-    "lint": "pnpm run lint:client & pnpm run lint:server & pnpm run lint:server-lib",
+    "lint:server-lib": "cd server/lib; eslint .",
+    "lint:server-packages": "cd server/packages; eslint .",
+    "lint": "pnpm run lint:client & pnpm run lint:server & pnpm run lint:server-lib & pnpm run lint:server-packages",
     "test:client": "cd client; pnpm test",
     "test:server": "cd server; supposed -r nyan",
-    "test:server-lib": "cd server-lib; supposed -r nyan",
-    "test": "pnpm run test:client & pnpm run test:server & pnpm run test:server-lib",
+    "test:server-lib": "cd server/lib; supposed -r nyan",
+    "test:server-packages": "cd server/packages; supposed -r nyan",
+    "test": "pnpm run test:client & pnpm run test:server & pnpm run test:server-lib & pnpm run test:server-packages",
     "watch:test:client": "nodemon --watch lib -e js --exec 'pnpm run test:client'",
     "watch:test:server": "nodemon --watch lib -e js --exec 'pnpm run test:server'",
-    "watch:test:server-lib": "nodemon --watch lib -e js --exec 'pnpm run test:server-lib'",
+    "watch:test:server-lib": "nodemon --watch server/lib -e js --exec 'pnpm run test:server-lib'",
+    "watch:test:server-packages": "nodemon --watch server/packages -e js --exec 'pnpm run test:server-packages'",
     "watch:test": "concurrently \"pnpm run watch:test:*\" --raw --kill-others"
   },
   "repository": {
@@ -43,9 +46,7 @@
   "homepage": "https://github.com/losandes/heinz-95729-project#readme",
   "devDependencies": {
     "@paralleldrive/cuid2": "^2.2.0",
-    "@polyn/logger": "^1.0.2",
     "concurrently": "^7.6.0",
-    "dotenv": "^16.0.3",
     "eslint": "^8.35.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-functional": "^5.0.7",
@@ -53,14 +54,7 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.21",
-    "tailwindcss": "^3.2.7",
-    "test": "npm:supposed@^1.3.3",
-    "typescript": "^5.0.2",
+    "supposed": "supposed@^1.3.3",
     "unexpected": "^13.1.0"
-  },
-  "dependencies": {
-    "@polyn/blueprint": "^2.7.0",
-    "@polyn/immutable": "^1.1.2",
-    "events": "^3.3.0"
   }
 }
