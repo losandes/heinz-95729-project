@@ -19,7 +19,7 @@
     "@polyn/blueprint": "~2.6.0",
     "@polyn/immutable": "~1.0.11",
     "jsonwebtoken": "~8.5.1",
-    "knex": "~0.95.13",
+    "knex": "~2.4.0",
     "pg": "~8.7.1",
     "uuid": "~8.3.2"
   }
