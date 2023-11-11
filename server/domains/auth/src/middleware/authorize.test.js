@@ -1,7 +1,7 @@
 import test from 'supposed'
 import expect from 'unexpected'
-import { authorize } from '@heinz-95729/auth'
-import { makeMockKoaContext } from '@heinz-95729/test-utils'
+import { makeMockKoaContext } from '../../../../lib/test-utils/index.js'
+import { authorize } from '../../index.js'
 
 // /**
 //  *
@@ -18,7 +18,7 @@ import { makeMockKoaContext } from '@heinz-95729/test-utils'
 //   return { response }
 // }
 
-const given = '@heinz-95729/auth authorize'
+const given = 'server::domains::auth::authorize'
 
 const when = {
   calledWithValidRedirectURL: {

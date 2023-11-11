@@ -9,10 +9,13 @@ import {
   logout,
   authorize,
   deauthorize,
-  requireSession, // eslint-disable-line no-unused-vars
+  requireSession, // eslint-disable-line no-unused-vars -- TODO: implement requireSession
   testSession,
-} from '@heinz-95729/auth'
-import { loaders as userLoaders, resolvers as userResolvers } from '@heinz-95729/users'
+} from './domains/auth/index.js'
+import {
+  loaders as userLoaders,
+  resolvers as userResolvers,
+} from './domains/users/index.js'
 
 /**
  * Composes the dependency graph
@@ -57,7 +60,8 @@ const composeDomains = async (mutableContext) => {
     /* NEXT DOMAIN BELOW THIS
      * ========================================================================= */
 
-    mutableContext.logger.emit('compose_domains_complete', 'trace', 'compose_domains_complete')
+    mutableContext.logger.emit(
+      'compose_domains_complete', 'trace', 'compose_domains_complete')
 
     return mutableContext
   } catch (/** @type {any} */ e) {

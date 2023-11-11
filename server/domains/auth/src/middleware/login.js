@@ -17,7 +17,7 @@ import { store as _store } from '../jwt/store.js'
 export const login = (
   makeRedirect,
   dependencies = { sign: _sign, store: _store },
-) => async (ctx) => {
+) => async (ctx, next) => {
   const { env, logger, resolvers } = ctx.state
   const { sign, store } = dependencies
   const {
@@ -68,6 +68,7 @@ export const login = (
 
     ctx.response.status = 302
     ctx.response.redirect(makeRedirect(ctx))
+    next()
   } catch (err) {
     logger.emit('login_failure', 'error', { err })
     throw new Error('Failed to sign the user in')

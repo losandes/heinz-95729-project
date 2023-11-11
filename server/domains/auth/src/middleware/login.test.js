@@ -1,10 +1,16 @@
 import { createId } from '@paralleldrive/cuid2'
 import test from 'supposed'
 import expect from 'unexpected'
-import { login } from '@heinz-95729/auth'
-import { makeMockKoaContext, LazySingleton } from '@heinz-95729/test-utils'
+import {
+  LazySingleton,
+  makeMockKoaContext,
+} from '../../../../lib/test-utils/index.js'
+import { login } from '../../index.js'
 
-const given = '@heinz-95729/auth login'
+const given = 'server::domains::auth::login'
+
+const next = async () => {}
+
 /**
  *
  * @param {(email?: string) => Object|undefined} makeValue
@@ -29,7 +35,8 @@ test([given,
 async () => {
   const { ctx } = await makeMockKoaContext()
 
-  await login()(ctx)
+  // @ts-expect-error -- tests a negative path
+  await login()(ctx, next)
 
   expect(ctx.response.status, 'to equal', 404)
 })
@@ -40,7 +47,8 @@ test([given,
 async () => {
   const { ctx } = await makeMockKoaContext(resolves(() => undefined))
 
-  await login()(ctx)
+  // @ts-expect-error -- tests a negative path
+  await login()(ctx, next)
 
   expect(ctx.response.status, 'to equal', 404)
 })
@@ -54,7 +62,8 @@ async () => {
     resolves((email) => ({ email })),
   )
 
-  expect(login()(ctx), 'to be rejected')
+  // @ts-expect-error -- tests a negative path
+  expect(login()(ctx, next), 'to be rejected')
 })
 
 const { getResult } = LazySingleton(async () => {
@@ -66,23 +75,34 @@ const { getResult } = LazySingleton(async () => {
     })),
   )
 
-  const makeRedirect = (/** @type {{ request: { body: { email: any; }; }; }} */ ctx) => `redirecting ${ctx.request.body.email}`
+  const maybeEmail = (/** @type unknown | undefined; */ body) =>
+    typeof body === 'object' && body !== null && 'email' in body
+      ? body.email
+      : 'email not found'
+
+  //                                          { body: { email: unknown; };
+  const makeRedirect = (
+    /** @type {{ request: { body?: unknown | undefined; }; }} */ ctx
+  ) => `redirecting ${maybeEmail(ctx.request.body)}`
 
   /** @type {string} */
   let signed // eslint-disable-line functional/no-let
   /** @type {string} */
   let stored // eslint-disable-line functional/no-let
-  const sign = (/** @type {{ request: { body: { email: any; }; }; }} */ ctx) =>
-    (/** @type {ISession} */ session) => {
-      signed = `session signed for body: ${ctx.request.body.email}, session: ${session.user.email}`
-      return signed
-    }
-  const store = (/** @type {{ request: { body: { email: any; }; }; }} */ ctx) =>
-    (/** @type {ISession} */ session) => {
-      stored = `session stored for body: ${ctx.request.body.email}, session: ${session.user.email}`
-    }
 
-  const actual = await login(makeRedirect, { sign, store })(ctx)
+  const sign = (
+    /** @type {{ request: { body?: unknown | undefined; }; }} */ ctx
+  ) => async (/** @type {ISession} */ session) => {
+    signed = `session signed for body: ${maybeEmail(ctx.request.body)}, session: ${session.user.email}`
+    return signed
+  }
+  const store = (
+    /** @type {{ request: { body?: unknown | undefined; }; }} */ ctx
+  ) => async (/** @type {ISession} */ session) => {
+    stored = `session stored for body: ${maybeEmail(ctx.request.body)}, session: ${session.user.email}`
+  }
+
+  const actual = await login(makeRedirect, { sign, store })(ctx, next)
 
   return {
     actual,

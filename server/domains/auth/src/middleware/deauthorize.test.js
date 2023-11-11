@@ -1,9 +1,9 @@
 import test from 'supposed'
 import expect from 'unexpected'
-import { deauthorize } from '@heinz-95729/auth'
-import { makeMockKoaContext } from '@heinz-95729/test-utils'
+import { makeMockKoaContext } from '../../../../lib/test-utils/index.js'
+import { deauthorize } from '../../index.js'
 
-const given = '@heinz-95729/auth deauthorize'
+const given = 'server::domains::auth::deauthorize'
 
 const when = {
   calledWithValidRedirectURL: {

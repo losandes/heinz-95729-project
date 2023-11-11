@@ -1,3 +1,23 @@
 {
-    "editor.tabSize": 2
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": true,         // auto import files when possible
+    "source.fixAll.eslint": true,             // turn on eslint auto-formatting
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [                          // aim to have most lines no longer than 80 characters, not including EOL comments
+    80,
+    120
+  ],
+  "eslint.experimental.useFlatConfig": true,  // turn on support for the new eslint.config.js flatfile conventions
+  "eslint.workingDirectories": [{             // eslint doesn't work in some configurations when your working tree is outside of a project (e.g. workspace is src and eslint fails in a project nested under src)
+    "mode": "auto"
+  }],
+  "files.eol": "\n",                          // The EOL returns need to be LF for the .envrc scripts to work. @see .editorconfig, .gitattributes, and configs/es/standard.json. :: @see https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/ :: @see https://blog.boot.dev/clean-code/line-breaks-vs-code-lf-vs-crlf/
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "javascript.preferences.quoteStyle": "single",
 }

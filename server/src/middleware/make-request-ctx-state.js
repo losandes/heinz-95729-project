@@ -39,10 +39,10 @@ export const makeCtxState = (context) => async (ctx, next) => {
     method: reqContext.method,
     url: reqContext.url,
     origin: reqContext.origin,
-    maybeProxiedOrigin: context.env.SERVER_PROXY_PREFIX.length
+    maybeProxiedOrigin: context.env.SERVER_PROXY_PREFIX?.length
       ? `${reqContext.origin}${context.env.SERVER_PROXY_PREFIX}`
       : reqContext.origin,
-    // @ts-ignore
+    // @ts-ignore - I think this is a bug in the polyn/logger types (types, not code)
     logger: context.logger.child({ context: reqContext }),
     resolvers: {},
     // app lifecycle

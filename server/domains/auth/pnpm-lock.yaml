@@ -16,8 +16,8 @@ devDependencies:
     specifier: 'link:'
     version: 'link:'
   '@heinz-95729/test-utils':
-    specifier: link:../../package-nursery/test-utils
-    version: link:../../package-nursery/test-utils
+    specifier: link:../../lib/test-utils
+    version: link:../../lib/test-utils
   c8:
     specifier: ^7.13.0
     version: 7.13.0

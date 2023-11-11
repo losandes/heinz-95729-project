@@ -17,7 +17,7 @@
   "author": "losandes",
   "license": "MIT",
   "dependencies": {
-    "@heinz-95729/functional": "link:../package-nursery/functional",
+    "@heinz-95729/functional": "link:../lib/functional",
     "@paralleldrive/cuid2": "^2.2.0",
     "zod": "^3.21.4"
   },
