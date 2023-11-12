@@ -37,6 +37,7 @@ jspm_packages/
 .node_repl_history
 
 # Distribution directories & Compiled binary addons (http://nodejs.org/api/addons.html)
+[Bb]uild
 [Dd]ist
 dist-ssr
 [Bb]uild/Release
