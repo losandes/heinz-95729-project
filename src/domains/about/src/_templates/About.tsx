@@ -21,7 +21,7 @@ function About () {
     palettesLoading,
     paletteFetchStatus,
   ] = useFetch<colorPalette[]>(
-    join(env.PUBLIC_ORIGIN, '/api/palettes'),
+    join(env.PUBLIC_API_ORIGIN, '/api/palettes'),
     z.array(colorPalette),
     (palettes) => { usePaletteStore.setState({ palettes }) },
   )

@@ -21,7 +21,7 @@ const DESCRIBE = {
   MODE: [
     'The mode the app is running in. Based on NODE_ENV or',
     'what is passed to vite in the `--mode` arg.'].join(' '),
-  PUBLIC_ORIGIN: 'The protocol and host of the app.',
+  PUBLIC_API_ORIGIN: 'The protocol and host of the api server.',
   // LOGGING
   PUBLIC_LOG_LEVELS: [
     'The log levels that will be output to the console. Based on the ENVVARs',
@@ -63,9 +63,9 @@ const ENV = z.object({
   // APP
   MODE: modeSchema,
   PUBLIC_MODE: modeSchema,
-  PUBLIC_ORIGIN: z.string().url().optional()
+  PUBLIC_API_ORIGIN: z.string().url().optional()
     .default('http://localhost:5173')
-    .describe(DESCRIBE.PUBLIC_ORIGIN),
+    .describe(DESCRIBE.PUBLIC_API_ORIGIN),
   // LOGGING
   PUBLIC_LOG_LEVELS: logArray.or(csvToArray)
     .pipe(LogLevelOptions.array())
