@@ -54,6 +54,10 @@ export default [{
     ...react.settings,
     'import/resolver': {
       'typescript': {
+        //api
+        '~~domains': './api/src/domains',
+        '~~lib': './api/src/lib',
+        // web
         '@domains': './src/domains',
         '@layouts': './src/layouts',
         '@lib': './src/lib',

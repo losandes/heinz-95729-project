@@ -4,12 +4,16 @@
     // aliases
     "baseUrl": ".",
     "paths": {
+      // api
+      "~~domains/*": ["./api/src/domains/*"],
+      "~~lib/*": ["./api/src/lib/*"],
+      // web
       "@domains/*": ["./src/domains/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@lib/*": ["./src/lib/*"],
       "@pages/*": ["./src/pages/*"],
-      "@env/*": ["src/lib/env/index.ts"],
-      "@logger/*": ["src/lib/logger/index.ts"],
+      "@env/*": ["./src/lib/env/index.ts"],
+      "@logger/*": ["./src/lib/logger/index.ts"],
     },
     // versioning
     "target": "ES2020",                       // Enable top-level await, and other modern ESM features.

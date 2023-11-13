@@ -7,14 +7,23 @@ import koaHost from './api/vite.koa-host'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const r = (path: string) => resolve(__dirname, path)
-export const alias: Record<string, string> = {
+const apiAliases = {
+  '~~domains': r('api/src/domains'),
+  '~~lib': r('api/src/lib'),
+}
+const webAliases = {
   '@domains': r('src/domains'),
   '@layouts': r('src/layouts'),
   '@lib': r('src/lib'),
   '@pages': r('src/pages'),
-  // direct file resolution (below) requires the modeule to also be defined in src/vite-env.d.ts
+  // direct file resolution (below) requires the module to also be defined in src/vite-env.d.ts
   '@env': r('src/lib/env/index.ts'),
   '@logger': r('src/lib/logger/index.ts'),
+}
+
+export const alias: Record<string, string> = {
+  ...apiAliases,
+  ...webAliases,
 }
 
 // https://vitejs.dev/config/
