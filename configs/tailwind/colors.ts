@@ -1,4 +1,14 @@
 export default {
+  brand: {
+    blue: '#4290bb',
+    cyan: '#2eaab6',
+    green: '#4bb68a',
+    yellow: '#eed555',
+    orange: '#ee7335',
+    red: '#ee3554',
+    violet: '#c9377b',
+    purple: '#6e3370',
+  },
   dracula: {
     purple: '#b898e6',
     green: '#61e884',

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
-import mix from 'vite-plugin-mix'
+import koaHost from './api/vite.koa-host'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const r = (path: string) => resolve(__dirname, path)
@@ -23,10 +23,7 @@ export default async ({ mode }) => defineConfig({
   envDir: process.cwd(),
   envPrefix: ['PUBLIC_'],
   plugins: [
-    // @ts-expect-error - there's something wrong with the mix typings
-    mix.default({
-      handler: './api/vite-handler.ts',
-    }),
+    koaHost(),
     react(),
   ],
   resolve: { alias },

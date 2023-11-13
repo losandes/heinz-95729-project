@@ -64,8 +64,8 @@ function About () {
 
   return (
     <div className="p-8">
-      <h1 className="text-dracula-purple">About Dev</h1>
-      <h2 className="text-dracula-green">TailwindCSS Colors</h2>
+      <h1 className="text-brand-violet">About Dev</h1>
+      <h2 className="text-brand-purple">TailwindCSS Colors</h2>
       {
         paletteFetchErr &&
           <p className="text-red-400">
@@ -74,7 +74,7 @@ function About () {
       }
       {
         palettesLoading
-          ? <p className="text-green-400">
+          ? <p className="text-brand-green">
               {paletteFetchStatus}...
             </p>
           : palettes.map(({ name, nameColor, palette }: colorPalette) =>
@@ -88,7 +88,7 @@ function About () {
       }
 
       <br />
-      <h2 className="text-dracula-green">TailwindCSS Typography</h2>
+      <h2 className="text-brand-purple">TailwindCSS Typography</h2>
       <Typography />
     </div>
   )

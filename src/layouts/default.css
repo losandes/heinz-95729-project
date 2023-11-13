@@ -3,4 +3,4 @@
 @tailwind utilities;
 
 html { background: #F7F7F7; }
-html:has(main.dark) { background: #011523; }
+html:has(div.dark) { background: #011523; }

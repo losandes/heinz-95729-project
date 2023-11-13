@@ -1,4 +1,5 @@
 import { type PropsWithChildren } from 'react'
+import { Header } from '@domains/header'
 import './default.css'
 
 const Prose = ({ children }: Readonly<PropsWithChildren>) => (
@@ -12,7 +13,7 @@ const Prose = ({ children }: Readonly<PropsWithChildren>) => (
     prose-h2:font-extralight prose-h2:text-4xl prose-h2:my-4
     prose-h3:font-thin prose-h3:text-3xl prose-h3:my-2
     prose-h4:font-thin prose-h4:text-2xl prose-h4:my-2
-    prose-h5:text-dracula-purple prose-h5:my-2
+    prose-h5:text-brand-cyan prose-h5:my-2
     prose-code:text-dracula-pink
   ">
     {children}
@@ -20,11 +21,14 @@ const Prose = ({ children }: Readonly<PropsWithChildren>) => (
 )
 
 export default function DefaultLayout ({ children }: Readonly<PropsWithChildren>) {
-  return (
-    <main className="dark">
-      <Prose>
-        {children}
-      </Prose>
-    </main>
-  )
+  return (<>
+    <div className="light">
+      <Header />
+      <main>
+        <Prose>
+          {children}
+        </Prose>
+      </main>
+    </div>
+  </>)
 }

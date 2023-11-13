@@ -1,15 +1,19 @@
-import express from 'express'
-import loadPalettes from './domains/about/src/io/load-palettes'
+import Koa from 'koa'
+import Router from 'koa-router'
+import { loadPalettes } from './src/domains/about'
 
-export const app: ReturnType<typeof express> = express()
+const app = new Koa()
+const router = new Router()
 
-app.get('/api/hello', (_req, res) => {
-  res.send({ hello: 'world' })
+router.get('/api/hello', (ctx) => {
+  ctx.body = { hello: 'world' }
 })
 
-app.get('/api/palettes', async (_req, res) => {
+router.get('/api/palettes', async (ctx) => {
   const palettes = await loadPalettes()
-  res.send(palettes)
+  ctx.body = palettes
 })
+
+app.use(router.routes())
 
 export default app

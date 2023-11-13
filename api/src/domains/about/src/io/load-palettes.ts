@@ -1,5 +1,19 @@
 const palettes = [
   {
+    name: 'brand',
+    nameColor: 'text-brand-violet',
+    palette: [
+      { name: 'blue', bg: 'bg-brand-blue', hex: '#4290bb' },
+      { name: 'cyan', bg: 'bg-brand-cyan', hex: '#2eaab6' },
+      { name: 'green', bg: 'bg-brand-green', hex: '#4bb68a' },
+      { name: 'yellow', bg: 'bg-brand-yellow', hex: '#eed555' },
+      { name: 'orange', bg: 'bg-brand-orange', hex: '#ee7335' },
+      { name: 'red', bg: 'bg-brand-red', hex: '#ee3554' },
+      { name: 'violet', bg: 'bg-brand-violet', hex: '#c9377b' },
+      { name: 'purple', bg: 'bg-brand-purple', hex: '#6e3370' },
+    ],
+  },
+  {
     name: 'dracula',
     nameColor: 'text-biloba-flower-500 dark:text-persian-pink-500',
     palette: [
