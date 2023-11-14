@@ -4,8 +4,9 @@ import type Keyv from 'keyv'
 const zKeyv: z.ZodType<Keyv> = z.any()
 
 export const storageSchema = z.object({
-  users: zKeyv,
   products: zKeyv,
+  seeds: zKeyv,
+  users: zKeyv,
 })
 
 export type storageSchema = z.infer<typeof storageSchema>

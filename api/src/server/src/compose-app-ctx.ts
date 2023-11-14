@@ -15,6 +15,7 @@ const makeRepo = (namespace: string, env: envvars, logger: LogEmitter) => {
     table: namespace,
     busyTimeout: 10000,
   })
+
   // new Keyv({
   //   namespace,
   //   store: new KeyvFile({
@@ -57,12 +58,13 @@ export const composeAppCtx = async (
       formatter: new formatters[env.LOG_FORMATTER](),
     })
     const storage = injectedContext.storage || {
+      seeds: makeRepo('seeds', env, logger),
       users: makeRepo('users', env, logger),
       products: makeRepo('products', env, logger),
     }
 
-    env.LOG_EVENTS.forEach((/** @type {string} */ event) =>
-      // @ts-ignore
+    env.LOG_EVENTS.forEach((event: string) =>
+      // @ts-expect-error -- logger typings are wrong
       logger.on(event, logWriter.listen),
     )
 

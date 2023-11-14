@@ -21,7 +21,7 @@ export const reqContext = (
     affinityId: makeAffinityToken(),
     method: ctx.request.method,
     url: ctx.request.url.split('?')[0],
-    origin: ctx.get('Origin'), // i.e. http://localhost:3001
+    origin: context.env.SERVER_ORIGIN // ctx.get('Origin'), // i.e. http://localhost:3001
   }
 
   const state = reqCtxSchema.parse({

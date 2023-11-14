@@ -1,3 +1,4 @@
+import KEYS from '../../KEYS'
 import userSchema from '../../typedefs/user'
 
 export type userSeed = {
@@ -5,7 +6,7 @@ export type userSeed = {
   data: userSchema[]
 }
 
-export const seeds: userSeed[] = [{
+export const data: userSeed[] = [{
   id: 1678057535644,
   data: [{
     id: 'ul0n6f95erwr7zj7okb07jv4',
@@ -29,6 +30,20 @@ export const seeds: userSeed[] = [{
     timeCreatedMs: 1678057535644,
   }]
 }]
+
+export const seeds = data.map((seed) => ({
+  id: seed.id,
+  records: [
+    ...seed.data.map((record) => ({
+      key: KEYS.make.userKey(record.id),
+      value: record,
+    })),
+    ...seed.data.map((record) => ({
+      key: KEYS.make.userByEmailKey(record.email),
+      value: record.id,
+    })),
+  ],
+}))
 
 export default seeds
 

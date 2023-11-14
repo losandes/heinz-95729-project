@@ -26,8 +26,6 @@ export const alias: Record<string, string> = {
   ...webAliases,
 }
 
-console.log('alias', alias)
-
 // https://vitejs.dev/config/
 export default async ({ mode }) => defineConfig({
   build: { outDir: `./dist/${mode}` },
