@@ -4,6 +4,7 @@ import { HttpError } from '@lib/errors'
 import log from '@lib/logger'
 import limitLatency from './limit-latency'
 
+export type SettlementKey = 'not-started' | 'loading' | 'failed' | 'success'
 type InitialSettlement = [undefined, false, 'not-started']
 type InProcessSettlement = [undefined, true, 'loading']
 type FailedSettlement = [Error | HttpError, false, 'failed']

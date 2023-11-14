@@ -49,11 +49,11 @@ router.get('/palettes', getPalettes())
 router.post('/login',
   login((ctx) => `${ctx.state.maybeProxiedOrigin}/authorize`))
 router.get('/authorize',
-  authorize(`${appCtx.env.CLIENT_ORIGIN}/auth/authorized`))
+  authorize(`${appCtx.env.CLIENT_ORIGIN}/profile/authorized`))
 router.post('/logout',
   logout((ctx) => `${ctx.state.maybeProxiedOrigin}/deauthorize`))
 router.get('/deauthorize',
-  deauthorize(`${appCtx.env.CLIENT_ORIGIN}/auth/login`))
+  deauthorize(`${appCtx.env.CLIENT_ORIGIN}/profile/login`))
 router.get('/session/test',
   testSession())
 

@@ -1,6 +1,7 @@
 import { type PropsWithChildren } from 'react'
 import { Header } from '@domains/header'
 import './default.css'
+import useTestSession from '@domains/profile/src/_templates/use-test-session-hook'
 
 const Prose = ({ children }: Readonly<PropsWithChildren>) => (
   <div className="
@@ -21,6 +22,8 @@ const Prose = ({ children }: Readonly<PropsWithChildren>) => (
 )
 
 export default function DefaultLayout ({ children }: Readonly<PropsWithChildren>) {
+  const [isAuthenticated, testErr, testLoading, testStatus] = useTestSession()
+
   return (<>
     <div className="light">
       <Header />

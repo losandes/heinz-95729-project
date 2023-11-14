@@ -1,6 +1,6 @@
-// TODO: if signed in, show profile icon
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { useSessionStore } from '@domains/profile'
 
 type StyledLinkProps = { to: string, children: ReactNode }
 
@@ -24,11 +24,11 @@ const SignedOutHeader = () => (<>
 </>)
 
 export default function AuthHeader () {
-  const isSignedIn = false
+  const isAuthenticated = useSessionStore((state) => state.isAuthenticated)
 
   return (
     <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-      {isSignedIn ? <SignedInHeader /> : <SignedOutHeader />}
+      {isAuthenticated ? <SignedInHeader /> : <SignedOutHeader />}
     </div>
   )
 }
