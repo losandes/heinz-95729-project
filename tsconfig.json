@@ -5,8 +5,8 @@
     "baseUrl": ".",
     "paths": {
       // api
-      "~~domains/*": ["./api/src/domains/*"],
-      "~~lib/*": ["./api/src/lib/*"],
+      "@api-domains/*": ["./api/src/domains/*"],
+      "@api-lib/*": ["./api/src/lib/*"],
       // web
       "@domains/*": ["./src/domains/*"],
       "@layouts/*": ["./src/layouts/*"],

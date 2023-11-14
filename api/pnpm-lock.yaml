@@ -32,6 +32,9 @@ dependencies:
   '@robotsandpencils/koa-errors':
     specifier: ^0.1.3
     version: 0.1.3
+  dotenv:
+    specifier: ^16.3.1
+    version: 16.3.1
   graphql:
     specifier: ^16.8.1
     version: 16.8.1
@@ -67,9 +70,15 @@ devDependencies:
   '@types/koa':
     specifier: ^2.13.11
     version: 2.13.11
+  '@types/koa-bodyparser':
+    specifier: ^4.3.12
+    version: 4.3.12
   '@types/koa-router':
     specifier: ^7.4.7
     version: 7.4.7
+  '@types/koa__cors':
+    specifier: ^4.0.3
+    version: 4.0.3
   '@types/node':
     specifier: ^20.9.0
     version: 20.9.0
@@ -619,6 +628,12 @@ packages:
     resolution: {integrity: sha512-M+BUYYOXgiYoab5L98VpOY1PzmDwWcTkqqu4mdluez5qOTDV0MVPChxhRIPeIFxQgSi3+6qjg1PnGFaGlW373g==}
     dev: true
 
+  /@types/koa-bodyparser@4.3.12:
+    resolution: {integrity: sha512-hKMmRMVP889gPIdLZmmtou/BijaU1tHPyMNmcK7FAHAdATnRcGQQy78EqTTxLH1D4FTsrxIzklAQCso9oGoebQ==}
+    dependencies:
+      '@types/koa': 2.13.11
+    dev: true
+
   /@types/koa-compose@3.2.8:
     resolution: {integrity: sha512-4Olc63RY+MKvxMwVknCUDhRQX1pFQoBZ/lXcRLP69PQkEpze/0cr8LNqJQe5NFb/b19DWi2a5bTi2VAlQzhJuA==}
     dependencies:
@@ -642,6 +657,12 @@ packages:
       '@types/keygrip': 1.0.5
       '@types/koa-compose': 3.2.8
       '@types/node': 20.9.0
+    dev: true
+
+  /@types/koa__cors@4.0.3:
+    resolution: {integrity: sha512-zj+1sQO/6GGRGINRXlMmoiFwHibKVcjNGdh+p2SpqHDMLyvC+ce0LMHX6UBi1rdpnPZ/+osUwWdGKF945ffrzA==}
+    dependencies:
+      '@types/koa': 2.13.11
     dev: true
 
   /@types/mime@1.3.5:
@@ -992,6 +1013,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-type: 4.0.0
+    dev: false
+
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /dset@3.1.3:

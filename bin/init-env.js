@@ -38,19 +38,15 @@ const printMessage = {
 const PATHS = {
   DATA_VOLUMES: path.join(process.cwd(), 'api', 'data_volumes'),
   DATA_FILE: path.join(process.cwd(), 'api', 'data_volumes', 'heinz-95729.db'),
-  SERVER_ENV_EXAMPLE: path.join(process.cwd(), 'api', '.env.example'),
-  SERVER_ENV: path.join(process.cwd(), 'api', '.env'),
-  CLIENT_ENV_EXAMPLE: path.join(process.cwd(), 'client', '.env.example'),
-  CLIENT_ENV: path.join(process.cwd(), 'client', '.env'),
+  ENV_EXAMPLE: path.join(process.cwd(), '.env.example'),
+  ENV: path.join(process.cwd(), '.env'),
 }
 
 const EXISTS = {
   DATA_VOLUMES: await exists(PATHS.DATA_VOLUMES),
   DATA_FILE: await exists(PATHS.DATA_FILE),
-  SERVER_ENV_EXAMPLE: await exists(PATHS.SERVER_ENV_EXAMPLE),
-  SERVER_ENV: await exists(PATHS.SERVER_ENV_EXAMPLE),
-  CLIENT_ENV_EXAMPLE: await exists(PATHS.CLIENT_ENV_EXAMPLE),
-  CLIENT_ENV: await exists(PATHS.CLIENT_ENV_EXAMPLE),
+  ENV_EXAMPLE: await exists(PATHS.ENV_EXAMPLE),
+  ENV: await exists(PATHS.ENV),
 }
 
 if (!EXISTS.DATA_VOLUMES) {
@@ -67,20 +63,11 @@ if (!EXISTS.DATA_FILE) {
   printMessage.skipped.exists(PATHS.DATA_FILE)
 }
 
-if (EXISTS.SERVER_ENV_EXAMPLE && !EXISTS.SERVER_ENV) {
-  const result = await copyFile(PATHS.SERVER_ENV_EXAMPLE, PATHS.SERVER_ENV)
-  printMessage.createdFile(PATHS.SERVER_ENV)
-} else if (!EXISTS.SERVER_ENV_EXAMPLE) {
-  printMessage.skipped.sourceMissing(PATHS.SERVER_ENV_EXAMPLE)
-} else if (EXISTS.SERVER_ENV) {
-  printMessage.skipped.exists(PATHS.SERVER_ENV)
-}
-
-if (EXISTS.CLIENT_ENV_EXAMPLE && !EXISTS.CLIENT_ENV) {
-  const result = await copyFile(PATHS.CLIENT_ENV_EXAMPLE, PATHS.CLIENT_ENV)
-  printMessage.createdFile(PATHS.CLIENT_ENV)
-} else if (!EXISTS.CLIENT_ENV_EXAMPLE) {
-  printMessage.skipped.sourceMissing(PATHS.CLIENT_ENV_EXAMPLE)
-} else if (EXISTS.CLIENT_ENV) {
-  printMessage.skipped.exists(PATHS.CLIENT_ENV)
+if (EXISTS.ENV_EXAMPLE && !EXISTS.ENV) {
+  await copyFile(PATHS.ENV_EXAMPLE, PATHS.ENV)
+  printMessage.createdFile(PATHS.ENV)
+} else if (!EXISTS.ENV_EXAMPLE) {
+  printMessage.skipped.sourceMissing(PATHS.ENV_EXAMPLE)
+} else if (EXISTS.ENV) {
+  printMessage.skipped.exists(PATHS.ENV)
 }

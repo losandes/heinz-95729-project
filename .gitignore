@@ -16,6 +16,7 @@ temp/
 *.sw?
 
 # files that might have secrets in them
+.env
 **/*.secrets
 **/*.local
 **/hidden
@@ -47,6 +48,7 @@ dist-ssr
 *.tgz
 *.zip
 **/.act.env
+tsconfig.tsbuildinfo
 
 # Typescript v1 declaration files
 .astro/

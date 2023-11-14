@@ -8,8 +8,8 @@ import koaHost from './api/vite.koa-host'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const r = (path: string) => resolve(__dirname, path)
 const apiAliases = {
-  '~~domains': r('api/src/domains'),
-  '~~lib': r('api/src/lib'),
+  '@api-domains': r('api/src/domains'),
+  '@api-lib': r('api/src/lib'),
 }
 const webAliases = {
   '@domains': r('src/domains'),
@@ -25,6 +25,8 @@ export const alias: Record<string, string> = {
   ...apiAliases,
   ...webAliases,
 }
+
+console.log('alias', alias)
 
 // https://vitejs.dev/config/
 export default async ({ mode }) => defineConfig({

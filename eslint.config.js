@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const files = [
+  'api/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}',
   'src/**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}',
 ]
 const ignores = [] // if we change files to be more greedy we may need to add: '**/dist/', '**/node_modules',
@@ -55,8 +56,8 @@ export default [{
     'import/resolver': {
       'typescript': {
         //api
-        '~~domains': './api/src/domains',
-        '~~lib': './api/src/lib',
+        '@api-domains': './api/src/domains',
+        '@api-lib': './api/src/lib',
         // web
         '@domains': './src/domains',
         '@layouts': './src/layouts',
