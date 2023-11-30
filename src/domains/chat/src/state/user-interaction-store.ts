@@ -26,11 +26,7 @@ export const askQuestion = (input:string) => {
   // fetch reponse from api and set loading to true
   // callBack: add the response to chatStore and set the loading to false
   sendUserInteraction(input)
-  .then((response)=>{
-    addBotMessage(response);
-  }).catch((error)=>{
-    addBotMessage(error);
-  })
+
 }
 
 const addUserMessage = (message: string) => {
@@ -45,7 +41,7 @@ const addUserMessage = (message: string) => {
   }))
 }
 
-const addBotMessage = (message: string) => {
+export const addBotMessage = (message: string) => {
   const newMessage: Message={
     sender: Sender.Bot,
     text:message
@@ -54,22 +50,4 @@ const addBotMessage = (message: string) => {
     messages:[...state.messages,newMessage],
     loading:false
   }))
-}
-
-export function useUserInteractionStore() {
-  const [userName, setUserName] = useState('');
-  const [conversation, setConversation] = useState([{ text: 'Hello, what is your name?', sender: 'bot' }]);
-
-  async function addUserMessage(message:string) {
-    if (!userName) {
-      setUserName(message);
-      setConversation(prevConversation => [...prevConversation, { text: message, sender: 'user' }, { text: 'Nice to meet you, ' + message + '. Please ask a question related to a book.', sender: 'bot' }]);
-    } else {
-      setConversation(prevConversation => [...prevConversation, { text: message, sender: 'user' }]);
-      const botResponse = await sendUserInteraction(message);
-      setConversation(prevConversation => [...prevConversation, { text: botResponse, sender: 'bot' }]);
-    }
-  }
-
-  return { conversation, addUserMessage };
 }
