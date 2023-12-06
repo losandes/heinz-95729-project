@@ -1,7 +1,8 @@
 
-import { addBotMessage, useChatStore } from '../state/user-interaction-store'
+import { updateStore, useChatStore } from '../state/user-interaction-store'
 
 import axios,{type AxiosResponse, AxiosError} from 'axios';
+import type { Book } from '../typedefs';
 
 export async function sendUserInteraction(userInput: string){
 
@@ -20,13 +21,26 @@ export async function sendUserInteraction(userInput: string){
 
   axios.get('http://localhost:8000/answer_question',
   {params:{user_input: userInput,
-    chat_history: latests}})
+    chat_history: latests
+  }})
   .then(function (response: AxiosResponse) {
     // Handle successful response
-    addBotMessage(response.data.message)
+    const message=response.data.message
+    let book=null
+    if(response.data.details){
+      book=[{
+        title: response.data.details.title,
+        genre: response.data.details.genre,
+        cover: response.data.details.cover,
+        description: response.data.details.description,
+        price: response.data.details.price,
+        rating: response.data.details.reting
+      }]
+    }
+    updateStore(message, book)
   })
   .catch(function (error: AxiosError) {
     // Handle error
-    return addBotMessage(error.message);
+    return updateStore(error.message,null);
   });
 }
