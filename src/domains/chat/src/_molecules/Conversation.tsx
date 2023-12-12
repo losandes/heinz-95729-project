@@ -4,14 +4,13 @@ import React from 'react';
 import { UserInput } from './UserInput';
 import { Dialog } from './Dialog';
 
-
 export default function Conversation() {
 
   return (
     <div className='
       flex
       flex-col
-      h-4/6
+      h-96
       mx-20
       justify-items-center
       bg-dracula-purple

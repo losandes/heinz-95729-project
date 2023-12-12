@@ -7,7 +7,6 @@ import MessageLine from './MessageLine';
 export function Dialog() {
 
   const conversation = useChatStore((state)=>state.messages)
-  const loading = useChatStore((state)=>state.loading)
 
   return (
     <ul className="
