@@ -7,10 +7,10 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 
-os.environ['OPENAI_API_KEY'] = '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'
+os.environ['OPENAI_API_KEY'] = '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'
 file_path = os.path.join(settings.BASE_DIR, 'book_dataset.csv')
 
-def rag_csv(query):
+def rag_csv(query, chat_history):
 
     loader = CSVLoader(file_path)
     docs = loader.load()
@@ -25,7 +25,7 @@ def rag_csv(query):
 
     chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0.5,model_name='gpt-3.5-turbo'),retriever=persisted_vectorstore.as_retriever())
 
-    inputs = {"question": query, "chat_history": ""}
+    inputs = {"question": query, "chat_history": chat_history}
 
     result = chain(inputs)
 

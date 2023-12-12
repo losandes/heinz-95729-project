@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from final_project.final.chat.api.chat_controller import ChatResponseSet
+from chat.api.chat_controller import ChatResponseSet
 from security.api.views import get_csrf
 from rest_framework import routers
 from django.urls import path, include

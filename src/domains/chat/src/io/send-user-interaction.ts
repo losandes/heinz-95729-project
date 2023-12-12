@@ -19,7 +19,7 @@ export async function sendUserInteraction(userInput: string){
     }
   }
 
-  axios.get('http://localhost:8000/answer_question',
+  axios.get('http://127.0.0.1:8000/api/chat/answer_question',
   {params:{user_input: userInput,
     chat_history: latests
   }})
