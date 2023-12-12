@@ -1,35 +1,49 @@
-// src/domains/chat/src/io/send-user-interaction.ts
 
-// import { z } from 'zod'
-// import { env } from '@lib/env'
-// import { join, useFetch } from '@lib/fetch'
-import { addBotMessage, useChatStore } from '../state/user-interaction-store'
+import { updateStore, useChatStore } from '../state/user-interaction-store'
 
 import axios,{type AxiosResponse, AxiosError} from 'axios';
+import {Book} from '../typedefs';
 
 export async function sendUserInteraction(userInput: string){
-  // Here we should send the user input to your chatbot (AI) service and get a response.
-  // For now, I mocked response.  we have to change this with the response of AI  service
-  console.log("xxx")
-  console.log(userInput)
-  axios.get('http://127.0.0.1:8000/api/chat/answer_question', {params:{user_input: userInput }})
+
+  const messages=useChatStore((state)=>(state.messages))
+  const len=messages.length;
+  const latests=[];
+  if(len<6){
+    for(let i=0; i<len; i++){
+      latests[i]=messages[i]
+    }
+  }else{
+    for(let i=0; i<6;i++){
+      latests[i]=messages[len-6+i]
+    }
+  }
+
+  axios.get('http://localhost:8000/answer_question',
+  {params:{user_input: userInput,
+    chat_history: latests
+  }})
   .then(function (response: AxiosResponse) {
     // Handle successful response
-    addBotMessage(response.data.message)
+    const message=response.data.message
+
+    if(response.data.details){
+
+      const book=Book.parse({
+        title: response.data.details.related_book_name,
+        cover: response.data.details.image_link,
+        description: response.data.details.book_description,
+        price: response.data.details.price,
+        rating: response.data.details.rating,
+        checkout: response.data.details.checkout
+      })
+      updateStore(message, book)
+    }else{
+      updateStore(message, null)
+    }
   })
   .catch(function (error: AxiosError) {
     // Handle error
-    return addBotMessage(error.message);
+    return updateStore(error.message,null);
   });
-
-
-  // const [
-  //   error,
-  //   loading,
-  //   fetchStatus
-  // ] = useFetch<String>(
-  //   join(env.PUBLIC_API_ORIGIN, '/api/answer_question'),
-  //   z.string(),
-  //   (response) => { addBotMessage(response.toString()) },
-  // )
 }
