@@ -2,7 +2,7 @@
 import { updateStore, useChatStore } from '../state/user-interaction-store'
 
 import axios,{type AxiosResponse, AxiosError} from 'axios';
-import type { Book } from '../typedefs';
+import {Book} from '../typedefs';
 
 export async function sendUserInteraction(userInput: string){
 
@@ -28,15 +28,18 @@ export async function sendUserInteraction(userInput: string){
     const message=response.data.message
 
     if(response.data.details){
-      const book=[{
-        title: response.data.details.title,
-        genre: response.data.details.genre,
-        cover: response.data.details.cover,
-        description: response.data.details.description,
+
+      const book=Book.parse({
+        title: response.data.details.related_book_name,
+        cover: response.data.details.image_link,
+        description: response.data.details.book_description,
         price: response.data.details.price,
-        rating: response.data.details.reting
-      }]
-      // updateStore(message, book)
+        rating: response.data.details.rating,
+        checkout: response.data.details.checkout
+      })
+      updateStore(message, book)
+    }else{
+      updateStore(message, null)
     }
   })
   .catch(function (error: AxiosError) {

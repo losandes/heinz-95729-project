@@ -17,36 +17,45 @@ export default function Book() {
   };
 
   return (
-    <div className='pl-20'>
-        <h1>Recommend For You</h1>
-        <div className='grid grid-cols-2 gap-4'>
+    <div className='
+      mx-20
+      my-10
+      h-96
+      flex
+      flex-col
+      justify-items-center'>
+        <h2>Recommend For You</h2>
+        <div className='grid grid-cols-4 gap-4 my-5'>
           {/* Column for Information */}
-          <div className="grid flex-rows-4 grid-cols-2 gap-2">
-            <div>Title:</div>
-            <div>Harry Potter</div>
-            <div>Price:</div>
-            <div>[Price Data]</div>
-            <div>Rating:</div>
-            <div>[Rating Data]</div>
-            <div>Description:</div>
-            <div>
-              {/* {showFullDescription ? book.description : truncateDescription(book.description)}
+          <div className="grid col-span-3 grid-rows-5 h-96">
+              <div className='col-span-1'>Title:</div>
+              <div className='col-span-2 h-12'>Harry Potter</div>
+              <div className='col-span-1'>Price:</div>
+              <div className='col-span-2'>[Price Data]</div>
+              <div className='col-span-1'>Rating:</div>
+              <div className='col-span-2'>[Rating Data]</div>
+            <div className='col-span-3'>Description:</div>
+            <div className='col-span-3'>
+              {showFullDescription ? book.description : truncateDescription(book.description)}
               <button
-                className="text-blue-500 text-sm ml-2"
+                className="text-blue-500 text-sm ml-2 mb-5"
                 onClick={() => setShowFullDescription(!showFullDescription)}>
                 {showFullDescription ? 'Show Less' : 'Show More'}
-              </button> */}
-              {book.description}
+              </button>
             </div>
           </div>
 
           {/* Column for Image and Checkout */}
-          <div className="grid grid-cols-1">
+          <div className="col-span-1">
             <div className="grid grid-cols-2">
-            <button className="bg-blue-500 text-white py-1 px-3 text-sm rounded">Checkout</button>
+              <button className="bg-blue-500 text-white py-1 px-3 text-sm rounded">Checkout</button>
             </div>
-
-            <div><img src={'http://books.toscrape.com/media/cache/6b/07/6b07b77236b7c80f42bd90bf325e69f6.jpg'} alt="Book Cover" className="max-w-full h-auto" /></div>
+            <div>
+              <img
+              src={'http://books.toscrape.com/media/cache/6b/07/6b07b77236b7c80f42bd90bf325e69f6.jpg'}
+              alt="Book Cover"
+              className="w-auto h-72 my-5" />
+            </div>
           </div>
         </div>
     </div>

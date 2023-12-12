@@ -4,7 +4,7 @@
 
 import { sendUserInteraction } from '../io/send-user-interaction';
 import { create } from 'zustand';
-import { Sender, type Message, type Book } from '../typedefs';
+import { Sender, type Message, Book } from '../typedefs';
 
 type ChatStore = Readonly<{
   messages: Message[];
