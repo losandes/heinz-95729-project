@@ -28,6 +28,7 @@ export const askQuestion = (input:string) => {
   // fetch reponse from api and set loading to true
   // callBack: add the response to chatStore and set the loading to false
   sendUserInteraction(input)
+
 }
 
 const addUserMessage = (message: string) => {
@@ -71,21 +72,3 @@ export const updateStore = (message: string, book:Book|null|undefined) => {
   }
   endLoading()
 }
-
-// export function useUserInteractionStore() {
-//   const [userName, setUserName] = useState('');
-//   const [conversation, setConversation] = useState([{ text: 'Hello, what is your name?', sender: 'bot' }]);
-
-//   async function addUserMessage(message:string) {
-//     if (!userName) {
-//       setUserName(message);
-//       setConversation(prevConversation => [...prevConversation, { text: message, sender: 'user' }, { text: 'Nice to meet you, ' + message + '. Please ask a question related to a book.', sender: 'bot' }]);
-//     } else {
-//       setConversation(prevConversation => [...prevConversation, { text: message, sender: 'user' }]);
-//       const botResponse = await sendUserInteraction(message);
-//       setConversation(prevConversation => [...prevConversation, { text: botResponse, sender: 'bot' }]);
-//     }
-//   }
-
-//   return { conversation, addUserMessage };
-// }
