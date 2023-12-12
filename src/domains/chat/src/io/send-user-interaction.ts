@@ -26,9 +26,9 @@ export async function sendUserInteraction(userInput: string){
   .then(function (response: AxiosResponse) {
     // Handle successful response
     const message=response.data.message
-    let book=null
+
     if(response.data.details){
-      book=[{
+      const book=[{
         title: response.data.details.title,
         genre: response.data.details.genre,
         cover: response.data.details.cover,
@@ -36,8 +36,8 @@ export async function sendUserInteraction(userInput: string){
         price: response.data.details.price,
         rating: response.data.details.reting
       }]
+      // updateStore(message, book)
     }
-    updateStore(message, book)
   })
   .catch(function (error: AxiosError) {
     // Handle error

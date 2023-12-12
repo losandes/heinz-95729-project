@@ -4,7 +4,6 @@ import React from 'react';
 import { UserInput } from './UserInput';
 import { Dialog } from './Dialog';
 
-
 export default function Conversation() {
 
   return (

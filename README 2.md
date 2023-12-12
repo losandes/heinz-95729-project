@@ -40,23 +40,55 @@ _NOTE the "dist" folder is volatile, and will be managed as part of CI/CD. The "
 ```
 .
 ├── api
-│   ├── data_volumes
-│   └── src
-│       ├── domains
-│       ├── lib
-│       └── server
+    ├── data_volumes
+    └── src
+        ├── domains
+        ├── lib
+        └── server
 ├── bin
 ├── configs
-│   ├── es (eslint)
-│   └── tailwind
+    ├── es (eslint)
+    └── tailwind
 ├── public
-│   ├── images
-│   └── logo
+    ├── images
+    └── logo
 └── src
     ├── domains
+        ├── about
+        ├── cart
+        ├── chat
+            ├── src
+                ├── _molecules
+                    ├── Conversation.tsx
+                    ├── Dialog.tsx
+                    ├── MessageLine.tsx
+                    └── UserInput.tsx
+                ├── _templates
+                    └── Conversation.tsx
+                ├── io
+                    └── send-user-interaction.ts
+                ├── state
+                    └── user-interaction-store.ts
+                └── typedefs
+                    ├── Book.ts
+                    ├── Message.ts
+                    ├── Sender.ts
+                    └── index.ts
+            └── index.tsx
+        ├── header
+        ├── products
+        └── profile
     ├── layouts
     ├── lib
     └── pages
+        ├── about
+        ├── chat
+            └── index.tsx
+        ├── checkout
+        ├── products
+        ├── profile
+        └── index.tsx
+
 ```
 
 ## Context about code organization and directory structures
