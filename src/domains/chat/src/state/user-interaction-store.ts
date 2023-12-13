@@ -4,7 +4,7 @@
 
 import { sendUserInteraction } from '../io/send-user-interaction';
 import { create } from 'zustand';
-import { Sender, type Message, Book } from '../typedefs';
+import { Sender, type Message, type Book } from '../typedefs';
 
 type ChatStore = Readonly<{
   messages: Message[];
@@ -22,13 +22,13 @@ export const useChatStore = create<ChatStore>()(() => (
   })
 )
 
-export const askQuestion = (input:string) => {
+export const askQuestion = (input:string, latests: Message[]) => {
   // record the new inputs and set the loading to true
   addUserMessage(input)
   // fetch reponse from api and set loading to true
   // callBack: add the response to chatStore and set the loading to false
-  sendUserInteraction(input)
 
+  sendUserInteraction(latests, input)
 }
 
 const addUserMessage = (message: string) => {
