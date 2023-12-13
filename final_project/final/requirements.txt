@@ -1,0 +1,5 @@
+django==3.2
+openai==0.10.2
+langchain
+django-cors-headers
+djangorestframework

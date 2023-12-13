@@ -1,23 +1,10 @@
 
-import { updateStore, useChatStore } from '../state/user-interaction-store'
+import { updateStore } from '../state/user-interaction-store'
 
 import axios,{type AxiosResponse, AxiosError} from 'axios';
-import {Book} from '../typedefs';
+import type { Message } from '../typedefs';
 
-export async function sendUserInteraction(userInput: string){
-
-  const messages=useChatStore((state)=>(state.messages))
-  const len=messages.length;
-  const latests=[];
-  if(len<6){
-    for(let i=0; i<len; i++){
-      latests[i]=messages[i]
-    }
-  }else{
-    for(let i=0; i<6;i++){
-      latests[i]=messages[len-6+i]
-    }
-  }
+export async function sendUserInteraction(latests: Message[], userInput: string){
 
   axios.get('http://127.0.0.1:8000/api/chat/answer_question',
   {params:{user_input: userInput,
@@ -29,14 +16,14 @@ export async function sendUserInteraction(userInput: string){
 
     if(response.data.details){
 
-      const book=Book.parse({
-        title: response.data.details.related_book_name,
-        cover: response.data.details.image_link,
-        description: response.data.details.book_description,
+      const book={
+        title: response.data.details.title,
+        genre: response.data.details.genre,
+        cover: response.data.details.cover,
+        description: response.data.details.description,
         price: response.data.details.price,
-        rating: response.data.details.rating,
-        checkout: response.data.details.checkout
-      })
+        rating: response.data.details.reting
+      }
       updateStore(message, book)
     }else{
       updateStore(message, null)

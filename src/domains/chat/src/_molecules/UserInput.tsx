@@ -3,16 +3,25 @@
 import React, { useState } from 'react';
 import { askQuestion, useChatStore} from '../state/user-interaction-store';
 import { ArrowPathIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import type { Message } from '../typedefs';
 
 export function UserInput() {
   const [input, setInput] = useState('');
 
   const loading=useChatStore((state)=>(state.loading));
+  const messages=useChatStore((state)=>(state.messages));
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if(input.length>0){
-      askQuestion(input);
+      const latests: Message[] = [];
+      if (messages.length <= 6) {
+        latests.push(...messages);
+      } else {
+        latests.push(...messages.slice(-6));
+      }
+
+      askQuestion(input, latests);
     }
     setInput('');
   }
