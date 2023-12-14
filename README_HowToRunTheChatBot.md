@@ -35,8 +35,6 @@ pnpm init:env
 # Start the app in _watch_ mode
 pnpm run dev
 
-
-
 Back End
 
 ## go to the Final project folder
@@ -59,6 +57,16 @@ os.environ['OPENAI_API_KEY'] = ''
 
 ## run the service
 python manage.py runserver
+
+important files to review:
+## Architectural design 
+- Fork_CUI_heinz-95729-project/Architectural view.pdf
+
+## Front-end design 
+- Fork_CUI_heinz-95729-project/figma_design.png
+
+## Architecture Decision Records
+- Fork_CUI_heinz-95729-project/adr/README.md
 
 ```
 
