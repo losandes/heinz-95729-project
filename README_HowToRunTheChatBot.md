@@ -42,9 +42,11 @@ Back End
 ## go to the Final project folder
 cd final_project
 cd final
+
 ## activate a virtual environment
 python -m venv venv
 source venv/bin/activate
+
 ## Install dependencies
 pip install -r requirements.txt
 
@@ -56,7 +58,6 @@ Modify this line with the key that will be sent by slack,
 os.environ['OPENAI_API_KEY'] = ''
 
 ## run the service
-
 python manage.py runserver
 
 ```
