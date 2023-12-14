@@ -7,7 +7,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 
-os.environ['OPENAI_API_KEY'] = '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'
+os.environ['OPENAI_API_KEY'] = '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'
 file_path = os.path.join(settings.BASE_DIR, 'book_dataset.csv')
 
 def rag_csv(query, chat_history):
@@ -23,7 +23,7 @@ def rag_csv(query, chat_history):
 
     persisted_vectorstore = FAISS.load_local("faiss_index_constitution", embeddings)
 
-    chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0.5,model_name='gpt-3.5-turbo'),retriever=persisted_vectorstore.as_retriever())
+    chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0.5,model_name='gpt-4'),retriever=persisted_vectorstore.as_retriever())
 
     inputs = {"question": query, "chat_history": chat_history}
 
