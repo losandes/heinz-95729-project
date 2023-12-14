@@ -7,7 +7,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 
-os.environ['OPENAI_API_KEY'] = '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'
+os.environ['OPENAI_API_KEY'] = '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'
 file_path = os.path.join(settings.BASE_DIR, 'book_dataset.csv')
 
 def rag_csv(query, chat_history):
