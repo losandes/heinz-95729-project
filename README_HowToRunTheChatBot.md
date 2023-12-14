@@ -35,7 +35,7 @@ pnpm init:env
 # Start the app in _watch_ mode
 pnpm run dev
 
-```
+
 
 Back End
 
@@ -59,7 +59,7 @@ os.environ['OPENAI_API_KEY'] = ''
 
 python manage.py runserver
 
-
+```
 
 
 
