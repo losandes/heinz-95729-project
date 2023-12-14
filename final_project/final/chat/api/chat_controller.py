@@ -62,7 +62,6 @@ class ChatResponseSet(viewsets.ViewSet):
             details = {
                 "related_book_name": response.get("related_book_name"),
                 "image_link": response.get("image_link"),
-                "book_description": response.get("book_description"),
                 "price": response.get("price"),
                 "rating": response.get("rating"),
                 "checkout": "https://buy.stripe.com/4gw16B1lY1fj7kseUW"
