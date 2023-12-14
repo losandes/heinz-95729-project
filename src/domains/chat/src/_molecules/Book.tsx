@@ -60,19 +60,19 @@ export default function Book() {
                     {showFullDescription ? 'Show Less' : 'Show More'}
                   </button>
                 </div>
-              ):null
+              ):'NA'
             }
           </div>
 
           {/* Column for Image and Checkout */}
           <div className="col-span-1">
             <div className="grid grid-cols-2">
-              <a href={book?.checkout?book.checkout:''}>
-                <button
-                className="bg-blue-500 text-white py-1 px-3 text-sm rounded">
-                  Checkout
-                </button>
-              </a>
+              <a href='https://buy.stripe.com/4gw16B1lY1fj7kseUW'>
+                  <button
+                  className="bg-blue-500 text-white py-1 px-3 text-sm rounded">
+                    Checkout
+                  </button>
+              </a >
             </div>
             <div>
               <img
