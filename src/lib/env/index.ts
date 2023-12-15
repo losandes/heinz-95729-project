@@ -64,7 +64,7 @@ const ENV = z.object({
   MODE: modeSchema,
   PUBLIC_MODE: modeSchema,
   PUBLIC_API_ORIGIN: z.string().url().optional()
-    .default('http://localhost:5173')
+    .default('http://localhost:8000')
     .describe(DESCRIBE.PUBLIC_API_ORIGIN),
   // LOGGING
   PUBLIC_LOG_LEVELS: logArray.or(csvToArray)

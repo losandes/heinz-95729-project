@@ -1,9 +1,10 @@
-import Layout from '@layouts/Default'
+import Layout from '@layouts/Default';
+import { Chat } from '@domains/chat';
 
 export default function () {
   return (
     <Layout>
-      <h1>Chat</h1>
+      <Chat />
     </Layout>
   )
 }

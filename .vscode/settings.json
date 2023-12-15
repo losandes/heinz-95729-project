@@ -1,7 +1,7 @@
 {
   "editor.codeActionsOnSave": {
-    "source.addMissingImports": true,         // auto import files when possible
-    "source.fixAll.eslint": true,             // turn on eslint auto-formatting
+    "source.addMissingImports": "explicit",
+    "source.fixAll.eslint": "explicit"
   },
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": true,
