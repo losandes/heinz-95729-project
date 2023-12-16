@@ -44,14 +44,6 @@ Please note that the accuracy estimation is based on the provided movie dataset 
 
 ![Alt text](images/Accuracy.png)
 
-# Acknowledgments
-This project utilizes the following libraries and resources:
-
-- [GPT4All]() - Large language model for natural language processing.
-npm - Package manager for JavaScript.
-- [Movie Dataset](https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset/) - Dataset used for training and testing the movie recommendation system.
-
-
 # Testing Instructions
 we suggest you to test the chatbot in several senarios, following the instructions:
 
@@ -97,5 +89,11 @@ Then, do collaborative filtering
 3. generate a movie that is closest to the user description if there is not one directly mention
 4. transfer the output of two models to a conversational sentence, combining the information that how user description is manifested in what we recommend.
 
+# Acknowledgments
+This project utilizes the following libraries and resources:
+
+- [GPT4All]() - Large language model for natural language processing.
+npm - Package manager for JavaScript.
+- [Movie Dataset](https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset/) - Dataset used for training and testing the movie recommendation system.
 
 
