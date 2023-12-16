@@ -7,7 +7,9 @@ import numpy as np
 
 permanent_str = ""
 non_movie_name_counter = 0
-movie_list = []
+collaborative_step_counter = 0
+movie_history_list = []
+transfer_to = False
 
 
 class Application(tk.Tk):
@@ -43,8 +45,8 @@ class Application(tk.Tk):
         # Variable to check if the input is being processed
         self.is_processing = False
 
-        self.input_field.insert(0, "Enter at least 3 movies and their ratings (0~5) to start (e.g., 'Movie1, 5, "
-                                   "Movie2, 4.5, ...')")
+        # self.input_field.insert(0, "Enter at least 3 movies and their ratings (0~5) to start (e.g., 'Movie1, 5, "
+        #                            "Movie2, 4.5, ...')")
         self.count = 0
 
     def process_input(self):
@@ -84,37 +86,53 @@ class Application(tk.Tk):
         self.display_window.config(state=tk.DISABLED)
 
     def backend_function(self, input_str):
-        self.count += 1
-        if self.count == 1:
-            try:
+        global movie_history_list
+        global non_movie_name_counter
+        global permanent_str
+        global collaborative_step_counter
+        global transfer_to
 
-                return "\n" + create_conversational_recommendations("",algorithm(input_str)).split("\"")[1].strip()
+        # collaborative filtering
+        if transfer_to == True:
+            try:
+                movie_history_list += algorithm(input_str)['title'].to_list()
+                transfer_to = False
+                return "\n\nAGENT: " + create_conversational_recommendations(permanent_str,algorithm(input_str)).split("\"")[1].strip()
             except Exception as e:
                 return f"Error processing recommendations: {e}"
-        else:
-            global non_movie_name_counter
-            global permanent_str
-            global movie_list
-            # permanent_str += input_str
-            if "None" in extract_movie_names(input_str):
-                if non_movie_name_counter == 0:
-                    permanent_str += input_str
-                    non_movie_name_counter += 1
-                    return "\nCould you please offer an example movie to help me recommend?"
-                else:
-                    gen_movie_name = generate_movie_names(permanent_str).split("\"")[1].strip()
-                    movie_list.append(np.array(get_contentbased_recommand(gen_movie_name)['title']))
-                    return create_conversational_recommendations(permanent_str,
-                                                                 get_contentbased_recommand(gen_movie_name))
-            else:
+
+        # content-based
+        if "None" in extract_movie_names(input_str):
+            if non_movie_name_counter == 0:
                 permanent_str += input_str
-                exp_movie_name = extract_movie_names(input_str).split(":")[-1].strip()
-                movie_list.append(np.array(get_contentbased_recommand(exp_movie_name)['title']))
-                recommend_conv = \
+                non_movie_name_counter += 1
+                return "\n\nAGENT: Could you please offer an example movie to help me recommend?"
+            else:
+                gen_movie_name = generate_movie_names(permanent_str).split("\"")[1].strip()
+
+                ans = \
                     create_conversational_recommendations(permanent_str,
+                                                                 get_contentbased_recommand(gen_movie_name))
+
+                movie_history_list += get_contentbased_recommand(gen_movie_name)['title'].to_list()
+                transfer_to = True
+                return "\n\nAGENT:" + ans + "\n\nAGENT:Ok, let's explore some other information that helps to recommending. Have you ever watched these movies below: "+ ",".join(movie_history_list) +  "\n\nAGENT: Could you please give me the movie that you watched, followed by your grading on them(0/1/2/3/4/5)" +"\n format should be \"Harry Potter, 3.0, The Nun, 5.0, ...\""
+
+        else:
+            permanent_str += input_str
+            exp_movie_name = extract_movie_names(input_str).split(":")[-1].strip()
+
+            ans = \
+                create_conversational_recommendations(permanent_str,
                                                           get_contentbased_recommand(exp_movie_name)).split(
                         "\"")[1]
-                return "\n" + recommend_conv
+            movie_history_list += get_contentbased_recommand(exp_movie_name)['title'].to_list()
+            movie_list_str = ",".join(movie_history_list)
+            transfer_to = True
+            return "\n\nAGENT: " + ans + "\n\nAGENT: Ok, let's explore some other information that helps to recommending. Have you ever watched these movies below: "+ ",".join(movie_history_list) +  "\n\nAGENT: Could you please give me the movie that you watched, followed by your grading on them(0/1/2/3/4/5)" +"\n format should be \"Harry Potter, 3.0, The Nun, 5.0, ...\""
+
+
+
 
 
 # Run the application
