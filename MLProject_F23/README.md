@@ -42,7 +42,7 @@ To calculate the training accuracy, we load the movie and ratings data using the
 
 Please note that the accuracy estimation is based on the provided movie dataset and may vary depending on the dataset used. Also, keeping the available computation resources, the error (and accuracy) has only been computed over the first user. The accuracy based on the ratings of 1 user in the dataset is 59.2%.
 
-![Alt text](Accuracy.png)
+![Alt text](images/Accuracy.png)
 
 # Acknowledgments
 This project utilizes the following libraries and resources:
@@ -50,5 +50,52 @@ This project utilizes the following libraries and resources:
 - [GPT4All]() - Large language model for natural language processing.
 npm - Package manager for JavaScript.
 - [Movie Dataset](https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset/) - Dataset used for training and testing the movie recommendation system.
+
+
+# Testing Instructions
+we suggest you to test the chatbot in several senarios, following the instructions:
+
+First of all, give description on what kind of movies you want
+**senario 1: the description contains movie name**
+**"I want you to recommend to me a funny and thrilling movie, you know I have a children, just like toy story"**
+
+Do content based filtering using extracted movie name as the input
+
+![Alt text](images/test1.png)
+
+
+**Senario 2: the description not contains movie name:**
+**"I want you to recommend to me a funny movie and thrilling movie, you know I have a children."**
+
+In senario 2 the agent prompt to ask user to provide an example of movie for reference
+
+**Senario 3 (following senario 2): user follows the instruction to offer a movie name**
+**"Toy Story?"**
+
+![Alt text](images/test2.png)
+
+
+Do content based filtering using extracted movie name as the input
+
+**Senario 4 (following senario 2): user still not offer a movie name**
+**"Sorry, none"**
+
+Use llm to find the movie that is closest to user description, then do content based filtering using generated(from llm) movie name as the input
+
+![Alt text](images/test3.png)
+
+**Senario 5 (following senario 1/3/4):** agent provide a list of movies to user's interest, and ask for what they have read and ask user to score on them. The input here should obey stringent format requirement(indicated in chatbot to user)
+**"Harry Potter, 3.0, The Nun, 5.0, The Breakfast Club, 2.0, The Lord of the Rings, 1.0"**
+
+**Attention:** the requirement for input format is not reasonable practically in reality. It is because we do not have enough time to modify this part. It will be improved in our following work.
+
+Then, do collaborative filtering
+
+## Specification on LLM task
+1. recognize whether there is a movie name in user input
+2. extract movie name from user input if there is one
+3. generate a movie that is closest to the user description if there is not one directly mention
+4. transfer the output of two models to a conversational sentence, combining the information that how user description is manifested in what we recommend.
+
 
 
